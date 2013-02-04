@@ -23,16 +23,16 @@
     <artifactId>jackson-jaxrs-providers</artifactId>
     <version>2.2.0-SNAPSHOT</version>
   </parent>
-  <artifactId>jackson-jaxrs-json-provider</artifactId>
-  <name>Jackson-JAXRS-JSON</name>
-  <description>Functionality to handle JSON input/output for JAX-RS implementations (like Jersey and RESTeasy) using standard Jackson data binding.
+  <artifactId>jackson-jaxrs-xml-provider</artifactId>
+  <name>Jackson-JAXRS-XML</name>
+  <description>Functionality to handle Smile XML input/output for JAX-RS implementations (like Jersey and RESTeasy) using standard Jackson data binding.
   </description>
 
   <properties>
     <!-- Generate PackageVersion.java into this directory. -->
-    <packageVersion.dir>com/fasterxml/jackson/jaxrs/json</packageVersion.dir>
-    <packageVersion.package>${project.groupId}.json</packageVersion.package>
-    <osgi.export>${project.groupId}.json.*;version=${project.version}</osgi.export>
+    <packageVersion.dir>com/fasterxml/jackson/jaxrs/xml</packageVersion.dir>
+    <packageVersion.package>${project.groupId}.xml</packageVersion.package>
+    <osgi.export>${project.groupId}.xml.*;version=${project.version}</osgi.export>
     <!-- NOTE: JAXB annotations module is optional dependency, need to try to mark
          as such here.
       -->
@@ -63,14 +63,17 @@
       <artifactId>jackson-databind</artifactId>
       <version>${version.jackson.core}</version>
     </dependency>
-    <!-- also need JAXB annotation support -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-dataformat-xml</artifactId>
+      <version>${version.jackson.xml}</version>
+    </dependency>
+    <!-- may also need JAXB annotation support -->
     <dependency> 
       <groupId>com.fasterxml.jackson.module</groupId>
       <artifactId>jackson-module-jaxb-annotations</artifactId>
       <version>${version.jackson.jaxb}</version>
     </dependency>
-
-    <!-- test deps should come from parent -->
   </dependencies>
   <build>
     <plugins>

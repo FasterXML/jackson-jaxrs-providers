@@ -31,10 +31,8 @@
 
   <modules>
     <module>json</module>
-<!--
     <module>smile</module>
     <module>xml</module>
--->
   </modules>
   <url>http://wiki.fasterxml.com/JacksonHome</url>
   <scm>
@@ -44,10 +42,14 @@
   </scm>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> 
-    <!-- core/databind should have same version; annotations may differ -->
+    <!-- core/databind should have same version; data formats, annotations may differ -->
     <version.jackson.core>2.2.0-SNAPSHOT</version.jackson.core>
     <version.jackson.annotations>2.2.0-SNAPSHOT</version.jackson.annotations>
-    <version.jackson.jaxb>2.2.0-SNAPSHOT</version.jackson.jaxb>
+
+    <version.jackson.smile>${version.jackson.core}</version.jackson.smile>
+    <version.jackson.xml>${version.jackson.core}</version.jackson.xml>
+
+    <version.jackson.jaxb>${version.jackson.core}</version.jackson.jaxb>
   </properties>
 
   <dependencies>
@@ -58,5 +60,34 @@
       <version>4.8.2</version>
       <scope>test</scope>
     </dependency>
+
+    <!-- and we need JAX-RS annotations as well; but usually provided by container
+        (and app should definitely have direct dep too, when using annotations)
+       -->
+    <dependency>
+      <groupId>javax.ws.rs</groupId>
+      <artifactId>jsr311-api</artifactId>
+      <version>1.1.1</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- tests require JAX-RS impl; otherwise components fail to load
+        (some oddity with API classes; should NOT be needed...)
+
+        NOTE: use 1.2 as that's JDK 1.5; later (1.8) versions need JDK 1.6
+      -->
+    <dependency>
+      <groupId>com.sun.jersey</groupId>
+      <artifactId>jersey-core</artifactId>
+      <version>1.2</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.jersey</groupId>
+      <artifactId>jersey-server</artifactId>
+      <version>1.2</version>
+      <scope>test</scope>
+    </dependency>
+
   </dependencies>
 </project>

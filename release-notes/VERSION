@@ -25,7 +25,9 @@ JSON
 
 2.1.0 (08-Oct-2012)
 
-No fixes, updated dependencies.
+XML
+
+  * [Issue#4] Exception on empty content, should return null.
 
 2.0.2 (14-May-2012)
 
@@ -38,9 +40,12 @@ JSON:
 
 2.0.1 (23-Apr-2012)
 
-JSON:
+General:
 
   * Changed 'jaxrs-311' dependency from 'compile' to 'provided'
+
+JSON:
+
   * SPI (META-INF/services/) fixed so auto-registration should now work
    (contributed by Simone T)
   * Issue-10: NPE in EndpointConfig, if JAX-RS container passes null
