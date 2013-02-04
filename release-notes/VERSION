@@ -1,0 +1,57 @@
+Project: jackson-jaxrs-providers
+Sub-modules:
+  jackson-jaxrs-json-provider
+  jackson-jaxrs-smile-provider
+  jackson-jaxrs-xml-provider
+Version: 2.2.0 (...)
+
+First multi-module release!
+
+------------------------------------------------------------------------
+=== History: ===
+------------------------------------------------------------------------
+
+2.1.2 (05-Dec-2012)
+
+No changes.
+
+2.1.1 (11-Nov-2012)
+
+JSON
+
+  * [Issue#17]: Accept empty content as 'null', instead of throwing an
+    EOFException
+   (requested by Matt B, cjellick@github)
+
+2.1.0 (08-Oct-2012)
+
+No fixes, updated dependencies.
+
+2.0.2 (14-May-2012)
+
+JSON:
+
+  * [Issue-11] Change JAXB annotation module dependency to optional for OSGi
+  * [Issue-12] Revert untouchable change to 1.x compatible; so that
+    'String' and 'byte[]' are again "untouchable" (JSON provider will NOT
+    try to convert them)
+
+2.0.1 (23-Apr-2012)
+
+JSON:
+
+  * Changed 'jaxrs-311' dependency from 'compile' to 'provided'
+  * SPI (META-INF/services/) fixed so auto-registration should now work
+   (contributed by Simone T)
+  * Issue-10: NPE in EndpointConfig, if JAX-RS container passes null
+    set of Annotations to writeTo()
+
+2.0.0 (25-Mar-2012)
+
+JSON:
+
+  * [Issue-1] Add @JSONP annotation for declarative JSONP support
+  * [Issue-2] Add @JacksonFeatures annotation for reconfiguring serialization,
+    deserialization features on per-endpoint basis
+
+[entries for versions 1.x and earlier not retained; refer to earlier releases)
