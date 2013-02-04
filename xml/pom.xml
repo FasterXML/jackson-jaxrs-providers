@@ -64,7 +64,7 @@
       <version>${version.jackson.core}</version>
     </dependency>
     <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
+      <groupId>com.fasterxml.jackson.dataformat</groupId>
       <artifactId>jackson-dataformat-xml</artifactId>
       <version>${version.jackson.xml}</version>
     </dependency>
