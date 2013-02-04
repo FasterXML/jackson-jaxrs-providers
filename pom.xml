@@ -43,8 +43,11 @@
     <url>http://github.com/FasterXML/jackson-jaxrs-json-providers</url>    
   </scm>
   <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <version.jackson>2.2.0-SNAPSHOT</version.jackson>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> 
+    <!-- core/databind should have same version; annotations may differ -->
+    <version.jackson.core>2.2.0-SNAPSHOT</version.jackson.core>
+    <version.jackson.annotations>2.2.0-SNAPSHOT</version.jackson.annotations>
+    <version.jackson.jaxb>2.2.0-SNAPSHOT</version.jackson.jaxb>
   </properties>
 
   <dependencies>
