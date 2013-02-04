@@ -52,6 +52,12 @@
   </properties>
 
   <dependencies>
+    <!-- builds on shared base JAX-RS handling code... -->
+    <dependency>
+      <artifactId>jackson-jaxrs-base</artifactId>
+      <groupId>${project.groupId}</groupId>
+      <version>${project.version}</version>
+    </dependency>
     <!-- Extends Jackson core, mapper, and also (sort of optionally) on JAXB annotation handler -->
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>

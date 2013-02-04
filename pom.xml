@@ -30,6 +30,7 @@
   </description>
 
   <modules>
+    <module>base</module>
     <module>json</module>
     <module>smile</module>
     <module>xml</module>
