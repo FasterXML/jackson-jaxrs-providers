@@ -29,6 +29,9 @@
   </description>
 
   <properties>
+    <!-- Generate PackageVersion.java into this directory. -->
+    <packageVersion.dir>com/fasterxml/jackson/jaxrs/json</packageVersion.dir>
+    <packageVersion.package>${project.groupId}.json</packageVersion.package>
     <osgi.export>${project.groupId}.json.*;version=${project.version}</osgi.export>
     <!-- NOTE: JAXB annotations module is optional dependency, need to try to mark
          as such here.
@@ -102,5 +105,19 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-
+  <build>
+    <plugins>
+      <plugin>
+        <!-- Inherited from oss-base. Generate PackageVersion.java.-->
+	<groupId>com.google.code.maven-replacer-plugin</groupId>
+        <artifactId>replacer</artifactId>
+	<executions>
+          <execution>
+            <id>process-packageVersion</id>
+            <phase>process-sources</phase>
+          </execution>
+	</executions>
+      </plugin>
+    </plugins>
+  </build>
 </project>
