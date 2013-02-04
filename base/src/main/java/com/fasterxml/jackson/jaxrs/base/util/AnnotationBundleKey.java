@@ -1,4 +1,4 @@
-package com.fasterxml.jackson.jaxrs.xml.util;
+package com.fasterxml.jackson.jaxrs.base.util;
 
 import java.lang.annotation.Annotation;
 
@@ -7,6 +7,8 @@ import java.lang.annotation.Annotation;
  * given a sequence of Annotations.
  * This is mostly used for reusing introspected information on
  * JAX-RS end points.
+ *
+ * @since 2.2
  */
 public final class AnnotationBundleKey
 {

@@ -1,4 +1,4 @@
-package com.fasterxml.jackson.jaxrs.json;
+package com.fasterxml.jackson.jaxrs.base;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 
@@ -7,9 +7,11 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 /**
- * @deprecated Use {@link com.fasterxml.jackson.jaxrs.base.JsonMappingExceptionMapper} instead.
+ * Implementation if {@link ExceptionMapper} to send down a "400 Bad Request"
+ * response in the event that unmappable JSON is received.
+ *
+ * @since 2.2
  */
-@Deprecated
 @Provider
 public class JsonMappingExceptionMapper implements ExceptionMapper<JsonMappingException> {
     public Response toResponse(JsonMappingException exception) {

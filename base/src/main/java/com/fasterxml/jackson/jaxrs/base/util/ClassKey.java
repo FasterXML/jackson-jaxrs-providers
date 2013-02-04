@@ -1,4 +1,4 @@
-package com.fasterxml.jackson.jaxrs.smile.util;
+package com.fasterxml.jackson.jaxrs.base.util;
 
 /**
  * Efficient key class, used instead of using <code>Class</code>.
@@ -12,9 +12,8 @@ package com.fasterxml.jackson.jaxrs.smile.util;
  *<p>
  * Note: since class is not strictly immutable, caller must
  * know what it is doing, if changing field values.
- *<p>
- * NOTE: cut'n pasted from 'databind' package for 2.0, to reduce
- * tight coupling
+ *
+ * @since 2.2
  */
 public final class ClassKey
     implements Comparable<ClassKey>

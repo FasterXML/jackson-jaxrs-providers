@@ -3,6 +3,8 @@ package com.fasterxml.jackson.jaxrs.json.util;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
+import com.fasterxml.jackson.jaxrs.base.util.AnnotationBundleKey;
+
 import com.fasterxml.jackson.jaxrs.json.JaxrsTestBase;
 import com.fasterxml.jackson.jaxrs.json.annotation.JSONP;
 

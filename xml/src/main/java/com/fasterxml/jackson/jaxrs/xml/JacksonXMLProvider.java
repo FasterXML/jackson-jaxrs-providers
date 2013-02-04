@@ -17,10 +17,12 @@ import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.util.LRUMap;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+
+import com.fasterxml.jackson.jaxrs.base.util.AnnotationBundleKey;
+import com.fasterxml.jackson.jaxrs.base.util.ClassKey;
+
 import com.fasterxml.jackson.jaxrs.xml.annotation.EndpointConfig;
 import com.fasterxml.jackson.jaxrs.xml.cfg.MapperConfigurator;
-import com.fasterxml.jackson.jaxrs.xml.util.AnnotationBundleKey;
-import com.fasterxml.jackson.jaxrs.xml.util.ClassKey;
 
 /**
  * Basic implementation of JAX-RS abstractions ({@link MessageBodyReader},
