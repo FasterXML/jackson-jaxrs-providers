@@ -46,7 +46,7 @@
     <version.jackson.core>2.2.0-SNAPSHOT</version.jackson.core>
     <version.jackson.annotations>2.2.0-SNAPSHOT</version.jackson.annotations>
 
-    <version.jackson.smile>${version.jackson.core}</version.jackson.smile>
+    <version.jackson.smile>2.1.4-SNAPSHOT</version.jackson.smile>
     <version.jackson.xml>${version.jackson.core}</version.jackson.xml>
 
     <version.jackson.jaxb>${version.jackson.core}</version.jackson.jaxb>
