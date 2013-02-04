@@ -74,6 +74,32 @@
       <artifactId>jackson-module-jaxb-annotations</artifactId>
       <version>${version.jackson.jaxb}</version>
     </dependency>
+    <!-- JDK 1.6 provides stax-api (javax.xml.stream), but let's add this for documentation -->
+    <dependency>
+      <groupId>javax.xml.stream</groupId>
+      <artifactId>stax-api</artifactId>
+      <version>1.0-2</version>
+      <scope>provided</scope>
+    </dependency>
+    <!--  But Stax2 API must be included -->
+    <dependency>
+      <groupId>org.codehaus.woodstox</groupId>
+      <artifactId>stax2-api</artifactId>
+      <!-- Ideally we'd accept range of versions but won't really work with Maven... -->
+
+<!--      <version>[3.0.4, 3.5.0)</version>  -->
+      <version>3.1.1</version>
+    </dependency>
+
+    <!-- Also: While JDK-included SJSXP almost works, there are some rough edges;
+         so let's add full non-test dep to modern Jackson version.
+      -->
+    <dependency>
+      <groupId>org.codehaus.woodstox</groupId>
+      <artifactId>woodstox-core-asl</artifactId>
+      <version>4.1.4</version>
+    </dependency>
+
   </dependencies>
   <build>
     <plugins>

@@ -5,7 +5,12 @@ Sub-modules:
   jackson-jaxrs-xml-provider
 Version: 2.2.0 (...)
 
-First multi-module release!
+First multi-module release, to make release easier, share some boilerplate code.
+
+Changes:
+
+* Add Woodstox dependency (not just in 'test' scope) to try to avoid problems
+  with users relying on SJSXP (such as 'extra' xmlns declarations)
 
 ------------------------------------------------------------------------
 === History: ===
