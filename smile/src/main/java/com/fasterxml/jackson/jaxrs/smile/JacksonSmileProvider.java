@@ -235,7 +235,7 @@ public class JacksonSmileProvider
      * that contains this class.
      */
     public Version version() {
-        return ModuleVersion.instance.version();
+        return PackageVersion.VERSION;
     }
     
     /*
@@ -427,7 +427,7 @@ public class JacksonSmileProvider
             }
         }
         ObjectReader reader = endpoint.getReader();
-        JsonParser jp = reader.getFactory().createJsonParser(entityStream);
+        JsonParser jp = reader.getFactory().createParser(entityStream);
         // [Issue#1]: should return null for empty/missing payload
         // (note! Requires smile module v2.1.1)
         if (jp.nextToken() == null) {
@@ -529,7 +529,7 @@ public class JacksonSmileProvider
          *   HTTP headers?
          */
         JsonEncoding enc = findEncoding(mediaType, httpHeaders);
-        JsonGenerator jg = writer.getJsonFactory().createJsonGenerator(entityStream, enc);
+        JsonGenerator jg = writer.getFactory().createGenerator(entityStream, enc);
 
         // Want indentation?
         if (writer.isEnabled(SerializationFeature.INDENT_OUTPUT)) {

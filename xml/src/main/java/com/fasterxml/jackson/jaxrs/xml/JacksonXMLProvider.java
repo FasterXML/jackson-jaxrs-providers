@@ -238,7 +238,7 @@ public class JacksonXMLProvider
      * that contains this class.
      */
     public Version version() {
-        return ModuleVersion.instance.version();
+        return PackageVersion.VERSION;
     }
     
     /*
@@ -419,7 +419,7 @@ public class JacksonXMLProvider
             return null;
         }
         wrappedStream.unread(firstByte);
-        JsonParser jp = reader.getJsonFactory().createJsonParser(wrappedStream);
+        JsonParser jp = reader.getFactory().createParser(wrappedStream);
         return reader.withType(genericType).readValue(jp);
     }
 
@@ -498,7 +498,7 @@ public class JacksonXMLProvider
          *   HTTP headers?
          */
         JsonEncoding enc = findEncoding(mediaType, httpHeaders);
-        JsonGenerator jg = writer.getJsonFactory().createJsonGenerator(entityStream, enc);
+        JsonGenerator jg = writer.getFactory().createGenerator(entityStream, enc);
 
         // Want indentation?
         if (writer.isEnabled(SerializationFeature.INDENT_OUTPUT)) {

@@ -145,7 +145,7 @@ public class EndpointConfig
         /* Important: we are NOT to close the underlying stream after
          * mapping, so we need to instruct parser:
          */
-        _writer.getJsonFactory().disable(JsonGenerator.Feature.AUTO_CLOSE_TARGET);
+        _writer.getFactory().disable(JsonGenerator.Feature.AUTO_CLOSE_TARGET);
         
         return this;
     }
