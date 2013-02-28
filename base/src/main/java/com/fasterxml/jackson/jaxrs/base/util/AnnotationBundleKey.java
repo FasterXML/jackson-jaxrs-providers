@@ -80,6 +80,11 @@ public final class AnnotationBundleKey
      */
 
     @Override
+    public int hashCode() {
+        return _hashCode;
+    }
+    
+    @Override
     public String toString() {
         return "[Annotations: "+_annotations.length+", hash 0x"+Integer.toHexString(_hashCode)
                 +", copied: "+_annotationsCopied+"]";

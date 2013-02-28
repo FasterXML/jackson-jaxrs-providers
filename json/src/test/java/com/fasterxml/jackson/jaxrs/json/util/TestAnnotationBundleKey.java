@@ -44,6 +44,8 @@ public class TestAnnotationBundleKey extends JaxrsTestBase
        assertEquals(key2, key2);
        assertEquals(key1dup, key1dup);
        assertEquals(key1immutable, key1immutable);
+
+       assertEquals(key1.hashCode(), key1dup.hashCode());
        
        // then inequality by content (even though both have 1 JSONP annotation)
        assertFalse(key1.equals(key2));
