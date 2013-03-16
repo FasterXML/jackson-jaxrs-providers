@@ -309,6 +309,7 @@ public abstract class ProviderBase<
      * that container will determine length from actual serialized
      * output (if needed).
      */
+    @Override
     public long getSize(Object value, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType)
     {
         /* In general figuring output size requires actual writing; usually not
@@ -328,6 +329,7 @@ public abstract class ProviderBase<
      * for type (iff {@link #checkCanSerialize} has been called with
      * true argument -- otherwise assumption is there will be a handler)
      */
+    @Override
     public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType)
     {
         if (!hasMatchingMediaType(mediaType)) {
@@ -363,6 +365,7 @@ public abstract class ProviderBase<
     /**
      * Method that JAX-RS container calls to serialize given value.
      */
+    @Override
     public void writeTo(Object value, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType,
             MultivaluedMap<String,Object> httpHeaders, OutputStream entityStream) 
         throws IOException
@@ -453,6 +456,7 @@ public abstract class ProviderBase<
      * for type (iff {@link #checkCanDeserialize} has been called with
      * true argument -- otherwise assumption is there will be a handler)
      */
+    @Override
     public boolean isReadable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType)
     {
         if (!hasMatchingMediaType(mediaType)) {
@@ -489,6 +493,7 @@ public abstract class ProviderBase<
     /**
      * Method that JAX-RS container calls to deserialize given value.
      */
+    @Override
     public Object readFrom(Class<Object> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String,String> httpHeaders, InputStream entityStream) 
         throws IOException
     {
@@ -507,12 +512,24 @@ public abstract class ProviderBase<
             }
         }
         ObjectReader reader = endpoint.getReader();
-        
-        JsonParser jp = reader.getFactory().createParser(entityStream);
-        if (jp.nextToken() == null) {
-           return null;
+        JsonParser jp = _createParser(reader, entityStream);
+        // If null is returned, considered to be empty stream
+        if (jp == null || jp.nextToken() == null) {
+            return null;
         }
         return reader.withType(genericType).readValue(jp);
+    }
+
+    /**
+     * Overridable helper method called to create a {@link JsonParser} for reading
+     * contents of given raw {@link InputStream}.
+     * May return null to indicate that Stream is empty; that is, contains no
+     * content.
+     */
+    protected JsonParser _createParser(ObjectReader reader, InputStream rawStream)
+        throws IOException
+    {
+        return reader.getFactory().createParser(rawStream);
     }
     
     /*

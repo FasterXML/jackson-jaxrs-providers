@@ -13,6 +13,7 @@ public class TestStreamingOutput extends JaxrsTestBase
         // important: this can trick "canSerialize()" to include it:
         public int getFoo() { return 3; }
 
+        @Override
         public void write(OutputStream out) throws IOException {
             out.write("OK".getBytes("UTF-8"));
         }

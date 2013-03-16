@@ -32,6 +32,7 @@ public class SmileMapperConfigurator
     /**
      * Method that locates, configures and returns {@link ObjectMapper} to use
      */
+    @Override
     public synchronized ObjectMapper getConfiguredMapper() {
         /* important: should NOT call mapper(); needs to return null
          * if no instance has been passed or constructed
@@ -39,6 +40,7 @@ public class SmileMapperConfigurator
         return _mapper;
     }
 
+    @Override
     public synchronized ObjectMapper getDefaultMapper() {
         if (_defaultMapper == null) {
             _defaultMapper = new ObjectMapper(new SmileFactory());

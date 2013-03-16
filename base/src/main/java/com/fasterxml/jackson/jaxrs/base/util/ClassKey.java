@@ -56,7 +56,7 @@ public final class ClassKey
      */
 
     // Just need to sort by name, ok to collide (unless used in TreeMap/Set!)
-    //@Override
+    @Override
     public int compareTo(ClassKey other) {
         return _className.compareTo(other._className);
     }

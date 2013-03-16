@@ -73,6 +73,7 @@ public class JsonMapperConfigurator
     /**********************************************************
      */
 
+    @Override
     protected AnnotationIntrospector _resolveIntrospectors(Annotations[] annotationsToUse)
     {
         // Let's ensure there are no dups there first, filter out nulls

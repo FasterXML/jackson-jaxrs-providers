@@ -34,6 +34,7 @@ public class XMLMapperConfigurator
     /**
      * Method that locates, configures and returns {@link XmlMapper} to use
      */
+    @Override
     public synchronized XmlMapper getConfiguredMapper() {
         /* important: should NOT call mapper(); needs to return null
          * if no instance has been passed or constructed
@@ -41,6 +42,7 @@ public class XMLMapperConfigurator
         return _mapper;
     }
 
+    @Override
     public synchronized XmlMapper getDefaultMapper()
     {
         if (_defaultMapper == null) {

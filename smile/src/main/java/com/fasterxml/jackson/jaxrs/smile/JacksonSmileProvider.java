@@ -118,6 +118,7 @@ extends ProviderBase<JacksonSmileProvider,
      * Method that will return version information stored in and read from jar
      * that contains this class.
      */
+    @Override
     public Version version() {
         return PackageVersion.VERSION;
     }
@@ -184,6 +185,7 @@ extends ProviderBase<JacksonSmileProvider,
      *   not used by this method,
      *   but will be passed to {@link ContextResolver} as is.
      */
+    @Override
     protected ObjectMapper _locateMapperViaProvider(Class<?> type, MediaType mediaType)
     {
         if (_providers != null) {

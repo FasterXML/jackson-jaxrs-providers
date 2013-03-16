@@ -162,4 +162,17 @@ public abstract class EndpointConfigBase<THIS extends EndpointConfigBase<THIS>>
      */
 
     public abstract Object modifyBeforeWrite(Object value);
+
+    /*
+    /**********************************************************
+    /* Helper methods
+    /**********************************************************
+     */
+
+    protected static <T> T[] nullIfEmpty(T[] arg) {
+        if (arg == null || arg.length == 0) {
+            return null;
+        }
+        return arg;
+    }
 }

@@ -9,7 +9,6 @@ import com.fasterxml.jackson.databind.util.JSONWrappedObject;
 import com.fasterxml.jackson.jaxrs.base.cfg.EndpointConfigBase;
 import com.fasterxml.jackson.jaxrs.json.annotation.JSONP;
 import com.fasterxml.jackson.jaxrs.json.annotation.JacksonFeatures;
-import com.fasterxml.jackson.jaxrs.json.annotation.JSONP.Def;
 
 /**
  * Container class for figuring out annotation-based configuration
@@ -55,7 +54,7 @@ public class JsonEndpointConfig
     /* Abstract method impls, overrides
     /**********************************************************
      */
-    
+
     @Override
     protected void addAnnotation(Class<? extends Annotation> type,
             Annotation annotation, boolean forWriting)
@@ -105,18 +104,5 @@ public class JsonEndpointConfig
             }
         }
         return value;
-    }
-    
-    /*
-    /**********************************************************
-    /* Helper methods
-    /**********************************************************
-     */
-
-    private static <T> T[] nullIfEmpty(T[] arg) {
-        if (arg == null || arg.length == 0) {
-            return null;
-        }
-        return arg;
     }
 }

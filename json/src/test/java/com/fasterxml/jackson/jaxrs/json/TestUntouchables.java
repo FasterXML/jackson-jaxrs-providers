@@ -27,6 +27,7 @@ public class TestUntouchables
     }
 
     static class StreamingSubType implements StreamingOutput {
+        @Override
         public void write(OutputStream output) { }
     }
     

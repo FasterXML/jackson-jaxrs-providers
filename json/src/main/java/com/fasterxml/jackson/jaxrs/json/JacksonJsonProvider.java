@@ -129,6 +129,7 @@ public class JacksonJsonProvider
      * Method that will return version information stored in and read from jar
      * that contains this class.
      */
+    @Override
     public Version version() {
         return PackageVersion.VERSION;
     }
