@@ -11,7 +11,7 @@ import com.fasterxml.jackson.databind.*;
 
 import com.fasterxml.jackson.jaxrs.base.ProviderBase;
 
-import com.fasterxml.jackson.jaxrs.json.annotation.EndpointConfig;
+import com.fasterxml.jackson.jaxrs.json.annotation.JsonEndpointConfig;
 import com.fasterxml.jackson.jaxrs.json.cfg.MapperConfigurator;
 
 /**
@@ -50,7 +50,7 @@ import com.fasterxml.jackson.jaxrs.json.cfg.MapperConfigurator;
 public class JacksonJsonProvider
     extends ProviderBase<JacksonJsonProvider,
         ObjectMapper, Annotations,
-        EndpointConfig, MapperConfigurator>
+        JsonEndpointConfig, MapperConfigurator>
 {
     /**
      * Default annotation sets to use, if not explicitly defined during
@@ -147,7 +147,7 @@ public class JacksonJsonProvider
 
     /*
     /**********************************************************
-    /* Abstract method impl
+    /* Abstract method impls
     /**********************************************************
      */
 
@@ -200,12 +200,12 @@ public class JacksonJsonProvider
     }
 
     @Override
-    protected EndpointConfig _configForReading(ObjectMapper mapper, Annotation[] annotations) {
-        return EndpointConfig.forReading(mapper, annotations);
+    protected JsonEndpointConfig _configForReading(ObjectMapper mapper, Annotation[] annotations) {
+        return JsonEndpointConfig.forReading(mapper, annotations);
     }
 
     @Override
-    protected EndpointConfig _configForWriting(ObjectMapper mapper, Annotation[] annotations) {
-        return EndpointConfig.forWriting(mapper, annotations, _jsonpFunctionName);
+    protected JsonEndpointConfig _configForWriting(ObjectMapper mapper, Annotation[] annotations) {
+        return JsonEndpointConfig.forWriting(mapper, annotations, _jsonpFunctionName);
     }
 }

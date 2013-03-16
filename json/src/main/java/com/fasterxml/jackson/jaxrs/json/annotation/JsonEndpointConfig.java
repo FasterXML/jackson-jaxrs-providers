@@ -12,8 +12,8 @@ import com.fasterxml.jackson.jaxrs.base.cfg.EndpointConfigBase;
  * Container class for figuring out annotation-based configuration
  * for JAX-RS end points.
  */
-public class EndpointConfig
-    extends EndpointConfigBase<EndpointConfig>
+public class JsonEndpointConfig
+    extends EndpointConfigBase<JsonEndpointConfig>
 {
     // // Serialization-only config
 
@@ -25,19 +25,19 @@ public class EndpointConfig
     /**********************************************************
      */
 
-    protected EndpointConfig() { }
+    protected JsonEndpointConfig() { }
     
-    public static EndpointConfig forReading(ObjectMapper mapper, Annotation[] annotations)
+    public static JsonEndpointConfig forReading(ObjectMapper mapper, Annotation[] annotations)
     {
-        return new EndpointConfig()
+        return new JsonEndpointConfig()
             .add(annotations, false)
             .initReader(mapper);
     }
 
-    public static EndpointConfig forWriting(ObjectMapper mapper, Annotation[] annotations,
+    public static JsonEndpointConfig forWriting(ObjectMapper mapper, Annotation[] annotations,
             String defaultJsonpMethod)
     {
-        EndpointConfig config =  new EndpointConfig();
+        JsonEndpointConfig config =  new JsonEndpointConfig();
         if (defaultJsonpMethod != null) {
             config._jsonp = new JSONP.Def(defaultJsonpMethod);
         }
