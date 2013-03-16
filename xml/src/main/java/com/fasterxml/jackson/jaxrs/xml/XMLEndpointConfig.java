@@ -1,4 +1,4 @@
-package com.fasterxml.jackson.jaxrs.xml.annotation;
+package com.fasterxml.jackson.jaxrs.xml;
 
 import java.lang.annotation.Annotation;
 
@@ -7,12 +7,13 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.jaxrs.xml.annotation.JacksonFeatures;
 
 /**
  * Container class for figuring out annotation-based configuration
  * for JAX-RS end points.
  */
-public class EndpointConfig
+public class XMLEndpointConfig
 {
     // // General configuration
     
@@ -40,25 +41,25 @@ public class EndpointConfig
     /**********************************************************
      */
 
-    protected EndpointConfig() { }
+    protected XMLEndpointConfig() { }
 
-    public static EndpointConfig forReading(ObjectMapper mapper, Annotation[] annotations)
+    public static XMLEndpointConfig forReading(ObjectMapper mapper, Annotation[] annotations)
     {
-        return new EndpointConfig()
+        return new XMLEndpointConfig()
             .add(annotations, false)
             .initReader(mapper);
     }
 
-    public static EndpointConfig forWriting(ObjectMapper mapper, Annotation[] annotations)
+    public static XMLEndpointConfig forWriting(ObjectMapper mapper, Annotation[] annotations)
     {
-        EndpointConfig config =  new EndpointConfig();
+        XMLEndpointConfig config =  new XMLEndpointConfig();
         return config
             .add(annotations, true)
             .initWriter(mapper)
         ;
     }
     
-    protected EndpointConfig add(Annotation[] annotations, boolean forWriting)
+    protected XMLEndpointConfig add(Annotation[] annotations, boolean forWriting)
     {
     	// Same as [issue-10] with JSON provider; must check for null:
     	if (annotations != null) {
@@ -93,7 +94,7 @@ public class EndpointConfig
         return this;
     }
 
-    protected EndpointConfig initReader(ObjectMapper mapper)
+    protected XMLEndpointConfig initReader(ObjectMapper mapper)
     {
         // first common config
         if (_activeView != null) {
@@ -120,7 +121,7 @@ public class EndpointConfig
         return this;
     }
     
-    protected EndpointConfig initWriter(ObjectMapper mapper)
+    protected XMLEndpointConfig initWriter(ObjectMapper mapper)
     {
         // first common config
         if (_activeView != null) {

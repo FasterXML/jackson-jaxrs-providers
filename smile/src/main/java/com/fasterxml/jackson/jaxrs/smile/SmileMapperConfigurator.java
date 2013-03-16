@@ -1,4 +1,4 @@
-package com.fasterxml.jackson.jaxrs.smile.cfg;
+package com.fasterxml.jackson.jaxrs.smile;
 
 import java.util.*;
 
@@ -9,15 +9,14 @@ import com.fasterxml.jackson.dataformat.smile.SmileFactory;
 import com.fasterxml.jackson.jaxrs.base.cfg.MapperConfiguratorBase;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
 
-import com.fasterxml.jackson.jaxrs.smile.Annotations;
 
 /**
  * Helper class used to encapsulate details of configuring an
  * {@link ObjectMapper} instance to be used for data binding, as
  * well as accessing it.
  */
-public class MapperConfigurator
-    extends MapperConfiguratorBase<MapperConfigurator, ObjectMapper, Annotations>
+public class SmileMapperConfigurator
+    extends MapperConfiguratorBase<SmileMapperConfigurator, ObjectMapper, Annotations>
 {
     /*
     /**********************************************************
@@ -25,7 +24,7 @@ public class MapperConfigurator
     /**********************************************************
      */
     
-    public MapperConfigurator(ObjectMapper mapper, Annotations[] defAnnotations)
+    public SmileMapperConfigurator(ObjectMapper mapper, Annotations[] defAnnotations)
     {
         super(mapper, defAnnotations);
     }

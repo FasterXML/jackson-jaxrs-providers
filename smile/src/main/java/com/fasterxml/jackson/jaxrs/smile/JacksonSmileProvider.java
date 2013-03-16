@@ -10,7 +10,6 @@ import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.jaxrs.base.ProviderBase;
 import com.fasterxml.jackson.jaxrs.smile.annotation.SmileEndpointConfig;
-import com.fasterxml.jackson.jaxrs.smile.cfg.MapperConfigurator;
 
 /**
  * Basic implementation of JAX-RS abstractions ({@link MessageBodyReader},
@@ -49,7 +48,7 @@ public class JacksonSmileProvider
 extends ProviderBase<JacksonSmileProvider,
     ObjectMapper, Annotations,
     SmileEndpointConfig,
-    MapperConfigurator
+    SmileMapperConfigurator
 >
 {
     /**
@@ -113,7 +112,7 @@ extends ProviderBase<JacksonSmileProvider,
      */
     public JacksonSmileProvider(ObjectMapper mapper, Annotations[] annotationsToUse)
     {
-        super(new MapperConfigurator(mapper, annotationsToUse));
+        super(new SmileMapperConfigurator(mapper, annotationsToUse));
     }
 
     /**

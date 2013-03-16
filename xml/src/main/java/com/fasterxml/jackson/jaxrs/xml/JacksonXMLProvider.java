@@ -21,8 +21,6 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.jaxrs.base.util.AnnotationBundleKey;
 import com.fasterxml.jackson.jaxrs.base.util.ClassKey;
 
-import com.fasterxml.jackson.jaxrs.xml.annotation.EndpointConfig;
-import com.fasterxml.jackson.jaxrs.xml.cfg.MapperConfigurator;
 
 /**
  * Basic implementation of JAX-RS abstractions ({@link MessageBodyReader},
@@ -131,14 +129,14 @@ public class JacksonXMLProvider
     /**
      * Cache for resolved endpoint configurations when reading XML
      */
-    protected final LRUMap<AnnotationBundleKey, EndpointConfig> _readers
-        = new LRUMap<AnnotationBundleKey, EndpointConfig>(16, 120);
+    protected final LRUMap<AnnotationBundleKey, XMLEndpointConfig> _readers
+        = new LRUMap<AnnotationBundleKey, XMLEndpointConfig>(16, 120);
 
     /**
      * Cache for resolved endpoint configurations when writing XML
      */
-    protected final LRUMap<AnnotationBundleKey, EndpointConfig> _writers
-        = new LRUMap<AnnotationBundleKey, EndpointConfig>(16, 120);
+    protected final LRUMap<AnnotationBundleKey, XMLEndpointConfig> _writers
+        = new LRUMap<AnnotationBundleKey, XMLEndpointConfig>(16, 120);
     
     /*
     /**********************************************************
@@ -150,7 +148,7 @@ public class JacksonXMLProvider
      * Helper object used for encapsulating configuration aspects
      * of {@link XmlMapper}
      */
-    protected final MapperConfigurator _mapperConfig;
+    protected final XMLMapperConfigurator _mapperConfig;
 
     /**
      * Set of types (classes) that provider should ignore for data binding
@@ -232,7 +230,7 @@ public class JacksonXMLProvider
      */
     public JacksonXMLProvider(XmlMapper mapper, Annotations[] annotationsToUse)
     {
-        _mapperConfig = new MapperConfigurator(mapper, annotationsToUse);
+        _mapperConfig = new XMLMapperConfigurator(mapper, annotationsToUse);
     }
 
     /**
@@ -400,14 +398,14 @@ public class JacksonXMLProvider
         throws IOException
     {
         AnnotationBundleKey key = new AnnotationBundleKey(annotations);
-        EndpointConfig endpoint;
+        XMLEndpointConfig endpoint;
         synchronized (_readers) {
             endpoint = _readers.get(key);
         }
         // not yet resolved (or not cached any more)? Resolve!
         if (endpoint == null) {
             XmlMapper mapper = locateMapper(type, mediaType);
-            endpoint = EndpointConfig.forReading(mapper, annotations);
+            endpoint = XMLEndpointConfig.forReading(mapper, annotations);
             // and cache for future reuse
             synchronized (_readers) {
                 _readers.put(key.immutableKey(), endpoint);
@@ -480,14 +478,14 @@ public class JacksonXMLProvider
         throws IOException
     {
         AnnotationBundleKey key = new AnnotationBundleKey(annotations);
-        EndpointConfig endpoint;
+        XMLEndpointConfig endpoint;
         synchronized (_writers) {
             endpoint = _writers.get(key);
         }
         // not yet resolved (or not cached any more)? Resolve!
         if (endpoint == null) {
             XmlMapper mapper = locateMapper(type, mediaType);
-            endpoint = EndpointConfig.forWriting(mapper, annotations);
+            endpoint = XMLEndpointConfig.forWriting(mapper, annotations);
             // and cache for future reuse
             synchronized (_writers) {
                 _writers.put(key.immutableKey(), endpoint);

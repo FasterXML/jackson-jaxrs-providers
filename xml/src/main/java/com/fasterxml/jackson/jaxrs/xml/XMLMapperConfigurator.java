@@ -1,4 +1,4 @@
-package com.fasterxml.jackson.jaxrs.xml.cfg;
+package com.fasterxml.jackson.jaxrs.xml;
 
 import java.util.*;
 
@@ -11,15 +11,14 @@ import com.fasterxml.jackson.dataformat.xml.jaxb.XmlJaxbAnnotationIntrospector;
 
 import com.fasterxml.jackson.jaxrs.base.cfg.MapperConfiguratorBase;
 
-import com.fasterxml.jackson.jaxrs.xml.Annotations;
 
 /**
  * Helper class used to encapsulate details of configuring an
  * {@link XmlMapper} instance to be used for data binding, as
  * well as accessing it.
  */
-public class MapperConfigurator
-    extends MapperConfiguratorBase<MapperConfigurator, XmlMapper, Annotations>
+public class XMLMapperConfigurator
+    extends MapperConfiguratorBase<XMLMapperConfigurator, XmlMapper, Annotations>
 {
     /*
     /**********************************************************
@@ -27,7 +26,7 @@ public class MapperConfigurator
     /**********************************************************
      */
     
-    public MapperConfigurator(XmlMapper mapper, Annotations[] defAnnotations)
+    public XMLMapperConfigurator(XmlMapper mapper, Annotations[] defAnnotations)
     {
         super(mapper, defAnnotations);
     }
