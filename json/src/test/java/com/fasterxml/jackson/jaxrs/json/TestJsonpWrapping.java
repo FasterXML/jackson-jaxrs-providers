@@ -19,6 +19,7 @@ public class TestJsonpWrapping
         assertEquals("[1,2,3]", out.toString("UTF-8"));
         
         // then with wrapping:
+        prov = new JacksonJsonProvider();
         prov.setJSONPFunctionName("addAll");
         out = new ByteArrayOutputStream();
         prov.writeTo(bean, bean.getClass(), bean.getClass(), new Annotation[0], MediaType.APPLICATION_JSON_TYPE, null, out);

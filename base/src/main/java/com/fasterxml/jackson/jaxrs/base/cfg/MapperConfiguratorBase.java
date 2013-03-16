@@ -9,8 +9,9 @@ import com.fasterxml.jackson.databind.*;
  * {@link ObjectMapper} instance to be used for data binding, as
  * well as accessing it.
  */
-public abstract class MapperConfiguratorBase<IMPL extends MapperConfiguratorBase<IMPL,MAPPER>,
-    MAPPER extends ObjectMapper>
+public abstract class MapperConfiguratorBase<IMPL extends MapperConfiguratorBase<IMPL,MAPPER,ANN>,
+    MAPPER extends ObjectMapper,
+    ANN extends Enum<ANN>>
 {
     /**
      * Mapper provider was constructed with if any, or that was constructed
@@ -27,6 +28,12 @@ public abstract class MapperConfiguratorBase<IMPL extends MapperConfiguratorBase
      * is only used if no mapper is found via provider lookup.
      */
     protected MAPPER _defaultMapper;
+
+    /**
+     * Annotations set to use by default; overridden by explicit call
+     * to {@link #setAnnotationsToUse}
+     */
+    protected ANN[] _defaultAnnotationsToUse;
     
     /**
      * To support optional dependency to Jackson JAXB annotations module
@@ -40,9 +47,10 @@ public abstract class MapperConfiguratorBase<IMPL extends MapperConfiguratorBase
     /**********************************************************
      */
     
-    public MapperConfiguratorBase(MAPPER mapper)
+    public MapperConfiguratorBase(MAPPER mapper, ANN[] defaultAnnotations)
     {
         _mapper = mapper;
+        _defaultAnnotationsToUse = defaultAnnotations;
     }
 
     /*
@@ -64,6 +72,8 @@ public abstract class MapperConfiguratorBase<IMPL extends MapperConfiguratorBase
      * that mapper.
      */
     protected abstract MAPPER mapper();
+
+    protected abstract AnnotationIntrospector _resolveIntrospectors(ANN[] annotationsToUse);
     
     /*
     /***********************************************************
@@ -73,6 +83,10 @@ public abstract class MapperConfiguratorBase<IMPL extends MapperConfiguratorBase
 
     public synchronized final void setMapper(MAPPER m) {
         _mapper = m;
+    }
+
+    public synchronized final void setAnnotationsToUse(ANN[] annotationsToUse) {
+        _setAnnotations(mapper(), annotationsToUse);
     }
 
     public synchronized final void configure(DeserializationFeature f, boolean state) {
@@ -89,5 +103,22 @@ public abstract class MapperConfiguratorBase<IMPL extends MapperConfiguratorBase
 
     public synchronized final void configure(JsonGenerator.Feature f, boolean state) {
         mapper().configure(f, state);
+    }
+
+    /*
+    /***********************************************************
+    /* Helper methods for sub-classes
+    /***********************************************************
+     */
+
+    protected final void _setAnnotations(ObjectMapper mapper, ANN[] annotationsToUse)
+    {
+        AnnotationIntrospector intr;
+        if (annotationsToUse == null || annotationsToUse.length == 0) {
+            intr = AnnotationIntrospector.nopInstance();
+        } else {
+            intr = _resolveIntrospectors(annotationsToUse);
+        }
+        mapper.setAnnotationIntrospector(intr);
     }
 }

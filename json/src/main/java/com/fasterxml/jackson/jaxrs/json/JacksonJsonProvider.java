@@ -367,7 +367,7 @@ public class JacksonJsonProvider
     }
 
     public void setJSONPFunctionName(String fname) {
-    	this._jsonpFunctionName = fname;
+        _jsonpFunctionName = fname;
     }
     
     /*

@@ -19,20 +19,8 @@ import com.fasterxml.jackson.jaxrs.xml.Annotations;
  * well as accessing it.
  */
 public class MapperConfigurator
-    extends MapperConfiguratorBase<MapperConfigurator, XmlMapper>
+    extends MapperConfiguratorBase<MapperConfigurator, XmlMapper, Annotations>
 {
-    /**
-     * Annotations set to use by default; overridden by explicit call
-     * to {@link #setAnnotationsToUse}
-     */
-    protected Annotations[] _defaultAnnotationsToUse;
-    
-    /**
-     * To support optional dependency to Jackson JAXB annotations module
-     * (needed iff JAXB annotations are used for configuration)
-     */
-    protected Class<? extends AnnotationIntrospector> _jaxbIntrospectorClass;
-    
     /*
     /**********************************************************
     /* Construction
@@ -41,8 +29,7 @@ public class MapperConfigurator
     
     public MapperConfigurator(XmlMapper mapper, Annotations[] defAnnotations)
     {
-        super(mapper);
-        _defaultAnnotationsToUse = defAnnotations;
+        super(mapper, defAnnotations);
     }
 
     /**
@@ -70,16 +57,6 @@ public class MapperConfigurator
     {
         return new JacksonXmlModule();
     }
-    
-    /*
-    /***********************************************************
-    /* Configuration methods
-    /***********************************************************
-     */
-
-    public synchronized void setAnnotationsToUse(Annotations[] annotationsToUse) {
-        _setAnnotations(mapper(), annotationsToUse);
-    }
 
     /*
     /***********************************************************
@@ -102,18 +79,7 @@ public class MapperConfigurator
         return _mapper;
     }
 
-    protected void _setAnnotations(XmlMapper mapper, Annotations[] annotationsToUse)
-    {
-        AnnotationIntrospector intr;
-        if (annotationsToUse == null || annotationsToUse.length == 0) {
-            intr = AnnotationIntrospector.nopInstance();
-        } else {
-            intr = _resolveIntrospectors(annotationsToUse);
-        }
-        mapper.setAnnotationIntrospector(intr);
-    }
-
-
+    @Override
     protected AnnotationIntrospector _resolveIntrospectors(Annotations[] annotationsToUse)
     {
         // Let's ensure there are no dups there first, filter out nulls

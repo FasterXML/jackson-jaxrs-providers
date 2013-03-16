@@ -14,21 +14,8 @@ import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
  * well as accessing it.
  */
 public class MapperConfigurator
-    extends MapperConfiguratorBase<MapperConfigurator, ObjectMapper>
+    extends MapperConfiguratorBase<MapperConfigurator, ObjectMapper, Annotations>
 {
-
-    /**
-     * Annotations set to use by default; overridden by explicit call
-     * to {@link #setAnnotationsToUse}
-     */
-    protected Annotations[] _defaultAnnotationsToUse;
-    
-    /**
-     * To support optional dependency to Jackson JAXB annotations module
-     * (needed iff JAXB annotations are used for configuration)
-     */
-    protected Class<? extends AnnotationIntrospector> _jaxbIntrospectorClass;
-    
     /*
     /**********************************************************
     /* Construction
@@ -37,8 +24,7 @@ public class MapperConfigurator
     
     public MapperConfigurator(ObjectMapper mapper, Annotations[] defAnnotations)
     {
-        super(mapper);
-        _defaultAnnotationsToUse = defAnnotations;
+        super(mapper, defAnnotations);
     }
 
     /**
@@ -59,16 +45,6 @@ public class MapperConfigurator
             _setAnnotations(_defaultMapper, _defaultAnnotationsToUse);
         }
         return _defaultMapper;
-    }
-
-    /*
-    /**********************************************************
-    /* Configuration methods
-    /**********************************************************
-     */
-
-    public synchronized void setAnnotationsToUse(Annotations[] annotationsToUse) {
-        _setAnnotations(mapper(), annotationsToUse);
     }
 
     /*
@@ -97,18 +73,6 @@ public class MapperConfigurator
     /* Internal methods
     /**********************************************************
      */
-    
-    protected void _setAnnotations(ObjectMapper mapper, Annotations[] annotationsToUse)
-    {
-        AnnotationIntrospector intr;
-        if (annotationsToUse == null || annotationsToUse.length == 0) {
-            intr = AnnotationIntrospector.nopInstance();
-        } else {
-            intr = _resolveIntrospectors(annotationsToUse);
-        }
-        mapper.setAnnotationIntrospector(intr);
-    }
-
 
     protected AnnotationIntrospector _resolveIntrospectors(Annotations[] annotationsToUse)
     {
