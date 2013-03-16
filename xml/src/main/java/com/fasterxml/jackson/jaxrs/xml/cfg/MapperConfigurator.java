@@ -2,14 +2,14 @@ package com.fasterxml.jackson.jaxrs.xml.cfg;
 
 import java.util.*;
 
-import com.fasterxml.jackson.core.*;
-
 import com.fasterxml.jackson.databind.*;
 
 import com.fasterxml.jackson.dataformat.xml.JacksonXmlAnnotationIntrospector;
 import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.jaxb.XmlJaxbAnnotationIntrospector;
+
+import com.fasterxml.jackson.jaxrs.base.cfg.MapperConfiguratorBase;
 
 import com.fasterxml.jackson.jaxrs.xml.Annotations;
 
@@ -19,23 +19,8 @@ import com.fasterxml.jackson.jaxrs.xml.Annotations;
  * well as accessing it.
  */
 public class MapperConfigurator
+    extends MapperConfiguratorBase<MapperConfigurator, XmlMapper>
 {
-    /**
-     * Mapper provider was constructed with if any, or that was constructed
-     * due to a call to explicitly configure mapper.
-     * If defined (explicitly or implicitly) it will be used, instead
-     * of using provider-based lookup.
-     */
-    protected XmlMapper _mapper;
-
-    /**
-     * If no mapper was specified when constructed, and no configuration
-     * calls are made, a default mapper is constructed. The difference
-     * between default mapper and regular one is that default mapper
-     * is only used if no mapper is found via provider lookup.
-     */
-    protected XmlMapper _defaultMapper;
-
     /**
      * Annotations set to use by default; overridden by explicit call
      * to {@link #setAnnotationsToUse}
@@ -56,7 +41,7 @@ public class MapperConfigurator
     
     public MapperConfigurator(XmlMapper mapper, Annotations[] defAnnotations)
     {
-        _mapper = mapper;
+        super(mapper);
         _defaultAnnotationsToUse = defAnnotations;
     }
 
@@ -87,46 +72,27 @@ public class MapperConfigurator
     }
     
     /*
-     ***********************************************************
-     * Configuration methods
-     ***********************************************************
-      */
-
-    public synchronized void setMapper(XmlMapper m) {
-        _mapper = m;
-    }
+    /***********************************************************
+    /* Configuration methods
+    /***********************************************************
+     */
 
     public synchronized void setAnnotationsToUse(Annotations[] annotationsToUse) {
         _setAnnotations(mapper(), annotationsToUse);
     }
 
-    public synchronized void configure(DeserializationFeature f, boolean state) {
-        mapper().configure(f, state);
-    }
-
-    public synchronized void configure(SerializationFeature f, boolean state) {
-        mapper().configure(f, state);
-    }
-
-    public synchronized void configure(JsonParser.Feature f, boolean state) {
-        mapper().configure(f, state);
-    }
-
-    public synchronized void configure(JsonGenerator.Feature f, boolean state) {
-        mapper().configure(f, state);
-    }
-
     /*
-     ***********************************************************
-     * Internal methods
-     ***********************************************************
-      */
+    /***********************************************************
+    /* Internal methods
+    /***********************************************************
+     */
 
     /**
      * Helper method that will ensure that there is a configurable non-default
      * mapper (constructing an instance if one didn't yet exit), and return
      * that mapper.
      */
+    @Override
     protected XmlMapper mapper()
     {
         if (_mapper == null) {
