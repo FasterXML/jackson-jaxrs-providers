@@ -1,4 +1,4 @@
-package com.fasterxml.jackson.jaxrs.smile.annotation;
+package com.fasterxml.jackson.jaxrs.smile;
 
 import java.lang.annotation.Annotation;
 

@@ -9,7 +9,6 @@ import javax.ws.rs.ext.*;
 import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.jaxrs.base.ProviderBase;
-import com.fasterxml.jackson.jaxrs.smile.annotation.SmileEndpointConfig;
 
 /**
  * Basic implementation of JAX-RS abstractions ({@link MessageBodyReader},

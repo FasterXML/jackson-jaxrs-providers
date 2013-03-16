@@ -1,4 +1,4 @@
-package com.fasterxml.jackson.jaxrs.json.annotation;
+package com.fasterxml.jackson.jaxrs.json;
 
 import java.lang.annotation.Annotation;
 
@@ -7,6 +7,9 @@ import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.fasterxml.jackson.databind.util.JSONWrappedObject;
 
 import com.fasterxml.jackson.jaxrs.base.cfg.EndpointConfigBase;
+import com.fasterxml.jackson.jaxrs.json.annotation.JSONP;
+import com.fasterxml.jackson.jaxrs.json.annotation.JacksonFeatures;
+import com.fasterxml.jackson.jaxrs.json.annotation.JSONP.Def;
 
 /**
  * Container class for figuring out annotation-based configuration

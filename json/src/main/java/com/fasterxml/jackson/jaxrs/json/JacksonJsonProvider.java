@@ -11,8 +11,6 @@ import com.fasterxml.jackson.databind.*;
 
 import com.fasterxml.jackson.jaxrs.base.ProviderBase;
 
-import com.fasterxml.jackson.jaxrs.json.annotation.JsonEndpointConfig;
-import com.fasterxml.jackson.jaxrs.json.cfg.MapperConfigurator;
 
 /**
  * Basic implementation of JAX-RS abstractions ({@link MessageBodyReader},
@@ -50,7 +48,7 @@ import com.fasterxml.jackson.jaxrs.json.cfg.MapperConfigurator;
 public class JacksonJsonProvider
     extends ProviderBase<JacksonJsonProvider,
         ObjectMapper, Annotations,
-        JsonEndpointConfig, MapperConfigurator>
+        JsonEndpointConfig, JsonMapperConfigurator>
 {
     /**
      * Default annotation sets to use, if not explicitly defined during
@@ -124,7 +122,7 @@ public class JacksonJsonProvider
      *   support
      */
     public JacksonJsonProvider(ObjectMapper mapper, Annotations[] annotationsToUse) {
-        super(new MapperConfigurator(mapper, annotationsToUse));
+        super(new JsonMapperConfigurator(mapper, annotationsToUse));
     }
 
     /**
