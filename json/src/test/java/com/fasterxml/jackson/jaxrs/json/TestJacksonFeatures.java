@@ -11,8 +11,7 @@ import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.SerializationFeature;
-
-import com.fasterxml.jackson.jaxrs.json.annotation.JacksonFeatures;
+import com.fasterxml.jackson.jaxrs.annotation.JacksonFeatures;
 
 /**
  * Tests for [Issue-2], Addition of {@link JacksonFeatures}.

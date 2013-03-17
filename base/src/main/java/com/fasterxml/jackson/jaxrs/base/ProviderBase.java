@@ -16,10 +16,10 @@ import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.util.LRUMap;
 
-import com.fasterxml.jackson.jaxrs.base.cfg.EndpointConfigBase;
-import com.fasterxml.jackson.jaxrs.base.cfg.MapperConfiguratorBase;
-import com.fasterxml.jackson.jaxrs.base.util.AnnotationBundleKey;
-import com.fasterxml.jackson.jaxrs.base.util.ClassKey;
+import com.fasterxml.jackson.jaxrs.cfg.AnnotationBundleKey;
+import com.fasterxml.jackson.jaxrs.cfg.EndpointConfigBase;
+import com.fasterxml.jackson.jaxrs.cfg.MapperConfiguratorBase;
+import com.fasterxml.jackson.jaxrs.util.ClassKey;
 
 public abstract class ProviderBase<
     THIS extends ProviderBase<THIS, MAPPER, ANN, EP_CONFIG, MAPPER_CONFIG>,

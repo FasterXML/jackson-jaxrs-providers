@@ -3,8 +3,7 @@ package com.fasterxml.jackson.jaxrs.smile;
 import java.lang.annotation.Annotation;
 
 import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.jaxrs.base.cfg.EndpointConfigBase;
-import com.fasterxml.jackson.jaxrs.smile.annotation.JacksonFeatures;
+import com.fasterxml.jackson.jaxrs.cfg.EndpointConfigBase;
 
 /**
  * Container class for figuring out annotation-based configuration
@@ -37,12 +36,13 @@ public class SmileEndpointConfig
         ;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     protected void addAnnotation(Class<? extends Annotation> type,
             Annotation annotation, boolean forWriting)
     {
-        if (type == JacksonFeatures.class) {
-            JacksonFeatures feats = (JacksonFeatures) annotation;
+        if (type == com.fasterxml.jackson.jaxrs.smile.annotation.JacksonFeatures.class) {
+            com.fasterxml.jackson.jaxrs.smile.annotation.JacksonFeatures feats = (com.fasterxml.jackson.jaxrs.smile.annotation.JacksonFeatures) annotation;
             if (forWriting) {
                 _serEnable = nullIfEmpty(feats.serializationEnable());
                 _serDisable = nullIfEmpty(feats.serializationDisable());

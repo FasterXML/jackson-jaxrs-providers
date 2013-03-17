@@ -12,13 +12,13 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
+import com.fasterxml.jackson.jaxrs.annotation.JacksonFeatures;
 import com.fasterxml.jackson.jaxrs.xml.JacksonXMLProvider;
-import com.fasterxml.jackson.jaxrs.xml.annotation.JacksonFeatures;
 
 /**
  * Tests for [Issue-2], Addition of {@link JacksonFeatures}.
  */
-public class TestJacksonFeatures extends JaxrsTestBase
+public class TestJacksonFeaturesWithXML extends JaxrsTestBase
 {
     static class Bean {
         public int a = 3;

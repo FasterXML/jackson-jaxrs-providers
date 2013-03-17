@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
 import com.fasterxml.jackson.dataformat.smile.SmileFactory;
 
-import com.fasterxml.jackson.jaxrs.base.cfg.MapperConfiguratorBase;
+import com.fasterxml.jackson.jaxrs.cfg.MapperConfiguratorBase;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
 
 

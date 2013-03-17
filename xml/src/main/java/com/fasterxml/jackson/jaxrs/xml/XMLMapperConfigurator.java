@@ -9,7 +9,7 @@ import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.jaxb.XmlJaxbAnnotationIntrospector;
 
-import com.fasterxml.jackson.jaxrs.base.cfg.MapperConfiguratorBase;
+import com.fasterxml.jackson.jaxrs.cfg.MapperConfiguratorBase;
 
 
 /**

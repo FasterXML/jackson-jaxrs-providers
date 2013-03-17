@@ -1,4 +1,4 @@
-package com.fasterxml.jackson.jaxrs.smile.annotation;
+package com.fasterxml.jackson.jaxrs.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -11,13 +11,10 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 /**
  * Annotation that can be used enable and/or disable various
  * features for <code>ObjectReader</code>s and <code>ObjectWriter</code>s.
- * 
- * @deprecated Since 2.2, use shared {@link com.fasterxml.jackson.jaxrs.annotation.JacksonAnnotation} instead
  */
 @Target({ElementType.ANNOTATION_TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @com.fasterxml.jackson.annotation.JacksonAnnotation
-@Deprecated // since 2.2
 public @interface JacksonFeatures
 {
     /**

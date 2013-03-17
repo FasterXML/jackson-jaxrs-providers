@@ -1,4 +1,4 @@
-package com.fasterxml.jackson.jaxrs.base.cfg;
+package com.fasterxml.jackson.jaxrs.cfg;
 
 import java.lang.annotation.Annotation;
 
@@ -10,6 +10,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 
 import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.jaxrs.annotation.JacksonFeatures;
 
 /**
  * Container class for figuring out annotation-based configuration
@@ -63,6 +64,15 @@ public abstract class EndpointConfigBase<THIS extends EndpointConfigBase<THIS>>
             // Can only use one view; but if multiple defined, use first (no exception)
             Class<?>[] views = ((JsonView) annotation).value();
             _activeView = (views.length > 0) ? views[0] : null;
+        } else if (type == JacksonFeatures.class) {
+            JacksonFeatures feats = (JacksonFeatures) annotation;
+            if (forWriting) {
+                _serEnable = nullIfEmpty(feats.serializationEnable());
+                _serDisable = nullIfEmpty(feats.serializationDisable());
+            } else {
+                _deserEnable = nullIfEmpty(feats.deserializationEnable());
+                _deserDisable = nullIfEmpty(feats.deserializationDisable());
+            }
         } else if (type == JsonRootName.class) {
             _rootName = ((JsonRootName) annotation).value();
         } else if (type == JacksonAnnotationsInside.class) {

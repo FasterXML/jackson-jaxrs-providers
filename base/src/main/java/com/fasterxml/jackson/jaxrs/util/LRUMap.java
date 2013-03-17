@@ -1,4 +1,4 @@
-package com.fasterxml.jackson.jaxrs.base.util;
+package com.fasterxml.jackson.jaxrs.util;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

@@ -6,9 +6,8 @@ import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.fasterxml.jackson.databind.util.JSONWrappedObject;
 
-import com.fasterxml.jackson.jaxrs.base.cfg.EndpointConfigBase;
+import com.fasterxml.jackson.jaxrs.cfg.EndpointConfigBase;
 import com.fasterxml.jackson.jaxrs.json.annotation.JSONP;
-import com.fasterxml.jackson.jaxrs.json.annotation.JacksonFeatures;
 
 /**
  * Container class for figuring out annotation-based configuration
@@ -55,6 +54,7 @@ public class JsonEndpointConfig
     /**********************************************************
      */
 
+    @SuppressWarnings("deprecation")
     @Override
     protected void addAnnotation(Class<? extends Annotation> type,
             Annotation annotation, boolean forWriting)
@@ -63,8 +63,8 @@ public class JsonEndpointConfig
             if (forWriting) {
                 _jsonp = new JSONP.Def((JSONP) annotation);
             }
-        } else if (type == JacksonFeatures.class) {
-            JacksonFeatures feats = (JacksonFeatures) annotation;
+        } else if (type == com.fasterxml.jackson.jaxrs.json.annotation.JacksonFeatures.class) {
+            com.fasterxml.jackson.jaxrs.json.annotation.JacksonFeatures feats = (com.fasterxml.jackson.jaxrs.json.annotation.JacksonFeatures) annotation;
             if (forWriting) {
                 _serEnable = nullIfEmpty(feats.serializationEnable());
                 _serDisable = nullIfEmpty(feats.serializationDisable());

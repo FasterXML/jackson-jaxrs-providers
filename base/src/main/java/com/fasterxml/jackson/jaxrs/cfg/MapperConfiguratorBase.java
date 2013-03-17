@@ -1,4 +1,4 @@
-package com.fasterxml.jackson.jaxrs.base.cfg;
+package com.fasterxml.jackson.jaxrs.cfg;
 
 import com.fasterxml.jackson.core.*;
 
