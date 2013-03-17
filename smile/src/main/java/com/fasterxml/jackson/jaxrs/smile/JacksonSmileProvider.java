@@ -9,6 +9,7 @@ import javax.ws.rs.ext.*;
 import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.jaxrs.base.ProviderBase;
+import com.fasterxml.jackson.jaxrs.cfg.Annotations;
 
 /**
  * Basic implementation of JAX-RS abstractions ({@link MessageBodyReader},
@@ -45,7 +46,7 @@ import com.fasterxml.jackson.jaxrs.base.ProviderBase;
 @Produces(SmileMediaTypes.APPLICATION_JACKSON_SMILE)
 public class JacksonSmileProvider
 extends ProviderBase<JacksonSmileProvider,
-    ObjectMapper, Annotations,
+    ObjectMapper,
     SmileEndpointConfig,
     SmileMapperConfigurator
 >

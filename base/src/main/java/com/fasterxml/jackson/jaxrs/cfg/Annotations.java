@@ -1,8 +1,10 @@
-package com.fasterxml.jackson.jaxrs.smile;
+package com.fasterxml.jackson.jaxrs.cfg;
 
 /**
  * Enumeration that defines standard annotation sets available for configuring
  * data binding aspects.
+ * 
+ * @since 2.2 (earlier located in actual datatype-specific modules)
  */
 public enum Annotations {
     /**

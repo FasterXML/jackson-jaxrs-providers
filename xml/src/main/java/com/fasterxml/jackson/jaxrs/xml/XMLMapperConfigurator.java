@@ -9,8 +9,8 @@ import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.jaxb.XmlJaxbAnnotationIntrospector;
 
+import com.fasterxml.jackson.jaxrs.cfg.Annotations;
 import com.fasterxml.jackson.jaxrs.cfg.MapperConfiguratorBase;
-
 
 /**
  * Helper class used to encapsulate details of configuring an
@@ -18,7 +18,7 @@ import com.fasterxml.jackson.jaxrs.cfg.MapperConfiguratorBase;
  * well as accessing it.
  */
 public class XMLMapperConfigurator
-    extends MapperConfiguratorBase<XMLMapperConfigurator, XmlMapper, Annotations>
+    extends MapperConfiguratorBase<XMLMapperConfigurator, XmlMapper>
 {
     /*
     /**********************************************************

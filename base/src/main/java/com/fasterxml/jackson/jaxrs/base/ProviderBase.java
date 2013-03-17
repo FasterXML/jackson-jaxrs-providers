@@ -17,16 +17,16 @@ import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.util.LRUMap;
 
 import com.fasterxml.jackson.jaxrs.cfg.AnnotationBundleKey;
+import com.fasterxml.jackson.jaxrs.cfg.Annotations;
 import com.fasterxml.jackson.jaxrs.cfg.EndpointConfigBase;
 import com.fasterxml.jackson.jaxrs.cfg.MapperConfiguratorBase;
 import com.fasterxml.jackson.jaxrs.util.ClassKey;
 
 public abstract class ProviderBase<
-    THIS extends ProviderBase<THIS, MAPPER, ANN, EP_CONFIG, MAPPER_CONFIG>,
+    THIS extends ProviderBase<THIS, MAPPER, EP_CONFIG, MAPPER_CONFIG>,
     MAPPER extends ObjectMapper,
-    ANN extends Enum<ANN>,
     EP_CONFIG extends EndpointConfigBase<EP_CONFIG>,
-    MAPPER_CONFIG extends MapperConfiguratorBase<MAPPER_CONFIG,MAPPER,ANN>
+    MAPPER_CONFIG extends MapperConfiguratorBase<MAPPER_CONFIG,MAPPER>
 >
     implements
         MessageBodyReader<Object>,
@@ -199,7 +199,7 @@ public abstract class ProviderBase<
      * @param annotationsToUse Ordered list of annotation sets to use; if null,
      *    default
      */
-    public void setAnnotationsToUse(ANN[] annotationsToUse) {
+    public void setAnnotationsToUse(Annotations[] annotationsToUse) {
         _mapperConfig.setAnnotationsToUse(annotationsToUse);
     }
     

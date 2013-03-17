@@ -4,6 +4,7 @@ import java.util.*;
 
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
+import com.fasterxml.jackson.jaxrs.cfg.Annotations;
 import com.fasterxml.jackson.jaxrs.cfg.MapperConfiguratorBase;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
 
@@ -13,7 +14,7 @@ import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
  * well as accessing it.
  */
 public class JsonMapperConfigurator
-    extends MapperConfiguratorBase<JsonMapperConfigurator, ObjectMapper, Annotations>
+    extends MapperConfiguratorBase<JsonMapperConfigurator, ObjectMapper>
 {
     /*
     /**********************************************************

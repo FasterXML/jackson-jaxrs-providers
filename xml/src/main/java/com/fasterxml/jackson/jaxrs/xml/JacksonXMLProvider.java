@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 import com.fasterxml.jackson.jaxrs.base.ProviderBase;
+import com.fasterxml.jackson.jaxrs.cfg.Annotations;
 
 /**
  * Basic implementation of JAX-RS abstractions ({@link MessageBodyReader},
@@ -49,7 +50,7 @@ import com.fasterxml.jackson.jaxrs.base.ProviderBase;
 @Produces({MediaType.TEXT_XML, MediaType.APPLICATION_XML})
 public class JacksonXMLProvider
     extends ProviderBase<JacksonXMLProvider,
-        XmlMapper, Annotations,
+        XmlMapper,
         XMLEndpointConfig,
         XMLMapperConfigurator
 >

@@ -10,6 +10,7 @@ import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.databind.*;
 
 import com.fasterxml.jackson.jaxrs.base.ProviderBase;
+import com.fasterxml.jackson.jaxrs.cfg.Annotations;
 
 
 /**
@@ -47,7 +48,7 @@ import com.fasterxml.jackson.jaxrs.base.ProviderBase;
 @Produces(MediaType.WILDCARD)
 public class JacksonJsonProvider
     extends ProviderBase<JacksonJsonProvider,
-        ObjectMapper, Annotations,
+        ObjectMapper,
         JsonEndpointConfig, JsonMapperConfigurator>
 {
     /**
