@@ -432,6 +432,7 @@ public abstract class ProviderBase<
                 }
             }
         }
+
         // Most of the configuration now handled through EndpointConfig, ObjectWriter
         // but we may need to force root type:
         if (rootType != null) {
@@ -494,6 +495,9 @@ public abstract class ProviderBase<
         }
         // Finally: if we really want to verify that we can serialize, we'll check:
         if (_cfgCheckCanSerialize) {
+            if (_isSpecialReadable(type)) {
+                return true;
+            }
             ObjectMapper mapper = locateMapper(type, mediaType);
             if (!mapper.canDeserialize(mapper.constructType(type))) {
                 return false;
@@ -529,6 +533,10 @@ public abstract class ProviderBase<
         if (jp == null || jp.nextToken() == null) {
             return null;
         }
+        // [Issue#1]: allow 'binding' to JsonParser
+        if (((Class<?>) type) == JsonParser.class) {
+            return jp;
+        }
         return reader.withType(genericType).readValue(jp);
     }
 
@@ -543,13 +551,13 @@ public abstract class ProviderBase<
     {
         return reader.getFactory().createParser(rawStream);
     }
-    
+
     /*
     /**********************************************************
-    /* Private/sub-class helper methods
+    /* Overridable helper methods
     /**********************************************************
      */
-    
+
     /**
      * Method called to locate {@link ObjectMapper} to use for serialization
      * and deserialization. If an instance has been explicitly defined by
@@ -584,6 +592,22 @@ public abstract class ProviderBase<
         }
         return m;
     }
+
+    /**
+     * Overridable helper method used to allow handling of somewhat special
+     * types for reading
+     * 
+     * @since 2.2
+     */
+    protected boolean _isSpecialReadable(Class<?> type) {
+        return JsonParser.class == type;
+    }
+
+    /*
+    /**********************************************************
+    /* Private/sub-class helper methods
+    /**********************************************************
+     */
 
     protected static boolean _containedIn(Class<?> mainType, HashSet<ClassKey> set)
     {
