@@ -9,6 +9,7 @@ First multi-module release, to make release easier, share some boilerplate code.
 
 Changes:
 
+#5: Add 'provider.removeUntouchable()'
 * Add Woodstox dependency (not just in 'test' scope) to try to avoid problems
   with users relying on SJSXP (such as 'extra' xmlns declarations)
 

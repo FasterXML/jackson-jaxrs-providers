@@ -76,6 +76,25 @@ public class TestUntouchables
                 new Annotation[0], MediaType.APPLICATION_JSON_TYPE));
         assertFalse(prov.isWriteable(HashSet.class, HashSet.class,
                 new Annotation[0], MediaType.APPLICATION_JSON_TYPE));
+
+        // But also allow removals...
+        prov.removeUntouchable(Collection.class);
+        assertTrue(prov.isReadable(ArrayList.class, ArrayList.class,
+                new Annotation[0], MediaType.APPLICATION_JSON_TYPE));
+        assertTrue(prov.isWriteable(HashSet.class, HashSet.class,
+                new Annotation[0], MediaType.APPLICATION_JSON_TYPE));
+        // which should even override default ones
+
+        assertFalse(prov.isReadable(String.class, getClass(),
+                new Annotation[0], MediaType.APPLICATION_JSON_TYPE));
+        assertFalse(prov.isWriteable(String.class, HashSet.class,
+                new Annotation[0], MediaType.APPLICATION_JSON_TYPE));
+        prov.removeUntouchable(String.class);
+        assertTrue(prov.isReadable(String.class, getClass(),
+                new Annotation[0], MediaType.APPLICATION_JSON_TYPE));
+        assertTrue(prov.isWriteable(String.class, HashSet.class,
+                new Annotation[0], MediaType.APPLICATION_JSON_TYPE));
+    
     }
 }
     

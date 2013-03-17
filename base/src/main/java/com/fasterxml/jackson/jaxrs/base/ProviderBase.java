@@ -3,10 +3,7 @@ package com.fasterxml.jackson.jaxrs.base;
 import java.io.*;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 import javax.ws.rs.core.*;
 import javax.ws.rs.ext.MessageBodyReader;
@@ -16,10 +13,7 @@ import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.util.LRUMap;
 
-import com.fasterxml.jackson.jaxrs.cfg.AnnotationBundleKey;
-import com.fasterxml.jackson.jaxrs.cfg.Annotations;
-import com.fasterxml.jackson.jaxrs.cfg.EndpointConfigBase;
-import com.fasterxml.jackson.jaxrs.cfg.MapperConfiguratorBase;
+import com.fasterxml.jackson.jaxrs.cfg.*;
 import com.fasterxml.jackson.jaxrs.util.ClassKey;
 
 public abstract class ProviderBase<
@@ -88,9 +82,11 @@ public abstract class ProviderBase<
      */
 
     /**
-     * Set of types (classes) that provider should ignore for data binding
+     * Map that contains overrides to default list of untouchable
+     * types: <code>true</code> meaning that entry is untouchable,
+     * <code>false</code> that is is not.
      */
-    protected HashSet<ClassKey> _cfgCustomUntouchables;
+    protected HashMap<ClassKey,Boolean> _cfgCustomUntouchables;
 
     /**
      * Whether we want to actually check that Jackson has
@@ -186,11 +182,25 @@ public abstract class ProviderBase<
     public void addUntouchable(Class<?> type)
     {
         if (_cfgCustomUntouchables == null) {
-            _cfgCustomUntouchables = new HashSet<ClassKey>();
+            _cfgCustomUntouchables = new HashMap<ClassKey,Boolean>();
         }
-        _cfgCustomUntouchables.add(new ClassKey(type));
+        _cfgCustomUntouchables.put(new ClassKey(type), Boolean.TRUE);
     }
 
+    /**
+     * Method for removing definition of specified type as untouchable:
+     * usually only 
+     * 
+     * @since 2.2
+     */
+    public void removeUntouchable(Class<?> type)
+    {
+        if (_cfgCustomUntouchables == null) {
+            _cfgCustomUntouchables = new HashMap<ClassKey,Boolean>();
+        }
+        _cfgCustomUntouchables.put(new ClassKey(type), Boolean.FALSE);
+    }
+    
     /**
      * Method for configuring which annotation sets to use (including none).
      * Annotation sets are defined in order decreasing precedence; that is,
@@ -336,23 +346,24 @@ public abstract class ProviderBase<
             return false;
         }
 
-        /* Ok: looks like we must weed out some core types here; ones that
-         * make no sense to try to bind from JSON:
-         */
-        if (_untouchables.contains(new ClassKey(type))) {
+        Boolean customUntouchable = _findCustomUntouchable(type);
+        if (customUntouchable == Boolean.TRUE) {
             return false;
         }
-        // but some are interface/abstract classes, so
-        for (Class<?> cls : _unwritableClasses) {
-            if (cls.isAssignableFrom(type)) {
+        if (customUntouchable == null) {
+            /* Ok: looks like we must weed out some core types here; ones that
+             * make no sense to try to bind from JSON:
+             */
+            if (_untouchables.contains(new ClassKey(type))) {
                 return false;
             }
+            // but some are interface/abstract classes, so
+            for (Class<?> cls : _unwritableClasses) {
+                if (cls.isAssignableFrom(type)) {
+                    return false;
+                }
+            }
         }
-        // and finally, may have additional custom types to exclude
-        if (_containedIn(type, _cfgCustomUntouchables)) {
-            return false;
-        }
-
         // Also: if we really want to verify that we can deserialize, we'll check:
         if (_cfgCheckCanSerialize) {
             if (!locateMapper(type, mediaType).canSerialize(type)) {
@@ -463,23 +474,24 @@ public abstract class ProviderBase<
             return false;
         }
 
-        /* Ok: looks like we must weed out some core types here; ones that
-         * make no sense to try to bind from JSON:
-         */
-        if (_untouchables.contains(new ClassKey(type))) {
+        Boolean customUntouchable = _findCustomUntouchable(type);
+        if (customUntouchable == Boolean.TRUE) {
             return false;
         }
-        // and there are some other abstract/interface types to exclude too:
-        for (Class<?> cls : _unreadableClasses) {
-            if (cls.isAssignableFrom(type)) {
+        if (customUntouchable == null) {
+            /* Ok: looks like we must weed out some core types here; ones that
+             * make no sense to try to bind from JSON:
+             */
+            if (_untouchables.contains(new ClassKey(type))) {
                 return false;
             }
+            // and there are some other abstract/interface types to exclude too:
+            for (Class<?> cls : _unreadableClasses) {
+                if (cls.isAssignableFrom(type)) {
+                    return false;
+                }
+            }
         }
-        // as well as possible custom exclusions
-        if (_containedIn(type, _cfgCustomUntouchables)) {
-            return false;
-        }
-
         // Finally: if we really want to verify that we can serialize, we'll check:
         if (_cfgCheckCanSerialize) {
             ObjectMapper mapper = locateMapper(type, mediaType);
@@ -572,7 +584,7 @@ public abstract class ProviderBase<
         }
         return m;
     }
-    
+
     protected static boolean _containedIn(Class<?> mainType, HashSet<ClassKey> set)
     {
         if (set != null) {
@@ -588,6 +600,27 @@ public abstract class ProviderBase<
         return false;
     }
 
+    protected Boolean _findCustomUntouchable(Class<?> mainType)
+    {
+        if (_cfgCustomUntouchables != null) {
+            ClassKey key = new ClassKey(mainType);
+            // First: type itself?
+            Boolean b = _cfgCustomUntouchables.get(key);
+            if (b != null) {
+                return b;
+            }
+            // Then supertypes (note: will not contain Object.class)
+            for (Class<?> cls : findSuperTypes(mainType, null)) {
+                key.reset(cls);
+                b = _cfgCustomUntouchables.get(key);
+                if (b != null) {
+                    return b;
+                }
+            }
+        }
+        return null;
+    }
+    
     protected static List<Class<?>> findSuperTypes(Class<?> cls, Class<?> endBefore)
     {
         return findSuperTypes(cls, endBefore, new ArrayList<Class<?>>(8));
