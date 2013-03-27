@@ -23,7 +23,7 @@ public class TestJsonView extends JaxrsTestBase
 
     @JsonView({ MyView1.class })
     public void bogus() { }
-    
+
     /*
     /**********************************************************
     /* Test methods

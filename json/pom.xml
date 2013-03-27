@@ -76,7 +76,14 @@
       <version>${version.jackson.jaxb}</version>
     </dependency>
 
-    <!-- test deps should come from parent -->
+    <!-- test deps should come from parent. Except for DW -->
+    <dependency>
+        <groupId>com.yammer.dropwizard</groupId>
+        <artifactId>dropwizard-core</artifactId>
+        <version>0.6.2</version>
+        <scope>test</scope>
+    </dependency>
+
   </dependencies>
   <build>
     <plugins>
