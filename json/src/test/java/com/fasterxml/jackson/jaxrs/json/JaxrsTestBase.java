@@ -5,12 +5,45 @@ import java.util.Arrays;
 
 import org.junit.Assert;
 
+// JAX-RS (jersey), Jetty stuff:
+import javax.ws.rs.core.Application;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.handler.ContextHandlerCollection;
+import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
+import com.sun.jersey.spi.container.servlet.ServletContainer;
+
 import com.fasterxml.jackson.core.*;
 
 public abstract class JaxrsTestBase
     extends junit.framework.TestCase
 {
+    /*
+    /**********************************************************
+    /* Starting actual JAX-RS container
+    /**********************************************************
+     */
 
+    protected Server startServer(int port, Class<? extends Application> appClass)
+    {
+        Server server = new Server(port);
+        final ContextHandlerCollection contexts = new ContextHandlerCollection();
+        server.setHandler(contexts);
+        ServletHolder jaxrs = new ServletHolder(ServletContainer.class);
+        jaxrs.setInitParameter("javax.ws.rs.Application", appClass.getName());
+        final ServletContextHandler mainHandler = new ServletContextHandler(contexts, "/", true, false);
+        mainHandler.addServlet(jaxrs, "/*");
+        server.setHandler(mainHandler);
+        try {
+            server.start();
+        } catch (RuntimeException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return server;
+    }
+    
     /*
     /**********************************************************
     /* Additional assertion methods

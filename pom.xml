@@ -51,6 +51,10 @@
     <version.jackson.xml>${version.jackson.core}</version.jackson.xml>
 
     <version.jackson.jaxb>${version.jackson.core}</version.jackson.jaxb>
+
+    <!--  Need Jersey+Jetty for testing -->
+    <version.jersey>1.17.1</version.jersey>
+    <version.jetty>8.1.10.v20130312</version.jetty>      
   </properties>
 
   <dependencies>
@@ -78,15 +82,32 @@
         NOTE: use 1.2 as that's JDK 1.5; later (1.8) versions need JDK 1.6
       -->
     <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-server</artifactId>
+      <version>${version.jetty}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-servlet</artifactId>
+      <version>${version.jetty}</version>
+    </dependency>
+        
+    <dependency>
       <groupId>com.sun.jersey</groupId>
       <artifactId>jersey-core</artifactId>
-      <version>1.2</version>
+      <version>${version.jersey}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.sun.jersey</groupId>
       <artifactId>jersey-server</artifactId>
-      <version>1.2</version>
+      <version>${version.jersey}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.jersey</groupId>
+      <artifactId>jersey-servlet</artifactId>
+      <version>${version.jersey}</version>
       <scope>test</scope>
     </dependency>
 
