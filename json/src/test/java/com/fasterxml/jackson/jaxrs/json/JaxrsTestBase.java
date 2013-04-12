@@ -24,7 +24,7 @@ public abstract class JaxrsTestBase
     /**********************************************************
      */
 
-    protected Server startServer(int port, Class<?> appClass)
+    protected Server startServer(int port, Class<? extends Application> appClass)
     {
         Server server = new Server(port);
         final ContextHandlerCollection contexts = new ContextHandlerCollection();
