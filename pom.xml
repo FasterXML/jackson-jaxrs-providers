@@ -24,7 +24,7 @@
   <groupId>com.fasterxml.jackson.jaxrs</groupId>
   <artifactId>jackson-jaxrs-providers</artifactId>
   <name>Jackson JAX-RS</name>
-  <version>2.2.0-rc1-SNAPSHOT</version>
+  <version>2.2.0-rc1</version>
   <packaging>pom</packaging>
   <description>Parent for Jackson JAX-RS providers
   </description>
@@ -40,6 +40,7 @@
     <connection>scm:git:git@github.com:FasterXML/jackson-jaxrs-json-providers.git</connection>
     <developerConnection>scm:git:git@github.com:FasterXML/jackson-jaxrs-json-providers.git</developerConnection>
     <url>http://github.com/FasterXML/jackson-jaxrs-json-providers</url>    
+    <tag>jackson-jaxrs-providers-2.2.0-rc1</tag>
   </scm>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> 
