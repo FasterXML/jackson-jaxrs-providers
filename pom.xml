@@ -19,7 +19,7 @@
   <parent>
     <groupId>com.fasterxml</groupId>
     <artifactId>oss-parent</artifactId>
-    <version>8</version>
+    <version>9</version>
   </parent>
   <groupId>com.fasterxml.jackson.jaxrs</groupId>
   <artifactId>jackson-jaxrs-providers</artifactId>
@@ -44,8 +44,8 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> 
     <!-- core/databind should have same version; data formats, annotations may differ -->
-    <version.jackson.core>2.2.0-SNAPSHOT</version.jackson.core>
-    <version.jackson.annotations>2.2.0-SNAPSHOT</version.jackson.annotations>
+    <version.jackson.core>2.2.0-rc1</version.jackson.core>
+    <version.jackson.annotations>2.2.0-rc1</version.jackson.annotations>
 
     <version.jackson.smile>${version.jackson.core}</version.jackson.smile>
     <version.jackson.xml>${version.jackson.core}</version.jackson.xml>
