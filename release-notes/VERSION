@@ -5,7 +5,17 @@ Sub-modules:
   jackson-jaxrs-xml-provider
 Version: 2.2.0 (22-Apr-2013)
 
-First multi-module release, to make release easier, share some boilerplate code.
+Changes:
+
+#9: Dependency to Jetty was accidentally left as compile-time; should be
+  'test'
+ (reported by KlausBrunner@github)
+
+------------------------------------------------------------------------
+=== History: ===
+------------------------------------------------------------------------
+
+2.2.0 (22-Apr-2013)
 
 Changes:
 
@@ -16,10 +26,6 @@ Changes:
 #8: Ensure that `JsonGenerator` is always properly closed, including error cases,
   otherwise can hide problems (due to missing flush of content)
  (contributed by Steven S)
-
-------------------------------------------------------------------------
-=== History: ===
-------------------------------------------------------------------------
 
 2.1.2 (05-Dec-2012)
 
