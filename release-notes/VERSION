@@ -7,6 +7,8 @@ Version: 2.2.1 (xx-May-2013)
 
 Changes:
 
+#8: ProviderBase does not close `JsonGenerator`
+ (contributed by Steven S)
 #9: Dependency to Jetty was accidentally left as compile-time; should be
   'test'
  (reported by KlausBrunner@github)
