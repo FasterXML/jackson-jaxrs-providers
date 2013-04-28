@@ -146,8 +146,26 @@ public abstract class ProviderBase<
      */
     protected final MAPPER_CONFIG _mapperConfig;
 
+    /*
+    /**********************************************************
+    /* Life-cycle
+    /**********************************************************
+     */
+    
     protected ProviderBase(MAPPER_CONFIG mconfig) {
         _mapperConfig = mconfig;
+    }
+
+    /**
+     * Constructor that is only added to resolve
+     * issue #10; problems with combination of
+     * RESTeasy and CDI.
+     * Should NOT be used by any code explicitly; only exists
+     * for proxy support.
+     */
+    @Deprecated
+    protected ProviderBase() {
+        _mapperConfig = null;
     }
     
     /*
@@ -333,7 +351,7 @@ public abstract class ProviderBase<
      * given value (of specified type) can be serialized by
      * this provider.
      * Implementation will first check that expected media type is
-     * a JSON type (via call to {@link #isJsonType}; then verify
+     * expected one (by call to {@link #hasMatchingMediaType}); then verify
      * that type is not one of "untouchable" types (types we will never
      * automatically handle), and finally that there is a serializer
      * for type (iff {@link #checkCanSerialize} has been called with
@@ -462,7 +480,8 @@ public abstract class ProviderBase<
      * values of given type (and media type) can be deserialized by
      * this provider.
      * Implementation will first check that expected media type is
-     * a JSON type (via call to {@link #isJsonType}; then verify
+     * a JSON type (via call to {@link #hasMatchingMediaType});
+     * then verify
      * that type is not one of "untouchable" types (types we will never
      * automatically handle), and finally that there is a deserializer
      * for type (iff {@link #checkCanDeserialize} has been called with
@@ -564,7 +583,7 @@ public abstract class ProviderBase<
      * {@link #setMapper} (or non-null instance passed in constructor), that
      * will be used. 
      * If not, will try to locate it using standard JAX-RS
-     * {@link ContextResolver} mechanism, if it has been properly configured
+     * <code>ContextResolver</code> mechanism, if it has been properly configured
      * to access it (by JAX-RS runtime).
      * Finally, if no mapper is found, will return a default unconfigured
      * {@link ObjectMapper} instance (one constructed with default constructor
@@ -573,10 +592,10 @@ public abstract class ProviderBase<
      * @param type Class of object being serialized or deserialized;
      *   not checked at this point, since it is assumed that unprocessable
      *   classes have been already weeded out,
-     *   but will be passed to {@link ContextResolver} as is.
+     *   but will be passed to <code>ContextResolver</code> as is.
      * @param mediaType Declared media type for the instance to process:
      *   not used by this method,
-     *   but will be passed to {@link ContextResolver} as is.
+     *   but will be passed to <code>ContextResolver</code> as is.
      */
     public MAPPER locateMapper(Class<?> type, MediaType mediaType)
     {
