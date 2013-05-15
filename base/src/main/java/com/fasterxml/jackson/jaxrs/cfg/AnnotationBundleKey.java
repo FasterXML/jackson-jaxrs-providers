@@ -15,6 +15,14 @@ public final class AnnotationBundleKey
     private final static Annotation[] NO_ANNOTATIONS = new Annotation[0];
     
     private final Annotation[] _annotations;
+
+    /**
+     * We also seem to need the type as part of the key (as per [Issue#11]);
+     * hopefully that and annotations are enough (if not, may need to reconsider
+     * the way caching is done, and possibly only cache derivation of annotations,
+     * not mapper or reader/writer).
+     */
+    private final Class<?> _type;
     
     private final boolean _annotationsCopied;
 
@@ -25,24 +33,38 @@ public final class AnnotationBundleKey
     /* Construction
     /**********************************************************
      */
-    
+
+    /**
+     * @deprecated Since 2.2.2: use variant that takes explicit Class
+     */
+    @Deprecated
     public AnnotationBundleKey(Annotation[] annotations)
     {
+        // could use a private inner class, but this'll do for now; no one should call anyway
+        this(annotations, AnnotationBundleKey.class);
+    }
+
+    public AnnotationBundleKey(Annotation[] annotations, Class<?> type)
+    {
+        _type = type;
+        // getting hash of name is faster than Class.hashCode() just because latter uses system identity hash:
+        final int typeHash = type.getName().hashCode();
         if (annotations == null || annotations.length == 0) {
             annotations = NO_ANNOTATIONS;
             _annotationsCopied = true;
-            _hashCode = -1;
+            _hashCode = typeHash;
         } else {
             _annotationsCopied = false;
-            _hashCode = calcHash(annotations);
+            _hashCode = calcHash(annotations) ^ typeHash;
         }
-        _annotations = annotations;  
+        _annotations = annotations;
     }
 
-    private AnnotationBundleKey(Annotation[] annotations, int hashCode)
+    private AnnotationBundleKey(Annotation[] annotations, Class<?> type, int hashCode)
     {
-        _annotations = annotations;            
+        _annotations = annotations;
         _annotationsCopied = true;
+        _type = type;
         _hashCode = hashCode;
     }
 
@@ -70,7 +92,7 @@ public final class AnnotationBundleKey
         int len = _annotations.length;
         Annotation[] newAnnotations = new Annotation[len];
         System.arraycopy(_annotations, 0, newAnnotations, 0, len);
-        return new AnnotationBundleKey(newAnnotations, _hashCode);
+        return new AnnotationBundleKey(newAnnotations, _type, _hashCode);
     }
     
     /*
@@ -86,7 +108,8 @@ public final class AnnotationBundleKey
     
     @Override
     public String toString() {
-        return "[Annotations: "+_annotations.length+", hash 0x"+Integer.toHexString(_hashCode)
+        return "[Annotations: "+_annotations.length+", type: "
+                +_type.getName()+", hash 0x"+Integer.toHexString(_hashCode)
                 +", copied: "+_annotationsCopied+"]";
     }
 
@@ -97,7 +120,9 @@ public final class AnnotationBundleKey
         if (o == null) return false;
         if (o.getClass() != getClass()) return false;
         AnnotationBundleKey other = (AnnotationBundleKey) o;
-        if (other._hashCode != _hashCode) return false;
+        if ((other._hashCode != _hashCode) || (other._type != _type)) {
+            return false;
+        }
         return _equals(other._annotations);
     }
     

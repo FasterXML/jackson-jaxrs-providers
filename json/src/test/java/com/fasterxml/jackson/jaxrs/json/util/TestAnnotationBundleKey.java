@@ -34,9 +34,9 @@ public class TestAnnotationBundleKey extends JaxrsTestBase
        Annotation[] ann2 = m2.getAnnotations();
        assertEquals(1, ann2.length);
 
-       AnnotationBundleKey key1 = new AnnotationBundleKey(ann1);
-       AnnotationBundleKey key2 = new AnnotationBundleKey(ann2);
-       AnnotationBundleKey key1dup = new AnnotationBundleKey(ann1);
+       AnnotationBundleKey key1 = new AnnotationBundleKey(ann1, Object.class);
+       AnnotationBundleKey key2 = new AnnotationBundleKey(ann2, Object.class);
+       AnnotationBundleKey key1dup = new AnnotationBundleKey(ann1, Object.class);
        AnnotationBundleKey key1immutable = key1.immutableKey();
 
        // identity checks first

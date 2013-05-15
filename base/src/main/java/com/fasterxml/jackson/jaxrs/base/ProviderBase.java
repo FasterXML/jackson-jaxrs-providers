@@ -399,7 +399,7 @@ public abstract class ProviderBase<
             MultivaluedMap<String,Object> httpHeaders, OutputStream entityStream) 
         throws IOException
     {
-        AnnotationBundleKey key = new AnnotationBundleKey(annotations);
+        AnnotationBundleKey key = new AnnotationBundleKey(annotations, type);
         EP_CONFIG endpoint;
         synchronized (_writers) {
             endpoint = _writers.get(key);
@@ -536,7 +536,7 @@ public abstract class ProviderBase<
     public Object readFrom(Class<Object> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String,String> httpHeaders, InputStream entityStream) 
         throws IOException
     {
-        AnnotationBundleKey key = new AnnotationBundleKey(annotations);
+        AnnotationBundleKey key = new AnnotationBundleKey(annotations, type);
         EP_CONFIG endpoint;
         synchronized (_readers) {
             endpoint = _readers.get(key);

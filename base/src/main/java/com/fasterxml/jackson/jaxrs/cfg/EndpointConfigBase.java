@@ -133,10 +133,6 @@ public abstract class EndpointConfigBase<THIS extends EndpointConfigBase<THIS>>
         if (_serDisable != null) {
             _writer = _writer.withoutFeatures(_serDisable);
         }
-        // then others
-
-        // Finally: couple of features we always set
-
         /* Important: we are NOT to close the underlying stream after
          * mapping, so we need to instruct parser:
          */
