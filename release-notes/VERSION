@@ -3,9 +3,18 @@ Sub-modules:
   jackson-jaxrs-json-provider
   jackson-jaxrs-smile-provider
   jackson-jaxrs-xml-provider
-Version: 2.2.1 (03-May-2013)
+Version: 2.2.2 (xx-xxx-2013)
 
 Changes:
+
+#11: ContextResolvers don't work for ObjectMapper due over-aggressive caching
+ (reported by Bill Burke (from Resteasy))
+
+------------------------------------------------------------------------
+=== History: ===
+------------------------------------------------------------------------
+
+2.2.1 (03-May-2013)
 
 #8: ProviderBase does not close `JsonGenerator`
  (contributed by Steven S)
@@ -13,10 +22,6 @@ Changes:
   'test'
  (reported by KlausBrunner@github)
 #10: Problems with proxying of `ProviderBase` (add no-arg constructor)
-
-------------------------------------------------------------------------
-=== History: ===
-------------------------------------------------------------------------
 
 2.2.0 (22-Apr-2013)
 
