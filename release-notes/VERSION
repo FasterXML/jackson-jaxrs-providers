@@ -9,6 +9,8 @@ Changes:
 
 #11: ContextResolvers don't work for ObjectMapper due over-aggressive caching
  (reported by Bill Burke (from Resteasy))
+#12: OSGi imports missing dependency from json/smile/xml to base package
+ (reported by Matt Bishop)
 
 ------------------------------------------------------------------------
 === History: ===
