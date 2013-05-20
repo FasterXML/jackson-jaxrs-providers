@@ -65,7 +65,7 @@ public class TestSimpleEndpoint extends JaxrsTestBase
         while ((i = in.read()) >= 0) {
             bytes.write((byte) i);
         }
-        System.out.println("Bytes: "+bytes.size()+" -> "+bytes.toString("UTF-8"));
+//        System.out.println("Bytes: "+bytes.size()+" -> "+bytes.toString("UTF-8"));
         server.stop();
     }
 
