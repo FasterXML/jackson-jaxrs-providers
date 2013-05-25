@@ -11,6 +11,8 @@ Changes:
  (reported by Bill Burke (from Resteasy))
 #12: OSGi imports missing dependency from json/smile/xml to base package
  (reported by Matt Bishop)
+#14: Allow "application/javascript" type for JSON provider
+ (requested by Stephan202@github)
 
 ------------------------------------------------------------------------
 === History: ===

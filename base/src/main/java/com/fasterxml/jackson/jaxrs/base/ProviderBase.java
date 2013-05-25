@@ -305,13 +305,37 @@ public abstract class ProviderBase<
     /* Abstract methods sub-classes need to implement
     /**********************************************************
      */
+
+    /**
+     * Helper method used to check whether given media type
+     * is supported by this provider for read operations
+     * (when binding input data such as POST body).
+     *<p>
+     * Default implementation simply calls {@link #hasMatchingMediaType}.
+     * 
+     * @since 2.3
+     */
+    protected boolean hasMatchingMediaTypeForReading(MediaType mediaType) {
+        return hasMatchingMediaType(mediaType);
+    }
+
+    /**
+     * Helper method used to check whether given media type
+     * is supported by this provider for writing operations,
+     * such as when converting response object to response
+     * body of request (like GET or POST).
+     *<p>
+     * Default implementation simply calls {@link #hasMatchingMediaType}.
+     * 
+     * @since 2.3
+     */
+    protected boolean hasMatchingMediaTypeForWriting(MediaType mediaType) {
+        return hasMatchingMediaType(mediaType);
+    }
     
     /**
      * Helper method used to check whether given media type
-     * is JSON type or sub type.
-     * Current implementation essentially checks to see whether
-     * {@link MediaType#getSubtype} returns "json" or something
-     * ending with "+json".
+     * is supported by this provider.
      * 
      * @since 2.2
      */

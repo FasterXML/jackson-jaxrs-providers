@@ -51,6 +51,10 @@ public class JacksonJsonProvider
         ObjectMapper,
         JsonEndpointConfig, JsonMapperConfigurator>
 {
+    public final static String MIME_JAVASCRIPT = "application/javascript";
+
+    public final static String MIME_JAVASCRIPT_MS = "application/x-javascript";
+    
     /**
      * Default annotation sets to use, if not explicitly defined during
      * construction: only Jackson annotations are used for the base
@@ -158,7 +162,16 @@ public class JacksonJsonProvider
     protected boolean isJsonType(MediaType mediaType) {
         return hasMatchingMediaType(mediaType);
     }
-    
+
+    /**
+     * Helper method used to check whether given media type
+     * is supported by this provider.
+     * Current implementation essentially checks to see whether
+     * {@link MediaType#getSubtype} returns "json" or something
+     * ending with "+json".
+     * 
+     * @since 2.2
+     */
     @Override
     protected boolean hasMatchingMediaType(MediaType mediaType)
     {
@@ -171,10 +184,15 @@ public class JacksonJsonProvider
         if (mediaType != null) {
             // Ok: there are also "xxx+json" subtypes, which count as well
             String subtype = mediaType.getSubtype();
-            return "json".equalsIgnoreCase(subtype) || subtype.endsWith("+json");
+            // [Issue#6]: also allow 'application/javascript'
+           return "json".equalsIgnoreCase(subtype) || subtype.endsWith("+json")
+                   || "javascript".equals(subtype)
+                   // apparently Microsoft once again has interesting alternative types?
+                   || "x-javascript".equals(subtype)
+                   ;
         }
         /* Not sure if this can happen; but it seems reasonable
-         * that we can at least produce json without media type?
+         * that we can at least produce JSON without media type?
          */
         return true;
     }
