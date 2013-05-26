@@ -184,7 +184,7 @@ public class JacksonJsonProvider
         if (mediaType != null) {
             // Ok: there are also "xxx+json" subtypes, which count as well
             String subtype = mediaType.getSubtype();
-            // [Issue#6]: also allow 'application/javascript'
+            // [Issue#14]: also allow 'application/javascript'
            return "json".equalsIgnoreCase(subtype) || subtype.endsWith("+json")
                    || "javascript".equals(subtype)
                    // apparently Microsoft once again has interesting alternative types?
