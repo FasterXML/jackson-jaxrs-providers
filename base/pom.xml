@@ -17,9 +17,9 @@ providers.
   <properties>
     <osgi.export>
 ${project.groupId}.annotation.*;version=${project.version}
-${project.groupId}.base.*;version=${project.version}
-${project.groupId}.cfg.*;version=${project.version}
-${project.groupId}.util.*;version=${project.version}
+,${project.groupId}.base.*;version=${project.version}
+,${project.groupId}.cfg.*;version=${project.version}
+,${project.groupId}.util.*;version=${project.version}
 </osgi.export>
     <osgi.import>com.fasterxml.jackson.annotation
 ,com.fasterxml.jackson.core
@@ -29,6 +29,9 @@ ${project.groupId}.util.*;version=${project.version}
 ,com.fasterxml.jackson.databind.introspect
 ,com.fasterxml.jackson.databind.type
 ,com.fasterxml.jackson.databind.util
+,javax.ws.rs
+,javax.ws.rs.core
+,javax.ws.rs.ext
 </osgi.import>
   </properties>
 
