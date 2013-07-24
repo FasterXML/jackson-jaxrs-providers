@@ -8,6 +8,8 @@ Version: 2.2.3 (xx-xxx-2013)
 #12, #16: More OSGi manifest fixes
  (reported by 'logoff@github')
 #18: Add LICENSE, NOTICE files in artifacts
+#19: Add `InputStream` as unwritable class
+ (requested by Michael B)
 
 ------------------------------------------------------------------------
 === History: ===

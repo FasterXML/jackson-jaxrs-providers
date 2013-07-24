@@ -71,6 +71,7 @@ public abstract class ProviderBase<
      * (never try to serialize instances of these types).
      */
     public final static Class<?>[] DEFAULT_UNWRITABLES = new Class<?>[] {
+    	InputStream.class, // as per [Issue#19]
         OutputStream.class, Writer.class,
         StreamingOutput.class, Response.class
     };
@@ -387,10 +388,10 @@ public abstract class ProviderBase<
         if (!hasMatchingMediaType(mediaType)) {
             return false;
         }
-
         Boolean customUntouchable = _findCustomUntouchable(type);
-        if (customUntouchable == Boolean.TRUE) {
-            return false;
+        if (customUntouchable != null) {
+        	// negation: Boolean.TRUE means untouchable -> can not write
+        	return !customUntouchable.booleanValue();
         }
         if (customUntouchable == null) {
             /* Ok: looks like we must weed out some core types here; ones that
@@ -523,8 +524,9 @@ public abstract class ProviderBase<
         }
 
         Boolean customUntouchable = _findCustomUntouchable(type);
-        if (customUntouchable == Boolean.TRUE) {
-            return false;
+        if (customUntouchable != null) {
+        	// negation: Boolean.TRUE means untouchable -> can not write
+        	return !customUntouchable.booleanValue();
         }
         if (customUntouchable == null) {
             /* Ok: looks like we must weed out some core types here; ones that
