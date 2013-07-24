@@ -12,7 +12,6 @@ import javax.ws.rs.ext.MessageBodyWriter;
 import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.util.LRUMap;
-
 import com.fasterxml.jackson.jaxrs.cfg.*;
 import com.fasterxml.jackson.jaxrs.util.ClassKey;
 
@@ -27,6 +26,11 @@ public abstract class ProviderBase<
         MessageBodyWriter<Object>,
         Versioned
 {
+    /**
+     * This header is useful on Windows, trying to deal with potential XSS attacks.
+     */
+    public final static String HEADER_CONTENT_TYPE_OPTIONS = "X-Content-Type-Options";
+
     /**
      * Looks like we need to worry about accidental
      *   data binding for types we shouldn't be handling. This is
@@ -104,6 +108,13 @@ public abstract class ProviderBase<
      * to check availability can be bit expensive, defaults to false.
      */
     protected boolean _cfgCheckCanDeserialize = false;
+
+    /**
+     * Feature flags set.
+     * 
+     * @since 2.3.0
+     */
+    protected int _jaxRSFeatures;
 
     /*
     /**********************************************************
@@ -241,28 +252,64 @@ public abstract class ProviderBase<
         _mapperConfig.setMapper(m);
     }
 
+    // // // JaxRSFeature config
+    
+    public THIS configure(JaxRSFeature feature, boolean state) {
+    	_jaxRSFeatures |= feature.getMask();
+        return _this();
+    }
+
+    public THIS enable(JaxRSFeature feature) {
+    	_jaxRSFeatures |= feature.getMask();
+        return _this();
+    }
+
+    public THIS enable(JaxRSFeature first, JaxRSFeature... f2) {
+    	_jaxRSFeatures |= first.getMask();
+    	for (JaxRSFeature f : f2) {
+        	_jaxRSFeatures |= f.getMask();
+    	}
+        return _this();
+    }
+    
+    public THIS disable(JaxRSFeature feature) {
+    	_jaxRSFeatures &= ~feature.getMask();
+        return _this();
+    }
+
+    public THIS disable(JaxRSFeature first, JaxRSFeature... f2) {
+    	_jaxRSFeatures &= ~first.getMask();
+    	for (JaxRSFeature f : f2) {
+        	_jaxRSFeatures &= ~f.getMask();
+    	}
+        return _this();
+    }
+
+    public boolean isEnabled(JaxRSFeature f) {
+        return (_jaxRSFeatures & f.getMask()) != 0;
+    }
+    
+    // // // DeserializationFeature
+
     public THIS configure(DeserializationFeature f, boolean state) {
         _mapperConfig.configure(f, state);
         return _this();
     }
+    
+    public THIS enable(DeserializationFeature f, boolean state) {
+        _mapperConfig.configure(f, true);
+        return _this();
+    }
+
+    public THIS disable(DeserializationFeature f, boolean state) {
+        _mapperConfig.configure(f, false);
+        return _this();
+    }
+    
+    // // // SerializationFeature
 
     public THIS configure(SerializationFeature f, boolean state) {
         _mapperConfig.configure(f, state);
-        return _this();
-    }
-
-    public THIS configure(JsonParser.Feature f, boolean state) {
-        _mapperConfig.configure(f, state);
-        return _this();
-    }
-
-    public THIS configure(JsonGenerator.Feature f, boolean state) {
-        _mapperConfig.configure(f, state);
-        return _this();
-    }
-
-    public THIS enable(DeserializationFeature f, boolean state) {
-        _mapperConfig.configure(f, true);
         return _this();
     }
 
@@ -271,6 +318,13 @@ public abstract class ProviderBase<
         return _this();
     }
 
+    public THIS disable(SerializationFeature f, boolean state) {
+        _mapperConfig.configure(f, false);
+        return _this();
+    }
+    
+    // // // JsonParser/JsonGenerator
+    
     public THIS enable(JsonParser.Feature f, boolean state) {
         _mapperConfig.configure(f, true);
         return _this();
@@ -281,16 +335,6 @@ public abstract class ProviderBase<
         return _this();
     }
 
-    public THIS disable(DeserializationFeature f, boolean state) {
-        _mapperConfig.configure(f, false);
-        return _this();
-    }
-
-    public THIS disable(SerializationFeature f, boolean state) {
-        _mapperConfig.configure(f, false);
-        return _this();
-    }
-
     public THIS disable(JsonParser.Feature f, boolean state) {
         _mapperConfig.configure(f, false);
         return _this();
@@ -298,6 +342,16 @@ public abstract class ProviderBase<
 
     public THIS disable(JsonGenerator.Feature f, boolean state) {
         _mapperConfig.configure(f, false);
+        return _this();
+    }
+
+    public THIS configure(JsonParser.Feature f, boolean state) {
+        _mapperConfig.configure(f, state);
+        return _this();
+    }
+
+    public THIS configure(JsonGenerator.Feature f, boolean state) {
+        _mapperConfig.configure(f, state);
         return _this();
     }
 
@@ -415,12 +469,13 @@ public abstract class ProviderBase<
         }
         return true;
     }
-
+    
     /**
      * Method that JAX-RS container calls to serialize given value.
      */
     @Override
-    public void writeTo(Object value, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType,
+    public void writeTo(Object value, Class<?> type, Type genericType, Annotation[] annotations,
+    		MediaType mediaType,
             MultivaluedMap<String,Object> httpHeaders, OutputStream entityStream) 
         throws IOException
     {
@@ -439,11 +494,12 @@ public abstract class ProviderBase<
             }
         }
 
+        // Any headers we should write?
+        _modifyHeaders(value, type, genericType, annotations, httpHeaders, endpoint);
+        
         ObjectWriter writer = endpoint.getWriter();
 
-        /* 27-Feb-2009, tatu: Where can we find desired encoding? Within
-         *   HTTP headers?
-         */
+        // Where can we find desired encoding? Within HTTP headers?
         JsonEncoding enc = findEncoding(mediaType, httpHeaders);
         JsonGenerator jg = writer.getFactory().createGenerator(entityStream, enc);
 
@@ -498,6 +554,21 @@ public abstract class ProviderBase<
         return JsonEncoding.UTF8;
     }
 
+    /**
+     * Overridable method used for adding optional response headers before
+     * serializing response object.
+     */
+    protected void _modifyHeaders(Object value, Class<?> type, Type genericType, Annotation[] annotations,
+            MultivaluedMap<String,Object> httpHeaders,
+            EP_CONFIG endpoint)
+        throws IOException
+    {
+        // [Issue#6]: Add "nosniff" header?
+        if (isEnabled(JaxRSFeature.ADD_NO_SNIFF_HEADER)) {
+            httpHeaders.add(HEADER_CONTENT_TYPE_OPTIONS, "nosniff");
+        }
+    }
+    
     /*
     /**********************************************************
     /* MessageBodyReader impl

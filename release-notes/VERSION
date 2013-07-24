@@ -5,6 +5,9 @@ Sub-modules:
   jackson-jaxrs-xml-provider
 Version: 2.2.3 (xx-xxx-2013)
 
+#6: Add `JaxRSFeature.ADD_NO_SNIFF_HEADER` to automatically add X-Content-Type-Options
+  header (works with IE)
+ (suggested by Dain S)
 #12, #16: More OSGi manifest fixes
  (reported by 'logoff@github')
 #18: Add LICENSE, NOTICE files in artifacts
