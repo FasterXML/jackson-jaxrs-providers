@@ -13,6 +13,8 @@ Version: 2.2.3 (xx-xxx-2013)
 #18: Add LICENSE, NOTICE files in artifacts
 #19: Add `InputStream` as unwritable class
  (requested by Michael B)
+#26: Missing OSGi import for base, (c.f.j.databind.cfg)
+ (reported by jerome-leclercq@github)
 
 ------------------------------------------------------------------------
 === History: ===
