@@ -25,6 +25,7 @@
   </parent>
   <artifactId>jackson-jaxrs-xml-provider</artifactId>
   <name>Jackson-JAXRS-XML</name>
+  <packaging>bundle</packaging>
   <description>Functionality to handle Smile XML input/output for JAX-RS implementations (like Jersey and RESTeasy) using standard Jackson data binding.
   </description>
 

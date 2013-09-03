@@ -25,6 +25,7 @@
   </parent>
   <artifactId>jackson-jaxrs-json-provider</artifactId>
   <name>Jackson-JAXRS-JSON</name>
+  <packaging>bundle</packaging>
   <description>Functionality to handle JSON input/output for JAX-RS implementations (like Jersey and RESTeasy) using standard Jackson data binding.
   </description>
 
