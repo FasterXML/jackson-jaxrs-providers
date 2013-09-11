@@ -438,7 +438,7 @@ public abstract class ProviderBase<
             }
         }
 
-        ObjectWriter writer = endpoint.getWriter();
+         ObjectWriter writer = ObjectWriterThreadLocal.mergeAndUnset(endpoint.getWriter());
 
         /* 27-Feb-2009, tatu: Where can we find desired encoding? Within
          *   HTTP headers?
