@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.fasterxml.jackson.jaxrs</groupId>
     <artifactId>jackson-jaxrs-providers</artifactId>
-    <version>2.2.2</version>
+    <version>2.2.4-SNAPSHOT</version>
   </parent>
   <artifactId>jackson-jaxrs-base</artifactId>
   <name>Jackson-JAXRS-base</name>
@@ -17,18 +17,22 @@ providers.
   <properties>
     <osgi.export>
 ${project.groupId}.annotation.*;version=${project.version}
-${project.groupId}.base.*;version=${project.version}
-${project.groupId}.cfg.*;version=${project.version}
-${project.groupId}.util.*;version=${project.version}
+,${project.groupId}.base.*;version=${project.version}
+,${project.groupId}.cfg.*;version=${project.version}
+,${project.groupId}.util.*;version=${project.version}
 </osgi.export>
     <osgi.import>com.fasterxml.jackson.annotation
 ,com.fasterxml.jackson.core
 ,com.fasterxml.jackson.core.type
 ,com.fasterxml.jackson.core.util
 ,com.fasterxml.jackson.databind
+,com.fasterxml.jackson.databind.cfg
 ,com.fasterxml.jackson.databind.introspect
 ,com.fasterxml.jackson.databind.type
 ,com.fasterxml.jackson.databind.util
+,javax.ws.rs
+,javax.ws.rs.core
+,javax.ws.rs.ext
 </osgi.import>
   </properties>
 

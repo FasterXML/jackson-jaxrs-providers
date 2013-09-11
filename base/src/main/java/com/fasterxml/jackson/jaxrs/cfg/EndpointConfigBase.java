@@ -5,10 +5,8 @@ import java.lang.annotation.Annotation;
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.annotation.JsonView;
-
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
-
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.jaxrs.annotation.JacksonFeatures;
 
@@ -19,11 +17,11 @@ import com.fasterxml.jackson.jaxrs.annotation.JacksonFeatures;
 public abstract class EndpointConfigBase<THIS extends EndpointConfigBase<THIS>>
 {
     // // General configuration
-    
-    protected Class<?> _activeView;
+
+	protected Class<?> _activeView;
 
     protected String _rootName;
-
+    
     // // Deserialization-only config
     
     protected DeserializationFeature[] _deserEnable;
@@ -140,13 +138,13 @@ public abstract class EndpointConfigBase<THIS extends EndpointConfigBase<THIS>>
         
         return (THIS) this;
     }
-
+    
     /*
     /**********************************************************
     /* Accessors
     /**********************************************************
      */
-
+    
     public final ObjectReader getReader() {
         if (_reader == null) { // sanity check, should never happen
             throw new IllegalStateException();

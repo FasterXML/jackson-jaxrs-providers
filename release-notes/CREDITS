@@ -16,3 +16,14 @@ Matt Bishop:
 
 * Reported #12: Missing OSGi imports
  (2.2.2)
+
+Michael Brackx (brackxm@github.com)
+
+* Requested #19: Add `InputStream` as unwritable class
+ (2.2.3)
+
+Dain Sundstrom:
+
+* Suggested #6: Add `JaxRSFeature.ADD_NO_SNIFF_HEADER` to automatically add
+  X-Content-Type-Options header (works with IE)
+ (2.2.3)

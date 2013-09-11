@@ -3,20 +3,31 @@ Sub-modules:
   jackson-jaxrs-json-provider
   jackson-jaxrs-smile-provider
   jackson-jaxrs-xml-provider
-Version: 2.2.2 (31-May-2013)
+Version: 2.2.3 (24-Aug-2013)
 
-Changes:
-
-#11: ContextResolvers don't work for ObjectMapper due over-aggressive caching
- (reported by Bill Burke (from Resteasy))
-#12: OSGi imports missing dependency from json/smile/xml to base package
- (reported by Matt Bishop)
-#14: Allow "application/javascript" type for JSON provider
- (requested by Stephan202@github)
+#6: Add `JaxRSFeature.ADD_NO_SNIFF_HEADER` to automatically add X-Content-Type-Options
+  header (works with IE)
+ (suggested by Dain S)
+#12, #16: More OSGi manifest fixes
+ (reported by 'logoff@github')
+#18: Add LICENSE, NOTICE files in artifacts
+#19: Add `InputStream` as unwritable class
+ (requested by Michael B)
+#26: Missing OSGi import for base, (c.f.j.databind.cfg)
+ (reported by jerome-leclercq@github)
 
 ------------------------------------------------------------------------
 === History: ===
 ------------------------------------------------------------------------
+
+2.2.2 (31-May-2013)
+
+#11: ContextResolvers don't work for ObjectMapper due over-aggressive caching
+ (reported by Bill Burke (from Resteasy))
+(PARTIAL) #12: OSGi imports missing dependency from json/smile/xml to base package
+ (reported by Matt Bishop)
+#14: Allow "application/javascript" type for JSON provider
+ (requested by Stephan202@github)
 
 2.2.1 (03-May-2013)
 
