@@ -29,7 +29,7 @@ public class EndpointAsBeanProperty
         super(ENDPOINT_NAME, type, /*PropertyName wrapperName*/ null,
                 null, null,
                 /* isRequired */ false);
-        boolean hasAnn = (annotations == null || annotations.length == 0);
+        boolean hasAnn = (annotations != null && annotations.length > 0);
         if (hasAnn) {
             _annotations = new AnnotationMap();
             for (Annotation a : annotations) {
