@@ -21,21 +21,21 @@ public class XMLEndpointConfig
 
     protected XMLEndpointConfig() { }
 
-    public static XMLEndpointConfig forReading(ObjectMapper mapper,
-            Annotation[] annotations, Class<?> defaultView)
+    public static XMLEndpointConfig forReading(ObjectReader reader,
+            Annotation[] annotations)
     {
         return new XMLEndpointConfig()
             .add(annotations, false)
-            .initReader(mapper, defaultView);
+            .initReader(reader);
     }
 
-    public static XMLEndpointConfig forWriting(ObjectMapper mapper,
-            Annotation[] annotations, Class<?> defaultView)
+    public static XMLEndpointConfig forWriting(ObjectWriter writer,
+            Annotation[] annotations)
     {
         XMLEndpointConfig config =  new XMLEndpointConfig();
         return config
             .add(annotations, true)
-            .initWriter(mapper, defaultView)
+            .initWriter(writer)
         ;
     }
 

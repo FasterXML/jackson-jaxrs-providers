@@ -207,14 +207,14 @@ extends ProviderBase<JacksonSmileProvider,
     }
 
     @Override
-    protected SmileEndpointConfig _configForReading(ObjectMapper mapper,
-            Annotation[] annotations, Class<?> defaultView) {
-        return SmileEndpointConfig.forReading(mapper, annotations, defaultView);
+    protected SmileEndpointConfig _configForReading(ObjectReader reader,
+            Annotation[] annotations) {
+        return SmileEndpointConfig.forReading(reader, annotations);
     }
 
     @Override
-    protected SmileEndpointConfig _configForWriting(ObjectMapper mapper,
-            Annotation[] annotations, Class<?> defaultView) {
-        return SmileEndpointConfig.forWriting(mapper, annotations, defaultView);
+    protected SmileEndpointConfig _configForWriting(ObjectWriter writer,
+            Annotation[] annotations) {
+        return SmileEndpointConfig.forWriting(writer, annotations);
     }
 }

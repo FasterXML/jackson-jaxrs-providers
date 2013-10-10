@@ -132,15 +132,15 @@ public class JacksonXMLProvider
      */
 
     @Override
-    protected XMLEndpointConfig _configForReading(XmlMapper mapper,
-            Annotation[] annotations, Class<?> defaultView) {
-        return XMLEndpointConfig.forReading(mapper, annotations, defaultView);
+    protected XMLEndpointConfig _configForReading(ObjectReader reader,
+            Annotation[] annotations) {
+        return XMLEndpointConfig.forReading(reader, annotations);
     }
 
     @Override
-    protected XMLEndpointConfig _configForWriting(XmlMapper mapper,
-            Annotation[] annotations, Class<?> defaultView) {
-        return XMLEndpointConfig.forWriting(mapper, annotations, defaultView);
+    protected XMLEndpointConfig _configForWriting(ObjectWriter writer,
+            Annotation[] annotations) {
+        return XMLEndpointConfig.forWriting(writer, annotations);
     }
     
     /**

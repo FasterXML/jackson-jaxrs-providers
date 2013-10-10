@@ -217,15 +217,15 @@ public class JacksonJsonProvider
     }
 
     @Override
-    protected JsonEndpointConfig _configForReading(ObjectMapper mapper,
-        Annotation[] annotations, Class<?> defaultView) {
-        return JsonEndpointConfig.forReading(mapper, annotations, defaultView);
+    protected JsonEndpointConfig _configForReading(ObjectReader reader,
+        Annotation[] annotations) {
+        return JsonEndpointConfig.forReading(reader, annotations);
     }
 
     @Override
-    protected JsonEndpointConfig _configForWriting(ObjectMapper mapper,
-        Annotation[] annotations, Class<?> defaultView) {
-        return JsonEndpointConfig.forWriting(mapper, annotations, defaultView,
+    protected JsonEndpointConfig _configForWriting(ObjectWriter writer,
+        Annotation[] annotations) {
+        return JsonEndpointConfig.forWriting(writer, annotations,
                 _jsonpFunctionName);
     }
 }

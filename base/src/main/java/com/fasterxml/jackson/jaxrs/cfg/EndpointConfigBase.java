@@ -5,9 +5,9 @@ import java.lang.annotation.Annotation;
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.annotation.JsonView;
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonParser;
+
 import com.fasterxml.jackson.databind.*;
+
 import com.fasterxml.jackson.jaxrs.annotation.JacksonFeatures;
 
 /**
@@ -84,72 +84,43 @@ public abstract class EndpointConfigBase<THIS extends EndpointConfigBase<THIS>>
         }
     }
 
-    /**
-     * @deprecated Since 2.3
-     */
-    @Deprecated
-    protected THIS initReader(ObjectMapper mapper) {
-        return initReader(mapper, null);
-    }
-    
     @SuppressWarnings("unchecked")
-    protected THIS initReader(ObjectMapper mapper, Class<?> defaultView)
+    protected THIS initReader(ObjectReader reader)
     {
-        // first common config
-        Class<?> view = _activeView;
-        if (view == null) {
-            view = defaultView;
+        if (_activeView != null) {
+            reader = reader.withView(_activeView);
         }
-        if (view != null) {
-            _reader = mapper.readerWithView(view);
-        } else {
-            _reader = mapper.reader();
-        }
-
         if (_rootName != null) {
-            _reader = _reader.withRootName(_rootName);
+            reader = reader.withRootName(_rootName);
         }
         // Then deser features
         if (_deserEnable != null) {
-            _reader = _reader.withFeatures(_deserEnable);
+            reader = reader.withFeatures(_deserEnable);
         }
         if (_deserDisable != null) {
-            _reader = _reader.withoutFeatures(_deserDisable);
+            reader = reader.withoutFeatures(_deserDisable);
         }
+        _reader = reader;
         return (THIS) this;
-    }
-    
-    /**
-     * @deprecated Since 2.3
-     */
-    @Deprecated
-    protected THIS initWriter(ObjectMapper mapper) {
-        return initWriter(mapper, null);
     }
 
     @SuppressWarnings("unchecked")
-    protected THIS initWriter(ObjectMapper mapper, Class<?> defaultView)
+    protected THIS initWriter(ObjectWriter writer)
     {
-        // first common config
-        Class<?> view = _activeView;
-        if (view == null) {
-            view = defaultView;
-        }
-        if (view != null) {
-            _writer = mapper.writerWithView(view);
-        } else {
-            _writer = mapper.writer();
+        if (_activeView != null) {
+            writer = writer.withView(_activeView);
         }
         if (_rootName != null) {
-            _writer = _writer.withRootName(_rootName);
+            writer = writer.withRootName(_rootName);
         }
         // Then features
         if (_serEnable != null) {
-            _writer = _writer.withFeatures(_serEnable);
+            writer = writer.withFeatures(_serEnable);
         }
         if (_serDisable != null) {
-            _writer = _writer.withoutFeatures(_serDisable);
+            writer = writer.withoutFeatures(_serDisable);
         }
+        _writer = writer;
         return (THIS) this;
     }
     

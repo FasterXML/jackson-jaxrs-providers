@@ -75,7 +75,7 @@ public abstract class ProviderBase<
      * (never try to serialize instances of these types).
      */
     public final static Class<?>[] DEFAULT_UNWRITABLES = new Class<?>[] {
-    	InputStream.class, // as per [Issue#19]
+        InputStream.class, // as per [Issue#19]
         OutputStream.class, Writer.class,
         StreamingOutput.class, Response.class
     };
@@ -112,7 +112,7 @@ public abstract class ProviderBase<
     /**
      * Feature flags set.
      * 
-     * @since 2.3.0
+     * @since 2.3
      */
     protected int _jaxRSFeatures;
 
@@ -125,6 +125,20 @@ public abstract class ProviderBase<
      * View to use for writing if none defined for the end point.
      */
     protected Class<?> _defaultWriteView;
+
+    /**
+     * Object used for handling possible {@link ObjectReader} injection.
+     * 
+     * @since 2.3
+     */
+    protected ObjectReaderInjector _readerInjector;
+
+    /**
+     * Object used for handling possible {@link ObjectWriter} injection.
+     * 
+     * @since 2.3
+     */
+    protected ObjectWriterInjector _writerInjector;
     
     /*
     /**********************************************************
@@ -176,6 +190,8 @@ public abstract class ProviderBase<
     
     protected ProviderBase(MAPPER_CONFIG mconfig) {
         _mapperConfig = mconfig;
+        _readerInjector = new ObjectReaderInjector();
+        _writerInjector = new ObjectWriterInjector();
     }
 
     /**
@@ -446,11 +462,43 @@ public abstract class ProviderBase<
 
     protected abstract MAPPER _locateMapperViaProvider(Class<?> type, MediaType mediaType);
 
-    protected abstract EP_CONFIG _configForReading(MAPPER mapper,
-        Annotation[] annotations, Class<?> defaultView);
+    protected EP_CONFIG _configForReading(MAPPER mapper,
+        Annotation[] annotations, Class<?> defaultView)
+    {
+        ObjectReader r = _readerInjector.getAndClear();
+        if (r == null) {
+            if (defaultView != null) {
+                r = mapper.readerWithView(defaultView);
+            } else {
+                r = mapper.reader();
+            }
+        } else {
+            r = r.withView(defaultView);
+        }
+        return _configForReading(r, annotations);
+    }
 
-    protected abstract EP_CONFIG _configForWriting(MAPPER mapper,
-        Annotation[] annotations, Class<?> defaultView);
+    protected EP_CONFIG _configForWriting(MAPPER mapper,
+        Annotation[] annotations, Class<?> defaultView)
+    {
+        ObjectWriter w = _writerInjector.getAndClear();
+        if (w == null) {
+            if (defaultView != null) {
+                w = mapper.writerWithView(defaultView);
+            } else {
+                w = mapper.writer();
+            }
+        } else {
+            w = w.withView(defaultView);
+        }
+        return _configForWriting(w, annotations);
+    }
+
+    protected abstract EP_CONFIG _configForReading(ObjectReader reader,
+            Annotation[] annotations);
+
+    protected abstract EP_CONFIG _configForWriting(ObjectWriter writer,
+        Annotation[] annotations);
 
     /*
     /**********************************************************
