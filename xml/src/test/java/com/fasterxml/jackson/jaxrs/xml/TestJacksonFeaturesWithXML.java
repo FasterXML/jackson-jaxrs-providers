@@ -56,10 +56,14 @@ public class TestJacksonFeaturesWithXML extends JaxrsTestBase
         JacksonFeatures feats = m.getAnnotation(JacksonFeatures.class);
         assertNotNull(feats); // just a sanity check
 
-        // when (extra) wrapping enabled, we get:
+        /* 09-Oct-2013, tatu: As of 2.3, XML backend does NOT add extra wrapping
+         *   any more: it is only added to JSON where it is needed; but not
+         *   to XML which always basically uses wrapping.
+         */
         prov.writeTo(bean, bean.getClass(), bean.getClass(), new Annotation[] { feats },
                 MediaType.APPLICATION_JSON_TYPE, null, out);
-        assertEquals("<Bean><Bean><a>3</a></Bean></Bean>", out.toString("UTF-8"));
+        //
+        assertEquals("<Bean><a>3</a></Bean>", out.toString("UTF-8"));
 
         // but without, not:
         out.reset();
@@ -77,7 +81,8 @@ public class TestJacksonFeaturesWithXML extends JaxrsTestBase
         // should still enable root-wrapping
         prov.writeTo(bean, bean.getClass(), bean.getClass(), m.getAnnotations(),
                 MediaType.APPLICATION_JSON_TYPE, null, out);
-        assertEquals("<Bean><Bean><a>3</a></Bean></Bean>", out.toString("UTF-8"));
+        // as per above, no extra wrapping for XML, in 2.3:
+        assertEquals("<Bean><a>3</a></Bean>", out.toString("UTF-8"));
     }
     
     // [Issue-2], deserialization
