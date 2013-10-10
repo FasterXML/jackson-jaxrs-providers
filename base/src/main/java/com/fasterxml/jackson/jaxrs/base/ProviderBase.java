@@ -549,14 +549,13 @@ public abstract class ProviderBase<
 
         // Where can we find desired encoding? Within HTTP headers?
         JsonEncoding enc = findEncoding(mediaType, httpHeaders);
-        JsonGenerator jg = writer.getFactory().createGenerator(entityStream, enc);
-
+        JsonGenerator g = _createGenerator(writer, entityStream, enc);
+        
         try {
             // Want indentation?
             if (writer.isEnabled(SerializationFeature.INDENT_OUTPUT)) {
-                jg.useDefaultPrettyPrinter();
+                g.useDefaultPrettyPrinter();
             }
-            // 04-Mar-2010, tatu: How about type we were given? (if any)
             JavaType rootType = null;
 
             if (genericType != null && value != null) {
@@ -587,9 +586,9 @@ public abstract class ProviderBase<
                 writer = writer.withType(rootType);
             }
             value = endpoint.modifyBeforeWrite(value);
-            writer.writeValue(jg, value);
+            writer.writeValue(g, value);
         } finally {
-            jg.close();
+            g.close();
         }
     }
 
@@ -615,6 +614,22 @@ public abstract class ProviderBase<
         if (isEnabled(JaxRSFeature.ADD_NO_SNIFF_HEADER)) {
             httpHeaders.add(HEADER_CONTENT_TYPE_OPTIONS, "nosniff");
         }
+    }
+
+    /**
+     * Overridable helper method called to create a {@link JsonGenerator} for writing
+     * contents into given raw {@link OutputStream}.
+     * 
+     * @since 2.3
+     */
+    protected JsonGenerator _createGenerator(ObjectWriter writer, OutputStream rawStream, JsonEncoding enc)
+        throws IOException
+    {
+        JsonGenerator g = writer.getFactory().createGenerator(rawStream, enc);
+        // Important: we are NOT to close the underlying stream after
+        // mapping, so we need to instruct generator
+        g.disable(JsonGenerator.Feature.AUTO_CLOSE_TARGET);
+        return g;
     }
     
     /*
@@ -711,11 +726,17 @@ public abstract class ProviderBase<
      * contents of given raw {@link InputStream}.
      * May return null to indicate that Stream is empty; that is, contains no
      * content.
+     * 
+     * @since 2.2
      */
     protected JsonParser _createParser(ObjectReader reader, InputStream rawStream)
         throws IOException
     {
-        return reader.getFactory().createParser(rawStream);
+        JsonParser p = reader.getFactory().createParser(rawStream);
+        // Important: we are NOT to close the underlying stream after
+        // mapping, so we need to instruct parser:
+        p.disable(JsonParser.Feature.AUTO_CLOSE_SOURCE);
+        return p;
     }
 
     /*
@@ -756,12 +777,6 @@ public abstract class ProviderBase<
                 m = _mapperConfig.getDefaultMapper();
             }
         }
-        // Important: we are NOT to close the underlying stream after
-        // mapping, so we need to instruct parser:
-        JsonFactory f = m.getFactory();
-        f.disable(JsonParser.Feature.AUTO_CLOSE_SOURCE);
-        // ditto for generator
-        f.disable(JsonGenerator.Feature.AUTO_CLOSE_TARGET);
         return m;
     }
 
