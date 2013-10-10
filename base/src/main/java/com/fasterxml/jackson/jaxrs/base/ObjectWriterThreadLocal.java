@@ -4,7 +4,10 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 /**
- * @author mxh315 A simple container class to hold the ThreadLocal ObjectWriter instance
+ * A thread local context to store ObjectWriters for use in various JAX-RS contexts.
+ * For example, you may use a ContainerRequestFilter to configure an ObjectWriter per request.
+ * 
+ * @author Andy Pemberton
  */
 public class ObjectWriterThreadLocal {
 
