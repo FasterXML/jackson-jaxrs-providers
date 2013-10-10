@@ -10,6 +10,7 @@
   </parent>
   <artifactId>jackson-jaxrs-base</artifactId>
   <name>Jackson-JAXRS-base</name>
+  <packaging>bundle</packaging>
   <description>Pile of code that is shared by all Jackson-based JAX-RS
 providers.
   </description>
