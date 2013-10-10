@@ -756,6 +756,12 @@ public abstract class ProviderBase<
                 m = _mapperConfig.getDefaultMapper();
             }
         }
+        // Important: we are NOT to close the underlying stream after
+        // mapping, so we need to instruct parser:
+        JsonFactory f = m.getFactory();
+        f.disable(JsonParser.Feature.AUTO_CLOSE_SOURCE);
+        // ditto for generator
+        f.disable(JsonGenerator.Feature.AUTO_CLOSE_TARGET);
         return m;
     }
 

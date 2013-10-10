@@ -116,11 +116,6 @@ public abstract class EndpointConfigBase<THIS extends EndpointConfigBase<THIS>>
         if (_deserDisable != null) {
             _reader = _reader.withoutFeatures(_deserDisable);
         }
-        /* Important: we are NOT to close the underlying stream after
-         * mapping, so we need to instruct parser:
-         */
-        _reader.getFactory().disable(JsonParser.Feature.AUTO_CLOSE_SOURCE);
-        
         return (THIS) this;
     }
     
@@ -155,11 +150,6 @@ public abstract class EndpointConfigBase<THIS extends EndpointConfigBase<THIS>>
         if (_serDisable != null) {
             _writer = _writer.withoutFeatures(_serDisable);
         }
-        /* Important: we are NOT to close the underlying stream after
-         * mapping, so we need to instruct parser:
-         */
-        _writer.getFactory().disable(JsonGenerator.Feature.AUTO_CLOSE_TARGET);
-        
         return (THIS) this;
     }
     
