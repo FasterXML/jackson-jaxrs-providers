@@ -28,14 +28,16 @@ public class JsonEndpointConfig
 
     protected JsonEndpointConfig() { }
     
-    public static JsonEndpointConfig forReading(ObjectMapper mapper, Annotation[] annotations)
+    public static JsonEndpointConfig forReading(ObjectMapper mapper,
+            Annotation[] annotations, Class<?> defaultView)
     {
         return new JsonEndpointConfig()
             .add(annotations, false)
-            .initReader(mapper);
+            .initReader(mapper, defaultView);
     }
 
-    public static JsonEndpointConfig forWriting(ObjectMapper mapper, Annotation[] annotations,
+    public static JsonEndpointConfig forWriting(ObjectMapper mapper,
+            Annotation[] annotations, Class<?> defaultView,
             String defaultJsonpMethod)
     {
         JsonEndpointConfig config =  new JsonEndpointConfig();
@@ -44,7 +46,7 @@ public class JsonEndpointConfig
         }
         return config
             .add(annotations, true)
-            .initWriter(mapper)
+            .initWriter(mapper, defaultView)
         ;
     }
 

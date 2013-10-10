@@ -116,6 +116,16 @@ public abstract class ProviderBase<
      */
     protected int _jaxRSFeatures;
 
+    /**
+     * View to use for reading if none defined for the end point.
+     */
+    protected Class<?> _defaultReadView;
+
+    /**
+     * View to use for writing if none defined for the end point.
+     */
+    protected Class<?> _defaultWriteView;
+    
     /*
     /**********************************************************
     /* Excluded types
@@ -175,7 +185,7 @@ public abstract class ProviderBase<
      * Should NOT be used by any code explicitly; only exists
      * for proxy support.
      */
-    @Deprecated
+    @Deprecated // just to denote it should NOT be directly called; will not be removed
     protected ProviderBase() {
         _mapperConfig = null;
     }
@@ -252,23 +262,61 @@ public abstract class ProviderBase<
         _mapperConfig.setMapper(m);
     }
 
+    /**
+     * Method for specifying JSON View to use for reading content
+     * when end point does not have explicit View annotations.
+     * 
+     * @since 2.3
+     */
+    public THIS setDefaultReadView(Class<?> view) {
+        _defaultReadView = view;
+        return _this();
+    }
+
+    /**
+     * Method for specifying JSON View to use for reading content
+     * when end point does not have explicit View annotations.
+     * 
+     * @since 2.3
+     */
+    public THIS setDefaultWriteView(Class<?> view) {
+        _defaultWriteView = view;
+        return _this();
+    }
+
+    /**
+     * Method for specifying JSON View to use for reading and writing content
+     * when end point does not have explicit View annotations.
+     * Functionally equivalent to:
+     *<code>
+     *  setDefaultReadView(view);
+     *  setDefaultWriteView(view);
+     *</code>
+     * 
+     * @since 2.3
+     */
+    public THIS setDefaultView(Class<?> view) {
+        _defaultReadView = _defaultWriteView = view;
+        return _this();
+    }
+    
     // // // JaxRSFeature config
     
     public THIS configure(JaxRSFeature feature, boolean state) {
-    	_jaxRSFeatures |= feature.getMask();
+        _jaxRSFeatures |= feature.getMask();
         return _this();
     }
 
     public THIS enable(JaxRSFeature feature) {
-    	_jaxRSFeatures |= feature.getMask();
+        _jaxRSFeatures |= feature.getMask();
         return _this();
     }
 
     public THIS enable(JaxRSFeature first, JaxRSFeature... f2) {
-    	_jaxRSFeatures |= first.getMask();
-    	for (JaxRSFeature f : f2) {
-        	_jaxRSFeatures |= f.getMask();
-    	}
+        _jaxRSFeatures |= first.getMask();
+        for (JaxRSFeature f : f2) {
+            _jaxRSFeatures |= f.getMask();
+        }
         return _this();
     }
     
@@ -278,10 +326,10 @@ public abstract class ProviderBase<
     }
 
     public THIS disable(JaxRSFeature first, JaxRSFeature... f2) {
-    	_jaxRSFeatures &= ~first.getMask();
-    	for (JaxRSFeature f : f2) {
-        	_jaxRSFeatures &= ~f.getMask();
-    	}
+        _jaxRSFeatures &= ~first.getMask();
+        for (JaxRSFeature f : f2) {
+            _jaxRSFeatures &= ~f.getMask();
+        }
         return _this();
     }
 
@@ -398,10 +446,12 @@ public abstract class ProviderBase<
 
     protected abstract MAPPER _locateMapperViaProvider(Class<?> type, MediaType mediaType);
 
-    protected abstract EP_CONFIG _configForReading(MAPPER mapper, Annotation[] annotations);
+    protected abstract EP_CONFIG _configForReading(MAPPER mapper,
+        Annotation[] annotations, Class<?> defaultView);
 
-    protected abstract EP_CONFIG _configForWriting(MAPPER mapper, Annotation[] annotations);
-    
+    protected abstract EP_CONFIG _configForWriting(MAPPER mapper,
+        Annotation[] annotations, Class<?> defaultView);
+
     /*
     /**********************************************************
     /* Partial MessageBodyWriter impl
@@ -444,21 +494,19 @@ public abstract class ProviderBase<
         }
         Boolean customUntouchable = _findCustomUntouchable(type);
         if (customUntouchable != null) {
-        	// negation: Boolean.TRUE means untouchable -> can not write
-        	return !customUntouchable.booleanValue();
+            // negation: Boolean.TRUE means untouchable -> can not write
+            return !customUntouchable.booleanValue();
         }
-        if (customUntouchable == null) {
-            /* Ok: looks like we must weed out some core types here; ones that
-             * make no sense to try to bind from JSON:
-             */
-            if (_untouchables.contains(new ClassKey(type))) {
+        /* Ok: looks like we must weed out some core types here; ones that
+         * make no sense to try to bind from JSON:
+         */
+        if (_untouchables.contains(new ClassKey(type))) {
+            return false;
+        }
+        // but some are interface/abstract classes, so
+        for (Class<?> cls : _unwritableClasses) {
+            if (cls.isAssignableFrom(type)) {
                 return false;
-            }
-            // but some are interface/abstract classes, so
-            for (Class<?> cls : _unwritableClasses) {
-                if (cls.isAssignableFrom(type)) {
-                    return false;
-                }
             }
         }
         // Also: if we really want to verify that we can deserialize, we'll check:
@@ -487,7 +535,7 @@ public abstract class ProviderBase<
         // not yet resolved (or not cached any more)? Resolve!
         if (endpoint == null) {
             MAPPER mapper = locateMapper(type, mediaType);
-            endpoint = _configForWriting(mapper, annotations);
+            endpoint = _configForWriting(mapper, annotations, _defaultWriteView);
             // and cache for future reuse
             synchronized (_writers) {
                 _writers.put(key.immutableKey(), endpoint);
@@ -596,21 +644,19 @@ public abstract class ProviderBase<
 
         Boolean customUntouchable = _findCustomUntouchable(type);
         if (customUntouchable != null) {
-        	// negation: Boolean.TRUE means untouchable -> can not write
-        	return !customUntouchable.booleanValue();
+            // negation: Boolean.TRUE means untouchable -> can not write
+            return !customUntouchable.booleanValue();
         }
-        if (customUntouchable == null) {
-            /* Ok: looks like we must weed out some core types here; ones that
-             * make no sense to try to bind from JSON:
-             */
-            if (_untouchables.contains(new ClassKey(type))) {
+        /* Ok: looks like we must weed out some core types here; ones that
+         * make no sense to try to bind from JSON:
+         */
+        if (_untouchables.contains(new ClassKey(type))) {
+            return false;
+        }
+        // and there are some other abstract/interface types to exclude too:
+        for (Class<?> cls : _unreadableClasses) {
+            if (cls.isAssignableFrom(type)) {
                 return false;
-            }
-            // and there are some other abstract/interface types to exclude too:
-            for (Class<?> cls : _unreadableClasses) {
-                if (cls.isAssignableFrom(type)) {
-                    return false;
-                }
             }
         }
         // Finally: if we really want to verify that we can serialize, we'll check:
@@ -641,7 +687,7 @@ public abstract class ProviderBase<
         // not yet resolved (or not cached any more)? Resolve!
         if (endpoint == null) {
             MAPPER mapper = locateMapper(type, mediaType);
-            endpoint = _configForReading(mapper, annotations);
+            endpoint = _configForReading(mapper, annotations, _defaultReadView);
             // and cache for future reuse
             synchronized (_readers) {
                 _readers.put(key.immutableKey(), endpoint);

@@ -20,20 +20,23 @@ public class SmileEndpointConfig
 
     protected SmileEndpointConfig() { }
 
-    public static SmileEndpointConfig forReading(ObjectMapper mapper, Annotation[] annotations)
+    public static SmileEndpointConfig forReading(ObjectMapper mapper,
+            Annotation[] annotations, Class<?> defaultView)
     {
         return new SmileEndpointConfig()
             .add(annotations, false)
-            .initReader(mapper);
+            .initReader(mapper, defaultView)
+            ;
     }
 
-    public static SmileEndpointConfig forWriting(ObjectMapper mapper, Annotation[] annotations)
+    public static SmileEndpointConfig forWriting(ObjectMapper mapper,
+            Annotation[] annotations, Class<?> defaultView)
     {
         SmileEndpointConfig config =  new SmileEndpointConfig();
         return config
             .add(annotations, true)
-            .initWriter(mapper)
-        ;
+            .initWriter(mapper, defaultView)
+            ;
     }
 
     @SuppressWarnings("deprecation")

@@ -18,7 +18,7 @@ public abstract class EndpointConfigBase<THIS extends EndpointConfigBase<THIS>>
 {
     // // General configuration
 
-	protected Class<?> _activeView;
+    protected Class<?> _activeView;
 
     protected String _rootName;
     
@@ -83,13 +83,25 @@ public abstract class EndpointConfigBase<THIS extends EndpointConfigBase<THIS>>
             }
         }
     }
+
+    /**
+     * @deprecated Since 2.3
+     */
+    @Deprecated
+    protected THIS initReader(ObjectMapper mapper) {
+        return initReader(mapper, null);
+    }
     
     @SuppressWarnings("unchecked")
-    protected THIS initReader(ObjectMapper mapper)
+    protected THIS initReader(ObjectMapper mapper, Class<?> defaultView)
     {
         // first common config
-        if (_activeView != null) {
-            _reader = mapper.readerWithView(_activeView);
+        Class<?> view = _activeView;
+        if (view == null) {
+            view = defaultView;
+        }
+        if (view != null) {
+            _reader = mapper.readerWithView(view);
         } else {
             _reader = mapper.reader();
         }
@@ -112,12 +124,24 @@ public abstract class EndpointConfigBase<THIS extends EndpointConfigBase<THIS>>
         return (THIS) this;
     }
     
+    /**
+     * @deprecated Since 2.3
+     */
+    @Deprecated
+    protected THIS initWriter(ObjectMapper mapper) {
+        return initWriter(mapper, null);
+    }
+
     @SuppressWarnings("unchecked")
-    protected THIS initWriter(ObjectMapper mapper)
+    protected THIS initWriter(ObjectMapper mapper, Class<?> defaultView)
     {
         // first common config
-        if (_activeView != null) {
-            _writer = mapper.writerWithView(_activeView);
+        Class<?> view = _activeView;
+        if (view == null) {
+            view = defaultView;
+        }
+        if (view != null) {
+            _writer = mapper.writerWithView(view);
         } else {
             _writer = mapper.writer();
         }

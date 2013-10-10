@@ -8,7 +8,6 @@ import javax.ws.rs.ext.*;
 
 import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.databind.*;
-
 import com.fasterxml.jackson.jaxrs.base.ProviderBase;
 import com.fasterxml.jackson.jaxrs.cfg.Annotations;
 
@@ -218,12 +217,15 @@ public class JacksonJsonProvider
     }
 
     @Override
-    protected JsonEndpointConfig _configForReading(ObjectMapper mapper, Annotation[] annotations) {
-        return JsonEndpointConfig.forReading(mapper, annotations);
+    protected JsonEndpointConfig _configForReading(ObjectMapper mapper,
+        Annotation[] annotations, Class<?> defaultView) {
+        return JsonEndpointConfig.forReading(mapper, annotations, defaultView);
     }
 
     @Override
-    protected JsonEndpointConfig _configForWriting(ObjectMapper mapper, Annotation[] annotations) {
-        return JsonEndpointConfig.forWriting(mapper, annotations, _jsonpFunctionName);
+    protected JsonEndpointConfig _configForWriting(ObjectMapper mapper,
+        Annotation[] annotations, Class<?> defaultView) {
+        return JsonEndpointConfig.forWriting(mapper, annotations, defaultView,
+                _jsonpFunctionName);
     }
 }

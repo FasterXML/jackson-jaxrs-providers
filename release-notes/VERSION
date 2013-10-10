@@ -3,7 +3,15 @@ Sub-modules:
   jackson-jaxrs-json-provider
   jackson-jaxrs-smile-provider
   jackson-jaxrs-xml-provider
-Version: 2.2.3 (24-Aug-2013)
+Version: 2.3.0 (xx-Oct-2013)
+
+#24: Allow defining default view to use for endpoints without View annotation
+
+------------------------------------------------------------------------
+=== History: ===
+------------------------------------------------------------------------
+
+2.2.3 (24-Aug-2013)
 
 #6: Add `JaxRSFeature.ADD_NO_SNIFF_HEADER` to automatically add X-Content-Type-Options
   header (works with IE)
@@ -15,10 +23,6 @@ Version: 2.2.3 (24-Aug-2013)
  (requested by Michael B)
 #26: Missing OSGi import for base, (c.f.j.databind.cfg)
  (reported by jerome-leclercq@github)
-
-------------------------------------------------------------------------
-=== History: ===
-------------------------------------------------------------------------
 
 2.2.2 (31-May-2013)
 
