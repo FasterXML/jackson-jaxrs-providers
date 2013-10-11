@@ -9,36 +9,34 @@ import com.fasterxml.jackson.databind.*;
  * that JAX-RS Resource will use; usually this is done from a Servlet or JAX-RS filter
  * before execution reaches resource.
  * 
- * @author apemberton@github, Tatu Saloranta
- * 
  * @since 2.3
  */
 public class ObjectWriterInjector
 {
-   protected static final ThreadLocal<ObjectWriter> _threadLocal = new ThreadLocal<ObjectWriter>();
+   protected static final ThreadLocal<ObjectWriterModifier> _threadLocal = new ThreadLocal<ObjectWriterModifier>();
 
    /**
     * Simple marker used to optimize out {@link ThreadLocal} access in cases
     * where this feature is not being used
     */
-   protected final AtomicBoolean _hasBeenSet = new AtomicBoolean(false);
+   protected static final AtomicBoolean _hasBeenSet = new AtomicBoolean(false);
 
-   public ObjectWriterInjector() { }
+   private ObjectWriterInjector() { }
    
-   public void set(ObjectWriter r) {
+   public static void set(ObjectWriterModifier mod) {
        _hasBeenSet.set(true);
-       _threadLocal.set(r);
+       _threadLocal.set(mod);
    }
 
-   public ObjectWriter get() {
+   public static ObjectWriterModifier get() {
        return _hasBeenSet.get() ? _threadLocal.get() : null;
    }
    
-   public ObjectWriter getAndClear() {
-       ObjectWriter w = get();
-       if (w != null) {
+   public static ObjectWriterModifier getAndClear() {
+       ObjectWriterModifier mod = get();
+       if (mod != null) {
            _threadLocal.remove();
        }
-       return w;
+       return mod;
    }
 }

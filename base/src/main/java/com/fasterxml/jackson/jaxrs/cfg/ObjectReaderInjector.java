@@ -5,40 +5,41 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import com.fasterxml.jackson.databind.*;
 
 /**
- * Based on ideas from [Issue#32], this class allows "overriding" of {@link ObjectReader}
- * that JAX-RS Resource will use; usually this is done from a Servlet or JAX-RS filter
+ * Based on ideas from [Issue#32], this class allows registering a
+ * modifier ({@link ObjectReaderModifier}) that can be used to
+ * reconfigure {@link ObjectReader}
+ * that JAX-RS Resource will use for reading input into Java Objects.
+ * Usually this class is accessed from a Servlet or JAX-RS filter
  * before execution reaches resource.
- * 
- * @author apemberton@github, Tatu Saloranta
  * 
  * @since 2.3
  */
 public class ObjectReaderInjector
 {
-    protected static final ThreadLocal<ObjectReader> _threadLocal = new ThreadLocal<ObjectReader>();
+    protected static final ThreadLocal<ObjectReaderModifier> _threadLocal = new ThreadLocal<ObjectReaderModifier>();
 
     /**
      * Simple marker used to optimize out {@link ThreadLocal} access in cases
      * where this feature is not being used
      */
-    protected final AtomicBoolean _hasBeenSet = new AtomicBoolean(false);
+    protected static final AtomicBoolean _hasBeenSet = new AtomicBoolean(false);
+
+    private ObjectReaderInjector() { }
     
-    public ObjectReaderInjector() { }
-    
-    public void set(ObjectReader r) {
+    public static void set(ObjectReaderModifier mod) {
         _hasBeenSet.set(true);
-        _threadLocal.set(r);
+        _threadLocal.set(mod);
     }
 
-    public ObjectReader get() {
+    public static ObjectReaderModifier get() {
         return _hasBeenSet.get() ? _threadLocal.get() : null;
     }
     
-    public ObjectReader getAndClear() {
-        ObjectReader r = get();
-        if (r != null) {
+    public static ObjectReaderModifier getAndClear() {
+        ObjectReaderModifier mod = get();
+        if (mod != null) {
             _threadLocal.remove();
         }
-        return r;
+        return mod;
     }
 }

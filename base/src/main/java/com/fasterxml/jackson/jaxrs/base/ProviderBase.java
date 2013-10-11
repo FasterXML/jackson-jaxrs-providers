@@ -125,20 +125,6 @@ public abstract class ProviderBase<
      * View to use for writing if none defined for the end point.
      */
     protected Class<?> _defaultWriteView;
-
-    /**
-     * Object used for handling possible {@link ObjectReader} injection.
-     * 
-     * @since 2.3
-     */
-    protected ObjectReaderInjector _readerInjector;
-
-    /**
-     * Object used for handling possible {@link ObjectWriter} injection.
-     * 
-     * @since 2.3
-     */
-    protected ObjectWriterInjector _writerInjector;
     
     /*
     /**********************************************************
@@ -190,8 +176,6 @@ public abstract class ProviderBase<
     
     protected ProviderBase(MAPPER_CONFIG mconfig) {
         _mapperConfig = mconfig;
-        _readerInjector = new ObjectReaderInjector();
-        _writerInjector = new ObjectWriterInjector();
     }
 
     /**
@@ -465,15 +449,12 @@ public abstract class ProviderBase<
     protected EP_CONFIG _configForReading(MAPPER mapper,
         Annotation[] annotations, Class<?> defaultView)
     {
-        ObjectReader r = _readerInjector.getAndClear();
-        if (r == null) {
-            if (defaultView != null) {
-                r = mapper.readerWithView(defaultView);
-            } else {
-                r = mapper.reader();
-            }
+//        ObjectReaderModi r = _readerInjector.getAndClear();
+        ObjectReader r;
+        if (defaultView != null) {
+            r = mapper.readerWithView(defaultView);
         } else {
-            r = r.withView(defaultView);
+            r = mapper.reader();
         }
         return _configForReading(r, annotations);
     }
@@ -481,15 +462,12 @@ public abstract class ProviderBase<
     protected EP_CONFIG _configForWriting(MAPPER mapper,
         Annotation[] annotations, Class<?> defaultView)
     {
-        ObjectWriter w = _writerInjector.getAndClear();
-        if (w == null) {
-            if (defaultView != null) {
-                w = mapper.writerWithView(defaultView);
-            } else {
-                w = mapper.writer();
-            }
+//        ObjectWriter w = _writerInjector.getAndClear();
+        ObjectWriter w;
+        if (defaultView != null) {
+            w = mapper.writerWithView(defaultView);
         } else {
-            w = w.withView(defaultView);
+            w = mapper.writer();
         }
         return _configForWriting(w, annotations);
     }
@@ -634,6 +612,13 @@ public abstract class ProviderBase<
                 writer = writer.withType(rootType);
             }
             value = endpoint.modifyBeforeWrite(value);
+
+            // [Issue#32]: allow modification by filter-injectible thing
+            ObjectWriterModifier mod = ObjectWriterInjector.getAndClear();
+            if (mod != null) {
+                writer = mod.modify(endpoint, value, writer, g);
+            }
+
             writer.writeValue(g, value);
         } finally {
             g.close();
@@ -758,6 +743,7 @@ public abstract class ProviderBase<
         }
         ObjectReader reader = endpoint.getReader();
         JsonParser jp = _createParser(reader, entityStream);
+        
         // If null is returned, considered to be empty stream
         if (jp == null || jp.nextToken() == null) {
             return null;
@@ -766,7 +752,14 @@ public abstract class ProviderBase<
         if (((Class<?>) type) == JsonParser.class) {
             return jp;
         }
-        return reader.withType(genericType).readValue(jp);
+        final JavaType resolvedType = reader.getTypeFactory().constructType(genericType);
+        reader = reader.withType(resolvedType);
+        // [Issue#32]: allow modification by filter-injectible thing
+        ObjectReaderModifier mod = ObjectReaderInjector.getAndClear();
+        if (mod != null) {
+            reader = mod.modify(endpoint, resolvedType, reader, jp);
+        }
+        return reader.readValue(jp);
     }
 
     /**
