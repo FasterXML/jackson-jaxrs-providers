@@ -2,22 +2,21 @@ package com.fasterxml.jackson.jaxrs.json.dw;
 
 import java.io.*;
 import java.net.*;
-import java.util.*;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
 
 import org.eclipse.jetty.server.Server;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
-import com.fasterxml.jackson.jaxrs.json.JaxrsTestBase;
+import com.fasterxml.jackson.jaxrs.json.ResourceTestBase;
 
-public class TestSimpleEndpoint extends JaxrsTestBase
+public class TestSimpleEndpoint extends ResourceTestBase
 {
+    final static int TEST_PORT = 6011;
+    
     static class Point {
         public int x, y;
 
@@ -41,21 +40,6 @@ public class TestSimpleEndpoint extends JaxrsTestBase
     public static class SimpleResourceApp extends JsonApplication {
         public SimpleResourceApp() { super(new SimpleResource()); }
     }
-
-    static abstract class JsonApplication extends Application
-    {
-        protected final Object _resource;
-
-        protected JsonApplication(Object r) { _resource = r; }
-        
-        @Override
-        public Set<Object> getSingletons() {
-            HashSet<Object> singletons = new HashSet<Object>();
-            singletons.add(new JacksonJsonProvider());
-            singletons.add(_resource);
-            return singletons;
-        }
-    }
     
     /*
     /**********************************************************
@@ -66,8 +50,8 @@ public class TestSimpleEndpoint extends JaxrsTestBase
     public void testStandardJson() throws Exception
     {
         final ObjectMapper mapper = new ObjectMapper();
-        Server server = startServer(6061, SimpleResourceApp.class);
-        InputStream in = new URL("http://localhost:6061/point").openStream();
+        Server server = startServer(TEST_PORT, SimpleResourceApp.class);
+        InputStream in = new URL("http://localhost:"+TEST_PORT+"/point").openStream();
         Point p;
 
         try {

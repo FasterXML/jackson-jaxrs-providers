@@ -549,7 +549,7 @@ public abstract class ProviderBase<
      */
     @Override
     public void writeTo(Object value, Class<?> type, Type genericType, Annotation[] annotations,
-    		MediaType mediaType,
+            MediaType mediaType,
             MultivaluedMap<String,Object> httpHeaders, OutputStream entityStream) 
         throws IOException
     {
@@ -616,7 +616,7 @@ public abstract class ProviderBase<
             // [Issue#32]: allow modification by filter-injectible thing
             ObjectWriterModifier mod = ObjectWriterInjector.getAndClear();
             if (mod != null) {
-                writer = mod.modify(endpoint, value, writer, g);
+                writer = mod.modify(endpoint, httpHeaders, value, writer, g);
             }
 
             writer.writeValue(g, value);
@@ -724,7 +724,9 @@ public abstract class ProviderBase<
      * Method that JAX-RS container calls to deserialize given value.
      */
     @Override
-    public Object readFrom(Class<Object> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String,String> httpHeaders, InputStream entityStream) 
+    public Object readFrom(Class<Object> type, Type genericType, Annotation[] annotations,
+            MediaType mediaType, MultivaluedMap<String,String> httpHeaders,
+            InputStream entityStream) 
         throws IOException
     {
         AnnotationBundleKey key = new AnnotationBundleKey(annotations, type);
@@ -757,7 +759,7 @@ public abstract class ProviderBase<
         // [Issue#32]: allow modification by filter-injectible thing
         ObjectReaderModifier mod = ObjectReaderInjector.getAndClear();
         if (mod != null) {
-            reader = mod.modify(endpoint, resolvedType, reader, jp);
+            reader = mod.modify(endpoint, httpHeaders, resolvedType, reader, jp);
         }
         return reader.readValue(jp);
     }

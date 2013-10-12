@@ -21,21 +21,21 @@ public abstract class EndpointConfigBase<THIS extends EndpointConfigBase<THIS>>
     protected Class<?> _activeView;
 
     protected String _rootName;
-    
+
     // // Deserialization-only config
     
     protected DeserializationFeature[] _deserEnable;
     protected DeserializationFeature[] _deserDisable;
 
     protected ObjectReader _reader;
-    
+
     // // Serialization-only config
-    
+
     protected SerializationFeature[] _serEnable;
     protected SerializationFeature[] _serDisable;
 
     protected ObjectWriter _writer;
-    
+
     /*
     /**********************************************************
     /* Construction
@@ -129,6 +129,20 @@ public abstract class EndpointConfigBase<THIS extends EndpointConfigBase<THIS>>
     /* Accessors
     /**********************************************************
      */
+
+    /**
+     * @since 2.3
+     */
+    public String getRootName() {
+        return _rootName;
+    }
+
+    /**
+     * @since 2.3
+     */
+    public Class<?> getActiveView() {
+        return _activeView;
+    }
     
     public final ObjectReader getReader() {
         if (_reader == null) { // sanity check, should never happen
