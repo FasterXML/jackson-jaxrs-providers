@@ -9,6 +9,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.eclipse.jetty.server.Server;
+import org.junit.Assert;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.jaxrs.json.ResourceTestBase;
@@ -40,13 +41,37 @@ public class TestSimpleEndpoint extends ResourceTestBase
     public static class SimpleResourceApp extends JsonApplication {
         public SimpleResourceApp() { super(new SimpleResource()); }
     }
-    
+
+    private final static String UNTOUCHABLE_RESPONSE = "[1]";
+
+    @Path("/raw")
+    public static class RawResource
+    {
+        @GET
+        @Produces({ MediaType.APPLICATION_JSON, "application/javascript" })
+        @Path("string")
+        public String getString() {
+            return UNTOUCHABLE_RESPONSE;
+        }
+
+        @GET
+        @Path("bytes")
+        @Produces({ MediaType.APPLICATION_JSON, "application/javascript" })
+        public byte[] getBytes() throws IOException {
+            return UNTOUCHABLE_RESPONSE.getBytes("UTF-8");
+        }
+    }
+
+    public static class SimpleRawApp extends JsonApplication {
+        public SimpleRawApp() { super(new RawResource()); }
+    }
+
     /*
     /**********************************************************
     /* Test methods
     /**********************************************************
      */
-    
+
     public void testStandardJson() throws Exception
     {
         final ObjectMapper mapper = new ObjectMapper();
@@ -65,7 +90,7 @@ public class TestSimpleEndpoint extends ResourceTestBase
         assertEquals(1, p.x);
         assertEquals(2, p.y);
     }
-
+    
     public void testAcceptJavascriptType() throws Exception
     {
         final ObjectMapper mapper = new ObjectMapper();
@@ -102,4 +127,19 @@ public class TestSimpleEndpoint extends ResourceTestBase
         
     }
     
+    // [Issue#34] Verify that Untouchables act the way as they should
+    @SuppressWarnings("resource")
+    public void testUntouchables() throws Exception
+    {
+        Server server = startServer(TEST_PORT, SimpleRawApp.class);
+        try {
+            InputStream in = new URL("http://localhost:"+TEST_PORT+"/raw/string").openStream();
+            assertEquals(UNTOUCHABLE_RESPONSE, readUTF8(in));
+
+            in = new URL("http://localhost:"+TEST_PORT+"/raw/bytes").openStream();
+            Assert.assertArrayEquals(UNTOUCHABLE_RESPONSE.getBytes("UTF-8"), readAll(in));
+        } finally {
+            server.stop();
+        }
+    }
 }
