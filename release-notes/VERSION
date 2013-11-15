@@ -3,7 +3,7 @@ Sub-modules:
   jackson-jaxrs-json-provider
   jackson-jaxrs-smile-provider
   jackson-jaxrs-xml-provider
-Version: 2.3.0 (xx-Oct-2013)
+Version: 2.3.0 (14-Nov-2013)
 
 #24: Allow defining default view to use for endpoints without View annotation
 #33: Provide a way to customize `ObjectReader` / `ObjectWriter` used by end points
