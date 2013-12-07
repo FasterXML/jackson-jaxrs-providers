@@ -31,9 +31,9 @@ ${project.groupId}.annotation.*;version=${project.version}
 ,com.fasterxml.jackson.databind.introspect
 ,com.fasterxml.jackson.databind.type
 ,com.fasterxml.jackson.databind.util
-,javax.ws.rs
-,javax.ws.rs.core
-,javax.ws.rs.ext
+,javax.ws.rs;version="${javax.ws.rs.version}"
+,javax.ws.rs.core;version="${javax.ws.rs.version}"
+,javax.ws.rs.ext;version="${javax.ws.rs.version}"
 </osgi.import>
   </properties>
 
