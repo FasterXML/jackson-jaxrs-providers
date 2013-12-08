@@ -40,7 +40,10 @@
 
     <!--  Need Jersey+Jetty for testing -->
     <version.jersey>1.17.1</version.jersey>
-    <version.jetty>8.1.10.v20130312</version.jetty>      
+    <version.jetty>8.1.10.v20130312</version.jetty>
+    
+    <!-- Needed to enable jax-rs 2.0 usage under OSGi -->
+    <javax.ws.rs.version>[1.1.1,2.1)</javax.ws.rs.version>
   </properties>
 
   <dependencies>
