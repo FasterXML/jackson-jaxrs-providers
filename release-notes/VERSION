@@ -5,7 +5,7 @@ Sub-modules:
   jackson-jaxrs-xml-provider
 Version: 2.3.1 (xx-Dec-2013)
 
-#38: Enable use of JAX-RS 2.0 API
+#37: Enable use of JAX-RS 2.0 API
  (contributed by larsp@github)
 
 ------------------------------------------------------------------------
