@@ -4,7 +4,7 @@ Sub-modules:
   jackson-jaxrs-smile-provider
   jackson-jaxrs-xml-provider
 
-2.3.1 (xx-Dec-2013)
+2.3.1 (28-Dec-2013)
 
 #37: Enable use of JAX-RS 2.0 API
  (contributed by larsp@github)
