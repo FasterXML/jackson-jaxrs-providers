@@ -51,9 +51,6 @@ public abstract class ProviderBase<
         // then some primitive types
         DEFAULT_UNTOUCHABLES.add(new ClassKey(char[].class));
 
-        /* 28-Jan-2012, tatu: 1.x excluded some additional types;
-         *   but let's relax these a bit:
-         */
         /* 27-Apr-2012, tatu: Ugh. As per
          *   [https://github.com/FasterXML/jackson-jaxrs-json-provider/issues/12]
          *  better revert this back, to make them untouchable again.
@@ -445,11 +442,11 @@ public abstract class ProviderBase<
     protected abstract boolean hasMatchingMediaType(MediaType mediaType);
 
     protected abstract MAPPER _locateMapperViaProvider(Class<?> type, MediaType mediaType);
-
+    
     protected EP_CONFIG _configForReading(MAPPER mapper,
         Annotation[] annotations, Class<?> defaultView)
     {
-//        ObjectReaderModi r = _readerInjector.getAndClear();
+//        ObjectReader r = _readerInjector.getAndClear();
         ObjectReader r;
         if (defaultView != null) {
             r = mapper.readerWithView(defaultView);
@@ -472,6 +469,22 @@ public abstract class ProviderBase<
         return _configForWriting(w, annotations);
     }
 
+    /**
+     * @deprecated Since 2.3, use variant that takes explicit defaultView
+     */
+    @Deprecated
+    protected EP_CONFIG _configForReading(MAPPER mapper, Annotation[] annotations) {
+        return _configForReading(mapper, annotations, _defaultReadView);
+    }
+
+    /**
+     * @deprecated Since 2.3, use variant that takes explicit defaultView
+     */
+    @Deprecated
+    protected EP_CONFIG _configForWriting(MAPPER mapper, Annotation[] annotations) {
+        return _configForWriting(mapper, annotations, _defaultWriteView);
+    }
+    
     protected abstract EP_CONFIG _configForReading(ObjectReader reader,
             Annotation[] annotations);
 
