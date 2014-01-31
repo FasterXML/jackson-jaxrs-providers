@@ -168,6 +168,7 @@ public class JacksonJsonProvider
      * Current implementation essentially checks to see whether
      * {@link MediaType#getSubtype} returns "json" or something
      * ending with "+json".
+     * Or "text/x-json" (since 2.3)
      * 
      * @since 2.2
      */
@@ -183,11 +184,13 @@ public class JacksonJsonProvider
         if (mediaType != null) {
             // Ok: there are also "xxx+json" subtypes, which count as well
             String subtype = mediaType.getSubtype();
+
             // [Issue#14]: also allow 'application/javascript'
-           return "json".equalsIgnoreCase(subtype) || subtype.endsWith("+json")
+            return "json".equalsIgnoreCase(subtype) || subtype.endsWith("+json")
                    || "javascript".equals(subtype)
                    // apparently Microsoft once again has interesting alternative types?
                    || "x-javascript".equals(subtype)
+                   || "x-json".equals(subtype) // [Issue#40]
                    ;
         }
         /* Not sure if this can happen; but it seems reasonable

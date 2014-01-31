@@ -4,14 +4,19 @@ Sub-modules:
   jackson-jaxrs-smile-provider
   jackson-jaxrs-xml-provider
 
-2.3.1 (28-Dec-2013)
+2.3.2 (xx-xxx-2014)
 
-#37: Enable use of JAX-RS 2.0 API
- (contributed by larsp@github)
+#40: Allow use of "text/x-json" content type by default
+ (requested by kdeenanauth@github)
 
 ------------------------------------------------------------------------
 === History: ===
 ------------------------------------------------------------------------
+
+2.3.1 (28-Dec-2013)
+
+#37: Enable use of JAX-RS 2.0 API
+ (contributed by larsp@github)
 
 2.3.0 (14-Nov-2013)
 
