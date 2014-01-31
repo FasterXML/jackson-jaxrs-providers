@@ -12,7 +12,6 @@ import org.eclipse.jetty.server.Server;
 import org.junit.Assert;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 
 public abstract class SimpleEndpointTestBase extends ResourceTestBase
 {
