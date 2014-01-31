@@ -12,9 +12,9 @@ import org.eclipse.jetty.server.Server;
 import org.junit.Assert;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.jaxrs.json.ResourceTestBase;
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 
-public class TestSimpleEndpoint extends ResourceTestBase
+public abstract class SimpleEndpointTestBase extends ResourceTestBase
 {
     final static int TEST_PORT = 6011;
     
@@ -38,7 +38,7 @@ public class TestSimpleEndpoint extends ResourceTestBase
         }
     }
 
-    public static class SimpleResourceApp extends JsonApplication {
+    public static class SimpleResourceApp extends JsonApplicationWithJackson {
         public SimpleResourceApp() { super(new SimpleResource()); }
     }
 
@@ -62,7 +62,7 @@ public class TestSimpleEndpoint extends ResourceTestBase
         }
     }
 
-    public static class SimpleRawApp extends JsonApplication {
+    public static class SimpleRawApp extends JsonApplicationWithJackson {
         public SimpleRawApp() { super(new RawResource()); }
     }
 

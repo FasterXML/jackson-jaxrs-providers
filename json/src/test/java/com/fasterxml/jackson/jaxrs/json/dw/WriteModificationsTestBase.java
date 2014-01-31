@@ -18,9 +18,8 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.jaxrs.cfg.EndpointConfigBase;
 import com.fasterxml.jackson.jaxrs.cfg.ObjectWriterInjector;
 import com.fasterxml.jackson.jaxrs.cfg.ObjectWriterModifier;
-import com.fasterxml.jackson.jaxrs.json.ResourceTestBase;
 
-public class TestWriteModifications extends ResourceTestBase
+public abstract class WriteModificationsTestBase extends ResourceTestBase
 {
     final static int TEST_PORT = 6021;
 
@@ -61,11 +60,11 @@ public class TestWriteModifications extends ResourceTestBase
         }
     }
     
-    public static class SimpleResourceApp extends JsonApplication {
+    public static class SimpleResourceApp extends JsonApplicationWithJackson {
         public SimpleResourceApp() { super(new SimpleResource()); }
     }
 
-    public static class SimpleIndentingApp extends JsonApplication {
+    public static class SimpleIndentingApp extends JsonApplicationWithJackson {
         public SimpleIndentingApp() { super(new IndentingResource()); }
     }
     
