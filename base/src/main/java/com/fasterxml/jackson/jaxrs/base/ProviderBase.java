@@ -484,7 +484,7 @@ public abstract class ProviderBase<
     protected EP_CONFIG _configForWriting(MAPPER mapper, Annotation[] annotations) {
         return _configForWriting(mapper, annotations, _defaultWriteView);
     }
-    
+
     protected abstract EP_CONFIG _configForReading(ObjectReader reader,
             Annotation[] annotations);
 
