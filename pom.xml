@@ -16,6 +16,7 @@
 
   <modules>
     <module>base</module>
+    <module>cbor</module>
     <module>json</module>
     <module>smile</module>
     <module>xml</module>
@@ -30,9 +31,10 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> 
     <!-- core/databind should have same version; data formats, annotations may differ -->
-    <version.jackson.core>2.3.1</version.jackson.core>
+    <version.jackson.core>2.3.2-SNAPSHOT</version.jackson.core>
     <version.jackson.annotations>2.3.0</version.jackson.annotations>
 
+    <version.jackson.cbor>${version.jackson.core}</version.jackson.cbor>
     <version.jackson.smile>${version.jackson.core}</version.jackson.smile>
     <version.jackson.xml>${version.jackson.core}</version.jackson.xml>
 

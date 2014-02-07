@@ -8,17 +8,17 @@
     <artifactId>jackson-jaxrs-providers</artifactId>
     <version>2.3.2-SNAPSHOT</version>
   </parent>
-  <artifactId>jackson-jaxrs-xml-provider</artifactId>
-  <name>Jackson-JAXRS-XML</name>
+  <artifactId>jackson-jaxrs-cbor-provider</artifactId>
+  <name>Jackson-JAXRS-CBOR</name>
   <packaging>bundle</packaging>
-  <description>Functionality to handle XML input/output for JAX-RS implementations (like Jersey and RESTeasy) using standard Jackson data binding.
+  <description>Functionality to handle CBOR encoded input/output for JAX-RS implementations (like Jersey and RESTeasy) using standard Jackson data binding.
   </description>
 
   <properties>
     <!-- Generate PackageVersion.java into this directory. -->
-    <packageVersion.dir>com/fasterxml/jackson/jaxrs/xml</packageVersion.dir>
-    <packageVersion.package>${project.groupId}.xml</packageVersion.package>
-    <osgi.export>${project.groupId}.xml.*;version=${project.version}</osgi.export>
+    <packageVersion.dir>com/fasterxml/jackson/jaxrs/cbor</packageVersion.dir>
+    <packageVersion.package>${project.groupId}.cbor</packageVersion.package>
+    <osgi.export>${project.groupId}.smile.*;version=${project.version}</osgi.export>
     <!-- NOTE: JAXB annotations module is optional dependency, need to try to mark
          as such here.
       -->
@@ -33,8 +33,7 @@
 ,com.fasterxml.jackson.databind.introspect
 ,com.fasterxml.jackson.databind.type
 ,com.fasterxml.jackson.databind.util
-,com.fasterxml.jackson.dataformat.xml
-,com.fasterxml.jackson.dataformat.xml.jaxb
+,com.fasterxml.jackson.dataformat.cbor
 ,com.fasterxml.jackson.jaxrs.base
 ,com.fasterxml.jackson.jaxrs.cfg
 ,com.fasterxml.jackson.module.jaxb;resolution:=optional
@@ -61,8 +60,8 @@
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.dataformat</groupId>
-      <artifactId>jackson-dataformat-xml</artifactId>
-      <version>${version.jackson.xml}</version>
+      <artifactId>jackson-dataformat-cbor</artifactId>
+      <version>${version.jackson.cbor}</version>
     </dependency>
     <!-- may also need JAXB annotation support -->
     <dependency> 
@@ -70,32 +69,6 @@
       <artifactId>jackson-module-jaxb-annotations</artifactId>
       <version>${version.jackson.jaxb}</version>
     </dependency>
-    <!-- JDK 1.6 provides stax-api (javax.xml.stream), but let's add this for documentation -->
-    <dependency>
-      <groupId>javax.xml.stream</groupId>
-      <artifactId>stax-api</artifactId>
-      <version>1.0-2</version>
-      <scope>provided</scope>
-    </dependency>
-    <!--  But Stax2 API must be included -->
-    <dependency>
-      <groupId>org.codehaus.woodstox</groupId>
-      <artifactId>stax2-api</artifactId>
-      <!-- Ideally we'd accept range of versions but won't really work with Maven... -->
-
-<!--      <version>[3.0.4, 3.5.0)</version>  -->
-      <version>3.1.1</version>
-    </dependency>
-
-    <!-- Also: While JDK-included SJSXP almost works, there are some rough edges;
-         so let's add full non-test dep to modern Jackson version.
-      -->
-    <dependency>
-      <groupId>org.codehaus.woodstox</groupId>
-      <artifactId>woodstox-core-asl</artifactId>
-      <version>4.1.4</version>
-    </dependency>
-
   </dependencies>
   <build>
     <plugins>
