@@ -1,4 +1,4 @@
-package com.fasterxml.jackson.jaxrs.cbor.dw;
+package com.fasterxml.jackson.jaxrs.xml.dw;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,20 +13,20 @@ import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
-import com.fasterxml.jackson.jaxrs.cbor.JacksonCBORProvider;
-import com.fasterxml.jackson.jaxrs.cbor.JaxrsTestBase;
+import com.fasterxml.jackson.jaxrs.xml.JacksonXMLProvider;
+import com.fasterxml.jackson.jaxrs.xml.JaxrsTestBase;
 
 /**
  * Intermediate base for tests that run actual full JAX-RS resource.
  */
 public abstract class ResourceTestBase extends JaxrsTestBase
 {
-    protected static abstract class CBORApplication extends Application
+    protected static abstract class XMLApplication extends Application
     {
         protected final Object _provider;
         protected final Object _resource;
 
-        protected CBORApplication(Object provider, Object resource) {
+        protected XMLApplication(Object provider, Object resource) {
             _provider = provider;
             _resource = resource;
         }
@@ -40,10 +40,10 @@ public abstract class ResourceTestBase extends JaxrsTestBase
         }
     }
 
-    protected static abstract class CBORApplicationWithJackson extends CBORApplication
+    protected static abstract class XMLApplicationWithJackson extends XMLApplication
     {
-        public CBORApplicationWithJackson(Object resource) {
-            super(new JacksonCBORProvider(), resource);
+        public XMLApplicationWithJackson(Object resource) {
+            super(new JacksonXMLProvider(), resource);
         }
     }
     

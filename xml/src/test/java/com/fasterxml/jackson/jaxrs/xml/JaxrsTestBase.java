@@ -1,6 +1,8 @@
 package com.fasterxml.jackson.jaxrs.xml;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 
 import org.junit.Assert;
@@ -87,5 +89,18 @@ public abstract class JaxrsTestBase
 
     public String quote(String str) {
         return '"'+str+'"';
+    }
+
+    protected byte[] readAll(InputStream in) throws IOException
+    {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream(100);
+        byte[] buffer = new byte[500];
+        int count;
+
+        while ((count = in.read(buffer)) > 0) {
+            bytes.write(buffer, 0, count);
+        }
+        in.close();
+        return bytes.toByteArray();
     }
 }

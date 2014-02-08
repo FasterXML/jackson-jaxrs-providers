@@ -95,11 +95,10 @@ public abstract class JaxrsTestBase
         return json.replace("'", "\"");
     }
     
-    protected String readUTF8(InputStream in) throws IOException
-    {
+    protected String readUTF8(InputStream in) throws IOException {
         return new String(readAll(in), "UTF-8");
     }
-    
+
     protected byte[] readAll(InputStream in) throws IOException
     {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream(100);

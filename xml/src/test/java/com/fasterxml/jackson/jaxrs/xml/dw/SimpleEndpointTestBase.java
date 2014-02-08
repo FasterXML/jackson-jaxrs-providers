@@ -1,4 +1,4 @@
-package com.fasterxml.jackson.jaxrs.cbor.dw;
+package com.fasterxml.jackson.jaxrs.xml.dw;
 
 import java.io.*;
 import java.net.*;
@@ -6,13 +6,14 @@ import java.net.*;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 import org.eclipse.jetty.server.Server;
 import org.junit.Assert;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.cbor.CBORFactory;
-import com.fasterxml.jackson.jaxrs.cbor.CBORMediaTypes;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.sun.jersey.core.header.MediaTypes;
 
 public abstract class SimpleEndpointTestBase extends ResourceTestBase
 {
@@ -32,13 +33,13 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
     public static class SimpleResource
     {
         @GET
-        @Produces({ CBORMediaTypes.APPLICATION_JACKSON_CBOR })
+        @Produces({ MediaType.APPLICATION_XML })
         public Point getPoint() {
             return new Point(1, 2);
         }
     }
 
-    public static class SimpleResourceApp extends CBORApplicationWithJackson {
+    public static class SimpleResourceApp extends XMLApplicationWithJackson {
         public SimpleResourceApp() { super(new SimpleResource()); }
     }
 
@@ -49,13 +50,13 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
     {
         @GET
         @Path("bytes")
-        @Produces({ CBORMediaTypes.APPLICATION_JACKSON_CBOR })
+        @Produces({ MediaType.APPLICATION_XML })
         public byte[] getBytes() throws IOException {
             return UNTOUCHABLE_RESPONSE;
         }
     }
 
-    public static class SimpleRawApp extends CBORApplicationWithJackson {
+    public static class SimpleRawApp extends XMLApplicationWithJackson {
         public SimpleRawApp() { super(new RawResource()); }
     }
 
@@ -67,7 +68,7 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
 
     public void testStandardSmile() throws Exception
     {
-        final ObjectMapper mapper = new ObjectMapper(new CBORFactory());
+        final ObjectMapper mapper = new XmlMapper();
         Server server = startServer(TEST_PORT, SimpleResourceApp.class);
         Point p;
 
