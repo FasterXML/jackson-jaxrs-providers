@@ -8,6 +8,7 @@ import javax.ws.rs.ext.*;
 
 import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.dataformat.cbor.CBORFactory;
 import com.fasterxml.jackson.jaxrs.base.ProviderBase;
 import com.fasterxml.jackson.jaxrs.cfg.Annotations;
 
@@ -200,7 +201,11 @@ extends ProviderBase<JacksonCBORProvider,
                 resolver = _providers.getContextResolver(ObjectMapper.class, null);
             }
             if (resolver != null) {
-                return resolver.getContext(type);
+                ObjectMapper mapper = resolver.getContext(type);
+                // 07-Feb-2014, tatu: just in case, ensure we have correct type
+                if (mapper.getFactory() instanceof CBORFactory) {
+                    return mapper;
+                }
             }
         }
         return null;

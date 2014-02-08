@@ -1,4 +1,4 @@
-package com.fasterxml.jackson.jaxrs.smile;
+package com.fasterxml.jackson.jaxrs.cbor;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
