@@ -66,16 +66,19 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
     /**********************************************************
      */
 
-    public void testStandardSmile() throws Exception
+    public void testSimplePoint() throws Exception
     {
         final ObjectMapper mapper = new XmlMapper();
         Server server = startServer(TEST_PORT, SimpleResourceApp.class);
         Point p;
+        String xml = null;
 
         try {
             InputStream in = new URL("http://localhost:"+TEST_PORT+"/point").openStream();
-            p = mapper.readValue(in, Point.class);
+            byte[] bytes = readAll(in);
             in.close();
+            xml = new String(bytes, "UTF-8");
+            p = mapper.readValue(xml, Point.class);
         } finally {
             server.stop();
         }
@@ -83,6 +86,11 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
         assertNotNull(p);
         assertEquals(1, p.x);
         assertEquals(2, p.y);
+
+        if (xml.indexOf("<Point") < 0 || xml.indexOf("<x>1</x>") < 0
+                || xml.indexOf("<y>2</y>") < 0) {
+            fail("Expected Point to be serialized as XML, instead got: "+xml);
+        }
     }
 
     // [Issue#34] Verify that Untouchables act the way as they should

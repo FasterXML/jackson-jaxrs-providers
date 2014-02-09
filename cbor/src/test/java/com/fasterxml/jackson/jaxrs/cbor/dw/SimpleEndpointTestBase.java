@@ -65,7 +65,7 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
     /**********************************************************
      */
 
-    public void testStandardSmile() throws Exception
+    public void testSimpleObject() throws Exception
     {
         final ObjectMapper mapper = new ObjectMapper(new CBORFactory());
         Server server = startServer(TEST_PORT, SimpleResourceApp.class);
