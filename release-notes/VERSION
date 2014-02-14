@@ -8,6 +8,8 @@ Sub-modules:
 
 #40: Allow use of "text/x-json" content type by default
  (requested by kdeenanauth@github)
+#43: Verify that format-specific mappers are properly overridden
+ (like `XmlMapper` for xml)
 
 ------------------------------------------------------------------------
 === History: ===
