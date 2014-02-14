@@ -24,6 +24,7 @@
     <version>2.2.4-SNAPSHOT</version>
   </parent>
   <artifactId>jackson-jaxrs-xml-provider</artifactId>
+  <packaging>bundle</packaging>
   <name>Jackson-JAXRS-XML</name>
   <description>Functionality to handle Smile XML input/output for JAX-RS implementations (like Jersey and RESTeasy) using standard Jackson data binding.
   </description>
@@ -49,6 +50,8 @@
 ,com.fasterxml.jackson.databind.util
 ,com.fasterxml.jackson.jaxrs.base
 ,com.fasterxml.jackson.jaxrs.cfg
+,com.fasterxml.jackson.dataformat.xml
+,com.fasterxml.jackson.dataformat.xml.jaxb
 ,com.fasterxml.jackson.module.jaxb;resolution:=optional
 </osgi.import>
   </properties>

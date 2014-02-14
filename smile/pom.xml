@@ -24,6 +24,7 @@
     <version>2.2.4-SNAPSHOT</version>
   </parent>
   <artifactId>jackson-jaxrs-smile-provider</artifactId>
+  <packaging>bundle</packaging>
   <name>Jackson-JAXRS-Smile</name>
   <description>Functionality to handle Smile (binary JSON) input/output for JAX-RS implementations (like Jersey and RESTeasy) using standard Jackson data binding.
   </description>
@@ -47,6 +48,7 @@
 ,com.fasterxml.jackson.databind.introspect
 ,com.fasterxml.jackson.databind.type
 ,com.fasterxml.jackson.databind.util
+,com.fasterxml.jackson.dataformat.smile
 ,com.fasterxml.jackson.jaxrs.base
 ,com.fasterxml.jackson.jaxrs.cfg
 ,com.fasterxml.jackson.module.jaxb;resolution:=optional
