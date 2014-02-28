@@ -6,10 +6,11 @@
   <parent>
     <groupId>com.fasterxml.jackson.jaxrs</groupId>
     <artifactId>jackson-jaxrs-providers</artifactId>
-    <version>2.2.3-SNAPSHOT</version>
+    <version>2.3.2-SNAPSHOT</version>
   </parent>
   <artifactId>jackson-jaxrs-base</artifactId>
   <name>Jackson-JAXRS-base</name>
+  <packaging>bundle</packaging>
   <description>Pile of code that is shared by all Jackson-based JAX-RS
 providers.
   </description>
@@ -30,9 +31,9 @@ ${project.groupId}.annotation.*;version=${project.version}
 ,com.fasterxml.jackson.databind.introspect
 ,com.fasterxml.jackson.databind.type
 ,com.fasterxml.jackson.databind.util
-,javax.ws.rs
-,javax.ws.rs.core
-,javax.ws.rs.ext
+,javax.ws.rs;version="${javax.ws.rs.version}"
+,javax.ws.rs.core;version="${javax.ws.rs.version}"
+,javax.ws.rs.ext;version="${javax.ws.rs.version}"
 </osgi.import>
   </properties>
 

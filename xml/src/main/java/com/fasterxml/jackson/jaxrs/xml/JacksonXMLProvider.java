@@ -11,7 +11,6 @@ import javax.ws.rs.ext.*;
 import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-
 import com.fasterxml.jackson.jaxrs.base.ProviderBase;
 import com.fasterxml.jackson.jaxrs.cfg.Annotations;
 
@@ -133,13 +132,15 @@ public class JacksonXMLProvider
      */
 
     @Override
-    protected XMLEndpointConfig _configForReading(XmlMapper mapper, Annotation[] annotations) {
-        return XMLEndpointConfig.forReading(mapper, annotations);
+    protected XMLEndpointConfig _configForReading(ObjectReader reader,
+            Annotation[] annotations) {
+        return XMLEndpointConfig.forReading(reader, annotations);
     }
 
     @Override
-    protected XMLEndpointConfig _configForWriting(XmlMapper mapper, Annotation[] annotations) {
-        return XMLEndpointConfig.forWriting(mapper, annotations);
+    protected XMLEndpointConfig _configForWriting(ObjectWriter writer,
+            Annotation[] annotations) {
+        return XMLEndpointConfig.forWriting(writer, annotations);
     }
     
     /**

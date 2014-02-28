@@ -5,9 +5,9 @@ import java.lang.annotation.Annotation;
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.annotation.JsonView;
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonParser;
+
 import com.fasterxml.jackson.databind.*;
+
 import com.fasterxml.jackson.jaxrs.annotation.JacksonFeatures;
 
 /**
@@ -18,24 +18,24 @@ public abstract class EndpointConfigBase<THIS extends EndpointConfigBase<THIS>>
 {
     // // General configuration
 
-	protected Class<?> _activeView;
+    protected Class<?> _activeView;
 
     protected String _rootName;
-    
+
     // // Deserialization-only config
     
     protected DeserializationFeature[] _deserEnable;
     protected DeserializationFeature[] _deserDisable;
 
     protected ObjectReader _reader;
-    
+
     // // Serialization-only config
-    
+
     protected SerializationFeature[] _serEnable;
     protected SerializationFeature[] _serDisable;
 
     protected ObjectWriter _writer;
-    
+
     /*
     /**********************************************************
     /* Construction
@@ -83,59 +83,44 @@ public abstract class EndpointConfigBase<THIS extends EndpointConfigBase<THIS>>
             }
         }
     }
-    
-    @SuppressWarnings("unchecked")
-    protected THIS initReader(ObjectMapper mapper)
-    {
-        // first common config
-        if (_activeView != null) {
-            _reader = mapper.readerWithView(_activeView);
-        } else {
-            _reader = mapper.reader();
-        }
 
+    @SuppressWarnings("unchecked")
+    protected THIS initReader(ObjectReader reader)
+    {
+        if (_activeView != null) {
+            reader = reader.withView(_activeView);
+        }
         if (_rootName != null) {
-            _reader = _reader.withRootName(_rootName);
+            reader = reader.withRootName(_rootName);
         }
         // Then deser features
         if (_deserEnable != null) {
-            _reader = _reader.withFeatures(_deserEnable);
+            reader = reader.withFeatures(_deserEnable);
         }
         if (_deserDisable != null) {
-            _reader = _reader.withoutFeatures(_deserDisable);
+            reader = reader.withoutFeatures(_deserDisable);
         }
-        /* Important: we are NOT to close the underlying stream after
-         * mapping, so we need to instruct parser:
-         */
-        _reader.getFactory().disable(JsonParser.Feature.AUTO_CLOSE_SOURCE);
-        
+        _reader = reader;
         return (THIS) this;
     }
-    
+
     @SuppressWarnings("unchecked")
-    protected THIS initWriter(ObjectMapper mapper)
+    protected THIS initWriter(ObjectWriter writer)
     {
-        // first common config
         if (_activeView != null) {
-            _writer = mapper.writerWithView(_activeView);
-        } else {
-            _writer = mapper.writer();
+            writer = writer.withView(_activeView);
         }
         if (_rootName != null) {
-            _writer = _writer.withRootName(_rootName);
+            writer = writer.withRootName(_rootName);
         }
         // Then features
         if (_serEnable != null) {
-            _writer = _writer.withFeatures(_serEnable);
+            writer = writer.withFeatures(_serEnable);
         }
         if (_serDisable != null) {
-            _writer = _writer.withoutFeatures(_serDisable);
+            writer = writer.withoutFeatures(_serDisable);
         }
-        /* Important: we are NOT to close the underlying stream after
-         * mapping, so we need to instruct parser:
-         */
-        _writer.getFactory().disable(JsonGenerator.Feature.AUTO_CLOSE_TARGET);
-        
+        _writer = writer;
         return (THIS) this;
     }
     
@@ -144,6 +129,20 @@ public abstract class EndpointConfigBase<THIS extends EndpointConfigBase<THIS>>
     /* Accessors
     /**********************************************************
      */
+
+    /**
+     * @since 2.3
+     */
+    public String getRootName() {
+        return _rootName;
+    }
+
+    /**
+     * @since 2.3
+     */
+    public Class<?> getActiveView() {
+        return _activeView;
+    }
     
     public final ObjectReader getReader() {
         if (_reader == null) { // sanity check, should never happen

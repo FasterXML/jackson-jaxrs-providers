@@ -3,7 +3,30 @@ Sub-modules:
   jackson-jaxrs-json-provider
   jackson-jaxrs-smile-provider
   jackson-jaxrs-xml-provider
-Version: 2.2.3 (xx-xxx-2013)
+
+2.3.2 (xx-xxx-2014)
+
+#40: Allow use of "text/x-json" content type by default
+ (requested by kdeenanauth@github)
+#42: Add CBOR provider (using jackson-dataformat-cbor)
+#43: Verify that format-specific mappers are properly overridden
+ (like `XmlMapper` for xml)
+
+------------------------------------------------------------------------
+=== History: ===
+------------------------------------------------------------------------
+
+2.3.1 (28-Dec-2013)
+
+#37: Enable use of JAX-RS 2.0 API
+ (contributed by larsp@github)
+
+2.3.0 (14-Nov-2013)
+
+#24: Allow defining default view to use for endpoints without View annotation
+#33: Provide a way to customize `ObjectReader` / `ObjectWriter` used by end points
+
+2.2.3 (24-Aug-2013)
 
 #6: Add `JaxRSFeature.ADD_NO_SNIFF_HEADER` to automatically add X-Content-Type-Options
   header (works with IE)
@@ -15,10 +38,6 @@ Version: 2.2.3 (xx-xxx-2013)
  (requested by Michael B)
 #26: Missing OSGi import for base, (c.f.j.databind.cfg)
  (reported by jerome-leclercq@github)
-
-------------------------------------------------------------------------
-=== History: ===
-------------------------------------------------------------------------
 
 2.2.2 (31-May-2013)
 

@@ -26,15 +26,19 @@ public class TestRootType
     {
         JacksonXMLProvider prov = new JacksonXMLProvider();
         TypeReference<?> ref = new TypeReference<List<Bean>>(){};
-
-        Bean bean = new Bean();
         ArrayList<Bean> list = new ArrayList<Bean>();
-        list.add(bean);
+        list.add(new Bean());
+        list.add(new Bean());
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         MediaType mt = MediaType.APPLICATION_JSON_TYPE;
         prov.writeTo(list, List.class, ref.getType(), new Annotation[0], mt, null, out);
 
         String xml = out.toString("UTF-8");
-        assertEquals("<List><bean><a>3</a></bean></List>", xml);
+        /* 09-Oct-2013, tatu: With 2.2, this produced "unwrapped" output; but
+         *   with 2.3 it should use same defaults as XML module. So 'wrappers'
+         *   are used for Collections, unless explicitly disabled.
+         */
+        assertEquals("<List><item><bean><a>3</a></bean></item>"
+                +"<item><bean><a>3</a></bean></item></List>", xml);
     }
 }

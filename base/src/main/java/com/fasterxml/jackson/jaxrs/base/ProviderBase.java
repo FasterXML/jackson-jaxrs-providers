@@ -51,9 +51,6 @@ public abstract class ProviderBase<
         // then some primitive types
         DEFAULT_UNTOUCHABLES.add(new ClassKey(char[].class));
 
-        /* 28-Jan-2012, tatu: 1.x excluded some additional types;
-         *   but let's relax these a bit:
-         */
         /* 27-Apr-2012, tatu: Ugh. As per
          *   [https://github.com/FasterXML/jackson-jaxrs-json-provider/issues/12]
          *  better revert this back, to make them untouchable again.
@@ -75,7 +72,7 @@ public abstract class ProviderBase<
      * (never try to serialize instances of these types).
      */
     public final static Class<?>[] DEFAULT_UNWRITABLES = new Class<?>[] {
-    	InputStream.class, // as per [Issue#19]
+        InputStream.class, // as per [Issue#19]
         OutputStream.class, Writer.class,
         StreamingOutput.class, Response.class
     };
@@ -112,10 +109,20 @@ public abstract class ProviderBase<
     /**
      * Feature flags set.
      * 
-     * @since 2.3.0
+     * @since 2.3
      */
     protected int _jaxRSFeatures;
 
+    /**
+     * View to use for reading if none defined for the end point.
+     */
+    protected Class<?> _defaultReadView;
+
+    /**
+     * View to use for writing if none defined for the end point.
+     */
+    protected Class<?> _defaultWriteView;
+    
     /*
     /**********************************************************
     /* Excluded types
@@ -175,7 +182,7 @@ public abstract class ProviderBase<
      * Should NOT be used by any code explicitly; only exists
      * for proxy support.
      */
-    @Deprecated
+    @Deprecated // just to denote it should NOT be directly called; will not be removed
     protected ProviderBase() {
         _mapperConfig = null;
     }
@@ -252,23 +259,61 @@ public abstract class ProviderBase<
         _mapperConfig.setMapper(m);
     }
 
+    /**
+     * Method for specifying JSON View to use for reading content
+     * when end point does not have explicit View annotations.
+     * 
+     * @since 2.3
+     */
+    public THIS setDefaultReadView(Class<?> view) {
+        _defaultReadView = view;
+        return _this();
+    }
+
+    /**
+     * Method for specifying JSON View to use for reading content
+     * when end point does not have explicit View annotations.
+     * 
+     * @since 2.3
+     */
+    public THIS setDefaultWriteView(Class<?> view) {
+        _defaultWriteView = view;
+        return _this();
+    }
+
+    /**
+     * Method for specifying JSON View to use for reading and writing content
+     * when end point does not have explicit View annotations.
+     * Functionally equivalent to:
+     *<code>
+     *  setDefaultReadView(view);
+     *  setDefaultWriteView(view);
+     *</code>
+     * 
+     * @since 2.3
+     */
+    public THIS setDefaultView(Class<?> view) {
+        _defaultReadView = _defaultWriteView = view;
+        return _this();
+    }
+    
     // // // JaxRSFeature config
     
     public THIS configure(JaxRSFeature feature, boolean state) {
-    	_jaxRSFeatures |= feature.getMask();
+        _jaxRSFeatures |= feature.getMask();
         return _this();
     }
 
     public THIS enable(JaxRSFeature feature) {
-    	_jaxRSFeatures |= feature.getMask();
+        _jaxRSFeatures |= feature.getMask();
         return _this();
     }
 
     public THIS enable(JaxRSFeature first, JaxRSFeature... f2) {
-    	_jaxRSFeatures |= first.getMask();
-    	for (JaxRSFeature f : f2) {
-        	_jaxRSFeatures |= f.getMask();
-    	}
+        _jaxRSFeatures |= first.getMask();
+        for (JaxRSFeature f : f2) {
+            _jaxRSFeatures |= f.getMask();
+        }
         return _this();
     }
     
@@ -278,10 +323,10 @@ public abstract class ProviderBase<
     }
 
     public THIS disable(JaxRSFeature first, JaxRSFeature... f2) {
-    	_jaxRSFeatures &= ~first.getMask();
-    	for (JaxRSFeature f : f2) {
-        	_jaxRSFeatures &= ~f.getMask();
-    	}
+        _jaxRSFeatures &= ~first.getMask();
+        for (JaxRSFeature f : f2) {
+            _jaxRSFeatures &= ~f.getMask();
+        }
         return _this();
     }
 
@@ -397,11 +442,55 @@ public abstract class ProviderBase<
     protected abstract boolean hasMatchingMediaType(MediaType mediaType);
 
     protected abstract MAPPER _locateMapperViaProvider(Class<?> type, MediaType mediaType);
-
-    protected abstract EP_CONFIG _configForReading(MAPPER mapper, Annotation[] annotations);
-
-    protected abstract EP_CONFIG _configForWriting(MAPPER mapper, Annotation[] annotations);
     
+    protected EP_CONFIG _configForReading(MAPPER mapper,
+        Annotation[] annotations, Class<?> defaultView)
+    {
+//        ObjectReader r = _readerInjector.getAndClear();
+        ObjectReader r;
+        if (defaultView != null) {
+            r = mapper.readerWithView(defaultView);
+        } else {
+            r = mapper.reader();
+        }
+        return _configForReading(r, annotations);
+    }
+
+    protected EP_CONFIG _configForWriting(MAPPER mapper,
+        Annotation[] annotations, Class<?> defaultView)
+    {
+//        ObjectWriter w = _writerInjector.getAndClear();
+        ObjectWriter w;
+        if (defaultView != null) {
+            w = mapper.writerWithView(defaultView);
+        } else {
+            w = mapper.writer();
+        }
+        return _configForWriting(w, annotations);
+    }
+
+    /**
+     * @deprecated Since 2.3, use variant that takes explicit defaultView
+     */
+    @Deprecated
+    protected EP_CONFIG _configForReading(MAPPER mapper, Annotation[] annotations) {
+        return _configForReading(mapper, annotations, _defaultReadView);
+    }
+
+    /**
+     * @deprecated Since 2.3, use variant that takes explicit defaultView
+     */
+    @Deprecated
+    protected EP_CONFIG _configForWriting(MAPPER mapper, Annotation[] annotations) {
+        return _configForWriting(mapper, annotations, _defaultWriteView);
+    }
+
+    protected abstract EP_CONFIG _configForReading(ObjectReader reader,
+            Annotation[] annotations);
+
+    protected abstract EP_CONFIG _configForWriting(ObjectWriter writer,
+        Annotation[] annotations);
+
     /*
     /**********************************************************
     /* Partial MessageBodyWriter impl
@@ -444,21 +533,19 @@ public abstract class ProviderBase<
         }
         Boolean customUntouchable = _findCustomUntouchable(type);
         if (customUntouchable != null) {
-        	// negation: Boolean.TRUE means untouchable -> can not write
-        	return !customUntouchable.booleanValue();
+            // negation: Boolean.TRUE means untouchable -> can not write
+            return !customUntouchable.booleanValue();
         }
-        if (customUntouchable == null) {
-            /* Ok: looks like we must weed out some core types here; ones that
-             * make no sense to try to bind from JSON:
-             */
-            if (_untouchables.contains(new ClassKey(type))) {
+        /* Ok: looks like we must weed out some core types here; ones that
+         * make no sense to try to bind from JSON:
+         */
+        if (_untouchables.contains(new ClassKey(type))) {
+            return false;
+        }
+        // but some are interface/abstract classes, so
+        for (Class<?> cls : _unwritableClasses) {
+            if (cls.isAssignableFrom(type)) {
                 return false;
-            }
-            // but some are interface/abstract classes, so
-            for (Class<?> cls : _unwritableClasses) {
-                if (cls.isAssignableFrom(type)) {
-                    return false;
-                }
             }
         }
         // Also: if we really want to verify that we can deserialize, we'll check:
@@ -475,7 +562,7 @@ public abstract class ProviderBase<
      */
     @Override
     public void writeTo(Object value, Class<?> type, Type genericType, Annotation[] annotations,
-    		MediaType mediaType,
+            MediaType mediaType,
             MultivaluedMap<String,Object> httpHeaders, OutputStream entityStream) 
         throws IOException
     {
@@ -487,7 +574,7 @@ public abstract class ProviderBase<
         // not yet resolved (or not cached any more)? Resolve!
         if (endpoint == null) {
             MAPPER mapper = locateMapper(type, mediaType);
-            endpoint = _configForWriting(mapper, annotations);
+            endpoint = _configForWriting(mapper, annotations, _defaultWriteView);
             // and cache for future reuse
             synchronized (_writers) {
                 _writers.put(key.immutableKey(), endpoint);
@@ -501,14 +588,13 @@ public abstract class ProviderBase<
 
         // Where can we find desired encoding? Within HTTP headers?
         JsonEncoding enc = findEncoding(mediaType, httpHeaders);
-        JsonGenerator jg = writer.getFactory().createGenerator(entityStream, enc);
-
+        JsonGenerator g = _createGenerator(writer, entityStream, enc);
+        
         try {
             // Want indentation?
             if (writer.isEnabled(SerializationFeature.INDENT_OUTPUT)) {
-                jg.useDefaultPrettyPrinter();
+                g.useDefaultPrettyPrinter();
             }
-            // 04-Mar-2010, tatu: How about type we were given? (if any)
             JavaType rootType = null;
 
             if (genericType != null && value != null) {
@@ -539,9 +625,16 @@ public abstract class ProviderBase<
                 writer = writer.withType(rootType);
             }
             value = endpoint.modifyBeforeWrite(value);
-            writer.writeValue(jg, value);
+
+            // [Issue#32]: allow modification by filter-injectible thing
+            ObjectWriterModifier mod = ObjectWriterInjector.getAndClear();
+            if (mod != null) {
+                writer = mod.modify(endpoint, httpHeaders, value, writer, g);
+            }
+
+            writer.writeValue(g, value);
         } finally {
-            jg.close();
+            g.close();
         }
     }
 
@@ -567,6 +660,22 @@ public abstract class ProviderBase<
         if (isEnabled(JaxRSFeature.ADD_NO_SNIFF_HEADER)) {
             httpHeaders.add(HEADER_CONTENT_TYPE_OPTIONS, "nosniff");
         }
+    }
+
+    /**
+     * Overridable helper method called to create a {@link JsonGenerator} for writing
+     * contents into given raw {@link OutputStream}.
+     * 
+     * @since 2.3
+     */
+    protected JsonGenerator _createGenerator(ObjectWriter writer, OutputStream rawStream, JsonEncoding enc)
+        throws IOException
+    {
+        JsonGenerator g = writer.getFactory().createGenerator(rawStream, enc);
+        // Important: we are NOT to close the underlying stream after
+        // mapping, so we need to instruct generator
+        g.disable(JsonGenerator.Feature.AUTO_CLOSE_TARGET);
+        return g;
     }
     
     /*
@@ -596,21 +705,19 @@ public abstract class ProviderBase<
 
         Boolean customUntouchable = _findCustomUntouchable(type);
         if (customUntouchable != null) {
-        	// negation: Boolean.TRUE means untouchable -> can not write
-        	return !customUntouchable.booleanValue();
+            // negation: Boolean.TRUE means untouchable -> can not write
+            return !customUntouchable.booleanValue();
         }
-        if (customUntouchable == null) {
-            /* Ok: looks like we must weed out some core types here; ones that
-             * make no sense to try to bind from JSON:
-             */
-            if (_untouchables.contains(new ClassKey(type))) {
+        /* Ok: looks like we must weed out some core types here; ones that
+         * make no sense to try to bind from JSON:
+         */
+        if (_untouchables.contains(new ClassKey(type))) {
+            return false;
+        }
+        // and there are some other abstract/interface types to exclude too:
+        for (Class<?> cls : _unreadableClasses) {
+            if (cls.isAssignableFrom(type)) {
                 return false;
-            }
-            // and there are some other abstract/interface types to exclude too:
-            for (Class<?> cls : _unreadableClasses) {
-                if (cls.isAssignableFrom(type)) {
-                    return false;
-                }
             }
         }
         // Finally: if we really want to verify that we can serialize, we'll check:
@@ -630,7 +737,9 @@ public abstract class ProviderBase<
      * Method that JAX-RS container calls to deserialize given value.
      */
     @Override
-    public Object readFrom(Class<Object> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String,String> httpHeaders, InputStream entityStream) 
+    public Object readFrom(Class<Object> type, Type genericType, Annotation[] annotations,
+            MediaType mediaType, MultivaluedMap<String,String> httpHeaders,
+            InputStream entityStream) 
         throws IOException
     {
         AnnotationBundleKey key = new AnnotationBundleKey(annotations, type);
@@ -641,7 +750,7 @@ public abstract class ProviderBase<
         // not yet resolved (or not cached any more)? Resolve!
         if (endpoint == null) {
             MAPPER mapper = locateMapper(type, mediaType);
-            endpoint = _configForReading(mapper, annotations);
+            endpoint = _configForReading(mapper, annotations, _defaultReadView);
             // and cache for future reuse
             synchronized (_readers) {
                 _readers.put(key.immutableKey(), endpoint);
@@ -649,6 +758,7 @@ public abstract class ProviderBase<
         }
         ObjectReader reader = endpoint.getReader();
         JsonParser jp = _createParser(reader, entityStream);
+        
         // If null is returned, considered to be empty stream
         if (jp == null || jp.nextToken() == null) {
             return null;
@@ -657,7 +767,14 @@ public abstract class ProviderBase<
         if (((Class<?>) type) == JsonParser.class) {
             return jp;
         }
-        return reader.withType(genericType).readValue(jp);
+        final JavaType resolvedType = reader.getTypeFactory().constructType(genericType);
+        reader = reader.withType(resolvedType);
+        // [Issue#32]: allow modification by filter-injectible thing
+        ObjectReaderModifier mod = ObjectReaderInjector.getAndClear();
+        if (mod != null) {
+            reader = mod.modify(endpoint, httpHeaders, resolvedType, reader, jp);
+        }
+        return reader.readValue(jp);
     }
 
     /**
@@ -665,11 +782,17 @@ public abstract class ProviderBase<
      * contents of given raw {@link InputStream}.
      * May return null to indicate that Stream is empty; that is, contains no
      * content.
+     * 
+     * @since 2.2
      */
     protected JsonParser _createParser(ObjectReader reader, InputStream rawStream)
         throws IOException
     {
-        return reader.getFactory().createParser(rawStream);
+        JsonParser p = reader.getFactory().createParser(rawStream);
+        // Important: we are NOT to close the underlying stream after
+        // mapping, so we need to instruct parser:
+        p.disable(JsonParser.Feature.AUTO_CLOSE_SOURCE);
+        return p;
     }
 
     /*

@@ -8,6 +8,7 @@ import javax.ws.rs.ext.*;
 
 import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.dataformat.smile.SmileFactory;
 import com.fasterxml.jackson.jaxrs.base.ProviderBase;
 import com.fasterxml.jackson.jaxrs.cfg.Annotations;
 
@@ -200,19 +201,25 @@ extends ProviderBase<JacksonSmileProvider,
                 resolver = _providers.getContextResolver(ObjectMapper.class, null);
             }
             if (resolver != null) {
-                return resolver.getContext(type);
+                ObjectMapper mapper = resolver.getContext(type);
+                // 07-Feb-2014, tatu: just in case, ensure we have correct type
+                if (mapper.getFactory() instanceof SmileFactory) {
+                    return mapper;
+                }
             }
         }
         return null;
     }
 
     @Override
-    protected SmileEndpointConfig _configForReading(ObjectMapper mapper, Annotation[] annotations) {
-        return SmileEndpointConfig.forReading(mapper, annotations);
+    protected SmileEndpointConfig _configForReading(ObjectReader reader,
+            Annotation[] annotations) {
+        return SmileEndpointConfig.forReading(reader, annotations);
     }
 
     @Override
-    protected SmileEndpointConfig _configForWriting(ObjectMapper mapper, Annotation[] annotations) {
-        return SmileEndpointConfig.forWriting(mapper, annotations);
+    protected SmileEndpointConfig _configForWriting(ObjectWriter writer,
+            Annotation[] annotations) {
+        return SmileEndpointConfig.forWriting(writer, annotations);
     }
 }

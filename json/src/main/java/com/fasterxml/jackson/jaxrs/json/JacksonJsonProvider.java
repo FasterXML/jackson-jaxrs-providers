@@ -8,7 +8,6 @@ import javax.ws.rs.ext.*;
 
 import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.databind.*;
-
 import com.fasterxml.jackson.jaxrs.base.ProviderBase;
 import com.fasterxml.jackson.jaxrs.cfg.Annotations;
 
@@ -169,6 +168,7 @@ public class JacksonJsonProvider
      * Current implementation essentially checks to see whether
      * {@link MediaType#getSubtype} returns "json" or something
      * ending with "+json".
+     * Or "text/x-json" (since 2.3)
      * 
      * @since 2.2
      */
@@ -184,11 +184,13 @@ public class JacksonJsonProvider
         if (mediaType != null) {
             // Ok: there are also "xxx+json" subtypes, which count as well
             String subtype = mediaType.getSubtype();
+
             // [Issue#14]: also allow 'application/javascript'
-           return "json".equalsIgnoreCase(subtype) || subtype.endsWith("+json")
+            return "json".equalsIgnoreCase(subtype) || subtype.endsWith("+json")
                    || "javascript".equals(subtype)
                    // apparently Microsoft once again has interesting alternative types?
                    || "x-javascript".equals(subtype)
+                   || "x-json".equals(subtype) // [Issue#40]
                    ;
         }
         /* Not sure if this can happen; but it seems reasonable
@@ -218,12 +220,15 @@ public class JacksonJsonProvider
     }
 
     @Override
-    protected JsonEndpointConfig _configForReading(ObjectMapper mapper, Annotation[] annotations) {
-        return JsonEndpointConfig.forReading(mapper, annotations);
+    protected JsonEndpointConfig _configForReading(ObjectReader reader,
+        Annotation[] annotations) {
+        return JsonEndpointConfig.forReading(reader, annotations);
     }
 
     @Override
-    protected JsonEndpointConfig _configForWriting(ObjectMapper mapper, Annotation[] annotations) {
-        return JsonEndpointConfig.forWriting(mapper, annotations, _jsonpFunctionName);
+    protected JsonEndpointConfig _configForWriting(ObjectWriter writer,
+        Annotation[] annotations) {
+        return JsonEndpointConfig.forWriting(writer, annotations,
+                _jsonpFunctionName);
     }
 }

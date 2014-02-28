@@ -4,6 +4,8 @@ import java.lang.annotation.Annotation;
 
 import com.fasterxml.jackson.databind.BeanProperty;
 import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.PropertyMetadata;
+import com.fasterxml.jackson.databind.PropertyName;
 import com.fasterxml.jackson.databind.introspect.AnnotationMap;
 
 /**
@@ -17,7 +19,7 @@ import com.fasterxml.jackson.databind.introspect.AnnotationMap;
 public class EndpointAsBeanProperty
     extends BeanProperty.Std
 {
-    public final static String ENDPOINT_NAME = "JAX-RS/endpoint";
+    public final static PropertyName ENDPOINT_NAME = new PropertyName("JAX-RS/endpoint");
     
     private final static AnnotationMap NO_ANNOTATIONS = new AnnotationMap();
 
@@ -27,9 +29,8 @@ public class EndpointAsBeanProperty
     {
         // TODO: find and pass wrapper; isRequired marker?
         super(ENDPOINT_NAME, type, /*PropertyName wrapperName*/ null,
-                null, null,
-                /* isRequired */ false);
-        boolean hasAnn = (annotations == null || annotations.length == 0);
+                null, null, PropertyMetadata.STD_OPTIONAL);
+        boolean hasAnn = (annotations != null && annotations.length > 0);
         if (hasAnn) {
             _annotations = new AnnotationMap();
             for (Annotation a : annotations) {

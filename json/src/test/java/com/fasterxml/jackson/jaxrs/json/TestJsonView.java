@@ -22,7 +22,7 @@ public class TestJsonView extends JaxrsTestBase
     }
 
     @JsonView({ MyView1.class })
-    public void bogus() { }
+    public void bogus() { }    
 
     /*
     /**********************************************************
@@ -42,5 +42,20 @@ public class TestJsonView extends JaxrsTestBase
         prov.writeTo(bean, bean.getClass(), bean.getClass(), new Annotation[] { view },
                 MediaType.APPLICATION_JSON_TYPE, null, out);
         assertEquals("{\"value1\":1}", out.toString("UTF-8"));
+    }
+
+    // [Issue#24]
+    public void testDefaultView() throws Exception
+    {
+        JacksonJsonProvider prov = new JacksonJsonProvider();
+        prov.setDefaultWriteView(MyView2.class);
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        Bean bean = new Bean();
+        Method m = getClass().getDeclaredMethod("bogus");
+        JsonView view = m.getAnnotation(JsonView.class);
+        assertNotNull(view);
+        prov.writeTo(bean, bean.getClass(), bean.getClass(), new Annotation[0],
+                MediaType.APPLICATION_JSON_TYPE, null, out);
+        assertEquals("{\"value2\":2}", out.toString("UTF-8"));
     }
 }

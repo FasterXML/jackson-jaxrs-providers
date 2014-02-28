@@ -30,7 +30,7 @@ public enum JaxRSFeature implements ConfigFeature
     /* Other
     /******************************************************
      */
-
+    
     ;
 
     private final boolean _defaultState;
