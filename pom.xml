@@ -30,15 +30,15 @@
   </scm>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> 
-    <jackson.version.annotations>2.3.0</jackson.version.annotations>
+    <version.jackson.annotations>2.3.0</version.jackson.annotations>
     <!-- core/databind should have same version; data formats, annotations may differ -->
-    <jackson.version.core>2.3.2</jackson.version.core>
+    <version.jackson.core>2.3.2</version.jackson.core>
 
-    <jackson.version.cbor>${jackson.version.core}</jackson.version.cbor>
-    <jackson.version.smile>${jackson.version.core}</jackson.version.smile>
-    <jackson.version.xml>${jackson.version.core}</jackson.version.xml>
+    <version.jackson.cbor>${version.jackson.core}</version.jackson.cbor>
+    <version.jackson.smile>${version.jackson.core}</version.jackson.smile>
+    <version.jackson.xml>${version.jackson.core}</version.jackson.xml>
 
-    <jackson.version.jaxb>${jackson.version.core}</jackson.version.jaxb>
+    <version.jackson.jaxb>${version.jackson.core}</version.jackson.jaxb>
 
     <!--  Need Jersey+Jetty for testing -->
     <version.jersey>1.17.1</version.jersey>
