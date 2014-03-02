@@ -4,7 +4,7 @@ Sub-modules:
   jackson-jaxrs-smile-provider
   jackson-jaxrs-xml-provider
 
-2.3.2 (xx-xxx-2014)
+2.3.2 (01-Mar-2014)
 
 #40: Allow use of "text/x-json" content type by default
  (requested by kdeenanauth@github)
