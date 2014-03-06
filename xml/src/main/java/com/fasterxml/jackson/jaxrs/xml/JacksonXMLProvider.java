@@ -142,6 +142,24 @@ public class JacksonXMLProvider
             Annotation[] annotations) {
         return XMLEndpointConfig.forWriting(writer, annotations);
     }
+
+    /**
+     * @deprecated Since 2.3, use variant that takes explicit defaultView
+     */
+    @Deprecated
+    @Override
+    protected XMLEndpointConfig _configForReading(XmlMapper mapper, Annotation[] annotations) {
+        return _configForReading(mapper, annotations, _defaultReadView);
+    }
+
+    /**
+     * @deprecated Since 2.3, use variant that takes explicit defaultView
+     */
+    @Deprecated
+    @Override
+    protected XMLEndpointConfig _configForWriting(XmlMapper mapper, Annotation[] annotations) {
+        return _configForWriting(mapper, annotations, _defaultWriteView);
+    }
     
     /**
      * @deprecated Since 2.2 use {@link #hasMatchingMediaType(MediaType)} instead

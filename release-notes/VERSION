@@ -4,6 +4,16 @@ Sub-modules:
   jackson-jaxrs-smile-provider
   jackson-jaxrs-xml-provider
 
+2.3.3 (xx-xxx-2013)
+
+#41: Try to resolve problems with RESTeasy, missing `_configForWriting`
+  override.
+ (reported by `tbroyer@github`)
+
+------------------------------------------------------------------------
+=== History: ===
+------------------------------------------------------------------------
+
 2.3.2 (01-Mar-2014)
 
 #40: Allow use of "text/x-json" content type by default
@@ -11,10 +21,6 @@ Sub-modules:
 #42: Add CBOR provider (using jackson-dataformat-cbor)
 #43: Verify that format-specific mappers are properly overridden
  (like `XmlMapper` for xml)
-
-------------------------------------------------------------------------
-=== History: ===
-------------------------------------------------------------------------
 
 2.3.1 (28-Dec-2013)
 

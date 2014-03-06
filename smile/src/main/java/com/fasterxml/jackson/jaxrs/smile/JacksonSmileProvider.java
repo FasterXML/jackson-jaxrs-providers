@@ -222,4 +222,22 @@ extends ProviderBase<JacksonSmileProvider,
             Annotation[] annotations) {
         return SmileEndpointConfig.forWriting(writer, annotations);
     }
+
+    /**
+     * @deprecated Since 2.3, use variant that takes explicit defaultView
+     */
+    @Deprecated
+    @Override
+    protected SmileEndpointConfig _configForReading(ObjectMapper mapper, Annotation[] annotations) {
+        return _configForReading(mapper, annotations, _defaultReadView);
+    }
+
+    /**
+     * @deprecated Since 2.3, use variant that takes explicit defaultView
+     */
+    @Deprecated
+    @Override
+    protected SmileEndpointConfig _configForWriting(ObjectMapper mapper, Annotation[] annotations) {
+        return _configForWriting(mapper, annotations, _defaultWriteView);
+    }
 }

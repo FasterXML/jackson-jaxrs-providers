@@ -231,4 +231,22 @@ public class JacksonJsonProvider
         return JsonEndpointConfig.forWriting(writer, annotations,
                 _jsonpFunctionName);
     }
+
+    /**
+     * @deprecated Since 2.3, use variant that takes explicit defaultView
+     */
+    @Deprecated
+    @Override
+    protected JsonEndpointConfig _configForReading(ObjectMapper mapper, Annotation[] annotations) {
+        return _configForReading(mapper, annotations, _defaultReadView);
+    }
+
+    /**
+     * @deprecated Since 2.3, use variant that takes explicit defaultView
+     */
+    @Deprecated
+    @Override
+    protected JsonEndpointConfig _configForWriting(ObjectMapper mapper, Annotation[] annotations) {
+        return _configForWriting(mapper, annotations, _defaultWriteView);
+    }
 }
