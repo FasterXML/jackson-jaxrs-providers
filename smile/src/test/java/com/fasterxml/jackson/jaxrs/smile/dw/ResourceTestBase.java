@@ -1,6 +1,5 @@
 package com.fasterxml.jackson.jaxrs.smile.dw;
 
-import java.io.*;
 import java.util.HashSet;
 import java.util.Set;
 
