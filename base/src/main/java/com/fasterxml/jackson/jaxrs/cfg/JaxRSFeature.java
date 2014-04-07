@@ -11,6 +11,24 @@ public enum JaxRSFeature implements ConfigFeature
 {
     /*
     /******************************************************
+    /* Input handling
+    /******************************************************
+     */
+
+    /**
+     * Feature related to
+     * <a href="https://github.com/FasterXML/jackson-jaxrs-providers/issues/49">Issue #49</a>:
+     * whether empty input is considered legal or not.
+     * If set to true, empty content is allowed and will be read as Java 'null': if false,
+     * an {@link java.io.IOException} will be thrown.
+     *<p>
+     * NOTE: in case of JAX-RS 2.0, specific exception will be <code>javax.ws.rs.core.NoContentException</code>;
+     * but this is not defined in JAX-RS 1.x.
+     */
+    ALLOW_EMPTY_INPUT(true),
+    
+    /*
+    /******************************************************
     /* HTTP headers
     /******************************************************
      */
@@ -39,9 +57,19 @@ public enum JaxRSFeature implements ConfigFeature
         _defaultState = defaultState;
     }
 
+    public static int collectDefaults() {
+        int flags = 0;
+        for (JaxRSFeature f : values()) {
+            if (f.enabledByDefault()) { flags |= f.getMask(); }
+        }
+        return flags;
+    }
+    
     @Override
     public boolean enabledByDefault() { return _defaultState; }
 
     @Override
     public int getMask() { return (1 << ordinal()); }
+
+    public boolean enabledIn(int flags) { return (flags & getMask()) != 0; }    
 }

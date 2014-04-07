@@ -5,15 +5,20 @@ Sub-modules:
   jackson-jaxrs-smile-provider
   jackson-jaxrs-xml-provider
 
-2.3.3 (xx-xxx-2013)
+2.4.0 (xx-xxx-2014)
 
-#41: Try to resolve problems with RESTeasy, missing `_configForWriting`
-  override.
- (reported by `tbroyer@github`)
+#49: Add `JaxRSFeature.ALLOW_EMPTY_INPUT`, disabling of which can prevent
+  mapping of empty input into Java null value
 
 ------------------------------------------------------------------------
 === History: ===
 ------------------------------------------------------------------------
+
+2.3.3 (xx-xxx-2014)
+
+#41: Try to resolve problems with RESTeasy, missing `_configForWriting`
+  override.
+ (reported by `tbroyer@github`)
 
 2.3.2 (01-Mar-2014)
 
