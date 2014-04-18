@@ -10,8 +10,6 @@ This is a multi-module project that contains Jackson-based JAX-RS providers for 
 Providers implement JAX-RS `MessageBodyReader` and `MessageBodyWriter` handlers for specific
 data formats. They also contain SPI settings for auto-registration.
 
-[![Build Status](https://travis-ci.org/FasterXML/jackson-jaxrs-providers.svg?branch=master)](https://travis-ci.org/FasterXML/jackson-jaxrs-providers)
-
 [![Build Status](https://fasterxml.ci.cloudbees.com/job/jackson-jaxrs-providers-master/badge/icon)](https://fasterxml.ci.cloudbees.com/job/jackson-jaxrs-providers-master/)
 
 ## Status
