@@ -2,8 +2,10 @@ package com.fasterxml.jackson.jaxrs.base;
 
 import java.io.*;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Type;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 import javax.ws.rs.core.*;
 import javax.ws.rs.ext.MessageBodyReader;
@@ -31,6 +33,15 @@ public abstract class ProviderBase<
      */
     public final static String HEADER_CONTENT_TYPE_OPTIONS = "X-Content-Type-Options";
 
+    /**
+     * Since class <code>javax.ws.rs.core.NoContentException</code> only exists in
+     * JAX-RS 2.0, but we need 1.1 compatibility, need to (unfortunately!) dynamically
+     * load class.
+     */
+    protected final static String CLASS_NAME_NO_CONTENT_EXCEPTION = "javax.ws.rs.core.NoContentException";
+
+    protected final static String NO_CONTENT_MESSAGE = "No content (empty input stream)";
+    
     /**
      * Looks like we need to worry about accidental
      *   data binding for types we shouldn't be handling. This is
@@ -77,12 +88,20 @@ public abstract class ProviderBase<
         StreamingOutput.class, Response.class
     };
 
+    protected final static int JAXRS_FEATURE_DEFAULTS = JaxRSFeature.collectDefaults();
+    
     /*
     /**********************************************************
     /* General configuration
     /**********************************************************
      */
 
+    /**
+     * Helper object used for encapsulating configuration aspects
+     * of {@link ObjectMapper}
+     */
+    protected final MAPPER_CONFIG _mapperConfig;
+    
     /**
      * Map that contains overrides to default list of untouchable
      * types: <code>true</code> meaning that entry is untouchable,
@@ -128,7 +147,7 @@ public abstract class ProviderBase<
     /* Excluded types
     /**********************************************************
      */
-    
+
     public final static HashSet<ClassKey> _untouchables = DEFAULT_UNTOUCHABLES;
 
     public final static Class<?>[] _unreadableClasses = DEFAULT_UNREADABLES;
@@ -152,27 +171,19 @@ public abstract class ProviderBase<
      */
     protected final LRUMap<AnnotationBundleKey, EP_CONFIG> _writers
         = new LRUMap<AnnotationBundleKey, EP_CONFIG>(16, 120);
-    
-    /*
-    /**********************************************************
-    /* General configuration
-    /**********************************************************
-     */
-    
-    /**
-     * Helper object used for encapsulating configuration aspects
-     * of {@link ObjectMapper}
-     */
-    protected final MAPPER_CONFIG _mapperConfig;
+
+    protected final AtomicReference<IOException> _noContentExceptionRef
+        = new AtomicReference<IOException>();
 
     /*
     /**********************************************************
     /* Life-cycle
     /**********************************************************
      */
-    
+
     protected ProviderBase(MAPPER_CONFIG mconfig) {
         _mapperConfig = mconfig;
+        _jaxRSFeatures = JAXRS_FEATURE_DEFAULTS;
     }
 
     /**
@@ -182,9 +193,10 @@ public abstract class ProviderBase<
      * Should NOT be used by any code explicitly; only exists
      * for proxy support.
      */
-    @Deprecated // just to denote it should NOT be directly called; will not be removed
+    @Deprecated // just to denote it should NOT be directly called; will NOT be removed
     protected ProviderBase() {
         _mapperConfig = null;
+        _jaxRSFeatures = JAXRS_FEATURE_DEFAULTS;
     }
     
     /*
@@ -760,8 +772,19 @@ public abstract class ProviderBase<
         JsonParser jp = _createParser(reader, entityStream);
         
         // If null is returned, considered to be empty stream
+        // 05-Apr-2014, tatu: As per [Issue#49], behavior here is configurable.
         if (jp == null || jp.nextToken() == null) {
-            return null;
+            if (JaxRSFeature.ALLOW_EMPTY_INPUT.enabledIn(_jaxRSFeatures)) {
+                return null;
+            }
+            /* 05-Apr-2014, tatu: Trick-ee. NoContentFoundException only available in JAX-RS 2.0...
+             *   so need bit of obfuscated code to reach it.
+             */
+            IOException fail = _noContentExceptionRef.get();
+            if (fail == null) {
+                fail = _createNoContentException();
+            }
+            throw fail;
         }
         // [Issue#1]: allow 'binding' to JsonParser
         if (((Class<?>) type) == JsonParser.class) {
@@ -846,6 +869,23 @@ public abstract class ProviderBase<
         return JsonParser.class == type;
     }
 
+    /**
+     * @since 2.4
+     */
+    protected IOException _createNoContentException()
+    {
+        Class<?> cls = null;
+        try {
+            cls = Class.forName(CLASS_NAME_NO_CONTENT_EXCEPTION);
+            Constructor<?> ctor = cls.getDeclaredConstructor(String.class);
+            if (ctor != null) {
+                return (IOException) ctor.newInstance(NO_CONTENT_MESSAGE);
+            }
+        } catch (Exception e) { // no can do...
+        }
+        return new IOException(NO_CONTENT_MESSAGE);
+    }
+    
     /*
     /**********************************************************
     /* Private/sub-class helper methods

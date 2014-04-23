@@ -3,10 +3,7 @@ package com.fasterxml.jackson.jaxrs.smile.dw;
 import java.io.*;
 import java.net.*;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
+import javax.ws.rs.*;
 
 import org.eclipse.jetty.server.Server;
 import org.junit.Assert;

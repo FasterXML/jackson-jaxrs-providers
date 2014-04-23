@@ -13,7 +13,6 @@ import org.junit.Assert;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.sun.jersey.core.header.MediaTypes;
 
 public abstract class SimpleEndpointTestBase extends ResourceTestBase
 {
