@@ -30,9 +30,9 @@
   </scm>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> 
-    <version.jackson.annotations>2.4.0-rc1</version.jackson.annotations>
+    <version.jackson.annotations>2.4.0-rc3</version.jackson.annotations>
     <!-- core/databind should have same version; data formats, annotations may differ -->
-    <version.jackson.core>2.4.0-rc2</version.jackson.core>
+    <version.jackson.core>2.4.0-rc3</version.jackson.core>
 
     <version.jackson.cbor>${version.jackson.core}</version.jackson.cbor>
     <version.jackson.smile>${version.jackson.core}</version.jackson.smile>
