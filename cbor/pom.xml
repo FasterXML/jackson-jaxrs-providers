@@ -16,7 +16,7 @@
     <!-- Generate PackageVersion.java into this directory. -->
     <packageVersion.dir>com/fasterxml/jackson/jaxrs/cbor</packageVersion.dir>
     <packageVersion.package>${project.groupId}.cbor</packageVersion.package>
-    <osgi.export>${project.groupId}.smile.*;version=${project.version}</osgi.export>
+    <osgi.export>${project.groupId}.cbor.*;version=${project.version}</osgi.export>
     <!-- NOTE: JAXB annotations module is optional dependency, need to try to mark
          as such here.
       -->
