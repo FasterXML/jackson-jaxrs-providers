@@ -5,7 +5,7 @@ Sub-modules:
   jackson-jaxrs-smile-provider
   jackson-jaxrs-xml-provider
 
-2.4.0 (xx-xxx-2014)
+2.4.0 (02-Jun-2014)
 
 #49: Add `JaxRSFeature.ALLOW_EMPTY_INPUT`, disabling of which can prevent
   mapping of empty input into Java null value
