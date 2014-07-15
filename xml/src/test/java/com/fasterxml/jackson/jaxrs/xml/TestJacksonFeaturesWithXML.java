@@ -60,8 +60,13 @@ public class TestJacksonFeaturesWithXML extends JaxrsTestBase
          *   any more: it is only added to JSON where it is needed; but not
          *   to XML which always basically uses wrapping.
          */
-        prov.writeTo(bean, bean.getClass(), bean.getClass(), new Annotation[] { feats },
-                MediaType.APPLICATION_JSON_TYPE, null, out);
+        try {
+            prov.writeTo(bean, bean.getClass(), bean.getClass(), new Annotation[] { feats },
+                    MediaType.APPLICATION_JSON_TYPE, null, out);
+        } catch (Exception e) {
+            throw unwrap(e);
+        }
+
         //
         assertEquals("<Bean><a>3</a></Bean>", out.toString("UTF-8"));
 
@@ -71,7 +76,7 @@ public class TestJacksonFeaturesWithXML extends JaxrsTestBase
                 MediaType.APPLICATION_JSON_TYPE, null, out);
         assertEquals("<Bean><a>3</a></Bean>", out.toString("UTF-8"));
     }
-
+    
     public void testWriteConfigsViaBundle() throws Exception
     {
         JacksonXMLProvider prov = new JacksonXMLProvider();

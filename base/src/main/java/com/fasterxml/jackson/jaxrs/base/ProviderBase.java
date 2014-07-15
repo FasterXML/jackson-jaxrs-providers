@@ -601,7 +601,8 @@ public abstract class ProviderBase<
         // Where can we find desired encoding? Within HTTP headers?
         JsonEncoding enc = findEncoding(mediaType, httpHeaders);
         JsonGenerator g = _createGenerator(writer, entityStream, enc);
-        
+        boolean ok = false;
+
         try {
             // Want indentation?
             if (writer.isEnabled(SerializationFeature.INDENT_OUTPUT)) {
@@ -645,8 +646,15 @@ public abstract class ProviderBase<
             }
 
             writer.writeValue(g, value);
+            ok = true;
         } finally {
-            g.close();
+            if (ok) {
+                g.close();
+            } else {
+                try {
+                    g.close();
+                } catch (Exception e) { }
+            }
         }
     }
 

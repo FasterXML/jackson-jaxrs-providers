@@ -103,4 +103,11 @@ public abstract class JaxrsTestBase
         in.close();
         return bytes.toByteArray();
     }
+
+    protected Exception unwrap(Exception e) {
+        while (e.getCause() instanceof Exception) {
+            e = (Exception) e.getCause();
+        }
+        return e;
+    }
 }
