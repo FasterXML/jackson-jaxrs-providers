@@ -5,15 +5,19 @@ Sub-modules:
   jackson-jaxrs-smile-provider
   jackson-jaxrs-xml-provider
 
-2.3.3 (10-Apr-2013)
+2.3.4 (17-Jul-2014)
 
-#41: Try to resolve problems with RESTeasy, missing `_configForWriting`
-  override.
- (reported by `tbroyer@github`)
+No changes.
 
 ------------------------------------------------------------------------
 === History: ===
 ------------------------------------------------------------------------
+
+2.3.3 (10-Apr-2014)
+
+#41: Try to resolve problems with RESTeasy, missing `_configForWriting`
+  override.
+ (reported by `tbroyer@github`)
 
 2.3.2 (01-Mar-2014)
 
