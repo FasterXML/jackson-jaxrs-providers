@@ -88,7 +88,12 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
                     long left = size;
 
                     while (left > 0) {
-                        int len = (int) Math.min(buf.length, left);
+                        int len;
+                        if (left >= buf.length) {
+                            len = buf.length;
+                        } else {
+                            len = (int) left;
+                        }
                         output.write(buf, 0, len);
                         left -= len;
                     }
@@ -207,15 +212,26 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
     {
         Server server = startServer(TEST_PORT, SimpleFluffyApp.class);
         try {
-            // Let's try with 1.5 gigs, just to be sure
-            final long size = 1500 * 1024 * 1024;
+            // Let's try with 4.5 gigs, just to be sure (should run OOME if buffering; or be
+            // super slow if disk-backed buffering)
+            final long size = 4500 * 1024 * 1024;
             InputStream in = new URL("http://localhost:"+TEST_PORT+"/fluff/bytes?size="+size).openStream();
             byte[] stuff = new byte[64000];
             long total = 0L;
             int count;
 
             while ((count = in.read(stuff)) > 0) {
-                total += count;
+                // verify contents, too
+                for (int i = 0; i < count; ++i) {
+                    int exp = ((int) total) & 0xFF;
+                    int act = stuff[i] & 0xFF;
+                    if (exp != act) {
+                        fail("Content differs at #"+Long.toHexString(total)+"; got 0x"+Integer.toHexString(act)
+                                +", expected 0x"+Integer.toHexString(exp));
+                    }
+                    ++total;
+                }
+                
             }
             in.close();
 
