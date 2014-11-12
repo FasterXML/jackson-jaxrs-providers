@@ -65,7 +65,7 @@ public abstract class ResourceTestBase extends JaxrsTestBase
     protected Server startServer(int port, Class<? extends Application> appClass) {
         return startServer(port, appClass, null);
     }
-    
+
     protected Server startServer(int port, Class<? extends Application> appClass,
             Class<? extends Filter> filterClass)
     {

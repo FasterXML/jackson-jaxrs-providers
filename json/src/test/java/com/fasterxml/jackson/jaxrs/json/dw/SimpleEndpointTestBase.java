@@ -3,10 +3,9 @@ package com.fasterxml.jackson.jaxrs.json.dw;
 import java.io.*;
 import java.net.*;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.StreamingOutput;
 
 import org.eclipse.jetty.server.Server;
 import org.junit.Assert;
@@ -69,10 +68,43 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
         }
     }
 
+    @Path("/fluff")
+    public static class FluffyResource
+    {
+        @GET
+        @Produces({ MediaType.APPLICATION_OCTET_STREAM })
+        @Path("bytes")
+        public StreamingOutput getFluff(@QueryParam("size") final long size) {
+            if (size <= 0L) {
+                throw new IllegalArgumentException("Missing 'size'");
+            }
+            return new StreamingOutput() {
+                @Override
+                public void write(OutputStream output) throws IOException {
+                    byte[] buf = new byte[1024];
+                    for (int i = 0, end = buf.length; i < end; ++i) {
+                        buf[i] = (byte) i;
+                    }
+                    long left = size;
+
+                    while (left > 0) {
+                        int len = (int) Math.min(buf.length, left);
+                        output.write(buf, 0, len);
+                        left -= len;
+                    }
+                }
+            };
+        }
+    }
+
     public static class SimpleRawApp extends JsonApplicationWithJackson {
         public SimpleRawApp() { super(new RawResource()); }
     }
 
+    public static class SimpleFluffyApp extends JsonApplicationWithJackson {
+        public SimpleFluffyApp() { super(new FluffyResource()); }
+    }
+    
     /*
     /**********************************************************
     /* Test methods
@@ -161,6 +193,34 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
 
             in = new URL("http://localhost:"+TEST_PORT+"/raw/bytes").openStream();
             Assert.assertArrayEquals(UNTOUCHABLE_RESPONSE.getBytes("UTF-8"), readAll(in));
+        } finally {
+            server.stop();
+        }
+    }
+
+    /**
+     * Test that exercises underlying JAX-RS container by reading/writing 500 megs of fluff;
+     * but does not do actual data format content. Goal being to ensure that
+     * <code>StreamingOutput</code> works as expected even if provider is registered.
+     */
+    public void testHugeFluffyContent() throws Exception
+    {
+        Server server = startServer(TEST_PORT, SimpleFluffyApp.class);
+        try {
+            // Let's try with 1.5 gigs, just to be sure
+            final long size = 1500 * 1024 * 1024;
+            InputStream in = new URL("http://localhost:"+TEST_PORT+"/fluff/bytes?size="+size).openStream();
+            byte[] stuff = new byte[64000];
+            long total = 0L;
+            int count;
+
+            while ((count = in.read(stuff)) > 0) {
+                total += count;
+            }
+            in.close();
+
+            assertEquals(size, total);
+            
         } finally {
             server.stop();
         }
