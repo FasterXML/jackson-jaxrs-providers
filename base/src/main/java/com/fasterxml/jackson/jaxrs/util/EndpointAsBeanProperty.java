@@ -20,7 +20,7 @@ public class EndpointAsBeanProperty
     extends BeanProperty.Std
 {
     public final static PropertyName ENDPOINT_NAME = new PropertyName("JAX-RS/endpoint");
-    
+
     private final static AnnotationMap NO_ANNOTATIONS = new AnnotationMap();
 
     public final AnnotationMap _annotations;
