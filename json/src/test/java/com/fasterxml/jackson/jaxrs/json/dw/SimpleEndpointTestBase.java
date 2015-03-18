@@ -2,11 +2,14 @@ package com.fasterxml.jackson.jaxrs.json.dw;
 
 import java.io.*;
 import java.net.*;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.StreamingOutput;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.eclipse.jetty.server.Server;
 import org.junit.Assert;
 
@@ -23,6 +26,16 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
         public Point(int x, int y) {
             this.x = x;
             this.y = y;
+        }
+    }
+
+    static class ExtendedPoint extends Point {
+        public int z;
+
+        protected ExtendedPoint() { }
+        public ExtendedPoint(int x, int y, int z) {
+            super(x, y);
+            this.z = z;
         }
     }
 
@@ -102,12 +115,34 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
         }
     }
 
+    @Path("/dynamic")
+    public static class DynamicTypingResource
+    {
+        @GET
+        @Path("single")
+        @Produces(MediaType.APPLICATION_JSON)
+        public Point getPoint() {
+            return new ExtendedPoint(1, 2, 3);
+        }
+
+        @GET
+        @Path("list")
+        @Produces(MediaType.APPLICATION_JSON)
+        public List<Point> getPoints() {
+            return Arrays.asList(getPoint());
+        }
+    }
+
     public static class SimpleRawApp extends JsonApplicationWithJackson {
         public SimpleRawApp() { super(new RawResource()); }
     }
 
     public static class SimpleFluffyApp extends JsonApplicationWithJackson {
         public SimpleFluffyApp() { super(new FluffyResource()); }
+    }
+
+    public static class SimpleDynamicTypingApp extends JsonApplicationWithJackson {
+        public SimpleDynamicTypingApp() { super(new DynamicTypingResource()); }
     }
     
     /*
@@ -240,5 +275,48 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
         } finally {
             server.stop();
         }
+    }
+
+    public void testDynamicTypingSingle() throws Exception
+    {
+        final ObjectMapper mapper = new ObjectMapper();
+        Server server = startServer(TEST_PORT, SimpleDynamicTypingApp.class);
+        ExtendedPoint p;
+
+        try {
+            InputStream in = new URL("http://localhost:"+TEST_PORT+"/dynamic/single").openStream();
+            p = mapper.readValue(in, ExtendedPoint.class);
+            in.close();
+        } finally {
+            server.stop();
+        }
+        // ensure we got a valid Point
+        assertNotNull(p);
+        assertEquals(1, p.x);
+        assertEquals(2, p.y);
+        assertEquals(3, p.z);
+    }
+
+    public void testDynamicTypingList() throws Exception
+    {
+        final ObjectMapper mapper = new ObjectMapper();
+        Server server = startServer(TEST_PORT, SimpleDynamicTypingApp.class);
+        List<ExtendedPoint> l;
+
+        try {
+            InputStream in = new URL("http://localhost:"+TEST_PORT+"/dynamic/list").openStream();
+            l = mapper.readValue(in, new TypeReference<List<ExtendedPoint>>() { });
+            in.close();
+        } finally {
+            server.stop();
+        }
+        assertNotNull(l);
+        assertEquals(1, l.size());
+
+        // ensure we got a valid Point
+        ExtendedPoint p = l.get(0);
+        assertEquals(1, p.x);
+        assertEquals(2, p.y);
+        assertEquals(3, p.z);
     }
 }
