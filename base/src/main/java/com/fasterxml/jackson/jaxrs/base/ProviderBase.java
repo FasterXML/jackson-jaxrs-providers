@@ -611,16 +611,19 @@ public abstract class ProviderBase<
             JavaType rootType = null;
 
             if (genericType != null && value != null) {
-                /* 10-Jan-2011, tatu: as per [JACKSON-456], it's not safe to just force root
-                 *    type since it prevents polymorphic type serialization. Since we really
-                 *    just need this for generics, let's only use generic type if it's truly
-                 *    generic.
-                 */
+                // 10-Jan-2011, tatu: as per [JACKSON-456], it's not safe to just force root
+                //    type since it prevents polymorphic type serialization. Since we really
+                //    just need this for generics, let's only use generic type if it's truly generic.
+
                 if (genericType.getClass() != Class.class) { // generic types are other impls of 'java.lang.reflect.Type'
-                    /* This is still not exactly right; should root type be further
-                     * specialized with 'value.getClass()'? Let's see how well this works before
-                     * trying to come up with more complete solution.
-                     */
+                    // This is still not exactly right; should root type be further
+                    // specialized with 'value.getClass()'? Let's see how well this works before
+                    // trying to come up with more complete solution.
+
+                    // 18-Mar-2015, tatu: As per [#60], there is now a problem with non-polymorphic lists,
+                    //    since forcing of type will then force use of content serializer, which is
+                    //    generally not the intent. Fix may require addition of functionality in databind
+
                     rootType = writer.getTypeFactory().constructType(genericType);
                     /* 26-Feb-2011, tatu: To help with [JACKSON-518], we better recognize cases where
                      *    type degenerates back into "Object.class" (as is the case with plain TypeVariable,
