@@ -803,7 +803,7 @@ public abstract class ProviderBase<
         }
         final JavaType resolvedType = reader.getTypeFactory().constructType(genericType);
         reader = reader.withType(resolvedType);
-        // [Issue#32]: allow modification by filter-injectible thing
+        // [Issue#32]: allow modification by filter-injectable thing
         ObjectReaderModifier mod = ObjectReaderInjector.getAndClear();
         if (mod != null) {
             reader = mod.modify(endpoint, httpHeaders, resolvedType, reader, jp);

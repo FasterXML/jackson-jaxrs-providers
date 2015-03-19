@@ -9,6 +9,11 @@ Sub-modules:
 === Releases ===
 ------------------------------------------------------------------------
 
+2.6.0 (not yet released)
+
+#60: Problems with serialization of List of non-polymorphic values.
+ (reported by Jonathan H)
+
 2.5.2 (not yet released)
 
 Update Woodstox dep to 4.1.4, stax2-api 3.1.4.

@@ -12,6 +12,7 @@ import javax.ws.rs.core.StreamingOutput;
 import org.eclipse.jetty.server.Server;
 import org.junit.Assert;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public abstract class SimpleEndpointTestBase extends ResourceTestBase
@@ -294,5 +295,31 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
         assertEquals(1, p.x);
         assertEquals(2, p.y);
         assertEquals(3, p.z);
+    }
+
+    // for [#60], problems with non-polymorpic Lists
+    public void testDynamicTypingList() throws Exception
+    {
+        final ObjectMapper mapper = new ObjectMapper();
+        Server server = startServer(TEST_PORT, SimpleDynamicTypingApp.class);
+        List<ExtendedPoint> l;
+
+        try {
+            InputStream in = new URL("http://localhost:"+TEST_PORT+"/dynamic/list").openStream();
+            l = mapper.readValue(in, new TypeReference<List<ExtendedPoint>>() { });
+            in.close();
+        } finally {
+            server.stop();
+        }
+        assertNotNull(l);
+        assertEquals(1, l.size());
+
+        // ensure we got a valid Point
+        ExtendedPoint p = l.get(0);
+        assertEquals(1, p.x);
+        assertEquals(2, p.y);
+        if (p.z != 3) {
+            fail("Expected p.z == 3, was "+p.z+"; most likely due to incorrect serialization using base type (issue #60)");
+        }
     }
 }
