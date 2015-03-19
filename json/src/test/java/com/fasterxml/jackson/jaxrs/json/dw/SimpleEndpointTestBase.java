@@ -9,7 +9,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.StreamingOutput;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import org.eclipse.jetty.server.Server;
 import org.junit.Assert;
 
@@ -17,9 +16,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public abstract class SimpleEndpointTestBase extends ResourceTestBase
 {
-    final static int TEST_PORT = 6011;
+    final protected static int TEST_PORT = 6011;
     
-    static class Point {
+    static protected class Point {
         public int x, y;
 
         protected Point() { }
@@ -29,7 +28,7 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
         }
     }
 
-    static class ExtendedPoint extends Point {
+    static protected class ExtendedPoint extends Point {
         public int z;
 
         protected ExtendedPoint() { }
@@ -296,30 +295,4 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
         assertEquals(2, p.y);
         assertEquals(3, p.z);
     }
-
-    // 18-Mar-2015, tatu: Need to comment out briefly (?) to branch 2.6, enable for master afterwards
-/*    
-    public void testDynamicTypingList() throws Exception
-    {
-        final ObjectMapper mapper = new ObjectMapper();
-        Server server = startServer(TEST_PORT, SimpleDynamicTypingApp.class);
-        List<ExtendedPoint> l;
-
-        try {
-            InputStream in = new URL("http://localhost:"+TEST_PORT+"/dynamic/list").openStream();
-            l = mapper.readValue(in, new TypeReference<List<ExtendedPoint>>() { });
-            in.close();
-        } finally {
-            server.stop();
-        }
-        assertNotNull(l);
-        assertEquals(1, l.size());
-
-        // ensure we got a valid Point
-        ExtendedPoint p = l.get(0);
-        assertEquals(1, p.x);
-        assertEquals(2, p.y);
-        assertEquals(3, p.z);
-    }
-*/
 }
