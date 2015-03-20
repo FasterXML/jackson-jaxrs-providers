@@ -2,10 +2,10 @@ package com.fasterxml.jackson.jaxrs.json.jersey;
 
 import javax.servlet.Servlet;
 
-import com.fasterxml.jackson.jaxrs.json.dw.SimpleEndpointTestBase;
+import com.fasterxml.jackson.jaxrs.json.dw.AnnotationTestBase;
 import com.sun.jersey.spi.container.servlet.ServletContainer;
 
-public class SimpleEndpointTest extends SimpleEndpointTestBase {
+public class AnnotationTest extends AnnotationTestBase {
     @Override
     protected Class<? extends Servlet> servletContainerClass() { return ServletContainer.class; }
 }
