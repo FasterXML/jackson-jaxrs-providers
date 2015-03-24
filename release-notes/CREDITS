@@ -30,8 +30,7 @@ Dain Sundstrom:
 
 Jonathan Haber (HiJon89@github);
 
-#60: Problems with serialization of List of non-polymorphic values.
+* Contributed #61: Fix disabling of `JaxRSFeature` (was always enabling features)
+ (2.5.2)
+* Reported #60: Problems with serialization of List of non-polymorphic values.
  (2.6.0)
-
-
-
