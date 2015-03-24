@@ -11,7 +11,9 @@ Sub-modules:
 
 2.5.2 (not yet released)
 
-Update Woodstox dep to 4.1.4, stax2-api 3.1.4.
+#61: Fix disabling of `JaxRSFeature` (was always enabling features)
+ (contributed by Jonathan H, HiJon89@github)
+- Update Woodstox dep to 4.4.1, stax2-api 3.1.4.
 
 2.5.1 (06-Feb-2015)
 2.5.0 (01-Jan-2015)

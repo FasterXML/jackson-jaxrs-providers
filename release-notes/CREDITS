@@ -27,3 +27,8 @@ Dain Sundstrom:
 * Suggested #6: Add `JaxRSFeature.ADD_NO_SNIFF_HEADER` to automatically add
   X-Content-Type-Options header (works with IE)
  (2.2.3)
+
+Jonathan Haber:
+* Contributed #61: Fix disabling of `JaxRSFeature` (was always enabling features)
+ (2.5.2)
+

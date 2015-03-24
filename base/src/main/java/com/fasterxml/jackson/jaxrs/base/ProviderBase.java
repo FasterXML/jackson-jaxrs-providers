@@ -312,8 +312,7 @@ public abstract class ProviderBase<
     // // // JaxRSFeature config
     
     public THIS configure(JaxRSFeature feature, boolean state) {
-        _jaxRSFeatures |= feature.getMask();
-        return _this();
+        return state ? enable(feature) : disable(feature);
     }
 
     public THIS enable(JaxRSFeature feature) {
@@ -353,12 +352,12 @@ public abstract class ProviderBase<
         return _this();
     }
     
-    public THIS enable(DeserializationFeature f, boolean state) {
+    public THIS enable(DeserializationFeature f) {
         _mapperConfig.configure(f, true);
         return _this();
     }
 
-    public THIS disable(DeserializationFeature f, boolean state) {
+    public THIS disable(DeserializationFeature f) {
         _mapperConfig.configure(f, false);
         return _this();
     }
@@ -370,34 +369,34 @@ public abstract class ProviderBase<
         return _this();
     }
 
-    public THIS enable(SerializationFeature f, boolean state) {
+    public THIS enable(SerializationFeature f) {
         _mapperConfig.configure(f, true);
         return _this();
     }
 
-    public THIS disable(SerializationFeature f, boolean state) {
+    public THIS disable(SerializationFeature f) {
         _mapperConfig.configure(f, false);
         return _this();
     }
     
     // // // JsonParser/JsonGenerator
     
-    public THIS enable(JsonParser.Feature f, boolean state) {
+    public THIS enable(JsonParser.Feature f) {
         _mapperConfig.configure(f, true);
         return _this();
     }
 
-    public THIS enable(JsonGenerator.Feature f, boolean state) {
+    public THIS enable(JsonGenerator.Feature f) {
         _mapperConfig.configure(f, true);
         return _this();
     }
 
-    public THIS disable(JsonParser.Feature f, boolean state) {
+    public THIS disable(JsonParser.Feature f) {
         _mapperConfig.configure(f, false);
         return _this();
     }
 
-    public THIS disable(JsonGenerator.Feature f, boolean state) {
+    public THIS disable(JsonGenerator.Feature f) {
         _mapperConfig.configure(f, false);
         return _this();
     }
@@ -803,7 +802,7 @@ public abstract class ProviderBase<
         }
         final JavaType resolvedType = reader.getTypeFactory().constructType(genericType);
         reader = reader.withType(resolvedType);
-        // [Issue#32]: allow modification by filter-injectible thing
+        // [Issue#32]: allow modification by filter-injectable thing
         ObjectReaderModifier mod = ObjectReaderInjector.getAndClear();
         if (mod != null) {
             reader = mod.modify(endpoint, httpHeaders, resolvedType, reader, jp);
