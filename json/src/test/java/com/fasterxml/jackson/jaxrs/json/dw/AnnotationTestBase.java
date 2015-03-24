@@ -8,15 +8,26 @@ import javax.ws.rs.core.MediaType;
 
 import org.eclipse.jetty.server.Server;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonView;
 
 public abstract class AnnotationTestBase extends ResourceTestBase
 {
     final static int TEST_PORT = 6030;
 
+    @JsonPropertyOrder({ "x", "y", "text" })
     public static class Point {
-        public int x, y;
+        // Include 'x' for incoming parameter
+        @JsonView(ParamView.class)
+        public int x;
 
+        // But only serialize 'y'
+        @JsonView(ResultView.class)
+        public int y;
+
+        // and include 'text' for both
+        public String text;
+        
         protected Point() { }
         public Point(int x, int y) {
             this.x = x;
@@ -37,7 +48,9 @@ public abstract class AnnotationTestBase extends ResourceTestBase
         @Produces(MediaType.APPLICATION_JSON)
         @JsonView(ResultView.class)
         public Point withPoint(@JsonView(ParamView.class) Point input) {
-            return new Point(1, 2);
+            Point result = new Point(3, 4);
+            result.text = "("+input.x+","+input.y+")";
+            return result;
         }
     }
 
@@ -55,7 +68,7 @@ public abstract class AnnotationTestBase extends ResourceTestBase
      * Test in which writer/generator modification is handled by
      * changing state from Servlet Filter.
      */
-    public void testIndentationWithFilter() throws Exception
+    public void testInputOutputFiltering() throws Exception
     {
         // We need a filter to inject modifier that enables
         Server server = startServer(TEST_PORT, ResourceApp.class, null);
@@ -69,12 +82,13 @@ public abstract class AnnotationTestBase extends ResourceTestBase
         conn.connect();
 
         OutputStreamWriter w = new OutputStreamWriter(conn.getOutputStream(), "UTF-8");
-        w.write("{\"x\":3,\"y\":4}");
+        w.write("{\"x\":1,\"y\":2}");
         w.close();
 
         try {
             String json = readUTF8(conn.getInputStream());
-            assertEquals(aposToQuotes("{'x':1,'y':2}"), json);
+            // Although (1,2) passed, 2 is filtered by view
+            assertEquals(aposToQuotes("{'y':4,'text':'(1,0)'}"), json);
         } finally {
             server.stop();
         }
