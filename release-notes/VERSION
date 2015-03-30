@@ -9,7 +9,7 @@ Sub-modules:
 === Releases ===
 ------------------------------------------------------------------------
 
-2.5.2 (not yet released)
+2.5.2 (29-Mar-2015))
 
 #61: Fix disabling of `JaxRSFeature` (was always enabling features)
  (contributed by Jonathan H, HiJon89@github)
