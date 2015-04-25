@@ -34,3 +34,8 @@ Jonathan Haber (HiJon89@github);
  (2.5.2)
 * Reported #60: Problems with serialization of List of non-polymorphic values.
  (2.6.0)
+
+rsprit@github:
+* Reported #63, contributed fix: Support JAX-RS 2.0 in OSGi environment for Smile,
+  CBOR too
+ (2.5.4)

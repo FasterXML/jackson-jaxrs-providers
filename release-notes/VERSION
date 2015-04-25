@@ -14,7 +14,16 @@ Sub-modules:
 #60: Problems with serialization of List of non-polymorphic values.
  (reported by Jonathan H)
 
-2.5.2 (not yet released)
+2.5.4 (not yet released)
+
+#63: Support JAX-RS 2.0 in OSGi environment for Smile, CBOR too
+ (contributed by rsprit@github)
+
+2.5.3 (24-Apr-2015)
+
+No changes since 2.5.2
+
+2.5.2 (29-Mar-2015)
 
 #61: Fix disabling of `JaxRSFeature` (was always enabling features)
  (contributed by Jonathan H, HiJon89@github)
