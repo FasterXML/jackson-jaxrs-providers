@@ -32,3 +32,8 @@ Jonathan Haber:
 * Contributed #61: Fix disabling of `JaxRSFeature` (was always enabling features)
  (2.5.2)
 
+rsprit@github:
+* Reported #63, contributed fix: Support JAX-RS 2.0 in OSGi environment for Smile,
+  CBOR too
+
+
