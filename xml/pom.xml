@@ -20,9 +20,9 @@
     <!-- NOTE: JAXB annotations module is optional dependency, need to try to mark
          as such here.
       -->
-    <osgi.import>javax.ws.rs
-,javax.ws.rs.core
-,javax.ws.rs.ext
+    <osgi.import>javax.ws.rs;version="${javax.ws.rs.version}"
+,javax.ws.rs.core;version="${javax.ws.rs.version}"
+,javax.ws.rs.ext;version="${javax.ws.rs.version}"
 ,com.fasterxml.jackson.annotation
 ,com.fasterxml.jackson.core
 ,com.fasterxml.jackson.core.type
