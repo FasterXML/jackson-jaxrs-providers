@@ -11,8 +11,13 @@ Sub-modules:
 
 2.6.0 (not yet released)
 
+#39: Build alternate jars with qualifier "no-metainf-services", which do
+ NOT include `META-INF/services` metadata for auto-registration
 #60: Problems with serialization of List of non-polymorphic values.
  (reported by Jonathan H)
+#66: Should check `_cfgCheckCanDeserialize` in `isReadable()` (and not
+  `_cfgCheckCanSerialize`
+ (reported by seanzhou1023@github)
 
 2.5.4 (not yet released)
 
