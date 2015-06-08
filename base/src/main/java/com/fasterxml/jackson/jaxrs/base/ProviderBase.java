@@ -743,7 +743,7 @@ public abstract class ProviderBase<
             }
         }
         // Finally: if we really want to verify that we can serialize, we'll check:
-        if (_cfgCheckCanSerialize) {
+        if (_cfgCheckCanDeserialize) {
             if (_isSpecialReadable(type)) {
                 return true;
             }
