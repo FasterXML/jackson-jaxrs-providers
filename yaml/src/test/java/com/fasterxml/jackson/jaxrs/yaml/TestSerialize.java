@@ -1,13 +1,13 @@
-package com.fasterxml.jackson.jaxrs.xml;
-
-import java.io.ByteArrayOutputStream;
-import java.lang.annotation.Annotation;
-import java.util.*;
-
-import javax.ws.rs.core.MediaType;
+package com.fasterxml.jackson.jaxrs.yaml;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonRootName;
+
+import javax.ws.rs.core.MediaType;
+import java.io.ByteArrayOutputStream;
+import java.lang.annotation.Annotation;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TestSerialize extends JaxrsTestBase
 {
@@ -55,7 +55,7 @@ public class TestSerialize extends JaxrsTestBase
         msgs.messages.add(new Message("foo"));
         msgs.messages.add(new Message("bar"));
 
-        JacksonXMLProvider prov = new JacksonXMLProvider();
+        JacksonYAMLProvider prov = new JacksonYAMLProvider();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         MediaType mt = MediaType.APPLICATION_JSON_TYPE;
         prov.writeTo(msgs, Messages.class, Messages.class, new Annotation[0], mt, null, out);

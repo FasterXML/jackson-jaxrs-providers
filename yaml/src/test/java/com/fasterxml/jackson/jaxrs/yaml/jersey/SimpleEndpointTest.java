@@ -1,9 +1,9 @@
-package com.fasterxml.jackson.jaxrs.xml.jersey;
+package com.fasterxml.jackson.jaxrs.yaml.jersey;
+
+import com.fasterxml.jackson.jaxrs.yaml.dw.SimpleEndpointTestBase;
+import com.sun.jersey.spi.container.servlet.ServletContainer;
 
 import javax.servlet.Servlet;
-
-import com.fasterxml.jackson.jaxrs.xml.dw.SimpleEndpointTestBase;
-import com.sun.jersey.spi.container.servlet.ServletContainer;
 
 public class SimpleEndpointTest extends SimpleEndpointTestBase {
     @Override

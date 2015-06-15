@@ -1,20 +1,18 @@
-package com.fasterxml.jackson.jaxrs.xml.dw;
+package com.fasterxml.jackson.jaxrs.yaml.dw;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.servlet.DispatcherType;
-import javax.servlet.Filter;
-import javax.servlet.Servlet;
-import javax.ws.rs.core.Application;
-
+import com.fasterxml.jackson.jaxrs.yaml.JacksonYAMLProvider;
+import com.fasterxml.jackson.jaxrs.yaml.JaxrsTestBase;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
-import com.fasterxml.jackson.jaxrs.xml.JacksonXMLProvider;
-import com.fasterxml.jackson.jaxrs.xml.JaxrsTestBase;
+import javax.servlet.DispatcherType;
+import javax.servlet.Filter;
+import javax.servlet.Servlet;
+import javax.ws.rs.core.Application;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Intermediate base for tests that run actual full JAX-RS resource.
@@ -43,7 +41,7 @@ public abstract class ResourceTestBase extends JaxrsTestBase
     protected static abstract class XMLApplicationWithJackson extends XMLApplication
     {
         public XMLApplicationWithJackson(Object resource) {
-            super(new JacksonXMLProvider(), resource);
+            super(new JacksonYAMLProvider(), resource);
         }
     }
     

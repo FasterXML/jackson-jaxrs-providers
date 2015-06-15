@@ -1,14 +1,13 @@
-package com.fasterxml.jackson.jaxrs.xml;
+package com.fasterxml.jackson.jaxrs.yaml;
 
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.core.Versioned;
-import com.fasterxml.jackson.jaxrs.xml.JacksonXMLProvider;
 
 public class TestXMLVersions extends JaxrsTestBase
 {
     public void testMapperVersions()
     {
-        assertVersion(new JacksonXMLProvider());
+        assertVersion(new JacksonYAMLProvider());
     }
 
     /*

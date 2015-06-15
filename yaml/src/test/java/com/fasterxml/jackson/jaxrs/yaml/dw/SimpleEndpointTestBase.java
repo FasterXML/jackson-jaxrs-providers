@@ -1,18 +1,17 @@
-package com.fasterxml.jackson.jaxrs.xml.dw;
+package com.fasterxml.jackson.jaxrs.yaml.dw;
 
-import java.io.*;
-import java.net.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
+import org.eclipse.jetty.server.Server;
+import org.junit.Assert;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
-import org.eclipse.jetty.server.Server;
-import org.junit.Assert;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 
 public abstract class SimpleEndpointTestBase extends ResourceTestBase
 {
@@ -67,7 +66,7 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
 
     public void testSimplePoint() throws Exception
     {
-        final ObjectMapper mapper = new XmlMapper();
+        final ObjectMapper mapper = new YAMLMapper();
         Server server = startServer(TEST_PORT, SimpleResourceApp.class);
         Point p;
         String xml = null;

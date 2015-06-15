@@ -1,17 +1,16 @@
-package com.fasterxml.jackson.jaxrs.xml;
+package com.fasterxml.jackson.jaxrs.yaml;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.core.type.TypeReference;
+
+import javax.ws.rs.core.MediaType;
 import java.io.ByteArrayOutputStream;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.ws.rs.core.MediaType;
-
-import com.fasterxml.jackson.annotation.*;
-import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
-import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.jaxrs.xml.JacksonXMLProvider;
 
 public class TestRootType
     extends JaxrsTestBase
@@ -24,7 +23,7 @@ public class TestRootType
     
     public void testRootType() throws Exception
     {
-        JacksonXMLProvider prov = new JacksonXMLProvider();
+        JacksonYAMLProvider prov = new JacksonYAMLProvider();
         TypeReference<?> ref = new TypeReference<List<Bean>>(){};
         ArrayList<Bean> list = new ArrayList<Bean>();
         list.add(new Bean());

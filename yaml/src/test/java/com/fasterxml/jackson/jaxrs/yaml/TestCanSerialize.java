@@ -1,11 +1,11 @@
-package com.fasterxml.jackson.jaxrs.xml;
-
-import java.io.*;
-import java.util.*;
+package com.fasterxml.jackson.jaxrs.yaml;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Unit test to check [JACKSON-540]

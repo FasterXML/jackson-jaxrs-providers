@@ -1,11 +1,11 @@
-package com.fasterxml.jackson.jaxrs.xml;
-
-import java.util.*;
+package com.fasterxml.jackson.jaxrs.yaml;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.StreamingOutput;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 
-import com.fasterxml.jackson.jaxrs.xml.JacksonXMLProvider;
 
 /**
  * Unit tests for verifying that certain JDK base types will be
@@ -18,7 +18,7 @@ public class TestUntouchables
      * Test type added for [JACKSON-460]... just to ensure that "isXMLType"
      * remains overridable.
      */
-    public static class MyJacksonProvider extends JacksonXMLProvider {
+    public static class MyJacksonProvider extends JacksonYAMLProvider {
          // ensure isJsonType remains "protected" � this is a compile-time check.
          // Some users of JacksonJsonProvider override this method;
          // changing to "private" would regress them.
@@ -31,10 +31,10 @@ public class TestUntouchables
     /* Unit tests
     /**********************************************************
      */
-    
+
     public void testDefaultUntouchables() throws Exception
     {
-        JacksonXMLProvider prov = new JacksonXMLProvider();
+        JacksonYAMLProvider prov = new JacksonYAMLProvider();
         // By default, no reason to exclude, say, this test class...
         assertTrue(prov.isReadable(getClass(), getClass(), null, null));
         assertTrue(prov.isWriteable(getClass(), getClass(), null, null));
@@ -49,7 +49,7 @@ public class TestUntouchables
 
     public void testCustomUntouchables() throws Exception
     {
-        JacksonXMLProvider prov = new JacksonXMLProvider();        
+        JacksonYAMLProvider prov = new JacksonYAMLProvider();
         // can mark this as ignorable...
         prov.addUntouchable(getClass());
         // and then it shouldn't be processable
