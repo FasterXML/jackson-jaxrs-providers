@@ -50,8 +50,8 @@ import java.lang.annotation.Annotation;
  * @author Tatu Saloranta
  */
 @Provider
-@Consumes({MediaType.TEXT_XML, MediaType.APPLICATION_XML})
-@Produces({MediaType.TEXT_XML, MediaType.APPLICATION_XML})
+@Consumes({"text/yaml", "application/yaml"})
+@Produces({"text/yaml", "application/yaml"})
 public class JacksonYAMLProvider
         extends ProviderBase<JacksonYAMLProvider,
         YAMLMapper,
@@ -176,7 +176,7 @@ public class JacksonYAMLProvider
      * is YAML type or sub type.
      * Current implementation essentially checks to see whether
      * {@link MediaType#getSubtype} returns "xml" or something
-     * ending with "+xml".
+     * ending with "+yaml".
      */
     @Override
     protected boolean hasMatchingMediaType(MediaType mediaType) {
@@ -189,7 +189,7 @@ public class JacksonYAMLProvider
         if (mediaType != null) {
             String subtype = mediaType.getSubtype();
             return "yaml".equalsIgnoreCase(subtype) || subtype.endsWith("+yaml");
-            //TODO apparently there is not a standard for yaml types, should be discussed
+            //tarik: apparently there is not a standard for yaml types, should be discussed
         }
         /* Not sure if this can happen; but it seems reasonable
          * that we can at least produce yaml without media type?

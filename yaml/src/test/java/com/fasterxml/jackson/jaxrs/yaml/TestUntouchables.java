@@ -15,7 +15,7 @@ public class TestUntouchables
     extends JaxrsTestBase
 {
     /**
-     * Test type added for [JACKSON-460]... just to ensure that "isXMLType"
+     * Test type added for [JACKSON-460]... just to ensure that "isYAMLType"
      * remains overridable.
      */
     public static class MyJacksonProvider extends JacksonYAMLProvider {

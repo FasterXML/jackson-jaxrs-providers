@@ -8,7 +8,6 @@ import org.junit.Assert;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -31,13 +30,13 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
     public static class SimpleResource
     {
         @GET
-        @Produces({ MediaType.APPLICATION_XML })
+        @Produces({ "application/yaml" })
         public Point getPoint() {
             return new Point(1, 2);
         }
     }
 
-    public static class SimpleResourceApp extends XMLApplicationWithJackson {
+    public static class SimpleResourceApp extends YAMLApplicationWithJackson {
         public SimpleResourceApp() { super(new SimpleResource()); }
     }
 
@@ -48,13 +47,13 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
     {
         @GET
         @Path("bytes")
-        @Produces({ MediaType.APPLICATION_XML })
+        @Produces({ "application/yaml" })
         public byte[] getBytes() throws IOException {
             return UNTOUCHABLE_RESPONSE;
         }
     }
 
-    public static class SimpleRawApp extends XMLApplicationWithJackson {
+    public static class SimpleRawApp extends YAMLApplicationWithJackson {
         public SimpleRawApp() { super(new RawResource()); }
     }
 
@@ -69,14 +68,15 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
         final ObjectMapper mapper = new YAMLMapper();
         Server server = startServer(TEST_PORT, SimpleResourceApp.class);
         Point p;
-        String xml = null;
+        String yaml = null;
 
         try {
-            InputStream in = new URL("http://localhost:"+TEST_PORT+"/point").openStream();
+            URL url = new URL("http://localhost:" + TEST_PORT + "/point");
+            InputStream in = url.openStream();
             byte[] bytes = readAll(in);
             in.close();
-            xml = new String(bytes, "UTF-8");
-            p = mapper.readValue(xml, Point.class);
+            yaml = new String(bytes, "UTF-8");
+            p = mapper.readValue(yaml, Point.class);
         } finally {
             server.stop();
         }
@@ -85,9 +85,8 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
         assertEquals(1, p.x);
         assertEquals(2, p.y);
 
-        if (xml.indexOf("<Point") < 0 || xml.indexOf("<x>1</x>") < 0
-                || xml.indexOf("<y>2</y>") < 0) {
-            fail("Expected Point to be serialized as XML, instead got: "+xml);
+        if (!yaml.contains("x: 1") || !yaml.contains("y: 2")) {
+            fail("Expected Point to be serialized as YAML, instead got: "+yaml);
         }
     }
 

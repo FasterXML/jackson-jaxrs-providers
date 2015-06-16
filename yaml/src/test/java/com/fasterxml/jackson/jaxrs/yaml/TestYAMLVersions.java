@@ -3,7 +3,7 @@ package com.fasterxml.jackson.jaxrs.yaml;
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.core.Versioned;
 
-public class TestXMLVersions extends JaxrsTestBase
+public class TestYAMLVersions extends JaxrsTestBase
 {
     public void testMapperVersions()
     {

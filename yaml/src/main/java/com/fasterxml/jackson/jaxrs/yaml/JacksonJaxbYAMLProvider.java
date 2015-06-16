@@ -1,12 +1,11 @@
 package com.fasterxml.jackson.jaxrs.yaml;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.ext.Provider;
-
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import com.fasterxml.jackson.jaxrs.cfg.Annotations;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.Produces;
+import javax.ws.rs.ext.Provider;
 
 /**
  * JSON content type provider automatically configured to use both Jackson
@@ -23,8 +22,8 @@ import com.fasterxml.jackson.jaxrs.cfg.Annotations;
  * in sync if changed.
  */
 @Provider
-@Consumes({MediaType.TEXT_XML, MediaType.APPLICATION_XML})
-@Produces({MediaType.TEXT_XML, MediaType.APPLICATION_XML})
+@Consumes({"text/yaml", "application/yaml"})
+@Produces({"text/yaml", "application/yaml"})
 public class JacksonJaxbYAMLProvider extends JacksonYAMLProvider {
     /**
      * Default annotation sets to use, if not explicitly defined during

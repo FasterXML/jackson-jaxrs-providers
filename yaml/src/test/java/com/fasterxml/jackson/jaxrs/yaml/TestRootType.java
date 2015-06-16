@@ -32,12 +32,13 @@ public class TestRootType
         MediaType mt = MediaType.APPLICATION_JSON_TYPE;
         prov.writeTo(list, List.class, ref.getType(), new Annotation[0], mt, null, out);
 
-        String xml = out.toString("UTF-8");
-        /* 09-Oct-2013, tatu: With 2.2, this produced "unwrapped" output; but
-         *   with 2.3 it should use same defaults as XML module. So 'wrappers'
-         *   are used for Collections, unless explicitly disabled.
-         */
-        assertEquals("<List><item><bean><a>3</a></bean></item>"
-                +"<item><bean><a>3</a></bean></item></List>", xml);
+        String yaml = out.toString("UTF-8");
+        // This produces !<bean> class names, is this valid?
+
+        assertEquals("---\n" +
+                "- !<bean>\n" +
+                "  a: 3\n" +
+                "- !<bean>\n" +
+                "  a: 3\n", yaml);
     }
 }

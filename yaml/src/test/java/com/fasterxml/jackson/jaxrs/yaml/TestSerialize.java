@@ -60,10 +60,12 @@ public class TestSerialize extends JaxrsTestBase
         MediaType mt = MediaType.APPLICATION_JSON_TYPE;
         prov.writeTo(msgs, Messages.class, Messages.class, new Annotation[0], mt, null, out);
 
-        String xml = out.toString("UTF-8");
+        String yaml = out.toString("UTF-8");
 
-        assertEquals("<m><pageNumber>3</pageNumber><messages><messages><text>foo</text></messages>"
-                +"<messages><text>bar</text></messages></messages></m>",
-                xml);
+        assertEquals("---\n" +
+                        "pageNumber: 3\n" +
+                        "messages:\n" +
+                        "- text: \"foo\"\n" +
+                        "- text: \"bar\"\n", yaml);
     }
 }

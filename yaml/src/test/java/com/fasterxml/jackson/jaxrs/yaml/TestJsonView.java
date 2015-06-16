@@ -42,6 +42,6 @@ public class TestJsonView extends JaxrsTestBase {
         assertNotNull(view); // just a sanity check
         prov.writeTo(bean, bean.getClass(), bean.getClass(), new Annotation[]{view},
                 MediaType.APPLICATION_JSON_TYPE, null, out);
-        assertEquals("<Bean><value1>1</value1></Bean>", out.toString("UTF-8"));
+        assertEquals("---\nvalue1: 1\n", out.toString("UTF-8"));
     }
 }

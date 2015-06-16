@@ -19,12 +19,12 @@ import java.util.Set;
  */
 public abstract class ResourceTestBase extends JaxrsTestBase
 {
-    protected static abstract class XMLApplication extends Application
+    protected static abstract class YAMLApplication extends Application
     {
         protected final Object _provider;
         protected final Object _resource;
 
-        protected XMLApplication(Object provider, Object resource) {
+        protected YAMLApplication(Object provider, Object resource) {
             _provider = provider;
             _resource = resource;
         }
@@ -38,9 +38,9 @@ public abstract class ResourceTestBase extends JaxrsTestBase
         }
     }
 
-    protected static abstract class XMLApplicationWithJackson extends XMLApplication
+    protected static abstract class YAMLApplicationWithJackson extends YAMLApplication
     {
-        public XMLApplicationWithJackson(Object resource) {
+        public YAMLApplicationWithJackson(Object resource) {
             super(new JacksonYAMLProvider(), resource);
         }
     }
