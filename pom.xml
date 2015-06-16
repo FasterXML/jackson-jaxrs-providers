@@ -20,6 +20,7 @@
     <module>json</module>
     <module>smile</module>
     <module>xml</module>
+    <module>yaml</module>
   </modules>
   <url>http://wiki.fasterxml.com/JacksonHome</url>
   <scm>
@@ -37,6 +38,7 @@
     <version.jackson.cbor>${version.jackson.core}</version.jackson.cbor>
     <version.jackson.smile>${version.jackson.core}</version.jackson.smile>
     <version.jackson.xml>${version.jackson.core}</version.jackson.xml>
+    <version.jackson.yaml>${version.jackson.core}</version.jackson.yaml>
 
     <version.jackson.jaxb>${version.jackson.core}</version.jackson.jaxb>
 
