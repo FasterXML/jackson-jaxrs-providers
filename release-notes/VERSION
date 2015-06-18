@@ -18,6 +18,8 @@ Sub-modules:
 #66: Should check `_cfgCheckCanDeserialize` in `isReadable()` (and not
   `_cfgCheckCanSerialize`
  (reported by seanzhou1023@github)
+#68: Add YAML provider
+ (contributed byb mtyurt@github)
 
 2.5.4 (not yet released)
 

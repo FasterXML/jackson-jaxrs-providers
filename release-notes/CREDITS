@@ -23,13 +23,11 @@ Michael Brackx (brackxm@github.com)
  (2.2.3)
 
 Dain Sundstrom:
-
 * Suggested #6: Add `JaxRSFeature.ADD_NO_SNIFF_HEADER` to automatically add
   X-Content-Type-Options header (works with IE)
  (2.2.3)
 
-Jonathan Haber (HiJon89@github);
-
+Jonathan Haber (HiJon89@github):
 * Contributed #61: Fix disabling of `JaxRSFeature` (was always enabling features)
  (2.5.2)
 * Reported #60: Problems with serialization of List of non-polymorphic values.
@@ -39,3 +37,7 @@ rsprit@github:
 * Reported #63, contributed fix: Support JAX-RS 2.0 in OSGi environment for Smile,
   CBOR too
  (2.5.4)
+
+M. Tarık Yurt (mtyurt@github)
+* Contributed #68: Add YAML provider
+ (2.6.0)
