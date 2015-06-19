@@ -4,8 +4,9 @@ This is a multi-module project that contains Jackson-based JAX-RS providers for 
 
 * [JSON](https://github.com/FasterXML/jackson-core)
 * [Smile](https://github.com/FasterXML/jackson-dataformat-smile) (binary JSON)
-* [XML](https://github.com/FasterXML/jackson-dataformat-xml)
 * [CBOR](https://github.com/FasterXML/jackson-dataformat-cbor) (another kind of binary JSON)
+* [XML](https://github.com/FasterXML/jackson-dataformat-xml)
+* [YAML](https://github.com/FasterXML/jackson-dataformat-yaml) (starting with 2.6.0, to be released)
 
 Providers implement JAX-RS `MessageBodyReader` and `MessageBodyWriter` handlers for specific
 data formats. They also contain SPI settings for auto-registration.
@@ -24,7 +25,7 @@ To use JAX-RS on Maven-based projects, use dependencies like:
 <dependency>
   <groupId>com.fasterxml.jackson.jaxrs</groupId>
   <artifactId>jackson-jaxrs-json-provider</artifactId>
-  <version>2.4.0</version>
+  <version>2.5.4</version>
 </dependency>
 ```
 
