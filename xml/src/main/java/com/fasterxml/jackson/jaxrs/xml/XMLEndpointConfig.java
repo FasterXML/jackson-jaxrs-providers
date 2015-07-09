@@ -3,7 +3,7 @@ package com.fasterxml.jackson.jaxrs.xml;
 import java.lang.annotation.Annotation;
 
 import com.fasterxml.jackson.databind.*;
-
+import com.fasterxml.jackson.databind.cfg.MapperConfig;
 import com.fasterxml.jackson.jaxrs.cfg.EndpointConfigBase;
 
 /**
@@ -19,12 +19,12 @@ public class XMLEndpointConfig
     /**********************************************************
      */
 
-    protected XMLEndpointConfig() { }
+    protected XMLEndpointConfig(MapperConfig<?> config) { super(config); }
 
     public static XMLEndpointConfig forReading(ObjectReader reader,
             Annotation[] annotations)
     {
-        return new XMLEndpointConfig()
+        return new XMLEndpointConfig(reader.getConfig())
             .add(annotations, false)
             .initReader(reader);
     }
@@ -32,8 +32,7 @@ public class XMLEndpointConfig
     public static XMLEndpointConfig forWriting(ObjectWriter writer,
             Annotation[] annotations)
     {
-        XMLEndpointConfig config =  new XMLEndpointConfig();
-        return config
+        return new XMLEndpointConfig(writer.getConfig())
             .add(annotations, true)
             .initWriter(writer)
         ;

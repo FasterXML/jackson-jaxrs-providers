@@ -3,6 +3,7 @@ package com.fasterxml.jackson.jaxrs.cbor;
 import java.lang.annotation.Annotation;
 
 import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.cfg.MapperConfig;
 import com.fasterxml.jackson.jaxrs.cfg.EndpointConfigBase;
 
 /**
@@ -18,12 +19,14 @@ public class CBOREndpointConfig
     /**********************************************************
      */
 
-    protected CBOREndpointConfig() { }
+    protected CBOREndpointConfig(MapperConfig<?> config) {
+        super(config);
+    }
 
     public static CBOREndpointConfig forReading(ObjectReader reader,
             Annotation[] annotations)
     {
-        return new CBOREndpointConfig()
+        return new CBOREndpointConfig(reader.getConfig())
             .add(annotations, false)
             .initReader(reader)
         ;
@@ -32,8 +35,7 @@ public class CBOREndpointConfig
     public static CBOREndpointConfig forWriting(ObjectWriter writer,
             Annotation[] annotations)
     {
-        CBOREndpointConfig config =  new CBOREndpointConfig();
-        return config
+        return new CBOREndpointConfig(writer.getConfig())
             .add(annotations, true)
             .initWriter(writer)
         ;

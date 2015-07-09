@@ -5,9 +5,8 @@ import java.lang.annotation.Annotation;
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.annotation.JsonView;
-
 import com.fasterxml.jackson.databind.*;
-
+import com.fasterxml.jackson.databind.cfg.MapperConfig;
 import com.fasterxml.jackson.jaxrs.annotation.JacksonFeatures;
 
 /**
@@ -18,6 +17,11 @@ public abstract class EndpointConfigBase<THIS extends EndpointConfigBase<THIS>>
 {
     // // General configuration
 
+    /**
+     * @since 2.6
+     */
+    protected final MapperConfig<?> _config;
+    
     protected Class<?> _activeView;
 
     protected String _rootName;
@@ -42,8 +46,15 @@ public abstract class EndpointConfigBase<THIS extends EndpointConfigBase<THIS>>
     /**********************************************************
      */
 
-    protected EndpointConfigBase() { }
+    protected EndpointConfigBase(MapperConfig<?> config) {
+        _config = config;
+    }
     
+    @Deprecated // since 2.6
+    protected EndpointConfigBase() {
+        _config = null;
+    }
+
     @SuppressWarnings("unchecked")
     protected THIS add(Annotation[] annotations, boolean forWriting)
     {

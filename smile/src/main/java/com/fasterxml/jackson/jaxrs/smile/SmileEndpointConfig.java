@@ -3,6 +3,7 @@ package com.fasterxml.jackson.jaxrs.smile;
 import java.lang.annotation.Annotation;
 
 import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.cfg.MapperConfig;
 import com.fasterxml.jackson.jaxrs.cfg.EndpointConfigBase;
 
 /**
@@ -18,12 +19,14 @@ public class SmileEndpointConfig
     /**********************************************************
      */
 
-    protected SmileEndpointConfig() { }
+    protected SmileEndpointConfig(MapperConfig<?> config) {
+        super(config);
+    }
 
     public static SmileEndpointConfig forReading(ObjectReader reader,
             Annotation[] annotations)
     {
-        return new SmileEndpointConfig()
+        return new SmileEndpointConfig(reader.getConfig())
             .add(annotations, false)
             .initReader(reader)
         ;
@@ -32,8 +35,7 @@ public class SmileEndpointConfig
     public static SmileEndpointConfig forWriting(ObjectWriter writer,
             Annotation[] annotations)
     {
-        SmileEndpointConfig config =  new SmileEndpointConfig();
-        return config
+        return new SmileEndpointConfig(writer.getConfig())
             .add(annotations, true)
             .initWriter(writer)
         ;

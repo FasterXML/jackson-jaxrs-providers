@@ -33,12 +33,13 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> 
     <version.jackson.annotations>2.6.0-rc3</version.jackson.annotations>
     <!-- core/databind should have same version; data formats, annotations may differ -->
-    <version.jackson.core>2.6.0-rc3</version.jackson.core>
+    <version.jackson.core>2.6.0-rc4-SNAPSHOT</version.jackson.core>
+    <version.dataformats>2.6.0-rc3</version.dataformats>
 
-    <version.jackson.cbor>${version.jackson.core}</version.jackson.cbor>
-    <version.jackson.smile>${version.jackson.core}</version.jackson.smile>
-    <version.jackson.xml>${version.jackson.core}</version.jackson.xml>
-    <version.jackson.yaml>${version.jackson.core}</version.jackson.yaml>
+    <version.jackson.cbor>${version.dataformats}</version.jackson.cbor>
+    <version.jackson.smile>${version.dataformats}</version.jackson.smile>
+    <version.jackson.xml>${version.dataformats}</version.jackson.xml>
+    <version.jackson.yaml>${version.dataformats}</version.jackson.yaml>
 
     <version.jackson.jaxb>${version.jackson.core}</version.jackson.jaxb>
 

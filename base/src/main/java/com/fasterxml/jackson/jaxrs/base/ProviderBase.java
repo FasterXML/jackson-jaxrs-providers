@@ -637,7 +637,7 @@ public abstract class ProviderBase<
             // Most of the configuration now handled through EndpointConfig, ObjectWriter
             // but we may need to force root type:
             if (rootType != null) {
-                writer = writer.withType(rootType);
+                writer = writer.forType(rootType);
             }
             value = endpoint.modifyBeforeWrite(value);
 
@@ -801,7 +801,7 @@ public abstract class ProviderBase<
             return jp;
         }
         final JavaType resolvedType = reader.getTypeFactory().constructType(genericType);
-        reader = reader.withType(resolvedType);
+        reader = reader.forType(resolvedType);
         // [Issue#32]: allow modification by filter-injectable thing
         ObjectReaderModifier mod = ObjectReaderInjector.getAndClear();
         if (mod != null) {

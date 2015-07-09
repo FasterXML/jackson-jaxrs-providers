@@ -3,9 +3,9 @@ package com.fasterxml.jackson.jaxrs.json;
 import java.lang.annotation.Annotation;
 
 import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.cfg.MapperConfig;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.fasterxml.jackson.databind.util.JSONWrappedObject;
-
 import com.fasterxml.jackson.jaxrs.cfg.EndpointConfigBase;
 import com.fasterxml.jackson.jaxrs.json.annotation.JSONP;
 
@@ -26,12 +26,14 @@ public class JsonEndpointConfig
     /**********************************************************
      */
 
-    protected JsonEndpointConfig() { }
-    
+    protected JsonEndpointConfig(MapperConfig<?> config) {
+        super(config);
+    }
+
     public static JsonEndpointConfig forReading(ObjectReader reader,
             Annotation[] annotations)
     {
-        return new JsonEndpointConfig()
+        return new JsonEndpointConfig(reader.getConfig())
             .add(annotations, false)
             .initReader(reader);
     }
@@ -40,7 +42,7 @@ public class JsonEndpointConfig
             Annotation[] annotations,
             String defaultJsonpMethod)
     {
-        JsonEndpointConfig config =  new JsonEndpointConfig();
+        JsonEndpointConfig config =  new JsonEndpointConfig(writer.getConfig());
         if (defaultJsonpMethod != null) {
             config._jsonp = new JSONP.Def(defaultJsonpMethod);
         }
