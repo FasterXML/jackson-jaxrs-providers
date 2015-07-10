@@ -15,6 +15,8 @@ import com.fasterxml.jackson.databind.introspect.AnnotationMap;
  * ideally this would be how implementation works but due JAX-RS API
  * limitations, we are only given annotations associated, and that
  * has to do.
+ *<p>
+ * NOTE: not yet used by JAX-RS provider, directly, as of Jackson 2.6.
  */
 public class EndpointAsBeanProperty
     extends BeanProperty.Std
@@ -23,21 +25,53 @@ public class EndpointAsBeanProperty
 
     private final static AnnotationMap NO_ANNOTATIONS = new AnnotationMap();
 
-    public final AnnotationMap _annotations;
+    protected transient Annotation[] _rawAnnotations;
+    
+    public AnnotationMap _annotations;
 
-    public EndpointAsBeanProperty(JavaType type, Annotation[] annotations)
+    public EndpointAsBeanProperty(PropertyName name, JavaType type, Annotation[] annotations)
     {
         // TODO: find and pass wrapper; isRequired marker?
-        super(ENDPOINT_NAME, type, /*PropertyName wrapperName*/ null,
+        super(name, type, /*PropertyName wrapperName*/ null,
                 null, null, PropertyMetadata.STD_OPTIONAL);
-        boolean hasAnn = (annotations != null && annotations.length > 0);
-        if (hasAnn) {
-            _annotations = new AnnotationMap();
-            for (Annotation a : annotations) {
-                _annotations.add(a);
-            }
-        } else {
-            _annotations = NO_ANNOTATIONS;
+        _rawAnnotations = annotations;
+        _annotations = null;
+    }
+
+    protected EndpointAsBeanProperty(EndpointAsBeanProperty base, JavaType newType)
+    {
+        super(base, newType);
+        _rawAnnotations = base._rawAnnotations;
+        _annotations = base._annotations;
+    }
+
+    @Override
+    public Std withType(JavaType type) {
+        if (_type == type) {
+            return this;
         }
+        return new Std(_name, type, _wrapperName, _contextAnnotations, _member, _metadata);
+    }
+
+    @Override
+    public <A extends Annotation> A getAnnotation(Class<A> acls) {
+        return annotations().get(acls);
+    }
+
+    protected AnnotationMap annotations() {
+        AnnotationMap am = _annotations;
+        if (am == null) {
+            Annotation[] raw = _rawAnnotations;
+            if (raw == null || raw.length == 0) {
+                am = NO_ANNOTATIONS;
+            } else {
+                am = new AnnotationMap();
+                for (Annotation a : raw) {
+                    am.add(a);
+                }
+            }
+            _annotations = am;
+        }
+        return am;
     }
 }
