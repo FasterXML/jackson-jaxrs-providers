@@ -144,32 +144,6 @@ public class JacksonYAMLProvider
                                                   Annotation[] annotations) {
         return YAMLEndpointConfig.forWriting(writer, annotations);
     }
-    //TODO should deprecated methods stay here? After all, this is a new module
-    /**
-     * @deprecated Since 2.3, use variant that takes explicit defaultView
-     */
-    @Deprecated
-    @Override
-    protected YAMLEndpointConfig _configForReading(YAMLMapper mapper, Annotation[] annotations) {
-        return _configForReading(mapper, annotations, _defaultReadView);
-    }
-
-    /**
-     * @deprecated Since 2.3, use variant that takes explicit defaultView
-     */
-    @Deprecated
-    @Override
-    protected YAMLEndpointConfig _configForWriting(YAMLMapper mapper, Annotation[] annotations) {
-        return _configForWriting(mapper, annotations, _defaultWriteView);
-    }
-
-    /**
-     * @deprecated Since 2.2 use {@link #hasMatchingMediaType(MediaType)} instead
-     */
-    @Deprecated
-    protected boolean isYAMLType(MediaType mediaType) {
-        return hasMatchingMediaType(mediaType);
-    }
 
     /**
      * Helper method used to check whether given media type

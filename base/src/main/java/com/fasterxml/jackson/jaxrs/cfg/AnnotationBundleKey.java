@@ -34,16 +34,6 @@ public final class AnnotationBundleKey
     /**********************************************************
      */
 
-    /**
-     * @deprecated Since 2.2.2: use variant that takes explicit Class
-     */
-    @Deprecated
-    public AnnotationBundleKey(Annotation[] annotations)
-    {
-        // could use a private inner class, but this'll do for now; no one should call anyway
-        this(annotations, AnnotationBundleKey.class);
-    }
-
     public AnnotationBundleKey(Annotation[] annotations, Class<?> type)
     {
         _type = type;

@@ -132,14 +132,6 @@ extends ProviderBase<JacksonSmileProvider,
      */
 
     /**
-     * @deprecated Since 2.2 use {@link #hasMatchingMediaType(MediaType)} instead
-     */
-    @Deprecated
-    protected boolean isSmileType(MediaType mediaType) {
-        return hasMatchingMediaType(mediaType);
-    }
-    
-    /**
      * Helper method used to check whether given media type
      * is Smile type or sub type.
      * Current implementation essentially checks to see whether
@@ -221,23 +213,5 @@ extends ProviderBase<JacksonSmileProvider,
     protected SmileEndpointConfig _configForWriting(ObjectWriter writer,
             Annotation[] annotations) {
         return SmileEndpointConfig.forWriting(writer, annotations);
-    }
-
-    /**
-     * @deprecated Since 2.3, use variant that takes explicit defaultView
-     */
-    @Deprecated
-    @Override
-    protected SmileEndpointConfig _configForReading(ObjectMapper mapper, Annotation[] annotations) {
-        return _configForReading(mapper, annotations, _defaultReadView);
-    }
-
-    /**
-     * @deprecated Since 2.3, use variant that takes explicit defaultView
-     */
-    @Deprecated
-    @Override
-    protected SmileEndpointConfig _configForWriting(ObjectMapper mapper, Annotation[] annotations) {
-        return _configForWriting(mapper, annotations, _defaultWriteView);
     }
 }

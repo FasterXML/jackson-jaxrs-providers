@@ -132,14 +132,6 @@ extends ProviderBase<JacksonCBORProvider,
      */
 
     /**
-     * @deprecated Since 2.2 use {@link #hasMatchingMediaType(MediaType)} instead
-     */
-    @Deprecated
-    protected boolean isSmileType(MediaType mediaType) {
-        return hasMatchingMediaType(mediaType);
-    }
-    
-    /**
      * Helper method used to check whether given media type
      * is Smile type or sub type.
      * Current implementation essentially checks to see whether

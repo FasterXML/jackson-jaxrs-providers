@@ -327,9 +327,9 @@ public abstract class ProviderBase<
         }
         return _this();
     }
-    
+
     public THIS disable(JaxRSFeature feature) {
-    	_jaxRSFeatures &= ~feature.getMask();
+        _jaxRSFeatures &= ~feature.getMask();
         return _this();
     }
 
@@ -478,22 +478,6 @@ public abstract class ProviderBase<
             w = mapper.writer();
         }
         return _configForWriting(w, annotations);
-    }
-
-    /**
-     * @deprecated Since 2.3, use variant that takes explicit defaultView
-     */
-    @Deprecated
-    protected EP_CONFIG _configForReading(MAPPER mapper, Annotation[] annotations) {
-        return _configForReading(mapper, annotations, _defaultReadView);
-    }
-
-    /**
-     * @deprecated Since 2.3, use variant that takes explicit defaultView
-     */
-    @Deprecated
-    protected EP_CONFIG _configForWriting(MAPPER mapper, Annotation[] annotations) {
-        return _configForWriting(mapper, annotations, _defaultWriteView);
     }
 
     protected abstract EP_CONFIG _configForReading(ObjectReader reader,

@@ -21,13 +21,13 @@ public abstract class EndpointConfigBase<THIS extends EndpointConfigBase<THIS>>
      * @since 2.6
      */
     protected final MapperConfig<?> _config;
-    
+
     protected Class<?> _activeView;
 
     protected String _rootName;
 
     // // Deserialization-only config
-    
+
     protected DeserializationFeature[] _deserEnable;
     protected DeserializationFeature[] _deserDisable;
 
