@@ -20,6 +20,7 @@ Sub-modules:
  (reported by seanzhou1023@github)
 #68: Add YAML provider
  (contributed byb mtyurt@github)
+#69: Add deserialization support for `MappingIterator`, to support iteration over large input
 
 2.5.4 (not yet released)
 

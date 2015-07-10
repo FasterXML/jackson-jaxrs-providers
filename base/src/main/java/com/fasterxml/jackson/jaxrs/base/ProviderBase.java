@@ -13,6 +13,7 @@ import javax.ws.rs.ext.MessageBodyWriter;
 
 import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.fasterxml.jackson.jaxrs.cfg.*;
 import com.fasterxml.jackson.jaxrs.util.ClassKey;
 import com.fasterxml.jackson.jaxrs.util.LRUMap;
@@ -762,11 +763,11 @@ public abstract class ProviderBase<
             }
         }
         ObjectReader reader = endpoint.getReader();
-        JsonParser jp = _createParser(reader, entityStream);
+        JsonParser p = _createParser(reader, entityStream);
         
         // If null is returned, considered to be empty stream
         // 05-Apr-2014, tatu: As per [Issue#49], behavior here is configurable.
-        if (jp == null || jp.nextToken() == null) {
+        if (p == null || p.nextToken() == null) {
             if (JaxRSFeature.ALLOW_EMPTY_INPUT.enabledIn(_jaxRSFeatures)) {
                 return null;
             }
@@ -779,18 +780,35 @@ public abstract class ProviderBase<
             }
             throw fail;
         }
-        // [Issue#1]: allow 'binding' to JsonParser
-        if (((Class<?>) type) == JsonParser.class) {
-            return jp;
+        Class<?> rawType = type;
+        if (rawType == JsonParser.class) {
+            return p;
         }
-        final JavaType resolvedType = reader.getTypeFactory().constructType(genericType);
-        reader = reader.forType(resolvedType);
+        final TypeFactory tf = reader.getTypeFactory();
+        final JavaType resolvedType = tf.constructType(genericType);
+
+        // 09-Jul-2015, tatu: As per [jaxrs-providers#69], handle MappingIterator too
+        boolean multiValued = (rawType == MappingIterator.class);
+        
+        if (multiValued) {
+            JavaType[] contents = tf.findTypeParameters(resolvedType, MappingIterator.class);
+            JavaType valueType = (contents == null || contents.length == 0)
+                    ? tf.constructType(Object.class) : contents[0];
+            reader = reader.forType(valueType);
+        } else {
+            reader = reader.forType(resolvedType);
+        }
+
         // [Issue#32]: allow modification by filter-injectable thing
         ObjectReaderModifier mod = ObjectReaderInjector.getAndClear();
         if (mod != null) {
-            reader = mod.modify(endpoint, httpHeaders, resolvedType, reader, jp);
+            reader = mod.modify(endpoint, httpHeaders, resolvedType, reader, p);
         }
-        return reader.readValue(jp);
+        
+        if (multiValued) {
+            return reader.readValues(p);
+        }
+        return reader.readValue(p);
     }
 
     /**

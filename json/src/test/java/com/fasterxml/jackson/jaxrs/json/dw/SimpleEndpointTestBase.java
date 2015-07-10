@@ -13,6 +13,7 @@ import org.eclipse.jetty.server.Server;
 import org.junit.Assert;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public abstract class SimpleEndpointTestBase extends ResourceTestBase
@@ -54,6 +55,29 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
         @Produces({ MediaType.APPLICATION_JSON, "text/x-json" })
         public Point getPointJSONX() {
             return new Point(1, 2);
+        }
+
+        @Path("/max")
+        @POST
+        @Consumes(MediaType.APPLICATION_JSON)
+        @Produces(MediaType.APPLICATION_JSON)
+        public Point maxPoint(MappingIterator<Point> points) throws IOException
+        {
+            Point max = null;
+            int maxDist = 0;
+            while (points.hasNextValue()) {
+                Point p = points.nextValue();
+                int dist = _distance(p);
+                if (max == null || (dist > maxDist)) {
+                    maxDist = dist;
+                    max = p;
+                }
+            }
+            return max;
+        }
+
+        private int _distance(Point p) {
+            return (p.x * p.x) + (p.y * p.y);
         }
     }
 
@@ -222,6 +246,44 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
         }
     }
 
+    /*
+        @Path("/max")
+        @POST
+        @Produces(MediaType.APPLICATION_JSON)
+        public Point maxPoint(MappingIterator<Point> points) throws IOException
+        {
+     */
+    
+    // [jaxrs-providers#69]
+    public void testMappingIterator() throws Exception
+    {
+        final ObjectMapper mapper = new ObjectMapper();
+        Server server = startServer(TEST_PORT, SimpleResourceApp.class);
+        Point p;
+
+        try {
+            URL url = new URL("http://localhost:"+TEST_PORT+"/point/max");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestProperty("Accept", MediaType.APPLICATION_JSON);
+            conn.setRequestProperty("Content-Type", MediaType.APPLICATION_JSON);
+            conn.setDoOutput(true);
+            conn.setRequestMethod("POST");
+            OutputStream out = conn.getOutputStream();
+            out.write(aposToQuotes("{'x':1,'y':1}\n{'y':4,'x':-4}{'x':2,'y':5}"
+                    ).getBytes("UTF-8"));
+            out.close();
+            InputStream in = conn.getInputStream();
+            p = mapper.readValue(in, Point.class);
+            in.close();
+        } finally {
+            server.stop();
+        }
+        // ensure we got a valid Point
+        assertNotNull(p);
+        assertEquals(-4, p.x);
+        assertEquals(4, p.y);
+    }
+
     // [Issue#34] Verify that Untouchables act the way as they should
     @SuppressWarnings("resource")
     public void testUntouchables() throws Exception
@@ -297,7 +359,7 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
         assertEquals(3, p.z);
     }
 
-    // for [#60], problems with non-polymorpic Lists
+    // for [#60], problems with non-polymorphic Lists
     public void testDynamicTypingList() throws Exception
     {
         final ObjectMapper mapper = new ObjectMapper();
