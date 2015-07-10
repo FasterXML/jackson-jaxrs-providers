@@ -155,14 +155,6 @@ public class JacksonJsonProvider
      */
 
     /**
-     * @deprecated Since 2.2 use {@link #hasMatchingMediaType(MediaType)} instead
-     */
-    @Deprecated
-    protected boolean isJsonType(MediaType mediaType) {
-        return hasMatchingMediaType(mediaType);
-    }
-
-    /**
      * Helper method used to check whether given media type
      * is supported by this provider.
      * Current implementation essentially checks to see whether
@@ -230,5 +222,13 @@ public class JacksonJsonProvider
         Annotation[] annotations) {
         return JsonEndpointConfig.forWriting(writer, annotations,
                 _jsonpFunctionName);
+    }
+
+    /**
+     * @deprecated Since 2.2 use {@link #hasMatchingMediaType(MediaType)} instead
+     */
+    @Deprecated
+    protected boolean isJsonType(MediaType mediaType) {
+        return hasMatchingMediaType(mediaType);
     }
 }

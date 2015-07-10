@@ -534,7 +534,7 @@ public abstract class ProviderBase<
         /* Ok: looks like we must weed out some core types here; ones that
          * make no sense to try to bind from JSON:
          */
-        if (_untouchables.contains(new ClassKey(type))) {
+        if (_isIgnorableForWriting(new ClassKey(type))) {
             return false;
         }
         // but some are interface/abstract classes, so
@@ -708,7 +708,6 @@ public abstract class ProviderBase<
         if (!hasMatchingMediaType(mediaType)) {
             return false;
         }
-
         Boolean customUntouchable = _findCustomUntouchable(type);
         if (customUntouchable != null) {
             // negation: Boolean.TRUE means untouchable -> can not write
@@ -717,7 +716,7 @@ public abstract class ProviderBase<
         /* Ok: looks like we must weed out some core types here; ones that
          * make no sense to try to bind from JSON:
          */
-        if (_untouchables.contains(new ClassKey(type))) {
+        if (_isIgnorableForReading(new ClassKey(type))) {
             return false;
         }
         // and there are some other abstract/interface types to exclude too:
@@ -738,7 +737,7 @@ public abstract class ProviderBase<
         }
         return true;
     }
-    
+
     /**
      * Method that JAX-RS container calls to deserialize given value.
      */
@@ -863,6 +862,30 @@ public abstract class ProviderBase<
         return JsonParser.class == type;
     }
 
+    /**
+     * Overridable helper method called to check whether given type is a known
+     * "ignorable type" (in context of reading), values of which are not bound
+     * from content.
+     *
+     * @since 2.6
+     */
+    protected boolean _isIgnorableForReading(ClassKey typeKey)
+    {
+        return _untouchables.contains(typeKey);
+    }
+
+    /**
+     * Overridable helper method called to check whether given type is a known
+     * "ignorable type" (in context of reading), values of which
+     * can not be written out.
+     *
+     * @since 2.6
+     */
+    protected boolean _isIgnorableForWriting(ClassKey typeKey)
+    {
+        return _untouchables.contains(typeKey);
+    }
+    
     /**
      * @since 2.4
      */
