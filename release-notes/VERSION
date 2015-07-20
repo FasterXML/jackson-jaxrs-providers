@@ -9,7 +9,7 @@ Sub-modules:
 === Releases ===
 ------------------------------------------------------------------------
 
-2.6.0 (not yet released)
+2.6.0 (20-Jul-2015)
 
 #39: Build alternate jars with qualifier "no-metainf-services", which do
  NOT include `META-INF/services` metadata for auto-registration
