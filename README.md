@@ -36,7 +36,9 @@ To use JAX-RS on Maven-based projects, use dependencies like:
 Due to auto-registration, it should be possible to simply add Maven dependency
 (or include jar if using other build systems) and let JAX-RS implementation discover
 provider.
-If this does not work you need to consult documentation of the JAX-RS implementation for details.
+If this does not work you need to consult documentation of the JAX-RS implementation for details.  
+
+To use Jackson with Jersey see [their documentation](https://jersey.java.net/documentation/latest/media.html#json.jackson).
 
 ### Annotations on resources
 
