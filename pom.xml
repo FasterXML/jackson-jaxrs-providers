@@ -4,7 +4,7 @@
   <parent>
     <groupId>com.fasterxml.jackson</groupId>
     <artifactId>jackson-parent</artifactId>
-    <version>2.6.1</version>
+    <version>2.7.0-rc1</version>
   </parent>
   <groupId>com.fasterxml.jackson.jaxrs</groupId>
   <artifactId>jackson-jaxrs-providers</artifactId>
@@ -31,10 +31,10 @@
   </scm>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> 
-    <version.jackson.annotations>2.6.0</version.jackson.annotations>
+    <version.jackson.annotations>2.7.0-rc1</version.jackson.annotations>
     <!-- core/databind should have same version; data formats, annotations may differ -->
-    <version.jackson.core>2.6.3</version.jackson.core>
-    <version.dataformats>2.6.3</version.dataformats>
+    <version.jackson.core>2.7.0-rc1</version.jackson.core>
+    <version.dataformats>2.7.0-rc1</version.dataformats>
 
     <version.jackson.cbor>${version.dataformats}</version.jackson.cbor>
     <version.jackson.smile>${version.dataformats}</version.jackson.smile>
