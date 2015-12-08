@@ -9,6 +9,10 @@ Sub-modules:
 === Releases ===
 ------------------------------------------------------------------------
 
+2.5.5 (07-Dec-2015)
+
+No changes since 2.5.4
+
 2.5.4 (09-Jun-2015)
 
 #63: Support JAX-RS 2.0 in OSGi environment for Smile, CBOR too
