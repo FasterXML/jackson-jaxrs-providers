@@ -3,9 +3,11 @@ package com.fasterxml.jackson.jaxrs.yaml;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
+
 import org.junit.Assert;
 
 import javax.ws.rs.core.MediaType;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,7 +16,8 @@ import java.util.Arrays;
 public abstract class JaxrsTestBase
     extends junit.framework.TestCase
 {
-    public static final MediaType YAML_MEDIA_TYPE = MediaType.valueOf("application/yaml");
+    public static final MediaType YAML_MEDIA_TYPE = YAMLMediaTypes.APPLICATION_JACKSON_YAML_TYPE;
+
     /*
     /**********************************************************
     /* Additional assertion methods

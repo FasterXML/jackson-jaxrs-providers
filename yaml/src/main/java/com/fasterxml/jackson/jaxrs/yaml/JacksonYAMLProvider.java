@@ -14,6 +14,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.*;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PushbackInputStream;
@@ -50,8 +51,8 @@ import java.lang.annotation.Annotation;
  * @author Tatu Saloranta
  */
 @Provider
-@Consumes({"text/yaml", "application/yaml"})
-@Produces({"text/yaml", "application/yaml"})
+@Consumes({ YAMLMediaTypes.TEXT_JACKSON_YAML, YAMLMediaTypes.APPLICATION_JACKSON_YAML })
+@Produces({ YAMLMediaTypes.TEXT_JACKSON_YAML, YAMLMediaTypes.APPLICATION_JACKSON_YAML })
 public class JacksonYAMLProvider
         extends ProviderBase<JacksonYAMLProvider,
         YAMLMapper,

@@ -2,12 +2,15 @@ package com.fasterxml.jackson.jaxrs.yaml.dw;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
+import com.fasterxml.jackson.jaxrs.yaml.YAMLMediaTypes;
+
 import org.eclipse.jetty.server.Server;
 import org.junit.Assert;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -30,7 +33,7 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
     public static class SimpleResource
     {
         @GET
-        @Produces({ "application/yaml" })
+        @Produces(YAMLMediaTypes.APPLICATION_JACKSON_YAML)
         public Point getPoint() {
             return new Point(1, 2);
         }
@@ -47,7 +50,7 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
     {
         @GET
         @Path("bytes")
-        @Produces({ "application/yaml" })
+        @Produces({ YAMLMediaTypes.APPLICATION_JACKSON_YAML })
         public byte[] getBytes() throws IOException {
             return UNTOUCHABLE_RESPONSE;
         }

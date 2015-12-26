@@ -22,8 +22,8 @@ import javax.ws.rs.ext.Provider;
  * in sync if changed.
  */
 @Provider
-@Consumes({"text/yaml", "application/yaml"})
-@Produces({"text/yaml", "application/yaml"})
+@Consumes({ YAMLMediaTypes.TEXT_JACKSON_YAML, YAMLMediaTypes.APPLICATION_JACKSON_YAML })
+@Produces({ YAMLMediaTypes.TEXT_JACKSON_YAML, YAMLMediaTypes.APPLICATION_JACKSON_YAML })
 public class JacksonJaxbYAMLProvider extends JacksonYAMLProvider {
     /**
      * Default annotation sets to use, if not explicitly defined during
