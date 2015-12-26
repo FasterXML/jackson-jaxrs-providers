@@ -16,6 +16,9 @@
 
   <modules>
     <module>base</module>
+<!-- 26-Dec-2015, tatu: As per [jaxrs-providers#48], will add datatypes module in 2.8
+    <module>datatypes</module>
+-->
     <module>cbor</module>
     <module>json</module>
     <module>smile</module>
