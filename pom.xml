@@ -34,10 +34,9 @@
   </scm>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> 
-    <version.jackson.annotations>2.7.0-rc3</version.jackson.annotations>
-    <!-- core/databind should have same version; data formats, annotations may differ -->
-    <version.jackson.core>2.7.0-rc3</version.jackson.core>
-    <version.dataformats>2.7.0-rc3</version.dataformats>
+    <!-- core/databind should have same version; data formats, annotation version from parent pom -->
+    <version.jackson.core>2.7.0</version.jackson.core>
+    <version.dataformats>2.7.0</version.dataformats>
 
     <version.jackson.cbor>${version.dataformats}</version.jackson.cbor>
     <version.jackson.smile>${version.dataformats}</version.jackson.smile>
