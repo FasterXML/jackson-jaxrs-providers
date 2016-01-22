@@ -20,18 +20,10 @@ ${project.groupId}.annotation.*;version=${project.version}
 ,${project.groupId}.cfg.*;version=${project.version}
 ,${project.groupId}.util.*;version=${project.version}
 </osgi.export>
-    <osgi.import>com.fasterxml.jackson.annotation
-,com.fasterxml.jackson.core
-,com.fasterxml.jackson.core.type
-,com.fasterxml.jackson.core.util
-,com.fasterxml.jackson.databind
-,com.fasterxml.jackson.databind.cfg
-,com.fasterxml.jackson.databind.introspect
-,com.fasterxml.jackson.databind.type
-,com.fasterxml.jackson.databind.util
-,javax.ws.rs;version="${javax.ws.rs.version}"
+    <osgi.import>javax.ws.rs;version="${javax.ws.rs.version}"
 ,javax.ws.rs.core;version="${javax.ws.rs.version}"
-,javax.ws.rs.ext;version="${javax.ws.rs.version}"
+,javax.ws.rs.ext;version="${javax.ws.rs.version}",
+*
 </osgi.import>
   </properties>
 

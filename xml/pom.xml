@@ -17,26 +17,13 @@
     <packageVersion.dir>com/fasterxml/jackson/jaxrs/xml</packageVersion.dir>
     <packageVersion.package>${project.groupId}.xml</packageVersion.package>
     <osgi.export>${project.groupId}.xml.*;version=${project.version}</osgi.export>
-    <!-- NOTE: JAXB annotations module is optional dependency, need to try to mark
-         as such here.
+    <!-- NOTE: JAXB annotations module is NOT optional for xml format:
+,com.fasterxml.jackson.module.jaxb;resolution:=optional
       -->
     <osgi.import>javax.ws.rs;version="${javax.ws.rs.version}"
 ,javax.ws.rs.core;version="${javax.ws.rs.version}"
 ,javax.ws.rs.ext;version="${javax.ws.rs.version}"
-,com.fasterxml.jackson.annotation
-,com.fasterxml.jackson.core
-,com.fasterxml.jackson.core.type
-,com.fasterxml.jackson.core.util
-,com.fasterxml.jackson.databind
-,com.fasterxml.jackson.databind.cfg
-,com.fasterxml.jackson.databind.introspect
-,com.fasterxml.jackson.databind.type
-,com.fasterxml.jackson.databind.util
-,com.fasterxml.jackson.dataformat.xml
-,com.fasterxml.jackson.dataformat.xml.jaxb
-,com.fasterxml.jackson.jaxrs.base
-,com.fasterxml.jackson.jaxrs.cfg
-,com.fasterxml.jackson.module.jaxb;resolution:=optional
+,*
 </osgi.import>
   </properties>
 
