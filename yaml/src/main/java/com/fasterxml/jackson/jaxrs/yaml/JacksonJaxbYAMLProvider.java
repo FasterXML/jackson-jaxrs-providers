@@ -5,6 +5,7 @@ import com.fasterxml.jackson.jaxrs.cfg.Annotations;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.Provider;
 
 /**
@@ -22,8 +23,8 @@ import javax.ws.rs.ext.Provider;
  * in sync if changed.
  */
 @Provider
-@Consumes({ YAMLMediaTypes.TEXT_JACKSON_YAML, YAMLMediaTypes.APPLICATION_JACKSON_YAML })
-@Produces({ YAMLMediaTypes.TEXT_JACKSON_YAML, YAMLMediaTypes.APPLICATION_JACKSON_YAML })
+@Consumes(MediaType.WILDCARD) // NOTE: required to support "non-standard" JSON variants
+@Produces(MediaType.WILDCARD)
 public class JacksonJaxbYAMLProvider extends JacksonYAMLProvider {
     /**
      * Default annotation sets to use, if not explicitly defined during

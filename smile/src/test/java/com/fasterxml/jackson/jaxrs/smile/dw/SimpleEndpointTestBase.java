@@ -34,6 +34,13 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
         public Point getPoint() {
             return new Point(1, 2);
         }
+
+        @Path("/custom")
+        @GET
+        @Produces({ "application/vnd.com.example.v1+smile" })
+        public Point getPointCustom() {
+            return new Point(1, 2);
+        }
     }
 
     public static class SimpleResourceApp extends SmileApplicationWithJackson {
@@ -71,6 +78,28 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
 
         try {
             InputStream in = new URL("http://localhost:"+TEST_PORT+"/point").openStream();
+            p = mapper.readValue(in, Point.class);
+            in.close();
+        } finally {
+            server.stop();
+        }
+        // ensure we got a valid Point
+        assertNotNull(p);
+        assertEquals(1, p.x);
+        assertEquals(2, p.y);
+    }
+
+    public void testCustomMediaTypeWithSmileExtension() throws Exception
+    {
+        final ObjectMapper mapper = new ObjectMapper(new SmileFactory());
+        Server server = startServer(TEST_PORT, SimpleResourceApp.class);
+        Point p;
+
+        try {
+            final URL url = new URL("http://localhost:" + TEST_PORT + "/point/custom");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestProperty("Accept", "application/vnd.com.example.v1+smile");
+            InputStream in = conn.getInputStream();
             p = mapper.readValue(in, Point.class);
             in.close();
         } finally {

@@ -43,8 +43,8 @@ import com.fasterxml.jackson.jaxrs.cfg.Annotations;
  * @author Tatu Saloranta
  */
 @Provider
-@Consumes(SmileMediaTypes.APPLICATION_JACKSON_SMILE)
-@Produces(SmileMediaTypes.APPLICATION_JACKSON_SMILE)
+@Consumes(MediaType.WILDCARD) // NOTE: required to support "non-standard" JSON variants
+@Produces(MediaType.WILDCARD)
 public class JacksonSmileProvider
 extends ProviderBase<JacksonSmileProvider,
     ObjectMapper,

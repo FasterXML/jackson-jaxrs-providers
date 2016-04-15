@@ -43,8 +43,8 @@ import com.fasterxml.jackson.jaxrs.cfg.Annotations;
  * @author Tatu Saloranta
  */
 @Provider
-@Consumes(CBORMediaTypes.APPLICATION_JACKSON_CBOR)
-@Produces(CBORMediaTypes.APPLICATION_JACKSON_CBOR)
+@Consumes(MediaType.WILDCARD) // NOTE: required to support "non-standard" JSON variants
+@Produces(MediaType.WILDCARD)
 public class JacksonCBORProvider
 extends ProviderBase<JacksonCBORProvider,
     ObjectMapper,

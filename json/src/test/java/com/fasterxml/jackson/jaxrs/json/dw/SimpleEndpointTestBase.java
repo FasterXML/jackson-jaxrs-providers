@@ -57,6 +57,13 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
             return new Point(1, 2);
         }
 
+        @Path("/custom")
+        @GET
+        @Produces({ MediaType.APPLICATION_JSON, "application/vnd.com.example.v1+json" })
+        public Point getPointCustomMediaType() {
+            return new Point(1, 2);
+        }
+
         @Path("/max")
         @POST
         @Consumes(MediaType.APPLICATION_JSON)
@@ -200,6 +207,7 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
         Server server = startServer(TEST_PORT, SimpleResourceApp.class);
         URL urlJS = new URL("http://localhost:"+TEST_PORT+"/point/javascript");
         URL urlJsonX = new URL("http://localhost:"+TEST_PORT+"/point/jsonx");
+        URL urlCustom = new URL("http://localhost:"+TEST_PORT+"/point/custom");
 
         try {
             HttpURLConnection conn = (HttpURLConnection) urlJS.openConnection();
@@ -229,6 +237,21 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
             // [Issue#40]: another oddball type to consider
             conn = (HttpURLConnection) urlJsonX.openConnection();
             conn.setRequestProperty("Accept", "text/x-json");
+            assertEquals(HttpURLConnection.HTTP_OK, conn.getResponseCode());
+            in = conn.getInputStream();
+            p = null;
+            try {
+                p = mapper.readValue(in, Point.class);
+            } finally {
+                in.close();
+            }
+            assertNotNull(p);
+            assertEquals(1, p.x);
+            assertEquals(2, p.y);
+            conn.disconnect();
+
+            conn = (HttpURLConnection) urlCustom.openConnection();
+            conn.setRequestProperty("Accept", "application/vnd.com.example.v1+json");
             assertEquals(HttpURLConnection.HTTP_OK, conn.getResponseCode());
             in = conn.getInputStream();
             p = null;

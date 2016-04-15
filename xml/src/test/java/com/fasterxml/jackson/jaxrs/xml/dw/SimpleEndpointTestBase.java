@@ -36,6 +36,13 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
         public Point getPoint() {
             return new Point(1, 2);
         }
+
+        @GET
+        @Path("/custom")
+        @Produces({ "application/vnd.com.example.v1+xml" })
+        public Point getPointCustom() {
+            return new Point(1, 2);
+        }
     }
 
     public static class SimpleResourceApp extends XMLApplicationWithJackson {
@@ -90,6 +97,28 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
                 || xml.indexOf("<y>2</y>") < 0) {
             fail("Expected Point to be serialized as XML, instead got: "+xml);
         }
+    }
+
+    public void testCustomMediaTypeWithXmlExtension() throws Exception
+    {
+        final ObjectMapper mapper = new XmlMapper();
+        Server server = startServer(TEST_PORT, SimpleResourceApp.class);
+        Point p;
+
+        try {
+            final URL url = new URL("http://localhost:" + TEST_PORT + "/point/custom");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestProperty("Accept", "application/vnd.com.example.v1+xml");
+            InputStream in = conn.getInputStream();
+            p = mapper.readValue(in, Point.class);
+            in.close();
+        } finally {
+            server.stop();
+        }
+        // ensure we got a valid Point
+        assertNotNull(p);
+        assertEquals(1, p.x);
+        assertEquals(2, p.y);
     }
 
     // [Issue#34] Verify that Untouchables act the way as they should

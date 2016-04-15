@@ -45,8 +45,8 @@ import com.fasterxml.jackson.jaxrs.cfg.Annotations;
  * @author Tatu Saloranta
  */
 @Provider
-@Consumes({MediaType.TEXT_XML, MediaType.APPLICATION_XML})
-@Produces({MediaType.TEXT_XML, MediaType.APPLICATION_XML})
+@Consumes(MediaType.WILDCARD) // NOTE: required to support "non-standard" JSON variants
+@Produces(MediaType.WILDCARD)
 public class JacksonXMLProvider
     extends ProviderBase<JacksonXMLProvider,
         XmlMapper,
