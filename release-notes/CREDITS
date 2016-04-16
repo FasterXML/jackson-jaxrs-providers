@@ -41,3 +41,11 @@ rsprit@github:
 M. Tarık Yurt (mtyurt@github)
 * Contributed #68: Add YAML provider
  (2.6.0)
+
+Nick Kleinschmidt (kleinsch@github)
+
+* Reported, contributed fix for #80: Non-JSON providers don't
+  support custom MIME types with extensions
+ (2.7.4)
+
+
