@@ -58,6 +58,20 @@ using standard Jackson data binding.
       <artifactId>jackson-module-jaxb-annotations</artifactId>
       <version>${version.jackson.jaxb}</version>
     </dependency>
+
+    <!-- Use JSON and Smile providers for testing that content negotiation works with multiple providers registered. -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.jaxrs</groupId>
+      <artifactId>jackson-jaxrs-json-provider</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.jaxrs</groupId>
+      <artifactId>jackson-jaxrs-smile-provider</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
   <build>
     <plugins>

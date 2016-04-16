@@ -21,18 +21,20 @@ public abstract class ResourceTestBase extends JaxrsTestBase
 {
     protected static abstract class YAMLApplication extends Application
     {
-        protected final Object _provider;
+        protected final Object[] _providers;
         protected final Object _resource;
 
-        protected YAMLApplication(Object provider, Object resource) {
-            _provider = provider;
+        protected YAMLApplication(Object resource, Object... providers) {
+            _providers = providers;
             _resource = resource;
         }
         
         @Override
         public Set<Object> getSingletons() {
             HashSet<Object> singletons = new HashSet<Object>();
-            singletons.add(_provider);
+            for(Object provider : _providers) {
+                singletons.add(provider);
+            }
             singletons.add(_resource);
             return singletons;
         }
@@ -41,7 +43,7 @@ public abstract class ResourceTestBase extends JaxrsTestBase
     protected static abstract class YAMLApplicationWithJackson extends YAMLApplication
     {
         public YAMLApplicationWithJackson(Object resource) {
-            super(new JacksonYAMLProvider(), resource);
+            super(resource, new JacksonYAMLProvider());
         }
     }
     

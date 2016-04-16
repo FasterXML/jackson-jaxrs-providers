@@ -51,8 +51,8 @@ import java.lang.annotation.Annotation;
  * @author Tatu Saloranta
  */
 @Provider
-@Consumes({ YAMLMediaTypes.TEXT_JACKSON_YAML, YAMLMediaTypes.APPLICATION_JACKSON_YAML })
-@Produces({ YAMLMediaTypes.TEXT_JACKSON_YAML, YAMLMediaTypes.APPLICATION_JACKSON_YAML })
+@Consumes(MediaType.WILDCARD) // NOTE: required to support "non-standard" JSON variants
+@Produces(MediaType.WILDCARD)
 public class JacksonYAMLProvider
         extends ProviderBase<JacksonYAMLProvider,
         YAMLMapper,

@@ -2,6 +2,7 @@ package com.fasterxml.jackson.jaxrs.cbor;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.Provider;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,8 +23,8 @@ import com.fasterxml.jackson.jaxrs.cfg.Annotations;
  * in sync if changed.
  */
 @Provider
-@Consumes(CBORMediaTypes.APPLICATION_JACKSON_CBOR)
-@Produces(CBORMediaTypes.APPLICATION_JACKSON_CBOR)
+@Consumes(MediaType.WILDCARD) // NOTE: required to support "non-standard" JSON variants
+@Produces(MediaType.WILDCARD)
 public class JacksonJaxbCBORProvider extends JacksonCBORProvider {
     /**
      * Default annotation sets to use, if not explicitly defined during
