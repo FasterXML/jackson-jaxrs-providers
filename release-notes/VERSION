@@ -9,7 +9,11 @@ Sub-modules:
 === Releases ===
 ------------------------------------------------------------------------
 
-2.7.4 (not yet released)
+2.8.0 (not yet released)
+
+No changes since 2.7
+
+2.7.4 (29-Apr-2016)
 
 #80: Non-JSON providers don't support custom MIME types with extensions
  (reported and fixed by Nick K)
