@@ -1,7 +1,8 @@
 package com.fasterxml.jackson.jaxrs.yaml.jersey;
 
 import com.fasterxml.jackson.jaxrs.yaml.dw.SimpleEndpointTestBase;
-import com.sun.jersey.spi.container.servlet.ServletContainer;
+
+import org.glassfish.jersey.servlet.ServletContainer;
 
 import javax.servlet.Servlet;
 

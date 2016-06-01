@@ -25,7 +25,7 @@
     <module>xml</module>
     <module>yaml</module>
   </modules>
-  <url>http://wiki.fasterxml.com/JacksonHome</url>
+  <url>http://github.com/FasterXML/jackson-jaxrs-providers</url>    
   <scm>
     <connection>scm:git:git@github.com:FasterXML/jackson-jaxrs-providers.git</connection>
     <developerConnection>scm:git:git@github.com:FasterXML/jackson-jaxrs-providers.git</developerConnection>
@@ -45,9 +45,9 @@
 
     <version.jackson.jaxb>${version.jackson.core}</version.jackson.jaxb>
 
-    <!--  Need Jersey+Jetty for testing -->
-    <version.jersey>1.17.1</version.jersey>
-    <version.jetty>8.1.10.v20130312</version.jetty>
+    <!--  Need Jersey+Jetty for testing; deps from DropWizard 0.9 -->
+    <version.jersey>2.22.2</version.jersey>
+    <version.jetty>9.2.13.v20150730</version.jetty>
     
     <!-- Needed to enable jax-rs 2.0 usage under OSGi -->
     <javax.ws.rs.version>[2.0,2.1)</javax.ws.rs.version>
@@ -92,20 +92,24 @@
     </dependency>
         
     <dependency>
-      <groupId>com.sun.jersey</groupId>
-      <artifactId>jersey-core</artifactId>
-      <version>${version.jersey}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.sun.jersey</groupId>
+      <groupId>org.glassfish.jersey.core</groupId>
       <artifactId>jersey-server</artifactId>
       <version>${version.jersey}</version>
       <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>com.google.guava</groupId>
+          <artifactId>guava</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-api</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
-      <groupId>com.sun.jersey</groupId>
-      <artifactId>jersey-servlet</artifactId>
+      <groupId>org.glassfish.jersey.containers</groupId>
+      <artifactId>jersey-container-servlet</artifactId>
       <version>${version.jersey}</version>
       <scope>test</scope>
     </dependency>

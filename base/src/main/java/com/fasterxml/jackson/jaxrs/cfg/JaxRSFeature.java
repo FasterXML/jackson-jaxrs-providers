@@ -71,5 +71,6 @@ public enum JaxRSFeature implements ConfigFeature
     @Override
     public int getMask() { return (1 << ordinal()); }
 
+    @Override
     public boolean enabledIn(int flags) { return (flags & getMask()) != 0; }    
 }

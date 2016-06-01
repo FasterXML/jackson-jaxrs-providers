@@ -3,7 +3,8 @@ package com.fasterxml.jackson.jaxrs.json.jersey;
 import javax.servlet.Servlet;
 
 import com.fasterxml.jackson.jaxrs.json.dw.AnnotationTestBase;
-import com.sun.jersey.spi.container.servlet.ServletContainer;
+
+import org.glassfish.jersey.servlet.ServletContainer;
 
 public class AnnotationTest extends AnnotationTestBase {
     @Override
