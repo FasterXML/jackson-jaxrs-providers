@@ -11,6 +11,8 @@ Sub-modules:
 
 2.8.0 (not yet released)
 
+#22: Remove `@Provider` annotation from `JsonParseExceptionMapper` and
+  `JsonMappingExceptionMapper`
 #82: Upgrade JAX-RS dependency to 2.0
 
 2.7.4 (29-Apr-2016)
