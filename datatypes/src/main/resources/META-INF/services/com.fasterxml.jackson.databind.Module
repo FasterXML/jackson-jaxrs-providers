@@ -1,1 +1,1 @@
-com.fasterxml.jackson.datatype.jaxrs.JaxRsModule
+com.fasterxml.jackson.datatype.jaxrs.Jaxrs2TypesModule
