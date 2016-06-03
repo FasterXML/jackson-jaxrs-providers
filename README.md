@@ -6,7 +6,7 @@ This is a multi-module project that contains Jackson-based JAX-RS providers for 
 * [Smile](https://github.com/FasterXML/jackson-dataformat-smile) (binary JSON)
 * [CBOR](https://github.com/FasterXML/jackson-dataformat-cbor) (another kind of binary JSON)
 * [XML](https://github.com/FasterXML/jackson-dataformat-xml)
-* [YAML](https://github.com/FasterXML/jackson-dataformat-yaml) (starting with 2.6.0, to be released)
+* [YAML](https://github.com/FasterXML/jackson-dataformat-yaml)
 
 Providers implement JAX-RS `MessageBodyReader` and `MessageBodyWriter` handlers for specific
 data formats. They also contain SPI settings for auto-registration.
@@ -17,7 +17,7 @@ data formats. They also contain SPI settings for auto-registration.
 
 ## Status
 
-As of Jackson 2.2, this module replaces individual JAX-RS provider modules that were used with earlier Jackson versions.
+Module is fully functional and considered mature.
 
 ## Maven dependency
 
@@ -27,13 +27,13 @@ To use JAX-RS on Maven-based projects, use dependencies like:
 <dependency>
   <groupId>com.fasterxml.jackson.jaxrs</groupId>
   <artifactId>jackson-jaxrs-json-provider</artifactId>
-  <version>2.5.4</version>
+  <version>2.7.4</version>
 </dependency>
 ```
 
 (above is for JSON provider; modify appropriately for other providers)
 
-## Usage
+## Usage: registering providers
 
 Due to auto-registration, it should be possible to simply add Maven dependency
 (or include jar if using other build systems) and let JAX-RS implementation discover
@@ -42,10 +42,26 @@ If this does not work you need to consult documentation of the JAX-RS implementa
 
 To use Jackson with Jersey see [their documentation](https://jersey.java.net/documentation/latest/media.html#json.jackson).
 
+### Usage: registering supporting datatypes module
+
+As of Jackson 2.8, there is a small supporting datatype module, `jackson-datatype-jaxrs` (see under `datatypes/`).
+It will not be auto-registered automatically (unless user calls `ObjectMapper.findAndRegisterModules()`); instead,
+user has to register it by normal means:
+
+```java
+ObjectMapper mapper = new ObjectMapper();
+mapper.registerModule(new Jaxrs2TypesModule());
+// and then register mapper with JAX-RS provider(s)
+```
+
+and ensuring that configured mapper is used by JAX-RS providers.
+
+It is possible that later versions of providers may offer additional ways to get datatype module registered.
+
 ### Annotations on resources
 
 In addition to annotation value classes, it is also possible to use a subset
-of Jackson annotations with provider (versions 2.3.0 and above).
+of Jackson annotations with provider.
 
 Here is a short list of supported annotations that work with all formats:
 
