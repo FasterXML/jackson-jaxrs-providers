@@ -13,6 +13,7 @@ Sub-modules:
 
 #22: Remove `@Provider` annotation from `JsonParseExceptionMapper` and
   `JsonMappingExceptionMapper`
+#48: Support compact serialization of `javax.ws.rs.core.Link`, deserialization
 #82: Upgrade JAX-RS dependency to 2.0
 
 2.7.4 (29-Apr-2016)
