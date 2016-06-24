@@ -15,7 +15,6 @@ import javax.ws.rs.ext.Provider;
  *
  * @since 2.2
  */
-@Provider
 public class JsonParseExceptionMapper implements ExceptionMapper<JsonParseException> {
     @Override
     public Response toResponse(JsonParseException exception) {
