@@ -2,7 +2,6 @@ package com.fasterxml.jackson.jaxrs.base;
 
 import java.io.*;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Type;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
@@ -34,15 +33,6 @@ public abstract class ProviderBase<
      */
     public final static String HEADER_CONTENT_TYPE_OPTIONS = "X-Content-Type-Options";
 
-    /**
-     * Since class <code>javax.ws.rs.core.NoContentException</code> only exists in
-     * JAX-RS 2.0, but we need 1.1 compatibility, need to (unfortunately!) dynamically
-     * load class.
-     */
-    protected final static String CLASS_NAME_NO_CONTENT_EXCEPTION = "javax.ws.rs.core.NoContentException";
-
-    protected final static String NO_CONTENT_MESSAGE = "No content (empty input stream)";
-    
     /**
      * Looks like we need to worry about accidental
      *   data binding for types we shouldn't be handling. This is
@@ -453,6 +443,9 @@ public abstract class ProviderBase<
      */
     protected abstract boolean hasMatchingMediaType(MediaType mediaType);
 
+    /**
+     * Helper method that is called if no mapper has been explicitly configured.
+     */
     protected abstract MAPPER _locateMapperViaProvider(Class<?> type, MediaType mediaType);
     
     protected EP_CONFIG _configForReading(MAPPER mapper,
@@ -552,7 +545,7 @@ public abstract class ProviderBase<
         }
         return true;
     }
-    
+
     /**
      * Method that JAX-RS container calls to serialize given value.
      */
@@ -562,20 +555,8 @@ public abstract class ProviderBase<
             MultivaluedMap<String,Object> httpHeaders, OutputStream entityStream) 
         throws IOException
     {
-        AnnotationBundleKey key = new AnnotationBundleKey(annotations, type);
-        EP_CONFIG endpoint;
-        synchronized (_writers) {
-            endpoint = _writers.get(key);
-        }
-        // not yet resolved (or not cached any more)? Resolve!
-        if (endpoint == null) {
-            MAPPER mapper = locateMapper(type, mediaType);
-            endpoint = _configForWriting(mapper, annotations, _defaultWriteView);
-            // and cache for future reuse
-            synchronized (_writers) {
-                _writers.put(key.immutableKey(), endpoint);
-            }
-        }
+        EP_CONFIG endpoint = _endpointForWriting(value, type, genericType, annotations,
+                mediaType, httpHeaders);
 
         // Any headers we should write?
         _modifyHeaders(value, type, genericType, annotations, httpHeaders, endpoint);
@@ -663,7 +644,7 @@ public abstract class ProviderBase<
             EP_CONFIG endpoint)
         throws IOException
     {
-        // [Issue#6]: Add "nosniff" header?
+        // Add "nosniff" header?
         if (isEnabled(JaxRSFeature.ADD_NO_SNIFF_HEADER)) {
             httpHeaders.add(HEADER_CONTENT_TYPE_OPTIONS, "nosniff");
         }
@@ -684,7 +665,32 @@ public abstract class ProviderBase<
         g.disable(JsonGenerator.Feature.AUTO_CLOSE_TARGET);
         return g;
     }
-    
+
+    protected EP_CONFIG _endpointForWriting(Object value, Class<?> type, Type genericType,
+            Annotation[] annotations, MediaType mediaType, MultivaluedMap<String,Object> httpHeaders)
+    {
+        // 29-Jun-2016, tatu: As per [jaxrs-providers#86] allow skipping caching
+        if (!isEnabled(JaxRSFeature.CACHE_ENDPOINT_WRITERS)) {
+            return _configForWriting(locateMapper(type, mediaType), annotations, _defaultWriteView);
+        }
+
+        EP_CONFIG endpoint;
+        AnnotationBundleKey key = new AnnotationBundleKey(annotations, type);
+        synchronized (_writers) {
+            endpoint = _writers.get(key);
+        }
+        // not yet resolved (or not cached any more)? Resolve!
+        if (endpoint == null) {
+            MAPPER mapper = locateMapper(type, mediaType);
+            endpoint = _configForWriting(mapper, annotations, _defaultWriteView);
+            // and cache for future reuse
+            synchronized (_writers) {
+                _writers.put(key.immutableKey(), endpoint);
+            }
+        }
+        return endpoint;
+    }
+
     /*
     /**********************************************************
     /* MessageBodyReader impl
@@ -748,20 +754,9 @@ public abstract class ProviderBase<
             InputStream entityStream) 
         throws IOException
     {
-        AnnotationBundleKey key = new AnnotationBundleKey(annotations, type);
-        EP_CONFIG endpoint;
-        synchronized (_readers) {
-            endpoint = _readers.get(key);
-        }
-        // not yet resolved (or not cached any more)? Resolve!
-        if (endpoint == null) {
-            MAPPER mapper = locateMapper(type, mediaType);
-            endpoint = _configForReading(mapper, annotations, _defaultReadView);
-            // and cache for future reuse
-            synchronized (_readers) {
-                _readers.put(key.immutableKey(), endpoint);
-            }
-        }
+        EP_CONFIG endpoint = _endpointForReading(type, genericType, annotations,
+                mediaType, httpHeaders);
+        
         ObjectReader reader = endpoint.getReader();
         JsonParser p = _createParser(reader, entityStream);
         
@@ -829,6 +824,38 @@ public abstract class ProviderBase<
         return p;
     }
 
+    /**
+     * Overridable helper method that will basically fetch representation of the
+     * endpoint that can be used to get {@link ObjectReader} to use for deserializing
+     * content
+     *
+     * @since 2.8
+     */
+    protected EP_CONFIG _endpointForReading(Class<Object> type, Type genericType, Annotation[] annotations,
+            MediaType mediaType, MultivaluedMap<String,String> httpHeaders)
+    {
+        // 29-Jun-2016, tatu: As per [jaxrs-providers#86] allow skipping caching
+        if (!isEnabled(JaxRSFeature.CACHE_ENDPOINT_READERS)) {
+            return _configForReading(locateMapper(type, mediaType), annotations, _defaultReadView);
+        }
+
+        EP_CONFIG endpoint;
+        AnnotationBundleKey key = new AnnotationBundleKey(annotations, type);
+        synchronized (_readers) {
+            endpoint = _readers.get(key);
+        }
+        // not yet resolved (or not cached any more)? Resolve!
+        if (endpoint == null) {
+            MAPPER mapper = locateMapper(type, mediaType);
+            endpoint = _configForReading(mapper, annotations, _defaultReadView);
+            // and cache for future reuse
+            synchronized (_readers) {
+                _readers.put(key.immutableKey(), endpoint);
+            }
+        }
+        return endpoint;
+    }
+
     /*
     /**********************************************************
     /* Overridable helper methods
@@ -857,7 +884,21 @@ public abstract class ProviderBase<
      */
     public MAPPER locateMapper(Class<?> type, MediaType mediaType)
     {
-        // First: were we configured with a specific instance?
+        // 29-Jun-2016, tatu: As per [jaxrs-providers#86] may want to do provider lookup first
+        if (isEnabled(JaxRSFeature.DYNAMIC_OBJECT_MAPPER_LOOKUP)) {
+            MAPPER m = _locateMapperViaProvider(type, mediaType);
+            if (m == null) {
+                m = _mapperConfig.getConfiguredMapper();
+                if (m == null) {
+                    m = _mapperConfig.getDefaultMapper();
+                }
+            }
+            return m;
+        }
+
+        // Otherwise start with (pre-)configured Mapper and only check provider
+        // if not found
+        
         MAPPER m = _mapperConfig.getConfiguredMapper();
         if (m == null) {
             // If not, maybe we can get one configured via context?
@@ -909,18 +950,11 @@ public abstract class ProviderBase<
      */
     protected IOException _createNoContentException()
     {
-        Class<?> cls = null;
-        try {
-            cls = Class.forName(CLASS_NAME_NO_CONTENT_EXCEPTION);
-            Constructor<?> ctor = cls.getDeclaredConstructor(String.class);
-            if (ctor != null) {
-                return (IOException) ctor.newInstance(NO_CONTENT_MESSAGE);
-            }
-        } catch (Exception e) { // no can do...
-        }
-        return new IOException(NO_CONTENT_MESSAGE);
+        // 29-Jun-2016, tatu: With Jackson 2.8 we require JAX-RS 2.0 so this
+        //    is fine; earlier had complicated Reflection-based access
+        return new NoContentException("No content (empty input stream)");
     }
-    
+
     /*
     /**********************************************************
     /* Private/sub-class helper methods

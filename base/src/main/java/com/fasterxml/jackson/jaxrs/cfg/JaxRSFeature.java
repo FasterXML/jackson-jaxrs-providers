@@ -10,9 +10,9 @@ import com.fasterxml.jackson.databind.cfg.ConfigFeature;
 public enum JaxRSFeature implements ConfigFeature
 {
     /*
-    /******************************************************
+    /**********************************************************
     /* Input handling
-    /******************************************************
+    /**********************************************************
      */
 
     /**
@@ -26,11 +26,11 @@ public enum JaxRSFeature implements ConfigFeature
      * but this is not defined in JAX-RS 1.x.
      */
     ALLOW_EMPTY_INPUT(true),
-    
+
     /*
-    /******************************************************
+    /**********************************************************
     /* HTTP headers
-    /******************************************************
+    /**********************************************************
      */
     
     /**
@@ -44,9 +44,56 @@ public enum JaxRSFeature implements ConfigFeature
     ADD_NO_SNIFF_HEADER(false),
 
     /*
-    /******************************************************
+    /**********************************************************
+    /* Caching, related
+    /**********************************************************
+     */
+
+    /**
+     * Feature that may be enabled to force dynamic lookup of <code>ObjectMapper</code>
+     * via JAX-RS Provider interface, regardless of whether <code>MapperConfigurator<code>
+     * has explicitly configured mapper or not; if disabled, static configuration will
+     * take precedence.
+     * Note that if this feature is enabled, it typically makes sense to also disable
+     * {@link JaxRSFeature#CACHE_ENDPOINT_READERS} and {@link JaxRSFeature#CACHE_ENDPOINT_WRITERS}
+     * since caching would prevent lookups.
+     *<p>
+     * Feature is disabled by default.
+     *
+     * @since 2.8
+     */
+    DYNAMIC_OBJECT_MAPPER_LOOKUP(false),
+    
+    /**
+     * [jaxrs-providers#86]: Feature that determines whether provider will cache endpoint
+     * definitions for reading or not (including caching of actual <code>ObjectReader</code> to use).
+     * Feature may be disabled if reconfiguration or alternate isntance of <code>ObjectMapper</code> is needed.
+     *<p>
+     * Note that disabling of the feature may add significant amount of overhead for processing.
+     *<p>
+     * Feature is enabled by default.
+     *
+     * @since 2.8
+     */
+    CACHE_ENDPOINT_READERS(true),
+
+    /**
+     * [jaxrs-providers#86]: Feature that determines whether provider will cache endpoint
+     * definitions for writing or not (including caching of actual <code>ObjectWriter</code> to use).
+     * Feature may be disabled if reconfiguration or alternate isntance of <code>ObjectMapper</code> is needed.
+     *<p>
+     * Note that disabling of the feature may add significant amount of overhead for processing.
+     *<p>
+     * Feature is enabled by default.
+     *
+     * @since 2.8
+     */
+    CACHE_ENDPOINT_WRITERS(true),
+
+    /*
+    /**********************************************************
     /* Other
-    /******************************************************
+    /**********************************************************
      */
     
     ;
