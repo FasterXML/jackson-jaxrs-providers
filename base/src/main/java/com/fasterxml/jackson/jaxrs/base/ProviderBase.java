@@ -864,15 +864,30 @@ public abstract class ProviderBase<
 
     /**
      * Method called to locate {@link ObjectMapper} to use for serialization
-     * and deserialization. If an instance has been explicitly defined by
+     * and deserialization. Exact logic depends on setting of
+     * {@link JaxRSFeature#DYNAMIC_OBJECT_MAPPER_LOOKUP}.
+     * 
+     *<p>
+     * If {@link JaxRSFeature#DYNAMIC_OBJECT_MAPPER_LOOKUP} is disabled (default
+     * setting unless changed), behavior is as follows:
+     *<ol>
+     * <li>If an instance has been explicitly defined by
      * {@link #setMapper} (or non-null instance passed in constructor), that
-     * will be used. 
-     * If not, will try to locate it using standard JAX-RS
+     * will be used.
+     *  </li>
+     * <li>If not, will try to locate it using standard JAX-RS
      * <code>ContextResolver</code> mechanism, if it has been properly configured
      * to access it (by JAX-RS runtime).
-     * Finally, if no mapper is found, will return a default unconfigured
+     *  </li>
+     * <li>Finally, if no mapper is found, will return a default unconfigured
      * {@link ObjectMapper} instance (one constructed with default constructor
      * and not modified in any way)
+     *   </li>
+     *</ol>
+     *<p>
+     * If {@link JaxRSFeature#DYNAMIC_OBJECT_MAPPER_LOOKUP} is enabled, steps
+     * 1 and 2 are reversed, such that JAX-RS <code>ContextResolver</code>
+     * is first used, and only if none is defined will configured mapper be used.
      *
      * @param type Class of object being serialized or deserialized;
      *   not checked at this point, since it is assumed that unprocessable
