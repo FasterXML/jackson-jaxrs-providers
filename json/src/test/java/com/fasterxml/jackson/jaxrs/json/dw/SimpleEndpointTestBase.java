@@ -1,20 +1,57 @@
 package com.fasterxml.jackson.jaxrs.json.dw;
 
-import java.io.*;
-import java.net.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Invocation.Builder;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.GenericEntity;
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.Link;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
+import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
 
 import org.eclipse.jetty.server.Server;
 import org.junit.Assert;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 
 public abstract class SimpleEndpointTestBase extends ResourceTestBase
 {
@@ -39,6 +76,105 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
             this.z = z;
         }
     }
+
+	protected static abstract class Page<E> {
+
+		public static final String PREV_PAGE_REL = "prev";
+		public static final String NEXT_PAGE_REL = "next";
+
+		public final Link getPreviousPageLink() {
+			return getLink(PREV_PAGE_REL);
+		}
+
+		public final Link getNextPageLink() {
+			return getLink(NEXT_PAGE_REL);
+		}
+
+		public abstract List<E> getEntities();
+
+		public abstract Link getLink(String rel);
+
+	}
+
+	@JsonPropertyOrder({ "entities", "links" })
+	@JsonAutoDetect(fieldVisibility = Visibility.ANY, creatorVisibility = Visibility.ANY, getterVisibility = Visibility.NONE, isGetterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE)
+	protected static class PageImpl<E> extends Page<E> {
+
+		protected static class JsonLinkSerializer extends JsonSerializer<javax.ws.rs.core.Link> {
+
+			static final String HREF_PROPERTY = "href";
+
+			@Override
+			public void serialize(Link link, JsonGenerator jsonGenerator, SerializerProvider serializerProvider)
+					throws IOException {
+				jsonGenerator.writeStartObject();
+				jsonGenerator.writeStringField(HREF_PROPERTY, link.getUri().toString());
+				for (Entry<String, String> entry : link.getParams().entrySet()) {
+					jsonGenerator.writeStringField(entry.getKey(), entry.getValue());
+				}
+				jsonGenerator.writeEndObject();
+			}
+
+		}
+
+		protected static class JsonLinkDeserializer extends JsonDeserializer<javax.ws.rs.core.Link> {
+
+			@Override
+			public Link deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
+					throws IOException {
+				Link link = null;
+				JsonNode jsonNode = jsonParser.getCodec().<JsonNode> readTree(jsonParser);
+				JsonNode hrefJsonNode = jsonNode.get(JsonLinkSerializer.HREF_PROPERTY);
+				if (hrefJsonNode != null) {
+					Link.Builder linkBuilder = Link.fromUri(hrefJsonNode.asText());
+					Iterator<String> fieldNamesIterator = jsonNode.fieldNames();
+					while (fieldNamesIterator.hasNext()) {
+						String fieldName = fieldNamesIterator.next();
+						if (!JsonLinkSerializer.HREF_PROPERTY.equals(fieldName)) {
+							linkBuilder.param(fieldName, jsonNode.get(fieldName).asText());
+						}
+					}
+					link = linkBuilder.build();
+				}
+				return link;
+			}
+
+		}
+
+		private final List<E> entities;
+		@JsonSerialize(contentUsing = JsonLinkSerializer.class)
+		@JsonDeserialize(contentUsing = JsonLinkDeserializer.class)
+		private final List<Link> links;
+
+		protected PageImpl() {
+			this.entities = new ArrayList<>();
+			this.links = new ArrayList<>();
+		}
+
+		public void addEntities(E... entitities) {
+			Collections.addAll(this.entities, entitities);
+		}
+
+		public void addLinks(Link... links) {
+			Collections.addAll(this.links, links);
+		}
+
+		@Override
+		public List<E> getEntities() {
+			return this.entities;
+		}
+
+		@Override
+		public Link getLink(String rel) {
+			for (Link link : this.links) {
+				if (link.getRel().equals(rel)) {
+					return link;
+				}
+			}
+			return null;
+		}
+
+	}
 
     @Path("/point")
     public static class SimpleResource
@@ -149,6 +285,9 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
     @Path("/dynamic")
     public static class DynamicTypingResource
     {
+		@Context
+		private UriInfo uriInfo;
+
         @GET
         @Path("single")
         @Produces(MediaType.APPLICATION_JSON)
@@ -162,6 +301,19 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
         public List<Point> getPoints() {
             return Arrays.asList(getPoint());
         }
+
+		@GET
+		@Path("pages")
+        @Produces(MediaType.APPLICATION_JSON)
+		public Response getPointsAsPage() {
+			PageImpl<Point> page = new PageImpl<>();
+			page.addEntities(getPoint());
+			URI selfUri = UriBuilder.fromUri(this.uriInfo.getBaseUri()).path(DynamicTypingResource.class)
+					.path(DynamicTypingResource.class, "getPointsAsPage").build();
+			page.addLinks(Link.fromUri(selfUri).rel("self").build());
+			return Response.ok(new GenericEntity<Page<Point>>(page) {
+			}).build();
+		}
     }
 
     public static class SimpleRawApp extends JsonApplicationWithJackson {
@@ -407,4 +559,27 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
             fail("Expected p.z == 3, was "+p.z+"; most likely due to incorrect serialization using base type (issue #60)");
         }
     }
+
+	// for [#87], problems with GenericEntity where type != rawType
+	public void testDynamicTypingPages() throws Exception {
+		Server server = startServer(TEST_PORT, SimpleDynamicTypingApp.class);
+		Client client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
+		try {
+			URI uri = URI.create("http://localhost:" + TEST_PORT + "/dynamic/pages");
+			Builder invocationBuilder = client.target(uri)
+					.request(MediaType.APPLICATION_JSON_TYPE);
+			String response = invocationBuilder.get(String.class);
+			assertFalse(response.contains("previousPageLink"));
+			Page<ExtendedPoint> pageImpl = client
+					.target(URI.create("http://localhost:" + TEST_PORT + "/dynamic/pages"))
+					.request(MediaType.APPLICATION_JSON_TYPE).get(new GenericType<PageImpl<ExtendedPoint>>() {
+					});
+			Link link = pageImpl.getLink("self");
+			assertEquals(link, Link.fromUri(uri).rel("self").build());
+		} finally {
+			server.stop();
+			client.close();
+		}
+	}
+
 }
