@@ -1,7 +1,7 @@
 /**
  * Jackson-based JAX-RS provider that can automatically
  * serialize and deserialize resources for 
- * Smile content type (MediaType).
+ * Smile content type.
  *<p>
  * Also continues supporting functionality, such as
  * exception mappers that can simplify handling of
