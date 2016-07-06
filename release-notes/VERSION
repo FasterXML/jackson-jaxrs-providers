@@ -9,7 +9,7 @@ Sub-modules:
 === Releases ===
 ------------------------------------------------------------------------
 
-2.8.0 (not yet released)
+2.8.0 (05-Jul-2016)
 
 #22: Remove `@Provider` annotation from `JsonParseExceptionMapper` and
   `JsonMappingExceptionMapper`
