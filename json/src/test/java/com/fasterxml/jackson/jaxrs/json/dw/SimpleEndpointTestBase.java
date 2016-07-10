@@ -8,6 +8,7 @@ import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -303,17 +304,51 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
         }
 
 		@GET
-		@Path("pages")
-        @Produces(MediaType.APPLICATION_JSON)
-		public Response getPointsAsPage() {
+		@Path("genericPageEntity")
+		@Produces(MediaType.APPLICATION_JSON)
+		public Response getPointsAsGenericPageEntity() {
 			PageImpl<Point> page = new PageImpl<>();
 			page.addEntities(getPoint());
 			URI selfUri = UriBuilder.fromUri(this.uriInfo.getBaseUri()).path(DynamicTypingResource.class)
-					.path(DynamicTypingResource.class, "getPointsAsPage").build();
+					.path(DynamicTypingResource.class, "getPointsAsGenericPageEntity").build();
 			page.addLinks(Link.fromUri(selfUri).rel("self").build());
 			return Response.ok(new GenericEntity<Page<Point>>(page) {
 			}).build();
 		}
+
+		@GET
+		@Path("genericPageImplEntity")
+		@Produces(MediaType.APPLICATION_JSON)
+		public Response getPointsAsGenericPageImplEntity() {
+			PageImpl<Point> page = new PageImpl<>();
+			page.addEntities(getPoint());
+			URI selfUri = UriBuilder.fromUri(this.uriInfo.getBaseUri()).path(DynamicTypingResource.class)
+					.path(DynamicTypingResource.class, "getPointsAsGenericPageImplEntity").build();
+			page.addLinks(Link.fromUri(selfUri).rel("self").build());
+			return Response.ok(new GenericEntity<PageImpl<Point>>(page) {
+			}).build();
+		}
+
+		@GET
+		@Path("genericCollectionEntity")
+		@Produces(MediaType.APPLICATION_JSON)
+		public Response getPointsAsGenericCollectionEntity() {
+			Collection<Point> list = new ArrayList<>();
+			list.add(getPoint());
+			return Response.ok(new GenericEntity<Collection<Point>>(list) {
+			}).build();
+		}
+
+		@GET
+		@Path("genericCollectionImplEntity")
+		@Produces(MediaType.APPLICATION_JSON)
+		public Response getPointsAsGenericCollectionImplEntity() {
+			ArrayList<Point> list = new ArrayList<>();
+			list.add(getPoint());
+			return Response.ok(new GenericEntity<ArrayList<Point>>(list) {
+			}).build();
+		}
+		
     }
 
     public static class SimpleRawApp extends JsonApplicationWithJackson {
@@ -561,21 +596,67 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
     }
 
 	// for [#87], problems with GenericEntity where type != rawType
-	public void testDynamicTypingPages() throws Exception {
+	public void testDynamicTypingGenericPageEntity() throws Exception {
+		testDynamicTypingPage(URI.create("http://localhost:" + TEST_PORT + "/dynamic/genericPageEntity"));
+	}
+
+	// for [#87], problems with GenericEntity where type != rawType
+	public void testDynamicTypingGenericPageImplEntity() throws Exception {
+		testDynamicTypingPage(URI.create("http://localhost:" + TEST_PORT + "/dynamic/genericPageImplEntity"));
+	}
+
+	// for [#87], problems with GenericEntity where type != rawType
+	private void testDynamicTypingPage(URI uri) throws Exception {
 		Server server = startServer(TEST_PORT, SimpleDynamicTypingApp.class);
 		Client client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
 		try {
-			URI uri = URI.create("http://localhost:" + TEST_PORT + "/dynamic/pages");
-			Builder invocationBuilder = client.target(uri)
-					.request(MediaType.APPLICATION_JSON_TYPE);
+			Builder invocationBuilder = client.target(uri).request(MediaType.APPLICATION_JSON_TYPE);
+
+			// Test that JSON serialization on server side correctly take
+			// @JsonAutoDetect into account
 			String response = invocationBuilder.get(String.class);
 			assertFalse(response.contains("previousPageLink"));
-			Page<ExtendedPoint> pageImpl = client
-					.target(URI.create("http://localhost:" + TEST_PORT + "/dynamic/pages"))
-					.request(MediaType.APPLICATION_JSON_TYPE).get(new GenericType<PageImpl<ExtendedPoint>>() {
+
+			PageImpl<ExtendedPoint> page = invocationBuilder.get(new GenericType<PageImpl<ExtendedPoint>>() {
+			});
+			Link expectedLink = Link.fromUri(uri).rel("self").build();
+			Link currentLink = page.getLink("self");
+			assertEquals(expectedLink, currentLink);
+		} finally {
+			server.stop();
+			client.close();
+		}
+	}
+
+	// for [#87], problems with GenericEntity where type != rawType
+	public void testDynamicTypingGenericCollectionEntity() throws Exception {
+		testDynamicTypingCollection(URI.create("http://localhost:" + TEST_PORT + "/dynamic/genericCollectionEntity"));
+	}
+
+	// for [#87], problems with GenericEntity where type != rawType
+	public void testDynamicTypingGenericCollectionImplEntity() throws Exception {
+		testDynamicTypingCollection(URI
+				.create("http://localhost:" + TEST_PORT + "/dynamic/genericCollectionImplEntity"));
+	}
+
+	// for [#87], problems with GenericEntity where type != rawType
+	private void testDynamicTypingCollection(URI uri) throws Exception {
+		Server server = startServer(TEST_PORT, SimpleDynamicTypingApp.class);
+		Client client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
+		try {
+			ArrayList<ExtendedPoint> collection = client.target(uri).request(MediaType.APPLICATION_JSON_TYPE)
+					.get(new GenericType<ArrayList<ExtendedPoint>>() {
 					});
-			Link link = pageImpl.getLink("self");
-			assertEquals(link, Link.fromUri(uri).rel("self").build());
+			assertNotNull(collection);
+			assertEquals(1, collection.size());
+			// ensure we got a valid Point
+			ExtendedPoint p = collection.iterator().next();
+			assertEquals(1, p.x);
+			assertEquals(2, p.y);
+			if (p.z != 3) {
+				fail("Expected p.z == 3, was " + p.z
+						+ "; most likely due to incorrect serialization using base type (issue #60)");
+			}
 		} finally {
 			server.stop();
 			client.close();

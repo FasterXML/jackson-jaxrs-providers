@@ -590,19 +590,14 @@ public abstract class ProviderBase<
                     //    generally not the intent. Fix may require addition of functionality in databind
 
 					TypeFactory typeFactory = writer.getTypeFactory();
-					rootType = typeFactory.constructType(genericType);
-					Class<?> rawClass = rootType.getRawClass();
+					JavaType baseType = typeFactory.constructType(genericType);
+					rootType = typeFactory.constructSpecializedType(baseType, type);
                     /* 26-Feb-2011, tatu: To help with [JACKSON-518], we better recognize cases where
                      *    type degenerates back into "Object.class" (as is the case with plain TypeVariable,
                      *    for example), and not use that.
                      */
-					if (rawClass == Object.class) {
+					if (rootType.getRawClass() == Object.class) {
 						rootType = null;
-					} else if (type != rawClass && !rootType.isCollectionLikeType() && !rootType.isMapLikeType()
-							&& rootType.hasGenericTypes()) {
-						List<JavaType> typeParameters = rootType.getBindings().getTypeParameters();
-						rootType = typeFactory.constructParametricType(type,
-								typeParameters.toArray(new JavaType[typeParameters.size()]));
 					}
                 }
             }
