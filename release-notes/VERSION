@@ -9,6 +9,10 @@ Sub-modules:
 === Releases ===
 ------------------------------------------------------------------------
 
+2.8.1 (not yet released)
+
+#87: JacksonJaxbJsonProvider should use the real "value.getClass()" to build the root type
+
 2.8.0 (05-Jul-2016)
 
 #22: Remove `@Provider` annotation from `JsonParseExceptionMapper` and
