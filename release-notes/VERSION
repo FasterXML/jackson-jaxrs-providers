@@ -9,7 +9,7 @@ Sub-modules:
 === Releases ===
 ------------------------------------------------------------------------
 
-2.8.1 (not yet released)
+2.8.1 (20-Jul-2016)
 
 #87: JacksonJaxbJsonProvider should use the real "value.getClass()" to build the root type
 
