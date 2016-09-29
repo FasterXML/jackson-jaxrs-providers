@@ -497,8 +497,8 @@ public abstract class ProviderBase<
         // Any headers we should write?
         _modifyHeaders(value, type, genericType, annotations, httpHeaders, endpoint);
         
-        ObjectWriter writer = endpoint.getWriter();
-
+        ObjectWriter writer = ObjectWriterThreadLocal.mergeAndUnset(endpoint.getWriter());
+        
         // Where can we find desired encoding? Within HTTP headers?
         JsonEncoding enc = findEncoding(mediaType, httpHeaders);
         JsonGenerator jg = writer.getFactory().createGenerator(entityStream, enc);
