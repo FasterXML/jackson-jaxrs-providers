@@ -2,6 +2,7 @@ package com.fasterxml.jackson.jaxrs.base;
 
 import java.io.*;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Type;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
@@ -13,6 +14,8 @@ import javax.ws.rs.ext.MessageBodyWriter;
 import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.type.TypeFactory;
+import com.fasterxml.jackson.jaxrs.base.nocontent.JaxRS1NoContentExceptionSupplier;
+import com.fasterxml.jackson.jaxrs.base.nocontent.JaxRS2NoContentExceptionSupplier;
 import com.fasterxml.jackson.jaxrs.cfg.*;
 import com.fasterxml.jackson.jaxrs.util.ClassKey;
 import com.fasterxml.jackson.jaxrs.util.LRUMap;
@@ -32,6 +35,10 @@ public abstract class ProviderBase<
      * This header is useful on Windows, trying to deal with potential XSS attacks.
      */
     public final static String HEADER_CONTENT_TYPE_OPTIONS = "X-Content-Type-Options";
+
+    protected final static String CLASS_NAME_NO_CONTENT_EXCEPTION = "javax.ws.rs.core.NoContentException";
+
+    protected final NoContentExceptionSupplier noContentExceptionSupplier = _createNoContentExceptionSupplier();
 
     /**
      * Looks like we need to worry about accidental
@@ -967,9 +974,7 @@ public abstract class ProviderBase<
      */
     protected IOException _createNoContentException()
     {
-        // 29-Jun-2016, tatu: With Jackson 2.8 we require JAX-RS 2.0 so this
-        //    is fine; earlier had complicated Reflection-based access
-        return new NoContentException("No content (empty input stream)");
+        return noContentExceptionSupplier.createNoContentException();
     }
 
     /*
@@ -1045,5 +1050,25 @@ public abstract class ProviderBase<
     @SuppressWarnings("unchecked")
     private final THIS _this() {
         return (THIS) this;
+    }
+
+    /**
+     * Since class <code>javax.ws.rs.core.NoContentException</code> only exists in
+     * JAX-RS 2.0, but we want to have 1.x compatibility, need to dynamically select exception supplier
+     */
+    private static NoContentExceptionSupplier _createNoContentExceptionSupplier() {
+        try {
+            Class cls = Class.forName(CLASS_NAME_NO_CONTENT_EXCEPTION);
+            Constructor<?> ctor = cls.getDeclaredConstructor(String.class);
+            if (ctor != null) {
+                return new JaxRS2NoContentExceptionSupplier();
+            } else {
+                return new JaxRS1NoContentExceptionSupplier();
+            }
+        } catch (ClassNotFoundException ex) {
+            return new JaxRS1NoContentExceptionSupplier();
+        } catch (NoSuchMethodException e) {
+            return new JaxRS1NoContentExceptionSupplier();
+        }
     }
 }
