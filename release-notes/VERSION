@@ -14,6 +14,8 @@ Sub-modules:
 #91: Implemented dynamic selection of NoContentException to try to
    support JAX-RS 1.x.
   (contributed by Spikhalskiy@github)
+#93: Jackson OSGi metadata is incomplete
+ (contributed by Tim W)
 
 2.8.4 (14-Oct-2016)
 2.8.3 (17-Sep-2016)
