@@ -9,7 +9,7 @@ Sub-modules:
 === Releases ===
 ------------------------------------------------------------------------
 
-2.8.5 (not yet released)
+2.8.5 (16-Nov-2016)
 
 #91: Implemented dynamic selection of NoContentException to try to
    support JAX-RS 1.x.
