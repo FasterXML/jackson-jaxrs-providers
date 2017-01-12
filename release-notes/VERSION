@@ -9,6 +9,10 @@ Sub-modules:
 === Releases ===
 ------------------------------------------------------------------------
 
+2.8.6 (12-Jan-2017)
+
+No changes since 2.8.5
+
 2.8.5 (16-Nov-2016)
 
 #91: Implemented dynamic selection of NoContentException to try to
