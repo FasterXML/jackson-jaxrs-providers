@@ -37,25 +37,13 @@
     </dependency>
     <!-- Extends Jackson core, mapper, and also (sort of optionally) on JAXB annotation handler -->
     <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-core</artifactId>
-      <version>${version.jackson.core}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-databind</artifactId>
-      <version>${version.jackson.core}</version>
-    </dependency>
-    <dependency>
       <groupId>com.fasterxml.jackson.dataformat</groupId>
       <artifactId>jackson-dataformat-cbor</artifactId>
-      <version>${version.jackson.cbor}</version>
     </dependency>
     <!-- may also need JAXB annotation support -->
     <dependency> 
       <groupId>com.fasterxml.jackson.module</groupId>
       <artifactId>jackson-module-jaxb-annotations</artifactId>
-      <version>${version.jackson.jaxb}</version>
     </dependency>
   </dependencies>
   <build>

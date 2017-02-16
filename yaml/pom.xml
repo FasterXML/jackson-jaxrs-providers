@@ -38,25 +38,13 @@ using standard Jackson data binding.
     </dependency>
     <!-- Extends Jackson core, mapper, and also (sort of optionally) on JAXB annotation handler -->
     <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-core</artifactId>
-      <version>${version.jackson.core}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-databind</artifactId>
-      <version>${version.jackson.core}</version>
-    </dependency>
-    <dependency>
       <groupId>com.fasterxml.jackson.dataformat</groupId>
       <artifactId>jackson-dataformat-yaml</artifactId>
-      <version>${version.jackson.yaml}</version>
     </dependency>
     <!-- may also need JAXB annotation support -->
     <dependency> 
       <groupId>com.fasterxml.jackson.module</groupId>
       <artifactId>jackson-module-jaxb-annotations</artifactId>
-      <version>${version.jackson.jaxb}</version>
     </dependency>
 
     <!-- Use JSON and Smile providers for testing that content negotiation works with multiple providers registered. -->

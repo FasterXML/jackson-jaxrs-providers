@@ -29,28 +29,16 @@
   </properties>
 
   <dependencies>
-    <!-- builds on shared base JAX-RS handling code... -->
+    <!-- builds on shared base JAX-RS handling code... which depends on core, databind-->
     <dependency>
-      <artifactId>jackson-jaxrs-base</artifactId>
       <groupId>${project.groupId}</groupId>
+      <artifactId>jackson-jaxrs-base</artifactId>
       <version>${project.version}</version>
-    </dependency>
-    <!-- Extends Jackson core, mapper, and also (sort of optionally) on JAXB annotation handler -->
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-core</artifactId>
-      <version>${version.jackson.core}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-databind</artifactId>
-      <version>${version.jackson.core}</version>
     </dependency>
     <!-- also need JAXB annotation support -->
     <dependency> 
       <groupId>com.fasterxml.jackson.module</groupId>
       <artifactId>jackson-module-jaxb-annotations</artifactId>
-      <version>${version.jackson.jaxb}</version>
     </dependency>
 
     <!-- test deps should mostly come from parent, including jersey,
@@ -61,8 +49,16 @@
     <dependency> 
       <groupId>org.jboss.resteasy</groupId>
       <artifactId>resteasy-jackson2-provider</artifactId>
+      <!-- 15-Feb-2017, tatu: Alas, 3.0.20 compiled with Java 8, can't use
+        -->
       <version>3.0.17.Final</version>
       <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>${project.groupId}</groupId>
+          <artifactId>jackson-jaxrs-json-provider</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency> 
       <groupId>org.jboss.resteasy</groupId>
@@ -70,7 +66,6 @@
       <version>3.0.17.Final</version>
       <scope>test</scope>
     </dependency>
-
 
   </dependencies>
   <build>
