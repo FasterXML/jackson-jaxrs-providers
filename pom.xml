@@ -33,7 +33,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> 
     <!-- core/databind should have same version; data formats, annotation version from parent pom -->
-    <version.jackson.core>2.8.6</version.jackson.core>
+    <version.jackson.core>2.8.7</version.jackson.core>
     <version.dataformats>${version.jackson.core}</version.dataformats>
 
     <version.jackson.cbor>${version.dataformats}</version.jackson.cbor>
