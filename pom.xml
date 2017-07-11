@@ -50,7 +50,9 @@
     <version.jetty>8.1.10.v20130312</version.jetty>
     
     <!-- Needed to enable jax-rs 2.0 usage under OSGi -->
-    <javax.ws.rs.version>[1.1.1,2.1)</javax.ws.rs.version>
+    <!-- 10-Jul-2017, tatu: Allow 2.1.x as well
+      -->
+    <javax.ws.rs.version>[1.1.1,2.2)</javax.ws.rs.version>
   </properties>
 
   <dependencies>
