@@ -27,7 +27,7 @@ To use JAX-RS on Maven-based projects, use dependencies like:
 <dependency>
   <groupId>com.fasterxml.jackson.jaxrs</groupId>
   <artifactId>jackson-jaxrs-json-provider</artifactId>
-  <version>2.7.4</version>
+  <version>2.9.0</version>
 </dependency>
 ```
 
@@ -44,7 +44,7 @@ To use Jackson with Jersey see [their documentation](https://jersey.java.net/doc
 
 ### Usage: registering supporting datatypes module
 
-As of Jackson 2.8, there is a small supporting datatype module, `jackson-datatype-jaxrs` (see under `datatypes/`).
+Starting with Jackson 2.8, there is a small supporting datatype module, `jackson-datatype-jaxrs` (see under `datatypes/`).
 It will not be auto-registered automatically (unless user calls `ObjectMapper.findAndRegisterModules()`); instead,
 user has to register it by normal means:
 
