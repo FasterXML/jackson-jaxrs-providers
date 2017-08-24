@@ -9,7 +9,7 @@ Sub-modules:
 === Releases ===
 ------------------------------------------------------------------------
 
-2.8.10 (not yet released)
+2.8.10 (24-Aug-2017)
 
 #97: Extend version range to allow usage with jax-rs 2.1
 
