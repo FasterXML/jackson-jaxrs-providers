@@ -40,7 +40,7 @@ Due to auto-registration, it should be possible to simply add Maven dependency
 provider.
 If this does not work you need to consult documentation of the JAX-RS implementation for details.  
 
-To use Jackson with Jersey see [their documentation](https://jersey.java.net/documentation/latest/media.html#json.jackson).
+To use Jackson with Jersey see [their documentation](https://jersey.github.io/documentation/latest/media.html#json.jackson).
 
 ### Usage: registering supporting datatypes module
 
