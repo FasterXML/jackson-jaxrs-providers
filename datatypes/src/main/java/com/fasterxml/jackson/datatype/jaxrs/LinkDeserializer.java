@@ -31,7 +31,7 @@ public class LinkDeserializer extends StdScalarDeserializer<Link>
             // should we check for empty, and if so, should it become null-value/empty-value?
             return Link.valueOf(text);
         }
-        JsonToken t = p.getCurrentToken();
+        JsonToken t = p.currentToken();
         if (t == JsonToken.START_ARRAY && ctxt.isEnabled(DeserializationFeature.UNWRAP_SINGLE_VALUE_ARRAYS)) {
             p.nextToken();
             final Link value = deserialize(p, ctxt);
