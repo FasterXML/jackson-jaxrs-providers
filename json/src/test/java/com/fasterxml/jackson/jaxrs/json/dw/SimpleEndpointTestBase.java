@@ -39,10 +39,11 @@ import org.junit.Assert;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.type.TypeReference;
+
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -121,10 +122,11 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
 		protected static class JsonLinkDeserializer extends JsonDeserializer<javax.ws.rs.core.Link> {
 
 			@Override
-			public Link deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
-					throws IOException {
+			public Link deserialize(JsonParser p, DeserializationContext deserializationContext)
+					throws IOException
+			{
 				Link link = null;
-				JsonNode jsonNode = jsonParser.getCodec().<JsonNode> readTree(jsonParser);
+				JsonNode jsonNode = deserializationContext.readTree(p);
 				JsonNode hrefJsonNode = jsonNode.get(JsonLinkSerializer.HREF_PROPERTY);
 				if (hrefJsonNode != null) {
 					Link.Builder linkBuilder = Link.fromUri(hrefJsonNode.asText());
@@ -152,8 +154,8 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
 			this.links = new ArrayList<>();
 		}
 
-		public void addEntities(E... entitities) {
-			Collections.addAll(this.entities, entitities);
+		public void addEntities(E... entities) {
+			Collections.addAll(this.entities, entities);
 		}
 
 		public void addLinks(Link... links) {

@@ -195,7 +195,7 @@ extends ProviderBase<JacksonCBORProvider,
             if (resolver != null) {
                 ObjectMapper mapper = resolver.getContext(type);
                 // 07-Feb-2014, tatu: just in case, ensure we have correct type
-                if (mapper.getFactory() instanceof CBORFactory) {
+                if (mapper.tokenStreamFactory() instanceof CBORFactory) {
                     return mapper;
                 }
             }

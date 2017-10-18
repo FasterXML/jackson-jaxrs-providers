@@ -596,7 +596,7 @@ public abstract class ProviderBase<
                     //    since forcing of type will then force use of content serializer, which is
                     //    generally not the intent. Fix may require addition of functionality in databind
 
-                    TypeFactory typeFactory = writer.getTypeFactory();
+                    TypeFactory typeFactory = writer.typeFactory();
                     JavaType baseType = typeFactory.constructType(genericType);
                     rootType = typeFactory.constructSpecializedType(baseType, type);
                     /* 26-Feb-2011, tatu: To help with [JACKSON-518], we better recognize cases where
@@ -668,7 +668,7 @@ public abstract class ProviderBase<
     protected JsonGenerator _createGenerator(ObjectWriter writer, OutputStream rawStream, JsonEncoding enc)
         throws IOException
     {
-        JsonGenerator g = writer.getFactory().createGenerator(rawStream, enc);
+        JsonGenerator g = writer.createGenerator(rawStream, enc);
         // Important: we are NOT to close the underlying stream after
         // mapping, so we need to instruct generator
         g.disable(JsonGenerator.Feature.AUTO_CLOSE_TARGET);
@@ -788,7 +788,7 @@ public abstract class ProviderBase<
         if (rawType == JsonParser.class) {
             return p;
         }
-        final TypeFactory tf = reader.getTypeFactory();
+        final TypeFactory tf = reader.typeFactory();
         final JavaType resolvedType = tf.constructType(genericType);
 
         // 09-Jul-2015, tatu: As per [jaxrs-providers#69], handle MappingIterator too
@@ -826,7 +826,7 @@ public abstract class ProviderBase<
     protected JsonParser _createParser(ObjectReader reader, InputStream rawStream)
         throws IOException
     {
-        JsonParser p = reader.getFactory().createParser(rawStream);
+        JsonParser p = reader.createParser(rawStream);
         // Important: we are NOT to close the underlying stream after
         // mapping, so we need to instruct parser:
         p.disable(JsonParser.Feature.AUTO_CLOSE_SOURCE);
@@ -1058,7 +1058,7 @@ public abstract class ProviderBase<
      */
     private static NoContentExceptionSupplier _createNoContentExceptionSupplier() {
         try {
-            Class cls = Class.forName(CLASS_NAME_NO_CONTENT_EXCEPTION);
+            Class<?> cls = Class.forName(CLASS_NAME_NO_CONTENT_EXCEPTION);
             Constructor<?> ctor = cls.getDeclaredConstructor(String.class);
             if (ctor != null) {
                 return new JaxRS2NoContentExceptionSupplier();

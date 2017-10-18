@@ -236,6 +236,6 @@ public class JacksonXMLProvider
             return null;
         }
         wrappedStream.unread(firstByte);
-        return reader.getFactory().createParser(wrappedStream);
+        return reader.createParser(wrappedStream);
     }
 }
