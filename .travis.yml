@@ -1,11 +1,11 @@
 language: java
 
+# With 3.0, Java8 or above
 jdk:
-  - openjdk7
   - openjdk8
 
 # whitelist
 branches:
   only:
     - master
-    - "2.8"
+    - "2.9"
