@@ -376,38 +376,6 @@ public abstract class ProviderBase<
         _mapperConfig.configure(f, false);
         return _this();
     }
-    
-    // // // JsonParser/JsonGenerator
-    
-    public THIS enable(JsonParser.Feature f) {
-        _mapperConfig.configure(f, true);
-        return _this();
-    }
-
-    public THIS enable(JsonGenerator.Feature f) {
-        _mapperConfig.configure(f, true);
-        return _this();
-    }
-
-    public THIS disable(JsonParser.Feature f) {
-        _mapperConfig.configure(f, false);
-        return _this();
-    }
-
-    public THIS disable(JsonGenerator.Feature f) {
-        _mapperConfig.configure(f, false);
-        return _this();
-    }
-
-    public THIS configure(JsonParser.Feature f, boolean state) {
-        _mapperConfig.configure(f, state);
-        return _this();
-    }
-
-    public THIS configure(JsonGenerator.Feature f, boolean state) {
-        _mapperConfig.configure(f, state);
-        return _this();
-    }
 
     /*
     /**********************************************************
@@ -435,8 +403,6 @@ public abstract class ProviderBase<
      * body of request (like GET or POST).
      *<p>
      * Default implementation simply calls {@link #hasMatchingMediaType}.
-     * 
-     * @since 2.3
      */
     protected boolean hasMatchingMediaTypeForWriting(MediaType mediaType) {
         return hasMatchingMediaType(mediaType);
@@ -445,8 +411,6 @@ public abstract class ProviderBase<
     /**
      * Helper method used to check whether given media type
      * is supported by this provider.
-     * 
-     * @since 2.2
      */
     protected abstract boolean hasMatchingMediaType(MediaType mediaType);
 

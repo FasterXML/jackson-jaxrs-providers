@@ -1,7 +1,5 @@
 package com.fasterxml.jackson.jaxrs.cfg;
 
-import com.fasterxml.jackson.core.*;
-
 import com.fasterxml.jackson.databind.*;
 
 /**
@@ -94,14 +92,6 @@ public abstract class MapperConfiguratorBase<IMPL extends MapperConfiguratorBase
     }
 
     public synchronized final void configure(SerializationFeature f, boolean state) {
-        mapper().configure(f, state);
-    }
-
-    public synchronized final void configure(JsonParser.Feature f, boolean state) {
-        mapper().configure(f, state);
-    }
-
-    public synchronized final void configure(JsonGenerator.Feature f, boolean state) {
         mapper().configure(f, state);
     }
 

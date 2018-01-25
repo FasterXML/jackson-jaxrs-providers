@@ -98,28 +98,26 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
 
 	}
 
-	@JsonPropertyOrder({ "entities", "links" })
-	@JsonAutoDetect(fieldVisibility = Visibility.ANY, creatorVisibility = Visibility.ANY, getterVisibility = Visibility.NONE, isGetterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE)
-	protected static class PageImpl<E> extends Page<E> {
+    @JsonPropertyOrder({ "entities", "links" })
+    @JsonAutoDetect(fieldVisibility = Visibility.ANY, creatorVisibility = Visibility.ANY, getterVisibility = Visibility.NONE, isGetterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE)
+    protected static class PageImpl<E> extends Page<E> {
+        protected static class JsonLinkSerializer extends JsonSerializer<javax.ws.rs.core.Link> {
 
-		protected static class JsonLinkSerializer extends JsonSerializer<javax.ws.rs.core.Link> {
+            static final String HREF_PROPERTY = "href";
 
-			static final String HREF_PROPERTY = "href";
+            @Override
+            public void serialize(Link link, JsonGenerator jsonGenerator, SerializerProvider serializerProvider)
+                    throws IOException {
+                jsonGenerator.writeStartObject();
+                jsonGenerator.writeStringField(HREF_PROPERTY, link.getUri().toString());
+                for (Entry<String, String> entry : link.getParams().entrySet()) {
+                    jsonGenerator.writeStringField(entry.getKey(), entry.getValue());
+                }
+                jsonGenerator.writeEndObject();
+            }
+        }
 
-			@Override
-			public void serialize(Link link, JsonGenerator jsonGenerator, SerializerProvider serializerProvider)
-					throws IOException {
-				jsonGenerator.writeStartObject();
-				jsonGenerator.writeStringField(HREF_PROPERTY, link.getUri().toString());
-				for (Entry<String, String> entry : link.getParams().entrySet()) {
-					jsonGenerator.writeStringField(entry.getKey(), entry.getValue());
-				}
-				jsonGenerator.writeEndObject();
-			}
-
-		}
-
-		protected static class JsonLinkDeserializer extends JsonDeserializer<javax.ws.rs.core.Link> {
+        protected static class JsonLinkDeserializer extends JsonDeserializer<javax.ws.rs.core.Link> {
 
 			@Override
 			public Link deserialize(JsonParser p, DeserializationContext deserializationContext)
@@ -145,6 +143,7 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
 		}
 
 		private final List<E> entities;
+
 		@JsonSerialize(contentUsing = JsonLinkSerializer.class)
 		@JsonDeserialize(contentUsing = JsonLinkDeserializer.class)
 		private final List<Link> links;
@@ -154,12 +153,12 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
 			this.links = new ArrayList<>();
 		}
 
-		public void addEntities(E... entities) {
-			Collections.addAll(this.entities, entities);
+		public void addEntities(E... e) {
+			Collections.addAll(this.entities, e);
 		}
 
-		public void addLinks(Link... links) {
-			Collections.addAll(this.links, links);
+		public void addLinks(Link... l) {
+			Collections.addAll(this.links, l);
 		}
 
 		@Override
@@ -175,9 +174,8 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
 				}
 			}
 			return null;
-		}
-
-	}
+        }
+    }
 
     @Path("/point")
     public static class SimpleResource
