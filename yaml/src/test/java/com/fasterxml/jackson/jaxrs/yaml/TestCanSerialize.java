@@ -32,10 +32,6 @@ public class TestCanSerialize extends JaxrsTestBase
         Simple s = new Simple();
         s.setList(l);
 
-        // this is fine:
-        boolean can = mapper.canSerialize(Simple.class);
-        assertTrue(can);
-
         // but with problem of [JACKSON-540], we get nasty surprise here...
         String json = mapper.writeValueAsString(s);
         

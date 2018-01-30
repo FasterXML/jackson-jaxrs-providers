@@ -508,12 +508,17 @@ public abstract class ProviderBase<
                 return false;
             }
         }
+        // 29-Jan-2018, tatu: Mapper does not really know, a priori, much about what might not
+        //   be something it can serialize. Jackson 2.x did have `canSerialize()` method which didn't
+        //   do much good; 3.x does not.
+        /*
         // Also: if we really want to verify that we can deserialize, we'll check:
         if (_cfgCheckCanSerialize) {
             if (!locateMapper(type, mediaType).canSerialize(type)) {
                 return false;
             }
         }
+        */
         return true;
     }
 
@@ -705,6 +710,10 @@ public abstract class ProviderBase<
                 return false;
             }
         }
+        // 29-Jan-2018, tatu: Mapper does not really know, a priori, much about what might not
+        //   be something it can serialize. Jackson 2.x did have `canSerialize()` method which didn't
+        //   do much good; 3.x does not.
+        /*
         // Finally: if we really want to verify that we can serialize, we'll check:
         if (_cfgCheckCanDeserialize) {
             if (_isSpecialReadable(type)) {
@@ -715,6 +724,7 @@ public abstract class ProviderBase<
                 return false;
             }
         }
+        */
         return true;
     }
 
