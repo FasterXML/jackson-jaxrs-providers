@@ -5,7 +5,6 @@ import java.util.*;
 import com.fasterxml.jackson.databind.*;
 
 import com.fasterxml.jackson.dataformat.xml.JacksonXmlAnnotationIntrospector;
-import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.jaxb.XmlJaxbAnnotationIntrospector;
 
@@ -46,17 +45,10 @@ public class XMLMapperConfigurator
     public synchronized XmlMapper getDefaultMapper()
     {
         if (_defaultMapper == null) {
-            // 10-Oct-2012, tatu: Better do things explicitly...
-            JacksonXmlModule module = getConfiguredModule();
-            _defaultMapper = (module == null) ? new XmlMapper() : new XmlMapper(module);
+            _defaultMapper = new XmlMapper();
             _setAnnotations(_defaultMapper, _defaultAnnotationsToUse);
         }
         return _defaultMapper;
-    }
-
-    protected JacksonXmlModule getConfiguredModule()
-    {
-        return new JacksonXmlModule();
     }
 
     /*
