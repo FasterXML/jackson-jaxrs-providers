@@ -9,14 +9,15 @@ public abstract class ModuleTestBase
     extends junit.framework.TestCase
 {
     protected ObjectMapper mapperWithModule() {
-        return new ObjectMapper()
-                .registerModule(new Jaxrs2TypesModule());
+        return ObjectMapper.builder()
+                .addModule(new Jaxrs2TypesModule())
+                .build();
     }
-    
+
     /*
-    /**********************************************************
+    /**********************************************************************
     /* Additional assertion methods
-    /**********************************************************
+    /**********************************************************************
      */
 
     protected void assertToken(JsonToken expToken, JsonToken actToken)
@@ -45,9 +46,9 @@ public abstract class ModuleTestBase
     }
 
     /*
-    /**********************************************************
+    /**********************************************************************
     /* Other helper methods
-    /**********************************************************
+    /**********************************************************************
      */
 
     public String quote(String str) {

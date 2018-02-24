@@ -26,9 +26,10 @@ public class TestSerializeWithoutAutoflush extends JaxrsTestBase
 
     public void testCanSerialize() throws IOException
     {
-        ObjectMapper mapper = new ObjectMapper();
+        ObjectMapper mapper = ObjectMapper.builder()
+                .disable(SerializationFeature.FLUSH_AFTER_WRITE_VALUE)
+                .build();
         mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.WRAPPER_ARRAY);
-        mapper.disable(SerializationFeature.FLUSH_AFTER_WRITE_VALUE);
 
         JacksonJsonProvider provider = new JacksonJsonProvider(mapper);
 
