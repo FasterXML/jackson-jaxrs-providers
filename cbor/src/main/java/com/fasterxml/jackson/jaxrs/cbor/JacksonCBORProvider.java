@@ -182,25 +182,32 @@ extends ProviderBase<JacksonCBORProvider,
     @Override
     protected ObjectMapper _locateMapperViaProvider(Class<?> type, MediaType mediaType)
     {
-        if (_providers != null) {
-            ContextResolver<ObjectMapper> resolver = _providers.getContextResolver(ObjectMapper.class, mediaType);
-            /* Above should work as is, but due to this bug
-             *   [https://jersey.dev.java.net/issues/show_bug.cgi?id=288]
-             * in Jersey, it doesn't. But this works until resolution of
-             * the issue:
-             */
-            if (resolver == null) {
-                resolver = _providers.getContextResolver(ObjectMapper.class, null);
-            }
-            if (resolver != null) {
-                ObjectMapper mapper = resolver.getContext(type);
-                // 07-Feb-2014, tatu: just in case, ensure we have correct type
-                if (mapper.tokenStreamFactory() instanceof CBORFactory) {
-                    return mapper;
+        // First: were we configured with a specific instance?
+        ObjectMapper m = _mapperConfig.getConfiguredMapper();
+        if (m == null) {
+            // If not, maybe we can get one configured via context?
+            if (_providers != null) {
+                ContextResolver<ObjectMapper> resolver = _providers.getContextResolver(ObjectMapper.class, mediaType);
+                // Above should work as is, but due to this bug
+                //   [https://jersey.dev.java.net/issues/show_bug.cgi?id=288]
+                // in Jersey, it doesn't. But this works until resolution of the issue:
+                if (resolver == null) {
+                    resolver = _providers.getContextResolver(ObjectMapper.class, null);
+                }
+                if (resolver != null) {
+                    m = resolver.getContext(type);
+                    // 07-Feb-2014, tatu: just in case, ensure we have correct type
+                    if (m.tokenStreamFactory() instanceof CBORFactory) {
+                        return m;
+                    }
                 }
             }
+            if (m == null) {
+                // If not, let's get the fallback default instance
+                m = _mapperConfig.getDefaultMapper();
+            }
         }
-        return null;
+        return m;
     }
 
     @Override
