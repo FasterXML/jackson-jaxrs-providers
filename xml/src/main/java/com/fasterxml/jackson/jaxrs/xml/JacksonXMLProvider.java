@@ -194,7 +194,7 @@ public class JacksonXMLProvider
     public XmlMapper _locateMapperViaProvider(Class<?> type, MediaType mediaType)
     {
         // First: were we configured with a specific instance?
-        XmlMapper m = _mapperConfig.getConfiguredMapper();
+        XmlMapper m = (XmlMapper) _mapperConfig.getConfiguredMapper();
         if (m == null) {
             // If not, maybe we can get one configured via context?
             if (_providers != null) {

@@ -1,6 +1,7 @@
 package com.fasterxml.jackson.jaxrs.util;
 
 import java.lang.annotation.Annotation;
+import java.util.Arrays;
 
 import com.fasterxml.jackson.databind.BeanProperty;
 import com.fasterxml.jackson.databind.JavaType;
@@ -67,10 +68,7 @@ public class EndpointAsBeanProperty
             if (raw == null || raw.length == 0) {
                 am = NO_ANNOTATIONS;
             } else {
-                am = new AnnotationMap();
-                for (Annotation a : raw) {
-                    am.add(a);
-                }
+                am = AnnotationMap.of(Arrays.asList(raw));
             }
             _annotations = am;
         }

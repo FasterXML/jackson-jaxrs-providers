@@ -886,7 +886,7 @@ public abstract class ProviderBase<
         if (isEnabled(JaxRSFeature.DYNAMIC_OBJECT_MAPPER_LOOKUP)) {
             MAPPER m = _locateMapperViaProvider(type, mediaType);
             if (m == null) {
-                m = _mapperConfig.getConfiguredMapper();
+                m = (MAPPER) _mapperConfig.getConfiguredMapper();
                 if (m == null) {
                     m = _mapperConfig.getDefaultMapper();
                 }
