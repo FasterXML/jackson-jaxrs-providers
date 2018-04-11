@@ -1,15 +1,13 @@
 package com.fasterxml.jackson.jaxrs.yaml;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.DefaultTyping;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Unit test to check [JACKSON-540]
- */
 public class TestCanSerialize extends JaxrsTestBase
 {
     static class Simple {
@@ -21,8 +19,9 @@ public class TestCanSerialize extends JaxrsTestBase
 
     public void testCanSerialize() throws IOException
     {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.WRAPPER_ARRAY);
+        ObjectMapper mapper = ObjectMapper.builder()
+                .enableDefaultTyping(DefaultTyping.NON_FINAL, JsonTypeInfo.As.WRAPPER_ARRAY)
+                .build();
     
         // construct test object
         List<String> l = new ArrayList<String>();

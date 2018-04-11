@@ -9,6 +9,7 @@ import java.util.List;
 import javax.ws.rs.core.MediaType;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.DefaultTyping;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
@@ -28,8 +29,8 @@ public class TestSerializeWithoutAutoflush extends JaxrsTestBase
     {
         ObjectMapper mapper = ObjectMapper.builder()
                 .disable(SerializationFeature.FLUSH_AFTER_WRITE_VALUE)
+                .enableDefaultTyping(DefaultTyping.NON_FINAL, JsonTypeInfo.As.WRAPPER_ARRAY)
                 .build();
-        mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.WRAPPER_ARRAY);
 
         JacksonJsonProvider provider = new JacksonJsonProvider(mapper);
 

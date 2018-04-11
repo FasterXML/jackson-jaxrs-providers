@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.*;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
+import com.fasterxml.jackson.databind.DefaultTyping;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
@@ -21,8 +21,9 @@ public class TestCanSerialize extends JaxrsTestBase
 
     public void testCanSerialize() throws IOException
     {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.WRAPPER_ARRAY);
+        ObjectMapper mapper = ObjectMapper.builder()
+                .enableDefaultTyping(DefaultTyping.NON_FINAL, JsonTypeInfo.As.WRAPPER_ARRAY)
+                .build();
     
         // construct test object
         List<String> l = new ArrayList<String>();
