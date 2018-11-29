@@ -4,6 +4,8 @@ import java.io.*;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Type;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -1032,8 +1034,22 @@ public abstract class ProviderBase<
      */
     private static NoContentExceptionSupplier _createNoContentExceptionSupplier() {
         try {
-            Class<?> cls = Class.forName(CLASS_NAME_NO_CONTENT_EXCEPTION);
-            Constructor<?> ctor = cls.getDeclaredConstructor(String.class);
+            Class<?> cls = Class.forName(CLASS_NAME_NO_CONTENT_EXCEPTION, false, getClassLoader());
+            Constructor<?> ctor;
+            if (System.getSecurityManager() == null) {
+                ctor = cls.getDeclaredConstructor(String.class);
+            } else {
+                ctor = AccessController.doPrivileged(new PrivilegedAction<Constructor<?>>() {
+                    @Override
+                    public Constructor<?> run() {
+                        try {
+                            return cls.getDeclaredConstructor(String.class);
+                        } catch (NoSuchMethodException ignore) {
+                            return null;
+                        }
+                    }
+                });
+            }
             if (ctor != null) {
                 return new JaxRS2NoContentExceptionSupplier();
             } else {
@@ -1044,5 +1060,17 @@ public abstract class ProviderBase<
         } catch (NoSuchMethodException e) {
             return new JaxRS1NoContentExceptionSupplier();
         }
+    }
+
+    private static ClassLoader getClassLoader() {
+        if (System.getSecurityManager() == null) {
+            return ProviderBase.getClassLoader();
+        }
+        return AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
+            @Override
+            public ClassLoader run() {
+                return ProviderBase.getClassLoader();
+            }
+        });
     }
 }
