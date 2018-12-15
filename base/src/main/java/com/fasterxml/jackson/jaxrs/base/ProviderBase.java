@@ -640,7 +640,7 @@ public abstract class ProviderBase<
         JsonGenerator g = writer.createGenerator(rawStream, enc);
         // Important: we are NOT to close the underlying stream after
         // mapping, so we need to instruct generator
-        g.disable(JsonGenerator.Feature.AUTO_CLOSE_TARGET);
+        g.disable(StreamWriteFeature.AUTO_CLOSE_TARGET);
         return g;
     }
 
@@ -803,7 +803,7 @@ public abstract class ProviderBase<
         JsonParser p = reader.createParser(rawStream);
         // Important: we are NOT to close the underlying stream after
         // mapping, so we need to instruct parser:
-        p.disable(JsonParser.Feature.AUTO_CLOSE_SOURCE);
+        p.disable(StreamReadFeature.AUTO_CLOSE_SOURCE);
         return p;
     }
 

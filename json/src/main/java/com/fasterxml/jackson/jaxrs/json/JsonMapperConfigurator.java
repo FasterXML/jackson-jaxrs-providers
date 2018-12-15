@@ -2,7 +2,7 @@ package com.fasterxml.jackson.jaxrs.json;
 
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.cfg.MapperBuilder;
-
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.jaxrs.cfg.Annotations;
 import com.fasterxml.jackson.jaxrs.cfg.MapperConfiguratorBase;
 
@@ -35,7 +35,7 @@ public class JsonMapperConfigurator
 
     @Override
     protected MapperBuilder<?,?> mapperBuilder() {
-        return ObjectMapper.builder();
+        return JsonMapper.builder();
     }
 
     @Override

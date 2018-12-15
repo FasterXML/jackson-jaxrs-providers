@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.cfg.MapperBuilder;
 
 import com.fasterxml.jackson.dataformat.cbor.CBORFactory;
-
+import com.fasterxml.jackson.dataformat.cbor.databind.CBORMapper;
 import com.fasterxml.jackson.jaxrs.cfg.Annotations;
 import com.fasterxml.jackson.jaxrs.cfg.MapperConfiguratorBase;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
@@ -30,7 +30,7 @@ public class CBORMapperConfigurator
 
     @Override
     protected MapperBuilder<?,?> mapperBuilder() {
-        return ObjectMapper.builder(new CBORFactory());
+        return CBORMapper.builder(new CBORFactory());
     }
 
     @Override

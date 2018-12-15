@@ -9,7 +9,7 @@ public abstract class ModuleTestBase
     extends junit.framework.TestCase
 {
     protected ObjectMapper mapperWithModule() {
-        return ObjectMapper.builder()
+        return JsonMapper.builder()
                 .addModule(new Jaxrs2TypesModule())
                 .build();
     }

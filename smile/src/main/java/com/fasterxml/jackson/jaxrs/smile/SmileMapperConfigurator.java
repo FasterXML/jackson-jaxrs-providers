@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.cfg.MapperBuilder;
 
 import com.fasterxml.jackson.dataformat.smile.SmileFactory;
-
+import com.fasterxml.jackson.dataformat.smile.databind.SmileMapper;
 import com.fasterxml.jackson.jaxrs.cfg.Annotations;
 import com.fasterxml.jackson.jaxrs.cfg.MapperConfiguratorBase;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
@@ -36,7 +36,7 @@ public class SmileMapperConfigurator
 
     @Override
     protected MapperBuilder<?,?> mapperBuilder() {
-        return ObjectMapper.builder(new SmileFactory());
+        return SmileMapper.builder(new SmileFactory());
     }
 
     @Override
