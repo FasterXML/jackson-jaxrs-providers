@@ -1,7 +1,6 @@
 package com.fasterxml.jackson.jaxrs.xml;
 
 import java.io.*;
-import java.util.*;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.DefaultTyping;
@@ -9,36 +8,33 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 /**
- * Unit test to check [JACKSON-540]
+ * Test for some aspects of default (polymorphic) type handling.
+ *<p>
+ * NOTE! For XML more limitations apply, so test differs from others a bit.
  */
 public class TestCanSerialize extends JaxrsTestBase
 {
-    static class Simple {
-        protected List<String> list;
-
-        public List<String> getList( ) { return list; }
-        public void setList(List<String> l) { list = l; }
-    }
-
     public void testCanSerialize() throws IOException
     {
         ObjectMapper mapper = XmlMapper.builder()
-                .enableDefaultTyping(DefaultTyping.NON_FINAL, JsonTypeInfo.As.WRAPPER_ARRAY)
+                .enableDefaultTyping(DefaultTyping.NON_FINAL, JsonTypeInfo.As.WRAPPER_OBJECT)
                 .build();
     
         // construct test object
-        List<String> l = new ArrayList<String>();
-        l.add("foo");
-        l.add("bar");
-    
         Simple s = new Simple();
-        s.setList(l);
+        s.list = new String[] { "foo", "bar" };
 
         // but with problem of [JACKSON-540], we get nasty surprise here...
-        String json = mapper.writeValueAsString(s);
-        
-        Simple result = mapper.readValue(json, Simple.class);
+        String doc = mapper.writeValueAsString(s);
+        Simple result = mapper.readValue(doc, Simple.class);
         assertNotNull(result.list);
-        assertEquals(2, result.list.size());
+        assertEquals(2, result.list.length);
+        assertEquals("bar", result.list[1]);
     }
 }
+
+// Important: until a bug in XML handler fixed, can't use inner classes for type ids
+class Simple {
+    public String[] list;
+}
+
