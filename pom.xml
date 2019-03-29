@@ -41,6 +41,16 @@
     <javax.ws.rs.version>[2.0,2.2)</javax.ws.rs.version>
   </properties>
 
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>javax.xml.bind</groupId>
+        <artifactId>jaxb-api</artifactId>
+        <version>2.3.0</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
   <dependencies>
 
     <!-- and we need JAX-RS annotations for testing as well; but usually provided
@@ -57,8 +67,6 @@
 
     <!-- tests require JAX-RS impl; otherwise components fail to load
         (some oddity with API classes; should NOT be needed...)
-
-        NOTE: use 1.2 as that's JDK 1.5; later (1.8) versions need JDK 1.6
       -->
     <dependency> <!-- all components use junit for testing -->
       <groupId>junit</groupId>
