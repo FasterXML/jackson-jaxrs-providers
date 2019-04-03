@@ -35,7 +35,7 @@
 
     <!--  Need Jersey+Jetty for testing; deps from DropWizard 1.2.9 -->
     <version.jersey>2.25.1</version.jersey>
-    <version.jetty>9.4.11.v20180605</version.jetty>
+    <version.jetty>9.4.12.v20180830</version.jetty>
     
     <!-- Needed to enable jax-rs 2.0 usage under OSGi -->
     <javax.ws.rs.version>[2.0,2.2)</javax.ws.rs.version>
