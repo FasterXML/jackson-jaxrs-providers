@@ -50,16 +50,16 @@
     <plugins>
       <plugin>
         <!-- Inherited from oss-base. Generate PackageVersion.java.-->
-	<groupId>com.google.code.maven-replacer-plugin</groupId>
-        <artifactId>replacer</artifactId>
-	<executions>
-          <execution>
-            <id>process-packageVersion</id>
-            <phase>process-sources</phase>
-          </execution>
-	</executions>
-      </plugin>
-      <plugin>
+	   <groupId>com.google.code.maven-replacer-plugin</groupId>
+         <artifactId>replacer</artifactId>
+	    <executions>
+           <execution>
+             <id>process-packageVersion</id>
+             <phase>process-sources</phase>
+           </execution>
+	    </executions>
+       </plugin>
+       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
         <executions>
@@ -79,6 +79,10 @@
             </configuration>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.moditect</groupId>
+        <artifactId>moditect-maven-plugin</artifactId>
       </plugin>
     </plugins>
   </build>
