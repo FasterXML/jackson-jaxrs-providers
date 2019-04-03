@@ -43,8 +43,8 @@ ${project.groupId}.annotation.*;version=${project.version}
   <build>
     <plugins>
       <plugin>
-	<groupId>org.moditect</groupId>
-	<artifactId>moditect-maven-plugin</artifactId>
+        <groupId>org.moditect</groupId>
+        <artifactId>moditect-maven-plugin</artifactId>
       </plugin>
     </plugins>
   </build>
