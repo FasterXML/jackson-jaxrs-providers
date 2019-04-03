@@ -1,0 +1,14 @@
+Project: jackson-jaxrs-providers
+Sub-modules:
+  jackson-jaxrs-cbor-provider
+  jackson-jaxrs-json-provider
+  jackson-jaxrs-smile-provider
+  jackson-jaxrs-xml-provider
+  jackson-jaxrs-yaml-provider
+  jackson-datatype-jaxrs
+
+------------------------------------------------------------------------
+=== Releases ===
+------------------------------------------------------------------------
+
+3.0.0 (not yet released)
