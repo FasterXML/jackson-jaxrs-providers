@@ -60,10 +60,9 @@ public abstract class ProviderBase<
         // then some primitive types
         DEFAULT_UNTOUCHABLES.add(new ClassKey(char[].class));
 
-        /* 27-Apr-2012, tatu: Ugh. As per
-         *   [https://github.com/FasterXML/jackson-jaxrs-json-provider/issues/12]
-         *  better revert this back, to make them untouchable again.
-         */
+        // 27-Apr-2012, tatu: Ugh. As per
+        //   [https://github.com/FasterXML/jackson-jaxrs-json-provider/issues/12]
+        //  better revert this back, to make them untouchable again.
         DEFAULT_UNTOUCHABLES.add(new ClassKey(String.class));
         DEFAULT_UNTOUCHABLES.add(new ClassKey(byte[].class));
     }

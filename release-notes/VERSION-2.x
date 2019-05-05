@@ -11,6 +11,8 @@ Sub-modules:
 
 2.10.0 (not yet released)
 
+#111: AnnotationBundleKey equality fails for Parameter Annotations
+ (reported by John M)
 - Add JDK9+ `module-info` with Moditect plugin
 
 2.9.8 (15-Dec-2018)

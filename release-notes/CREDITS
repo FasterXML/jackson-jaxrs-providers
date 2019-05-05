@@ -52,3 +52,7 @@ Tim Ward (timothyjward@github)
 
 * Contributed #93: Jackson OSGi metadata is incomplete
  (2.8.5)
+
+John McCarthy (jvmccarthy@github)
+* Reported #111: AnnotationBundleKey equality fails for Parameter Annotations
+ (2.10.0)
