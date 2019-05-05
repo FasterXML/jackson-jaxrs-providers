@@ -3,8 +3,12 @@ package com.fasterxml.jackson.jaxrs.xml;
 import java.io.*;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+import com.fasterxml.jackson.databind.DatabindContext;
 import com.fasterxml.jackson.databind.DefaultTyping;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 /**
@@ -14,10 +18,20 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
  */
 public class TestCanSerialize extends JaxrsTestBase
 {
+    static class NoCheckSubTypeValidator extends PolymorphicTypeValidator.Base {
+        private static final long serialVersionUID = 1L;
+    
+        @Override
+        public Validity validateBaseType(DatabindContext ctxt, JavaType baseType) {
+            return Validity.ALLOWED;
+        }
+    }
+
     public void testCanSerialize() throws IOException
     {
         ObjectMapper mapper = XmlMapper.builder()
-                .enableDefaultTyping(DefaultTyping.NON_FINAL, JsonTypeInfo.As.WRAPPER_OBJECT)
+                .enableDefaultTyping(new NoCheckSubTypeValidator(),
+                        DefaultTyping.NON_FINAL, JsonTypeInfo.As.WRAPPER_OBJECT)
                 .build();
     
         // construct test object

@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.DefaultTyping;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.jaxrs.json.testutil.NoCheckSubTypeValidator;
 
 /**
  * Unit test to check that ProviderBase always writes its content, even if flush-after-write is off.
@@ -30,7 +31,8 @@ public class TestSerializeWithoutAutoflush extends JaxrsTestBase
     {
         ObjectMapper mapper = JsonMapper.builder()
                 .disable(SerializationFeature.FLUSH_AFTER_WRITE_VALUE)
-                .enableDefaultTyping(DefaultTyping.NON_FINAL, JsonTypeInfo.As.WRAPPER_ARRAY)
+                .enableDefaultTyping(NoCheckSubTypeValidator.instance,
+                        DefaultTyping.NON_FINAL, JsonTypeInfo.As.WRAPPER_ARRAY)
                 .build();
 
         JacksonJsonProvider provider = new JacksonJsonProvider(mapper);
