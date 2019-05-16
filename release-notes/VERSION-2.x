@@ -15,6 +15,7 @@ Sub-modules:
  (reported by John M)
 - Add JDK9+ `module-info` with Moditect plugin
 
+2.9.9 (16-May-2019)
 2.9.8 (15-Dec-2018)
 2.9.7 (19-Sep-2018)
 2.9.6 (12-Jun-2018)
