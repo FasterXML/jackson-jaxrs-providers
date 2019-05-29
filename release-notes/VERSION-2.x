@@ -14,6 +14,7 @@ Sub-modules:
 #111: AnnotationBundleKey equality fails for Parameter Annotations
  (reported by John M)
 - Add JDK9+ `module-info` with Moditect plugin
+- Update Woodstox dependency by XML provider
 
 2.9.9 (16-May-2019)
 2.9.8 (15-Dec-2018)
