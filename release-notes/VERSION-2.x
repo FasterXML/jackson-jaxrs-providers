@@ -13,6 +13,8 @@ Sub-modules:
 
 #111: AnnotationBundleKey equality fails for Parameter Annotations
  (reported by John M)
+#113: `@JacksonFeature` can't be used for deserialization (not applicable to parameters)
+ (reported by Marius L)
 - Add JDK9+ `module-info` with Moditect plugin
 - Update Woodstox dependency by XML provider
 

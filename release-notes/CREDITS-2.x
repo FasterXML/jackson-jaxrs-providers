@@ -56,3 +56,8 @@ Tim Ward (timothyjward@github)
 John McCarthy (jvmccarthy@github)
 * Reported #111: AnnotationBundleKey equality fails for Parameter Annotations
  (2.10.0)
+
+Marius Lewerenz (mlewe@github)
+* Reported #113: `@JacksonFeature` can't be used for deserialization (not
+  applicable to parameters)
+ (2.10.0)
