@@ -11,8 +11,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 /**
  * Annotation that can be used enable and/or disable various
  * features for <code>ObjectReader</code>s and <code>ObjectWriter</code>s.
- *<p>
- * NOTE: applicable to parameters since 2.10
  */
 @Target({ElementType.ANNOTATION_TYPE, ElementType.METHOD, ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)

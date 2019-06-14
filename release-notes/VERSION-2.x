@@ -18,6 +18,10 @@ Sub-modules:
 - Add JDK9+ `module-info` with Moditect plugin
 - Update Woodstox dependency by XML provider
 
+2.9.10 (not yet released)
+
+- Align Woodstox version for XML provider
+
 2.9.9 (16-May-2019)
 2.9.8 (15-Dec-2018)
 2.9.7 (19-Sep-2018)
