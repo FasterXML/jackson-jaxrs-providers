@@ -48,7 +48,7 @@
     <dependency>
       <groupId>org.codehaus.woodstox</groupId>
       <artifactId>stax2-api</artifactId>
-      <version>4.1</version>
+      <version>4.2</version>
     </dependency>
 
     <!-- Also: While JDK-included SJSXP almost works, there are some rough edges;
