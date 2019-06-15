@@ -20,7 +20,8 @@ Sub-modules:
 
 2.9.10 (not yet released)
 
-- Align Woodstox version for XML provider
+- Align Woodstox version XML provider uses (5.2.1, with `stax2-api` 4.2)
+  to one used by `jackson-dataformat-xml` (was issue with 2.9.9)
 
 2.9.9 (16-May-2019)
 2.9.8 (15-Dec-2018)
