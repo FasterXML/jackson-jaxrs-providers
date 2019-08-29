@@ -545,9 +545,12 @@ public abstract class ProviderBase<
 
         try {
             // Want indentation?
+            // 28-Aug-2019, tatu: Should work without this:
+            /*
             if (writer.isEnabled(SerializationFeature.INDENT_OUTPUT)) {
                 g.useDefaultPrettyPrinter();
             }
+            */
             JavaType rootType = null;
 
             if ((genericType != null) && (value != null)) {

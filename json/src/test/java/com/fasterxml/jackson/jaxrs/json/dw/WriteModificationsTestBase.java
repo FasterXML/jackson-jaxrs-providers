@@ -90,11 +90,11 @@ public abstract class WriteModificationsTestBase extends ResourceTestBase
         {
             if (_indent != null) {
                 if (_indent.booleanValue()) {
-                    g.useDefaultPrettyPrinter();
+                    w = w.withDefaultPrettyPrinter();
                 }
             } else {
                 if (doIndent) {
-                    g.useDefaultPrettyPrinter();
+                    w = w.withDefaultPrettyPrinter();
                 }
             }
             return w;
