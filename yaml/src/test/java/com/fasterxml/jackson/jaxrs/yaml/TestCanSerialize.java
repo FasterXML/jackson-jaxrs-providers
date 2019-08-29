@@ -33,7 +33,7 @@ public class TestCanSerialize extends JaxrsTestBase
     public void testCanSerialize() throws IOException
     {
         ObjectMapper mapper = YAMLMapper.builder()
-                .enableDefaultTyping(new NoCheckSubTypeValidator(),
+                .activateDefaultTyping(new NoCheckSubTypeValidator(),
                         DefaultTyping.NON_FINAL, JsonTypeInfo.As.WRAPPER_ARRAY)
                 .build();
     

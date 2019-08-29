@@ -31,7 +31,7 @@ public class TestSerializeWithoutAutoflush extends JaxrsTestBase
     {
         ObjectMapper mapper = JsonMapper.builder()
                 .disable(SerializationFeature.FLUSH_AFTER_WRITE_VALUE)
-                .enableDefaultTyping(NoCheckSubTypeValidator.instance,
+                .activateDefaultTyping(NoCheckSubTypeValidator.instance,
                         DefaultTyping.NON_FINAL, JsonTypeInfo.As.WRAPPER_ARRAY)
                 .build();
 

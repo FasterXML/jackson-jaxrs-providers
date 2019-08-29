@@ -9,9 +9,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.jaxrs.json.testutil.NoCheckSubTypeValidator;
 
-/**
- * Unit test to check [JACKSON-540]
- */
 public class TestCanSerialize extends JaxrsTestBase
 {
     static class Simple {
@@ -24,7 +21,7 @@ public class TestCanSerialize extends JaxrsTestBase
     public void testCanSerialize() throws IOException
     {
         ObjectMapper mapper = JsonMapper.builder()
-                .enableDefaultTyping(NoCheckSubTypeValidator.instance,
+                .activateDefaultTyping(NoCheckSubTypeValidator.instance,
                         DefaultTyping.NON_FINAL, JsonTypeInfo.As.WRAPPER_ARRAY)
                 .build();
     
