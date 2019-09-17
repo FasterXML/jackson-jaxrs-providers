@@ -16,8 +16,6 @@ import com.fasterxml.jackson.databind.deser.std.StdScalarDeserializer;
  */
 public class LinkDeserializer extends StdScalarDeserializer<Link>
 {
-    private static final long serialVersionUID = 1L;
-
     public LinkDeserializer() {
         super(Link.class);
     }
@@ -49,7 +47,7 @@ public class LinkDeserializer extends StdScalarDeserializer<Link>
                 return (Link) ob;
             }
         }
-        return (Link) ctxt.handleUnexpectedToken(_valueClass, p);
+        return (Link) ctxt.handleUnexpectedToken(getValueType(ctxt), p);
     }
 
 }
