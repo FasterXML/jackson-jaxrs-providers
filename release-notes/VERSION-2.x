@@ -19,7 +19,7 @@ Sub-modules:
 - Add JDK9+ `module-info` with Moditect plugin
 - Update Woodstox dependency by XML provider
 
-2.9.10 (not yet released)
+2.9.10 (21-Sep-2019)
 
 - Align Woodstox version XML provider uses to one used by `jackson-dataformat-xml`,
   5.3.0, with `stax2-api` 4.2 (was issue with 2.9.9)
