@@ -9,8 +9,7 @@ Sub-modules:
 === Releases ===
 ------------------------------------------------------------------------
 
-2.10.0.pr2 (31-Aug-2019)
-2.10.0.pr1 (19-Jul-2019)
+2.10.0 (26-Sep-2019)
 
 #111: AnnotationBundleKey equality fails for Parameter Annotations
  (reported by John M)
@@ -19,7 +18,7 @@ Sub-modules:
 - Add JDK9+ `module-info` with Moditect plugin
 - Update Woodstox dependency by XML provider
 
-2.9.10 (not yet released)
+2.9.10 (21-Sep-2019)
 
 - Align Woodstox version XML provider uses to one used by `jackson-dataformat-xml`,
   5.3.0, with `stax2-api` 4.2 (was issue with 2.9.9)
