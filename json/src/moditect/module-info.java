@@ -6,7 +6,10 @@ module com.fasterxml.jackson.jaxrs.json {
     requires com.fasterxml.jackson.module.jaxb;
 
     requires com.fasterxml.jackson.jaxrs.base;
-    requires javax.ws.rs.api;
+
+    requires static javax.ws.rs.api;
+    requires static java.ws.rs;
+    requires static jakarta.ws.rs.api;
 
     exports com.fasterxml.jackson.jaxrs.json;
     exports com.fasterxml.jackson.jaxrs.json.annotation;
