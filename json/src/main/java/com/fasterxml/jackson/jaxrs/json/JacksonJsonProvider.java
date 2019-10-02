@@ -223,12 +223,4 @@ public class JacksonJsonProvider
         return JsonEndpointConfig.forWriting(writer, annotations,
                 _jsonpFunctionName);
     }
-
-    /**
-     * @deprecated Since 2.2 use {@link #hasMatchingMediaType(MediaType)} instead
-     */
-    @Deprecated
-    protected boolean isJsonType(MediaType mediaType) {
-        return hasMatchingMediaType(mediaType);
-    }
 }

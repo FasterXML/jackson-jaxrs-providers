@@ -58,7 +58,6 @@ public class JsonEndpointConfig
     /**********************************************************
      */
 
-    @SuppressWarnings("deprecation")
     @Override
     protected void addAnnotation(Class<? extends Annotation> type,
             Annotation annotation, boolean forWriting)
@@ -66,15 +65,6 @@ public class JsonEndpointConfig
         if (type == JSONP.class) {
             if (forWriting) {
                 _jsonp = new JSONP.Def((JSONP) annotation);
-            }
-        } else if (type == com.fasterxml.jackson.jaxrs.json.annotation.JacksonFeatures.class) {
-            com.fasterxml.jackson.jaxrs.json.annotation.JacksonFeatures feats = (com.fasterxml.jackson.jaxrs.json.annotation.JacksonFeatures) annotation;
-            if (forWriting) {
-                _serEnable = nullIfEmpty(feats.serializationEnable());
-                _serDisable = nullIfEmpty(feats.serializationDisable());
-            } else {
-                _deserEnable = nullIfEmpty(feats.deserializationEnable());
-                _deserDisable = nullIfEmpty(feats.deserializationDisable());
             }
         } else {
             super.addAnnotation(type, annotation, forWriting);

@@ -46,12 +46,12 @@ public class TestAnnotationBundleKey extends JaxrsTestBase
        assertEquals(key1immutable, key1immutable);
 
        assertEquals(key1.hashCode(), key1dup.hashCode());
-       
-       // then inequality by content (even though both have 1 JSONP annotation)
-       assertFalse(key1.equals(key2));
-       assertFalse(key2.equals(key1));
 
-       // but safe copy ought to be equal
+       // Fixed with [jaxrs-providers#111]: SHOULD be equal:
+       assertTrue(key1.equals(key2));
+       assertTrue(key2.equals(key1));
+
+       // and safe copy ought to be equal
        assertTrue(key1.equals(key1dup)); // from same method
        assertTrue(key1dup.equals(key1));
        assertTrue(key1.equals(key1immutable)); // and immutable variant

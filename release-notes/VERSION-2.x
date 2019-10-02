@@ -9,10 +9,21 @@ Sub-modules:
 === Releases ===
 ------------------------------------------------------------------------
 
-2.10.0 (not yet released)
+2.10.0 (26-Sep-2019)
 
+#111: AnnotationBundleKey equality fails for Parameter Annotations
+ (reported by John M)
+#113: `@JacksonFeature` can't be used for deserialization (not applicable to parameters)
+ (reported by Marius L)
 - Add JDK9+ `module-info` with Moditect plugin
+- Update Woodstox dependency by XML provider
 
+2.9.10 (21-Sep-2019)
+
+- Align Woodstox version XML provider uses to one used by `jackson-dataformat-xml`,
+  5.3.0, with `stax2-api` 4.2 (was issue with 2.9.9)
+
+2.9.9 (16-May-2019)
 2.9.8 (15-Dec-2018)
 2.9.7 (19-Sep-2018)
 2.9.6 (12-Jun-2018)
