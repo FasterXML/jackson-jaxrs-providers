@@ -77,6 +77,16 @@ In addition there are format-specific annotations that may be used:
 * JSON has:
     * `com.fasterxml.jackson.jaxrs.json.annotation.JSONP` to define `JSONP` wrapping for serialized result
 
+
+## Module Considerations
+* The JSON/JAX-RS module has multiple names depending on the version in use. To enable modular usage, add the requires statement that pertains directly to the implementation you are using. 
+```
+requires  javax.ws.rs.api; //Older libraries
+requires  java.ws.rs; //Newer libraries
+requires  jakarta.ws.rs.api; //Reserved name for Jakarta Impl
+```
+
+
 ## Other
 
 For documentation, downloads links, check out [Wiki](../../wiki)
