@@ -9,6 +9,11 @@ Sub-modules:
 === Releases ===
 ------------------------------------------------------------------------
 
+2.10.1 (not yet released)
+
+#114: module-info.java references legacy javax.ws.rs.api
+ (reported by Lukáš P)
+
 2.10.0 (26-Sep-2019)
 
 #111: AnnotationBundleKey equality fails for Parameter Annotations

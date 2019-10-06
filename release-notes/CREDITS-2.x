@@ -61,3 +61,7 @@ Marius Lewerenz (mlewe@github)
 * Reported #113: `@JacksonFeature` can't be used for deserialization (not
   applicable to parameters)
  (2.10.0)
+
+Lukáš Petrovický (triceo@github)
+
+* Reported #114: module-info.java references legacy javax.ws.rs.api
