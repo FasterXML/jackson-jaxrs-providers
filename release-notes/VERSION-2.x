@@ -9,6 +9,11 @@ Sub-modules:
 === Releases ===
 ------------------------------------------------------------------------
 
+2.11.0 (not yet released)
+
+#109: Use privileged action to check for JAX-RS 1 vs 2
+ (contributed by James P)
+
 2.10.1 (not yet released)
 
 #114: module-info.java references legacy javax.ws.rs.api

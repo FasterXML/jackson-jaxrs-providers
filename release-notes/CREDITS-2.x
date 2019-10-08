@@ -65,3 +65,8 @@ Marius Lewerenz (mlewe@github)
 Lukáš Petrovický (triceo@github)
 
 * Reported #114: module-info.java references legacy javax.ws.rs.api
+
+James R. Perkins (jamezp@github)
+
+* Reported, contributed fix for  #109: Use privileged action to check for JAX-RS 1 vs 2
+ (2.11.0)
