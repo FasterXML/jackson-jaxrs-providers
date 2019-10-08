@@ -9,6 +9,10 @@ Sub-modules:
 === Releases ===
 ------------------------------------------------------------------------
 
+2.11.0 (not yet released)
+
+-
+
 2.10.1 (not yet released)
 
 #114: module-info.java references legacy javax.ws.rs.api
