@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import javax.ws.rs.core.MultivaluedMap;
 
-import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.databind.*;
 
 /**
