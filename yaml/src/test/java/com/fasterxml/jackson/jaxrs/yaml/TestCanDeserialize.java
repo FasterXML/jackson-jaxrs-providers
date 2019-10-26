@@ -5,9 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
 
-/**
- * Unit test to check [JACKSON-540]
- */
 public class TestCanDeserialize extends JaxrsTestBase
 {
 
@@ -15,7 +12,7 @@ public class TestCanDeserialize extends JaxrsTestBase
         public int x;
     }
     
-    public void testCanSerialize() throws IOException
+    public void testCanDeserialize() throws IOException
     {
         JacksonYAMLProvider prov = new JacksonYAMLProvider();
         String YAML = "x: 3";
@@ -27,7 +24,7 @@ public class TestCanDeserialize extends JaxrsTestBase
     }
 
     // [Issue#4]: exception for no content
-    public void testCanSerializeEmpty() throws IOException
+    public void testCanDeserializeEmpty() throws IOException
     {
         JacksonYAMLProvider prov = new JacksonYAMLProvider();
         Bean b = (Bean) prov.readFrom(Object.class, Bean.class, new Annotation[0],

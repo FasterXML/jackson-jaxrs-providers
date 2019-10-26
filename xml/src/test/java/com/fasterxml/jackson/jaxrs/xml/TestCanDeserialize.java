@@ -5,16 +5,13 @@ import java.lang.annotation.Annotation;
 
 import javax.ws.rs.core.MediaType;
 
-/**
- * Unit test to check [JACKSON-540]
- */
 public class TestCanDeserialize extends JaxrsTestBase
 {
     static class Bean {
         public int x;
     }
     
-    public void testCanSerialize() throws IOException
+    public void testCanDeserialize() throws IOException
     {
         JacksonXMLProvider prov = new JacksonXMLProvider();
         String XML = "<Bean><x>3</x></Bean>";
@@ -26,7 +23,7 @@ public class TestCanDeserialize extends JaxrsTestBase
     }
 
     // [Issue#4]: exception for no content
-    public void testCanSerializeEmpty() throws IOException
+    public void testCanDeserializeEmpty() throws IOException
     {
         JacksonXMLProvider prov = new JacksonXMLProvider();
         Bean b = (Bean) prov.readFrom(Object.class, Bean.class, new Annotation[0],
