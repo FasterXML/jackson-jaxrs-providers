@@ -542,69 +542,50 @@ public abstract class ProviderBase<
 
         // Where can we find desired encoding? Within HTTP headers?
         JsonEncoding enc = findEncoding(mediaType, httpHeaders);
-        JsonGenerator g = _createGenerator(writer, entityStream, enc);
-        boolean ok = false;
+        JavaType rootType = null;
 
-        try {
-            // Want indentation?
-            // 28-Aug-2019, tatu: Should work without this:
-            /*
-            if (writer.isEnabled(SerializationFeature.INDENT_OUTPUT)) {
-                g.useDefaultPrettyPrinter();
-            }
-            */
-            JavaType rootType = null;
+        if ((genericType != null) && (value != null)) {
+            // 10-Jan-2011, tatu: as per [JACKSON-456], it's not safe to just force root
+            //    type since it prevents polymorphic type serialization. Since we really
+            //    just need this for generics, let's only use generic type if it's truly generic.
 
-            if ((genericType != null) && (value != null)) {
-                // 10-Jan-2011, tatu: as per [JACKSON-456], it's not safe to just force root
-                //    type since it prevents polymorphic type serialization. Since we really
-                //    just need this for generics, let's only use generic type if it's truly generic.
+            if (!(genericType instanceof Class<?>)) { // generic types are other impls of 'java.lang.reflect.Type'
+                // This is still not exactly right; should root type be further
+                // specialized with 'value.getClass()'? Let's see how well this works before
+                // trying to come up with more complete solution.
 
-                if (!(genericType instanceof Class<?>)) { // generic types are other impls of 'java.lang.reflect.Type'
-                    // This is still not exactly right; should root type be further
-                    // specialized with 'value.getClass()'? Let's see how well this works before
-                    // trying to come up with more complete solution.
+                // 18-Mar-2015, tatu: As per [#60], there is now a problem with non-polymorphic lists,
+                //    since forcing of type will then force use of content serializer, which is
+                //    generally not the intent. Fix may require addition of functionality in databind
 
-                    // 18-Mar-2015, tatu: As per [#60], there is now a problem with non-polymorphic lists,
-                    //    since forcing of type will then force use of content serializer, which is
-                    //    generally not the intent. Fix may require addition of functionality in databind
-
-                    TypeFactory typeFactory = writer.typeFactory();
-                    JavaType baseType = typeFactory.constructType(genericType);
-                    rootType = typeFactory.constructSpecializedType(baseType, type);
-                    /* 26-Feb-2011, tatu: To help with [JACKSON-518], we better recognize cases where
-                     *    type degenerates back into "Object.class" (as is the case with plain TypeVariable,
-                     *    for example), and not use that.
-                     */
-                    if (rootType.getRawClass() == Object.class) {
-                        rootType = null;
-                    }
+                TypeFactory typeFactory = writer.typeFactory();
+                JavaType baseType = typeFactory.constructType(genericType);
+                rootType = typeFactory.constructSpecializedType(baseType, type);
+                // 26-Feb-2011, tatu: To help with [JACKSON-518], we better recognize cases where
+                //    type degenerates back into "Object.class" (as is the case with plain TypeVariable,
+                //    for example), and not use that.
+                if (rootType.getRawClass() == Object.class) {
+                    rootType = null;
                 }
             }
+        }
 
-            // Most of the configuration now handled through EndpointConfig, ObjectWriter
-            // but we may need to force root type:
-            if (rootType != null) {
-                writer = writer.forType(rootType);
-            }
-            value = endpoint.modifyBeforeWrite(value);
+        // Most of the configuration now handled through EndpointConfig, ObjectWriter
+        // but we may need to force root type:
+        if (rootType != null) {
+            writer = writer.forType(rootType);
+        }
+        // Some end points decorate value: for JSON we may want JSONP wrapping for example
+        value = endpoint.modifyBeforeWrite(value);
 
-            // [Issue#32]: allow modification by filter-injectible thing
-            ObjectWriterModifier mod = ObjectWriterInjector.getAndClear();
-            if (mod != null) {
-                writer = mod.modify(endpoint, httpHeaders, value, writer, g);
-            }
+        // [jaxrs-providers#32]: allow modification by filter-injectible thing
+        ObjectWriterModifier mod = ObjectWriterInjector.getAndClear();
+        if (mod != null) {
+            writer = mod.modify(endpoint, httpHeaders, value, writer);
+        }
 
+        try (JsonGenerator g = _createGenerator(writer, entityStream, enc)) {
             writer.writeValue(g, value);
-            ok = true;
-        } finally {
-            if (ok) {
-                g.close();
-            } else {
-                try {
-                    g.close();
-                } catch (Exception e) { }
-            }
         }
     }
 
