@@ -85,6 +85,21 @@ requires  java.ws.rs; //Newer libraries
 requires  jakarta.ws.rs.api; //Reserved name for Jakarta Impl
 ```
 
+-----
+
+## Support
+
+### Community support
+
+Jackson components are supported by the Jackson community through mailing lists, Gitter forum, Github issues. See [Participation, Contributing](../../../jackson#participation-contributing) for full details.
+
+### Enterprise support
+
+Available as part of the Tidelift Subscription.
+
+The maintainers of `jackson-jaxrs-providers` and thousands of other packages are working with Tidelift to deliver commercial support and maintenance for the open source dependencies you use to build your applications. Save time, reduce risk, and improve code health, while paying the maintainers of the exact dependencies you use. [Learn more.](https://tidelift.com/subscription/pkg/maven-com-fasterxml-jackson-jaxrs-jackson-jaxrs-json-provider?utm_source=maven-com-fasterxml-jackson-jaxrs-jackson-jaxrs-json-provider&utm_medium=referral&utm_campaign=enterprise&utm_term=repo)
+
+-----
 
 ## Other
 
