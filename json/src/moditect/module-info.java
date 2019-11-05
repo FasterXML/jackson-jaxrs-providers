@@ -1,5 +1,8 @@
 // Generated 02-Apr-2019 using Moditect maven plugin
 module com.fasterxml.jackson.jaxrs.json {
+
+	exports com.fasterxml.jackson.jaxrs.json;
+
     requires com.fasterxml.jackson.annotation;
     requires com.fasterxml.jackson.core;
     requires com.fasterxml.jackson.databind;
