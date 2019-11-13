@@ -66,6 +66,11 @@ Lukáš Petrovický (triceo@github)
 
 * Reported #114: module-info.java references legacy javax.ws.rs.api
 
+Marc Magon (GedMarc@github)
+
+* Contributed #119: CXF, RESTEasy, and OpenAPI require reflective access to the package
+ (2.10.2)
+
 James R. Perkins (jamezp@github)
 
 * Reported, contributed fix for  #109: Use privileged action to check for JAX-RS 1 vs 2
