@@ -9,6 +9,11 @@ Sub-modules:
 === Releases ===
 ------------------------------------------------------------------------
 
+2.10.1 (not yet released)
+
+#119: CXF, RESTEasy, and OpenAPI require reflective access to the package
+ (contributed by Marc M)
+
 2.10.1 (09-Nov-2019)
 
 #114: module-info.java references legacy javax.ws.rs.api

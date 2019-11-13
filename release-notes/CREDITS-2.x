@@ -65,3 +65,9 @@ Marius Lewerenz (mlewe@github)
 Lukáš Petrovický (triceo@github)
 
 * Reported #114: module-info.java references legacy javax.ws.rs.api
+
+Marc Magon (GedMarc@github)
+
+* Contributed #119: CXF, RESTEasy, and OpenAPI require reflective access to the package
+ (2.10.2)
+ 
