@@ -1,7 +1,8 @@
 // Generated 02-Apr-2019 using Moditect maven plugin
 module com.fasterxml.jackson.jaxrs.json {
 
-	exports com.fasterxml.jackson.jaxrs.json;
+	//CXF, RESTEasy, and OpenAPI require reflective access
+	opens com.fasterxml.jackson.jaxrs.json;
 
     requires com.fasterxml.jackson.annotation;
     requires com.fasterxml.jackson.core;
@@ -14,7 +15,6 @@ module com.fasterxml.jackson.jaxrs.json {
     requires static java.ws.rs;
     requires static jakarta.ws.rs.api;
 
-    exports com.fasterxml.jackson.jaxrs.json;
     exports com.fasterxml.jackson.jaxrs.json.annotation;
 
     provides javax.ws.rs.ext.MessageBodyReader with
