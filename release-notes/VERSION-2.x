@@ -9,7 +9,12 @@ Sub-modules:
 === Releases ===
 ------------------------------------------------------------------------
 
-2.10.1 (not yet released)
+2.10.2 (not yet released)
+
+#121: Allow multiple implementations of ws.rs
+ (contributed by Marc M)
+
+2.10.1 (09-Nov-2019)
 
 #119: CXF, RESTEasy, and OpenAPI require reflective access to the package
  (contributed by Marc M)
