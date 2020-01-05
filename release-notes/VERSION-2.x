@@ -11,6 +11,15 @@ Sub-modules:
 
 2.11.0 (not yet released)
 
+-
+
+2.10.2 (05-Jan-2020)
+
+#121: Allow multiple implementations of ws.rs
+ (contributed by Marc M)
+
+2.10.1 (09-Nov-2019)
+
 #109: Use privileged action to check for JAX-RS 1 vs 2
  (contributed by James P)
 
