@@ -13,7 +13,7 @@ Sub-modules:
 
 -
 
-2.10.2 (not yet released)
+2.10.2 (05-Jan-2020)
 
 #121: Allow multiple implementations of ws.rs
  (contributed by Marc M)
