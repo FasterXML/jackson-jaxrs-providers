@@ -9,6 +9,11 @@ Sub-modules:
 === Releases ===
 ------------------------------------------------------------------------
 
+2.10.3 (not yet released)
+
+#120: Incorrect export of `com.fasterxml.jackson.jaxrs.json` for JSON provider
+ (reported by Lukáš P)
+
 2.10.2 (05-Jan-2020)
 
 #121: Allow multiple implementations of ws.rs
