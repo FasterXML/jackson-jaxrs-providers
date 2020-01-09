@@ -65,6 +65,9 @@ Marius Lewerenz (mlewe@github)
 Lukáš Petrovický (triceo@github)
 
 * Reported #114: module-info.java references legacy javax.ws.rs.api
+ (2.10.1)
+* Reported #120: Incorrect export of `com.fasterxml.jackson.jaxrs.json` for JSON provider
+ (2.10.3)
 
 Marc Magon (GedMarc@github)
 
