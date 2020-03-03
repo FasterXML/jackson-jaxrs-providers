@@ -9,7 +9,7 @@ Sub-modules:
 === Releases ===
 ------------------------------------------------------------------------
 
-2.10.3 (not yet released)
+2.10.3 (03-Mar-2020)
 
 #120: Incorrect export of `com.fasterxml.jackson.jaxrs.json` for JSON provider
  (reported by Lukáš P)
