@@ -9,6 +9,10 @@ Sub-modules:
 === Releases ===
 ------------------------------------------------------------------------
 
+2.10.4 (not yet released)
+
+- Upgrade Woodstox dependency to 6.2.0 (minor improvement to MSV shading)
+
 2.10.3 (03-Mar-2020)
 
 #120: Incorrect export of `com.fasterxml.jackson.jaxrs.json` for JSON provider
