@@ -9,10 +9,10 @@
  *<p>
  * There are two default provider classes:
  *<ul>
- * <li>{@link com.fasterxml.jackson.jaxrs.xml.JacksonCBORProvider} is the basic
+ * <li>{@link com.fasterxml.jackson.jaxrs.cbor.JacksonCBORProvider} is the basic
  *    provider configured to use Jackson annotations
  *  </li>
- * <li>{@link com.fasterxml.jackson.jaxrs.xml.JacksonJaxbCBORProvider} is extension
+ * <li>{@link com.fasterxml.jackson.jaxrs.cbor.JacksonJaxbCBORProvider} is extension
  *    of the basic provider, configured to additionally use JAXB annotations,
  *    in addition to (or in addition of, if so configured) Jackson annotations.
  *  </li>
