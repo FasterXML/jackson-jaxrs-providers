@@ -14,24 +14,24 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Invocation.Builder;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.GenericEntity;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.Link;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.StreamingOutput;
-import javax.ws.rs.core.UriBuilder;
-import javax.ws.rs.core.UriInfo;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Invocation.Builder;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.GenericEntity;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.Link;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.StreamingOutput;
+import jakarta.ws.rs.core.UriBuilder;
+import jakarta.ws.rs.core.UriInfo;
 
 import org.eclipse.jetty.server.Server;
 import org.junit.Assert;
@@ -101,7 +101,7 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
     @JsonPropertyOrder({ "entities", "links" })
     @JsonAutoDetect(fieldVisibility = Visibility.ANY, creatorVisibility = Visibility.ANY, getterVisibility = Visibility.NONE, isGetterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE)
     protected static class PageImpl<E> extends Page<E> {
-        protected static class JsonLinkSerializer extends JsonSerializer<javax.ws.rs.core.Link> {
+        protected static class JsonLinkSerializer extends JsonSerializer<jakarta.ws.rs.core.Link> {
 
             static final String HREF_PROPERTY = "href";
 
@@ -117,7 +117,7 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
             }
         }
 
-        protected static class JsonLinkDeserializer extends JsonDeserializer<javax.ws.rs.core.Link> {
+        protected static class JsonLinkDeserializer extends JsonDeserializer<jakarta.ws.rs.core.Link> {
 
 			@Override
 			public Link deserialize(JsonParser p, DeserializationContext deserializationContext)

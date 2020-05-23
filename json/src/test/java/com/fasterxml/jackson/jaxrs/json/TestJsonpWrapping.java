@@ -3,7 +3,7 @@ package com.fasterxml.jackson.jaxrs.json;
 import java.io.*;
 import java.lang.annotation.Annotation;
 
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MediaType;
 
 public class TestJsonpWrapping
     extends JaxrsTestBase

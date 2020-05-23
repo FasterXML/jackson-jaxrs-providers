@@ -3,8 +3,8 @@ package com.fasterxml.jackson.jaxrs.json.dw;
 import java.io.*;
 import java.net.*;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 
 import org.eclipse.jetty.server.Server;
 

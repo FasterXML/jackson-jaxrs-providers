@@ -4,8 +4,8 @@ import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.util.*;
 
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.StreamingOutput;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.StreamingOutput;
 
 /**
  * Unit tests for verifying that certain JDK base types will be

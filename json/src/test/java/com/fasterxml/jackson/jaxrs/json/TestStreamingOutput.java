@@ -3,8 +3,8 @@ package com.fasterxml.jackson.jaxrs.json;
 import java.io.*;
 import java.lang.annotation.Annotation;
 
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.StreamingOutput;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.StreamingOutput;
 
 public class TestStreamingOutput extends JaxrsTestBase
 {

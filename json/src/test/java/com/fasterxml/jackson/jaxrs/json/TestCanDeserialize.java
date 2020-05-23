@@ -7,7 +7,7 @@ import java.lang.annotation.Annotation;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MediaType;
 
 import com.fasterxml.jackson.jaxrs.cfg.JaxRSFeature;
 
@@ -60,7 +60,7 @@ public class TestCanDeserialize extends JaxrsTestBase {
              verifyException(e, "no content");
              
              final String clsName = e.getClass().getName();
-             if ("javax.ws.rs.core.NoContentException".equals(clsName)) {
+             if ("jakarta.ws.rs.core.NoContentException".equals(clsName)) {
                  // Ideally, we'd get this
              } else if (e.getClass() == IOException.class) {
                  // but for JAX-RS 1.x this'll do
