@@ -1,6 +1,6 @@
 package com.fasterxml.jackson.jaxrs.smile;
 
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MediaType;
 
 public class SmileMediaTypes {
 	public static final String    APPLICATION_JACKSON_SMILE      = "application/x-jackson-smile";

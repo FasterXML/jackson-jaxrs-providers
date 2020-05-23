@@ -3,7 +3,7 @@ package com.fasterxml.jackson.jaxrs.smile.dw;
 import java.io.*;
 import java.net.*;
 
-import javax.ws.rs.*;
+import jakarta.ws.rs.*;
 
 import org.eclipse.jetty.server.Server;
 import org.junit.Assert;

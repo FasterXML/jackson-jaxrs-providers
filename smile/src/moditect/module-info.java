@@ -7,12 +7,12 @@ module com.fasterxml.jackson.jaxrs.smile {
 
     requires com.fasterxml.jackson.jaxrs.base;
 
-    requires javax.ws.rs.api;
+    requires jakarta.ws.rs.api;
 
     exports com.fasterxml.jackson.jaxrs.smile;
 
-    provides javax.ws.rs.ext.MessageBodyReader with
+    provides jakarta.ws.rs.ext.MessageBodyReader with
         com.fasterxml.jackson.jaxrs.smile.JacksonSmileProvider;
-    provides javax.ws.rs.ext.MessageBodyWriter with
+    provides jakarta.ws.rs.ext.MessageBodyWriter with
         com.fasterxml.jackson.jaxrs.smile.JacksonSmileProvider;
 }
