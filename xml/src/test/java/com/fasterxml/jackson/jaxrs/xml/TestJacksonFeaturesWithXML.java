@@ -4,7 +4,7 @@ import java.io.*;
 import java.lang.annotation.*;
 import java.lang.reflect.Method;
 
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MediaType;
 
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 
