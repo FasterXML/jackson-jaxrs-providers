@@ -10,7 +10,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import javax.servlet.Servlet;
-import javax.ws.rs.core.Application;
+import jakarta.ws.rs.core.Application;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -72,7 +72,7 @@ public abstract class ResourceTestBase extends JaxrsTestBase
         final ContextHandlerCollection contexts = new ContextHandlerCollection();
         server.setHandler(contexts);
         ServletHolder jaxrs = new ServletHolder(servletContainerClass());
-        jaxrs.setInitParameter("javax.ws.rs.Application", appClass.getName());
+        jaxrs.setInitParameter("jakarta.ws.rs.Application", appClass.getName());
         final ServletContextHandler mainHandler = new ServletContextHandler(contexts, "/", true, false);
         mainHandler.addServlet(jaxrs, "/*");
 

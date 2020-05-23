@@ -6,7 +6,7 @@ import com.fasterxml.jackson.core.JsonToken;
 
 import org.junit.Assert;
 
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MediaType;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

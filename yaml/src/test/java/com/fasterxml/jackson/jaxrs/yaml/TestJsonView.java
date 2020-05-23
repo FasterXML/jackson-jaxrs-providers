@@ -2,7 +2,7 @@ package com.fasterxml.jackson.jaxrs.yaml;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MediaType;
 import java.io.ByteArrayOutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;

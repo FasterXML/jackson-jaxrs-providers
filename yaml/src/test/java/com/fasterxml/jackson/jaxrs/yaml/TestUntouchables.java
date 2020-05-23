@@ -1,7 +1,7 @@
 package com.fasterxml.jackson.jaxrs.yaml;
 
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.StreamingOutput;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.StreamingOutput;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;

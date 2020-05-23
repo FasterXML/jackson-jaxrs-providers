@@ -3,7 +3,7 @@ package com.fasterxml.jackson.jaxrs.yaml;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MediaType;
 import java.io.ByteArrayOutputStream;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;

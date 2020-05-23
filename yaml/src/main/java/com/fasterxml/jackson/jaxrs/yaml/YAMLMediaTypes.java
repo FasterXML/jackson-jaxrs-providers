@@ -1,6 +1,6 @@
 package com.fasterxml.jackson.jaxrs.yaml;
 
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MediaType;
 
 // as per [jaxrs-providers#75]
 public class YAMLMediaTypes {
