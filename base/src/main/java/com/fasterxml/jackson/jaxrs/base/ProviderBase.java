@@ -9,9 +9,9 @@ import java.security.PrivilegedAction;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
-import javax.ws.rs.core.*;
-import javax.ws.rs.ext.MessageBodyReader;
-import javax.ws.rs.ext.MessageBodyWriter;
+import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.ext.MessageBodyReader;
+import jakarta.ws.rs.ext.MessageBodyWriter;
 
 import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.databind.*;
@@ -38,7 +38,7 @@ public abstract class ProviderBase<
      */
     public final static String HEADER_CONTENT_TYPE_OPTIONS = "X-Content-Type-Options";
 
-    protected final static String CLASS_NAME_NO_CONTENT_EXCEPTION = "javax.ws.rs.core.NoContentException";
+    protected final static String CLASS_NAME_NO_CONTENT_EXCEPTION = "jakarta.ws.rs.core.NoContentException";
 
     protected final NoContentExceptionSupplier noContentExceptionSupplier = _createNoContentExceptionSupplier();
 
@@ -1012,7 +1012,7 @@ public abstract class ProviderBase<
     }
 
     /**
-     * Since class <code>javax.ws.rs.core.NoContentException</code> only exists in
+     * Since class <code>jakarta.ws.rs.core.NoContentException</code> only exists in
      * JAX-RS 2.0, but we want to have 1.x compatibility, need to dynamically select exception supplier
      */
     private static NoContentExceptionSupplier _createNoContentExceptionSupplier() {

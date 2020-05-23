@@ -5,7 +5,7 @@ import com.fasterxml.jackson.jaxrs.base.NoContentExceptionSupplier;
 import java.io.IOException;
 
 /**
- * Create plain IOException for JaxRS 1.x because {@link javax.ws.rs.core.NoContentException}
+ * Create plain IOException for JaxRS 1.x because {@link jakarta.ws.rs.core.NoContentException}
  * has been introduced in JaxRS 2.x
  */
 public class JaxRS1NoContentExceptionSupplier implements NoContentExceptionSupplier

@@ -2,7 +2,7 @@ package com.fasterxml.jackson.jaxrs.cfg;
 
 import java.io.IOException;
 
-import javax.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.MultivaluedMap;
 
 import com.fasterxml.jackson.databind.*;
 

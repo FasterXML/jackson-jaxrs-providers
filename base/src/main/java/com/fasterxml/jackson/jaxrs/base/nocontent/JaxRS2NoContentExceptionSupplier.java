@@ -2,7 +2,7 @@ package com.fasterxml.jackson.jaxrs.base.nocontent;
 
 import com.fasterxml.jackson.jaxrs.base.NoContentExceptionSupplier;
 
-import javax.ws.rs.core.NoContentException;
+import jakarta.ws.rs.core.NoContentException;
 import java.io.IOException;
 
 /**
