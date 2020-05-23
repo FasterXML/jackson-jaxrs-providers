@@ -1,6 +1,6 @@
 package com.fasterxml.jackson.jaxrs.cbor;
 
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MediaType;
 
 public class CBORMediaTypes {
     // Should be the official one, from CBOR spec
