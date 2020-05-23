@@ -2,7 +2,7 @@
 module com.fasterxml.jackson.datatype.jaxrs {
     requires com.fasterxml.jackson.core;
     requires com.fasterxml.jackson.databind;
-    requires javax.ws.rs.api;
+    requires jakarta.ws.rs.api;
 
     exports com.fasterxml.jackson.datatype.jaxrs;
 

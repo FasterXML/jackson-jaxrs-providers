@@ -2,7 +2,7 @@ package com.fasterxml.jackson.datatype.jaxrs;
 
 import java.io.IOException;
 
-import javax.ws.rs.core.Link;
+import jakarta.ws.rs.core.Link;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;

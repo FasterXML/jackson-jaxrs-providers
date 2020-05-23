@@ -1,6 +1,6 @@
 package com.fasterxml.jackson.datatype.jaxrs;
 
-import javax.ws.rs.core.Link;
+import jakarta.ws.rs.core.Link;
 
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
  * Simple datatype module that adds serialization and deserialization
  * support for following JAX-RS 2.0 types:
  *<ul>
- * <li>{@link javax.ws.rs.core.Link}: serialized using "link header" representation
+ * <li>{@link jakarta.ws.rs.core.Link}: serialized using "link header" representation
  *  </li>
  * </ul>
  *
