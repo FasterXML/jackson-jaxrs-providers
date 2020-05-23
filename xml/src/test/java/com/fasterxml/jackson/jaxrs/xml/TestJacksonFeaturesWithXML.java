@@ -115,7 +115,7 @@ public class TestJacksonFeaturesWithXML extends JaxrsTestBase
                     new ByteArrayInputStream("<Bean><foobar>3</foobar></Bean>".getBytes("UTF-8")));
             fail("Should have caught an exception");
         } catch (JsonMappingException e) {
-            verifyException(e, "Unrecognized field");
+            verifyException(e, "Unrecognized property");
         }
     }
     

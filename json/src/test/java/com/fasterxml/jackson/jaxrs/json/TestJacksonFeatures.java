@@ -103,7 +103,7 @@ public class TestJacksonFeatures extends JaxrsTestBase
                     new ByteArrayInputStream("{ \"foobar\" : 3 }".getBytes("UTF-8")));
             fail("Should have caught an exception");
         } catch (JsonMappingException e) {
-            verifyException(e, "Unrecognized field");
+            verifyException(e, "Unrecognized property");
         }
     }
     
