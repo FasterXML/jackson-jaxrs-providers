@@ -34,12 +34,12 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> 
 
     <!--  Need Jersey+Jetty for testing; deps from DropWizard 1.2.9 -->
-    <version.jersey>2.25.1</version.jersey>
+    <version.jersey>3.0.0-M1</version.jersey>
     <!-- wrt CVE-2019-10247 -->
     <version.jetty>9.4.17.v20190418</version.jetty>
     
-    <!-- Needed to enable jax-rs 2.0 usage under OSGi -->
-    <javax.ws.rs.version>[2.0,2.2)</javax.ws.rs.version>
+    <!-- Needed to enable jax-rs 3.0 usage under OSGi -->
+    <jakarta.ws.rs.version>3.0.0</jakarta.ws.rs.version>
   </properties>
 
   <dependencyManagement>
@@ -47,7 +47,7 @@
       <dependency>
         <groupId>jakarta.xml.bind</groupId>
         <artifactId>jakarta.xml.bind-api</artifactId>
-        <version>2.3.2</version>
+        <version>3.0.0-RC3</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -58,9 +58,9 @@
       by container (and app should definitely have direct dep too, when using annotations)
        -->
     <dependency>
-      <groupId>javax.ws.rs</groupId>
-      <artifactId>javax.ws.rs-api</artifactId>
-      <version>2.1.1</version>
+      <groupId>jakarta.ws.rs</groupId>
+      <artifactId>jakarta.ws.rs-api</artifactId>
+      <version>3.0.0-M1</version>
       <scope>provided</scope>
     </dependency>
 
@@ -101,6 +101,12 @@
     <dependency>
       <groupId>org.glassfish.jersey.containers</groupId>
       <artifactId>jersey-container-servlet</artifactId>
+      <version>${version.jersey}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.inject</groupId>
+      <artifactId>jersey-hk2</artifactId>
       <version>${version.jersey}</version>
       <scope>test</scope>
     </dependency>

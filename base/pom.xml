@@ -20,9 +20,9 @@ ${project.groupId}.annotation.*;version=${project.version}
 ,${project.groupId}.cfg.*;version=${project.version}
 ,${project.groupId}.util.*;version=${project.version}
 </osgi.export>
-    <osgi.import>javax.ws.rs;version="${javax.ws.rs.version}"
-,javax.ws.rs.core;version="${javax.ws.rs.version}"
-,javax.ws.rs.ext;version="${javax.ws.rs.version}",
+    <osgi.import>jakarta.ws.rs;version="${jakarta.ws.rs.version}"
+,jakarta.ws.rs.core;version="${jakarta.ws.rs.version}"
+,jakarta.ws.rs.ext;version="${jakarta.ws.rs.version}",
 *
 </osgi.import>
   </properties>

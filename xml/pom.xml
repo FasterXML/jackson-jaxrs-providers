@@ -20,9 +20,9 @@
     <!-- NOTE: JAXB annotations module is NOT optional for xml format:
 ,com.fasterxml.jackson.module.jaxb;resolution:=optional
       -->
-    <osgi.import>javax.ws.rs;version="${javax.ws.rs.version}"
-,javax.ws.rs.core;version="${javax.ws.rs.version}"
-,javax.ws.rs.ext;version="${javax.ws.rs.version}"
+    <osgi.import>jakarta.ws.rs;version="${jakarta.ws.rs.version}"
+,jakarta.ws.rs.core;version="${jakarta.ws.rs.version}"
+,jakarta.ws.rs.ext;version="${jakarta.ws.rs.version}"
 ,*
 </osgi.import>
   </properties>
