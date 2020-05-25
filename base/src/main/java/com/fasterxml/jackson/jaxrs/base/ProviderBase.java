@@ -616,17 +616,14 @@ public abstract class ProviderBase<
     /**
      * Overridable helper method called to create a {@link JsonGenerator} for writing
      * contents into given raw {@link OutputStream}.
-     * 
-     * @since 2.3
      */
     protected JsonGenerator _createGenerator(ObjectWriter writer, OutputStream rawStream, JsonEncoding enc)
         throws IOException
     {
-        JsonGenerator g = writer.createGenerator(rawStream, enc);
         // Important: we are NOT to close the underlying stream after
         // mapping, so we need to instruct generator
-        g.disable(StreamWriteFeature.AUTO_CLOSE_TARGET);
-        return g;
+        return writer.without(StreamWriteFeature.AUTO_CLOSE_TARGET)
+                .createGenerator(rawStream, enc);
     }
 
     protected EP_CONFIG _endpointForWriting(Object value, Class<?> type, Type genericType,

@@ -106,8 +106,7 @@ public class TestJacksonFeaturesWithYAML extends JaxrsTestBase
                     new ByteArrayInputStream("---\nBean:\n  foobar: 3\n".getBytes("UTF-8")));
             fail("Should have caught an exception");
         } catch (JsonMappingException e) {
-            verifyException(e, "Unrecognized field");
+            verifyException(e, "Unrecognized property \"Bean\"");
         }
     }
-    
 }
