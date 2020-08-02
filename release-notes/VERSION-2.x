@@ -4,11 +4,13 @@ Sub-modules:
   jackson-jaxrs-json-provider
   jackson-jaxrs-smile-provider
   jackson-jaxrs-xml-provider
+  jackson-jaxrs-yaml-provider
 
 ------------------------------------------------------------------------
 === Releases ===
 ------------------------------------------------------------------------
 
+2.11.2 (02-Aug-2020)
 2.11.1 (25-Jun-2020)
 2.11.0 (26-Apr-2020)
 
