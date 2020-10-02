@@ -125,7 +125,9 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
         assertEquals(1, p.x);
         assertEquals(2, p.y);
 
-        if (!yaml.contains("x: 1") || !yaml.contains("y: 2")) {
+        if (!yaml.contains("x: 1")
+                || (!yaml.contains("y: 2") && !yaml.contains("\"y\": 2"))
+        ) {
             fail("Expected Point to be serialized as YAML, instead got: "+yaml);
         }
     }
