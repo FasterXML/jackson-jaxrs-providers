@@ -6,7 +6,10 @@ module com.fasterxml.jackson.jaxrs.cbor {
     requires com.fasterxml.jackson.core;
     requires com.fasterxml.jackson.databind;
     requires com.fasterxml.jackson.jaxrs.base;
-    requires javax.ws.rs.api;
+
+    requires static javax.ws.rs.api;
+    requires static java.ws.rs;
+    requires static jakarta.ws.rs.api;
 
     exports com.fasterxml.jackson.jaxrs.cbor;
 
