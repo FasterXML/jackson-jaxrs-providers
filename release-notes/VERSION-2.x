@@ -12,6 +12,8 @@ Sub-modules:
 
 2.12.0 (not yet released)
 
+#127: Allow multiple implementations of JAX-RS for all providers
+ (requested by fenixcitizen@github)
 - Add Gradle Module Metadata (https://blog.gradle.org/alignment-with-gradle-module-metadata)
 
 2.11.3 (02-Oct-2020)
