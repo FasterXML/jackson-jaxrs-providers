@@ -1,5 +1,9 @@
 language: java
 
+git:
+  quiet: true
+  submodules: false
+
 jdk:
   - openjdk8
   - openjdk11
@@ -9,3 +13,13 @@ branches:
   only:
     - master
     - "2.12"
+
+# Below this line is configuration for deploying to the Sonatype OSS repo
+# https://knowm.org/configure-travis-ci-to-deploy-snapshots/
+before_install: "git clone -b travis `git config --get remote.origin.url` target/travis"
+script: "[ ${TRAVIS_PULL_REQUEST} = 'false' ] && mvn -B source:jar deploy --settings target/travis/settings.xml || mvn clean verify --settings target/travis/settings.xml"
+
+env:
+  global:
+    - secure: "RrOi9GeJGdlcaAmNHmhkqk7a7PrnazUCtbtOxz2wSjMHGRrVxFlnp5w3bjq31FMcjO4ZbRc+45rEGRk/AedTijBrc8vQsqeP8gS7m7PjGxjtsys7lr0lSXkrPxzCqAG5tHbJiBsVuFZttdkRp8/NR0Jfwg1+28HxAroauLGP2uc="
+    - secure: "kehFgMA0iV6y4OqWNO3VfuYP/WI+/ozjQ4XC+oUMGoHbseD3mOKA6n+wv3QXP5ZxMxwZAvuksrlS5HYyQXs6ChbUmLjipvHd/8gYRgITA0AuN+c2UhCW9y/DuFjqN/OKlChX8bYFmjMZXlSvJMeAPx3oAiXHK3bzaiLwDHQsLQ8="
