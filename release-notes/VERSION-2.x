@@ -15,6 +15,7 @@ Sub-modules:
 #127: Allow multiple implementations of JAX-RS for all providers
  (requested by fenixcitizen@github)
 - Add Gradle Module Metadata (https://blog.gradle.org/alignment-with-gradle-module-metadata)
+- Upgrade Woodstox dependency to 6.2.3
 
 2.11.3 (02-Oct-2020)
 2.11.2 (02-Aug-2020)
