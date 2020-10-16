@@ -9,6 +9,10 @@ Sub-modules:
 === Releases ===
 ------------------------------------------------------------------------
 
+(unreleased) changes
+
+- Upgrade Woodstox dependency to 6.2.3
+
 2.10.5 (21-Jul-2020)
 
 No changes since 2.10.4
