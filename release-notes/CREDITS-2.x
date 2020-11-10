@@ -73,6 +73,8 @@ Marc Magon (GedMarc@github)
 
 * Contributed #119: CXF, RESTEasy, and OpenAPI require reflective access to the package
  (2.10.2)
+* Contributed #128: Module-Info Enhancements - JAX-RS updates for Jakarta Release version
+ (2.12.0)
 
 James R. Perkins (jamezp@github)
 
