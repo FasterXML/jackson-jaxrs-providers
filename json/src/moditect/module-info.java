@@ -27,4 +27,9 @@ module com.fasterxml.jackson.jaxrs.json {
         com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
     provides javax.ws.rs.ext.MessageBodyWriter with
         com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+
+    provides jakarta.ws.rs.ext.MessageBodyReader with
+            com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+    provides jakarta.ws.rs.ext.MessageBodyWriter with
+            com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 }
