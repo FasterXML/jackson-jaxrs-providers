@@ -83,9 +83,19 @@ In addition there are format-specific annotations that may be used:
 ```
 requires  javax.ws.rs.api; //Older libraries
 requires  java.ws.rs; //Newer libraries
+requires  jakarta.ws.rs; //Reserved name for Jakarta API
 requires  jakarta.ws.rs.api; //Reserved name for Jakarta Impl
 ```
 
+## Using Jakarta
+* Jakarta can be referenced for the JAXRS module by using the classifier "jakarta" in your dependency
+```
+<dependency>
+    <groupId>com.fasterxml.jackson.jaxrs</groupId>
+    <artifactId>jackson-jaxrs-base</artifactId>
+    <classifier>jakarta</classifier>
+</dependency>
+``` 
 
 ## Other
 
