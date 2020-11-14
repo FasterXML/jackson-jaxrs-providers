@@ -3,9 +3,8 @@ package com.fasterxml.jackson.jaxrs.xml;
 import java.io.*;
 import java.util.*;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 
 /**
  * Unit test to check [JACKSON-540]
@@ -21,8 +20,7 @@ public class TestCanSerialize extends JaxrsTestBase
 
     public void testCanSerialize() throws IOException
     {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.WRAPPER_ARRAY);
+        ObjectMapper mapper = new JsonMapper();
     
         // construct test object
         List<String> l = new ArrayList<String>();
