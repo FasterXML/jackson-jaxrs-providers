@@ -6,24 +6,10 @@ import java.util.*;
 import org.junit.Assert;
 
 import com.fasterxml.jackson.core.*;
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.cfg.MapperConfig;
-import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
 
 public abstract class JaxrsTestBase
     extends junit.framework.TestCase
 {
-    protected static class NoCheckSubTypeValidator
-        extends PolymorphicTypeValidator.Base
-    {
-        private static final long serialVersionUID = 1L;
-    
-        @Override
-        public Validity validateBaseType(MapperConfig<?> config, JavaType baseType) {
-            return Validity.ALLOWED;
-        }
-    }    
-
     /*
     /**********************************************************
     /* Additional assertion methods
