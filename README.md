@@ -82,10 +82,22 @@ In addition there are format-specific annotations that may be used:
 ```
 requires  javax.ws.rs.api; //Older libraries
 requires  java.ws.rs; //Newer libraries
+requires  jakarta.ws.rs; //Reserved name for Jakarta API
 requires  jakarta.ws.rs.api; //Reserved name for Jakarta Impl
 ```
 
------
+### Using Jakarta
+
+A note on compatibility of JAXB annotations module, Jakarta 3.0 API libraries for JAXB: with Jackson 2.12,
+Jakarta versions can be referenced for the JAXB module by using the classifier "jakarta" in your dependency
+
+```
+<dependency>
+    <groupId>com.fasterxml.jackson.jaxrs</groupId>
+    <artifactId>jackson-jaxrs-json</artifactId>
+    <classifier>jakarta</classifier>
+</dependency>
+``` 
 
 ## Support
 
