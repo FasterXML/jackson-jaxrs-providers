@@ -10,7 +10,7 @@ Sub-modules:
 === Releases ===
 ------------------------------------------------------------------------
 
-2.12.0 (not yet released)
+2.12.0 (29-Nov-2020)
 
 #127: Allow multiple implementations of JAX-RS for all providers
  (requested by fenixcitizen@github)
