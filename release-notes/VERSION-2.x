@@ -17,6 +17,9 @@ Sub-modules:
 #128: Module-Info Enhancements - JAX-RS updates for Jakarta Release version
  (contributed by Marc M)
 - Add Gradle Module Metadata (https://blog.gradle.org/alignment-with-gradle-module-metadata)
+
+2.11.4 (12-Dec-2020)
+
 - Upgrade Woodstox dependency to 6.2.3
 
 2.11.4 (12-Dec-2020)
