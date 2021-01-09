@@ -10,6 +10,10 @@ Sub-modules:
 === Releases ===
 ------------------------------------------------------------------------
 
+2.12.1 (08-Jan-2021)
+
+No changes since 2.12.0
+
 2.12.0 (29-Nov-2020)
 
 #127: Allow multiple implementations of JAX-RS for all providers
@@ -17,8 +21,12 @@ Sub-modules:
 #128: Module-Info Enhancements - JAX-RS updates for Jakarta Release version
  (contributed by Marc M)
 - Add Gradle Module Metadata (https://blog.gradle.org/alignment-with-gradle-module-metadata)
+
+2.11.4 (12-Dec-2020)
+
 - Upgrade Woodstox dependency to 6.2.3
 
+2.11.4 (12-Dec-2020)
 2.11.3 (02-Oct-2020)
 2.11.2 (02-Aug-2020)
 2.11.1 (25-Jun-2020)
