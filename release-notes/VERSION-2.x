@@ -12,7 +12,7 @@ Sub-modules:
 
 2.13.0 (not yet released)
 
-No changes since 2.12
+#134: Remove work-around for JAX-RS 1.x wrt JAX-RS 2 type `NoContentException`
 
 2.12.1 (08-Jan-2021)
 
