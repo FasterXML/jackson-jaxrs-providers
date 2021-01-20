@@ -1,7 +1,9 @@
 package com.fasterxml.jackson.jaxrs.yaml;
 
+import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.core.exc.WrappedIOException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -228,14 +230,19 @@ public class JacksonYAMLProvider
 
     @Override
     protected JsonParser _createParser(ObjectReader reader, InputStream rawStream)
-            throws IOException {
+        throws JacksonException
+    {
         // Fix for [Issue#4]: note, can not try to advance parser, XML parser complains
-        PushbackInputStream wrappedStream = new PushbackInputStream(rawStream);
-        int firstByte = wrappedStream.read();
-        if (firstByte == -1) {
-            return null;
+        try {
+            PushbackInputStream wrappedStream = new PushbackInputStream(rawStream);
+            int firstByte = wrappedStream.read();
+            if (firstByte == -1) {
+                return null;
+            }
+            wrappedStream.unread(firstByte);
+            return reader.createParser(wrappedStream);
+        } catch (IOException e) {
+            throw WrappedIOException.construct(e);
         }
-        wrappedStream.unread(firstByte);
-        return reader.createParser(wrappedStream);
     }
 }
