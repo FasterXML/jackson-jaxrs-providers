@@ -11,8 +11,6 @@ import javax.ws.rs.ext.ExceptionMapper;
  *<p>
  * Note that {@link javax.ws.rs.ext.Provider} annotation was include up to
  * Jackson 2.7, but removed from 2.8 (as per [jaxrs-providers#22]
- *
- * @since 2.2
  */
 public class JsonMappingExceptionMapper implements ExceptionMapper<JsonMappingException> {
     @Override

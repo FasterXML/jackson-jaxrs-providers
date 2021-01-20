@@ -1,15 +1,10 @@
 package com.fasterxml.jackson.jaxrs.cfg;
 
-import java.io.IOException;
-
 import javax.ws.rs.core.MultivaluedMap;
 
 import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.databind.*;
 
-/**
- * @since 2.3
- */
 public abstract class ObjectReaderModifier
 {
     /**
@@ -25,5 +20,5 @@ public abstract class ObjectReaderModifier
     public abstract ObjectReader modify(EndpointConfigBase<?> endpoint,
             MultivaluedMap<String,String> httpHeaders,
             JavaType resultType, ObjectReader r, JsonParser p)
-        throws IOException;
+        throws JacksonException;
 }

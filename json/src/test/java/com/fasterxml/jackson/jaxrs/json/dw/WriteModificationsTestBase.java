@@ -85,7 +85,6 @@ public abstract class WriteModificationsTestBase extends ResourceTestBase
         public ObjectWriter modify(EndpointConfigBase<?> endpoint,
                 MultivaluedMap<String, Object> httpHeaders,
                 Object valueToWrite, ObjectWriter w)
-            throws IOException
         {
             if (_indent != null) {
                 if (_indent.booleanValue()) {

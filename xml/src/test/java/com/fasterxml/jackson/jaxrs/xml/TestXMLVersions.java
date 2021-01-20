@@ -2,7 +2,6 @@ package com.fasterxml.jackson.jaxrs.xml;
 
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.core.Versioned;
-import com.fasterxml.jackson.jaxrs.xml.JacksonXMLProvider;
 
 public class TestXMLVersions extends JaxrsTestBase
 {

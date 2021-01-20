@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.ws.rs.core.MediaType;
 
+import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.jaxrs.cfg.JaxRSFeature;
 
 /**
@@ -62,8 +63,10 @@ public class TestCanDeserialize extends JaxrsTestBase {
              final String clsName = e.getClass().getName();
              if ("javax.ws.rs.core.NoContentException".equals(clsName)) {
                  // Ideally, we'd get this
-             } else if (e.getClass() == IOException.class) {
+                 /*
+             } else if (e.getClass() == JacksonException.class) {
                  // but for JAX-RS 1.x this'll do
+                  */
              } else {
                  fail("Unexpected exception type: "+clsName);
              }

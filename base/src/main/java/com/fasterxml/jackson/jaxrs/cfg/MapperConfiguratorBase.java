@@ -84,7 +84,6 @@ public abstract class MapperConfiguratorBase<IMPL extends MapperConfiguratorBase
         _annotationsToUse = defaultAnnotations;
     }
 
-    @SuppressWarnings("unchecked")
     public synchronized MAPPER getDefaultMapper() {
         if (_defaultMapper == null) {
             _defaultMapper = _mapperWithConfiguration(mapperBuilder());
@@ -97,7 +96,6 @@ public abstract class MapperConfiguratorBase<IMPL extends MapperConfiguratorBase
      * mapper (constructing an instance if one didn't yet exit), and return
      * that mapper.
      */
-    @SuppressWarnings("unchecked")
     protected MAPPER mapper()
     {
         if (_mapper == null) {

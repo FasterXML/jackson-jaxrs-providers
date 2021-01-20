@@ -39,7 +39,7 @@ import org.junit.Assert;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
+import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -107,7 +107,8 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
 
             @Override
             public void serialize(Link link, JsonGenerator jsonGenerator, SerializerProvider serializerProvider)
-                    throws IOException {
+                    throws JacksonException
+            {
                 jsonGenerator.writeStartObject();
                 jsonGenerator.writeStringField(HREF_PROPERTY, link.getUri().toString());
                 for (Entry<String, String> entry : link.getParams().entrySet()) {
@@ -117,11 +118,11 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
             }
         }
 
-        protected static class JsonLinkDeserializer extends JsonDeserializer<javax.ws.rs.core.Link> {
-
+        protected static class JsonLinkDeserializer extends JsonDeserializer<javax.ws.rs.core.Link>
+        {
 			@Override
 			public Link deserialize(JsonParser p, DeserializationContext deserializationContext)
-					throws IOException
+					throws JacksonException
 			{
 				Link link = null;
 				JsonNode jsonNode = deserializationContext.readTree(p);
@@ -205,7 +206,7 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
         @POST
         @Consumes(MediaType.APPLICATION_JSON)
         @Produces(MediaType.APPLICATION_JSON)
-        public Point maxPoint(MappingIterator<Point> points) throws IOException
+        public Point maxPoint(MappingIterator<Point> points) throws JacksonException
         {
             Point max = null;
             int maxDist = 0;
@@ -460,7 +461,7 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
         @Path("/max")
         @POST
         @Produces(MediaType.APPLICATION_JSON)
-        public Point maxPoint(MappingIterator<Point> points) throws IOException
+        public Point maxPoint(MappingIterator<Point> points) throws JacksonException
         {
      */
     

@@ -175,9 +175,9 @@ public abstract class ProviderBase<
         = new AtomicReference<IOException>();
 
     /*
-    /**********************************************************
+    /**********************************************************************
     /* Life-cycle
-    /**********************************************************
+    /**********************************************************************
      */
 
     protected ProviderBase(MAPPER_CONFIG mconfig) {
@@ -197,11 +197,11 @@ public abstract class ProviderBase<
         _mapperConfig = null;
         _jaxRSFeatures = JAXRS_FEATURE_DEFAULTS;
     }
-    
+
     /*
-    /**********************************************************
+    /**********************************************************************
     /* Configuring
-    /**********************************************************
+    /**********************************************************************
      */
 
     /**
@@ -379,9 +379,9 @@ public abstract class ProviderBase<
     }
 
     /*
-    /**********************************************************
+    /**********************************************************************
     /* Abstract methods sub-classes need to implement
-    /**********************************************************
+    /**********************************************************************
      */
 
     /**
@@ -390,8 +390,6 @@ public abstract class ProviderBase<
      * (when binding input data such as POST body).
      *<p>
      * Default implementation simply calls {@link #hasMatchingMediaType}.
-     * 
-     * @since 2.3
      */
     protected boolean hasMatchingMediaTypeForReading(MediaType mediaType) {
         return hasMatchingMediaType(mediaType);
@@ -453,9 +451,9 @@ public abstract class ProviderBase<
         Annotation[] annotations);
 
     /*
-    /**********************************************************
+    /**********************************************************************
     /* Partial MessageBodyWriter impl
-    /**********************************************************
+    /**********************************************************************
      */
 
     /**
@@ -530,7 +528,7 @@ public abstract class ProviderBase<
     public void writeTo(Object value, Class<?> type, Type genericType, Annotation[] annotations,
             MediaType mediaType,
             MultivaluedMap<String,Object> httpHeaders, OutputStream entityStream) 
-        throws IOException
+        throws JacksonException
     {
         EP_CONFIG endpoint = _endpointForWriting(value, type, genericType, annotations,
                 mediaType, httpHeaders);
@@ -605,7 +603,7 @@ public abstract class ProviderBase<
     protected void _modifyHeaders(Object value, Class<?> type, Type genericType, Annotation[] annotations,
             MultivaluedMap<String,Object> httpHeaders,
             EP_CONFIG endpoint)
-        throws IOException
+        throws JacksonException
     {
         // Add "nosniff" header?
         if (isEnabled(JaxRSFeature.ADD_NO_SNIFF_HEADER)) {
@@ -618,7 +616,7 @@ public abstract class ProviderBase<
      * contents into given raw {@link OutputStream}.
      */
     protected JsonGenerator _createGenerator(ObjectWriter writer, OutputStream rawStream, JsonEncoding enc)
-        throws IOException
+        throws JacksonException
     {
         // Important: we are NOT to close the underlying stream after
         // mapping, so we need to instruct generator
@@ -652,9 +650,9 @@ public abstract class ProviderBase<
     }
 
     /*
-    /**********************************************************
+    /**********************************************************************
     /* MessageBodyReader impl
-    /**********************************************************
+    /**********************************************************************
      */
     
     /**
@@ -717,7 +715,7 @@ public abstract class ProviderBase<
     public Object readFrom(Class<Object> type, Type genericType, Annotation[] annotations,
             MediaType mediaType, MultivaluedMap<String,String> httpHeaders,
             InputStream entityStream) 
-        throws IOException
+        throws IOException // TO FIX!!!
     {
         EP_CONFIG endpoint = _endpointForReading(type, genericType, annotations,
                 mediaType, httpHeaders);
@@ -776,11 +774,9 @@ public abstract class ProviderBase<
      * contents of given raw {@link InputStream}.
      * May return null to indicate that Stream is empty; that is, contains no
      * content.
-     * 
-     * @since 2.2
      */
     protected JsonParser _createParser(ObjectReader reader, InputStream rawStream)
-        throws IOException
+        throws JacksonException
     {
         JsonParser p = reader.createParser(rawStream);
         // Important: we are NOT to close the underlying stream after
@@ -792,9 +788,7 @@ public abstract class ProviderBase<
     /**
      * Overridable helper method that will basically fetch representation of the
      * endpoint that can be used to get {@link ObjectReader} to use for deserializing
-     * content
-     *
-     * @since 2.8
+     * content.
      */
     protected EP_CONFIG _endpointForReading(Class<Object> type, Type genericType, Annotation[] annotations,
             MediaType mediaType, MultivaluedMap<String,String> httpHeaders)
@@ -822,9 +816,9 @@ public abstract class ProviderBase<
     }
 
     /*
-    /**********************************************************
+    /**********************************************************************
     /* Overridable helper methods
-    /**********************************************************
+    /**********************************************************************
      */
 
     /**
@@ -894,8 +888,6 @@ public abstract class ProviderBase<
     /**
      * Overridable helper method used to allow handling of somewhat special
      * types for reading
-     * 
-     * @since 2.2
      */
     protected boolean _isSpecialReadable(Class<?> type) {
         return JsonParser.class == type;
@@ -905,8 +897,6 @@ public abstract class ProviderBase<
      * Overridable helper method called to check whether given type is a known
      * "ignorable type" (in context of reading), values of which are not bound
      * from content.
-     *
-     * @since 2.6
      */
     protected boolean _isIgnorableForReading(ClassKey typeKey)
     {
@@ -917,26 +907,21 @@ public abstract class ProviderBase<
      * Overridable helper method called to check whether given type is a known
      * "ignorable type" (in context of reading), values of which
      * can not be written out.
-     *
-     * @since 2.6
      */
     protected boolean _isIgnorableForWriting(ClassKey typeKey)
     {
         return _untouchables.contains(typeKey);
     }
-    
-    /**
-     * @since 2.4
-     */
+
     protected IOException _createNoContentException()
     {
         return noContentExceptionSupplier.createNoContentException();
     }
 
     /*
-    /**********************************************************
+    /**********************************************************************
     /* Private/sub-class helper methods
-    /**********************************************************
+    /**********************************************************************
      */
 
     protected static boolean _containedIn(Class<?> mainType, HashSet<ClassKey> set)

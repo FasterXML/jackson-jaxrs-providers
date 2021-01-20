@@ -9,6 +9,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.*;
 
 import com.fasterxml.jackson.core.*;
+import com.fasterxml.jackson.core.exc.WrappedIOException;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.jaxrs.base.ProviderBase;
@@ -225,15 +226,18 @@ public class JacksonXMLProvider
 
     @Override
     protected JsonParser _createParser(ObjectReader reader, InputStream rawStream)
-        throws IOException
     {
         // Fix for [Issue#4]: note, can not try to advance parser, XML parser complains
-        PushbackInputStream wrappedStream = new PushbackInputStream(rawStream);
-        int firstByte = wrappedStream.read(); 
-        if (firstByte == -1) {
-            return null;
+        try {
+            PushbackInputStream wrappedStream = new PushbackInputStream(rawStream);
+            int firstByte = wrappedStream.read(); 
+            if (firstByte == -1) {
+                return null;
+            }
+            wrappedStream.unread(firstByte);
+            return reader.createParser(wrappedStream);
+        } catch (IOException e) {
+            throw WrappedIOException.construct(e);
         }
-        wrappedStream.unread(firstByte);
-        return reader.createParser(wrappedStream);
     }
 }
