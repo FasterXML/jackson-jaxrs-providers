@@ -5,8 +5,6 @@ import java.util.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.StreamingOutput;
 
-import com.fasterxml.jackson.jaxrs.xml.JacksonXMLProvider;
-
 /**
  * Unit tests for verifying that certain JDK base types will be
  * ignored by default Jackson JAX-RS conversion provider.

@@ -39,10 +39,11 @@ import org.junit.Assert;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.type.TypeReference;
+
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -52,6 +53,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 
 public abstract class SimpleEndpointTestBase extends ResourceTestBase
@@ -152,8 +154,8 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
 			this.links = new ArrayList<>();
 		}
 
-		public void addEntities(E... entitities) {
-			Collections.addAll(this.entities, entitities);
+		public void addEntities(E... entities) {
+			Collections.addAll(this.entities, entities);
 		}
 
 		public void addLinks(Link... links) {

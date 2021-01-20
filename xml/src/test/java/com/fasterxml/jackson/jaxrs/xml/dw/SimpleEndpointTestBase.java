@@ -49,7 +49,7 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
         public SimpleResourceApp() { super(new SimpleResource()); }
     }
 
-    private final static byte[] UNTOUCHABLE_RESPONSE = new byte[] { 1, 2, 3, 4 };
+    final static byte[] UNTOUCHABLE_RESPONSE = new byte[] { 1, 2, 3, 4 };
 
     @Path("/raw")
     public static class RawResource

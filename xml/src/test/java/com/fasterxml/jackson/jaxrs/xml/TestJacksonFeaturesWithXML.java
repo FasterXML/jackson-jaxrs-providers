@@ -13,7 +13,6 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 import com.fasterxml.jackson.jaxrs.annotation.JacksonFeatures;
-import com.fasterxml.jackson.jaxrs.xml.JacksonXMLProvider;
 
 /**
  * Tests for [Issue-2], Addition of {@link JacksonFeatures}.
