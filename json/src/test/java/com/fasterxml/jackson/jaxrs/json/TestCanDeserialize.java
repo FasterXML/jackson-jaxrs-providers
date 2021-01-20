@@ -8,6 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.NoContentException;
 
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.jaxrs.cfg.JaxRSFeature;
@@ -57,19 +58,8 @@ public class TestCanDeserialize extends JaxrsTestBase {
              prov.readFrom(type, type, new Annotation[0],
                    MediaType.APPLICATION_JSON_TYPE, null, stream);
              fail("Should not succeed with passing of empty input");
-         } catch (IOException e) {
+         } catch (NoContentException e) {
              verifyException(e, "no content");
-             
-             final String clsName = e.getClass().getName();
-             if ("javax.ws.rs.core.NoContentException".equals(clsName)) {
-                 // Ideally, we'd get this
-                 /*
-             } else if (e.getClass() == JacksonException.class) {
-                 // but for JAX-RS 1.x this'll do
-                  */
-             } else {
-                 fail("Unexpected exception type: "+clsName);
-             }
          }
     }
 
