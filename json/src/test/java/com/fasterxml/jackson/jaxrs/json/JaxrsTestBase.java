@@ -1,6 +1,5 @@
 package com.fasterxml.jackson.jaxrs.json;
 
-import java.io.IOException;
 import java.util.*;
 
 import org.junit.Assert;
@@ -63,7 +62,6 @@ public abstract class JaxrsTestBase
      * returning them
      */
     protected String getAndVerifyText(JsonParser jp)
-        throws IOException, JsonParseException
     {
         // Ok, let's verify other accessors
         int actLen = jp.getTextLength();

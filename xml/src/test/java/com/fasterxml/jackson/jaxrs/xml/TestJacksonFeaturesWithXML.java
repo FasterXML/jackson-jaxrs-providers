@@ -9,9 +9,8 @@ import javax.ws.rs.core.MediaType;
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.SerializationFeature;
-
+import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import com.fasterxml.jackson.jaxrs.annotation.JacksonFeatures;
 
 /**
@@ -113,7 +112,7 @@ public class TestJacksonFeaturesWithXML extends JaxrsTestBase
                     MediaType.APPLICATION_JSON_TYPE, null,
                     new ByteArrayInputStream("<Bean><foobar>3</foobar></Bean>".getBytes("UTF-8")));
             fail("Should have caught an exception");
-        } catch (JsonMappingException e) {
+        } catch (UnrecognizedPropertyException e) {
             verifyException(e, "Unrecognized property \"foobar\"");
         }
     }

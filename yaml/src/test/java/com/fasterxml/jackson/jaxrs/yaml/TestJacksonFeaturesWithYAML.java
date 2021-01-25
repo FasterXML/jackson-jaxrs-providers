@@ -1,16 +1,19 @@
 package com.fasterxml.jackson.jaxrs.yaml;
 
-import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.jaxrs.annotation.JacksonFeatures;
-
-import javax.ws.rs.core.MediaType;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.lang.annotation.*;
 import java.lang.reflect.Method;
+
+import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
+
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
+
+import com.fasterxml.jackson.jaxrs.annotation.JacksonFeatures;
+
+import javax.ws.rs.core.MediaType;
 
 /**
  * Tests for [Issue-2], Addition of {@link JacksonFeatures}.
@@ -105,7 +108,7 @@ public class TestJacksonFeaturesWithYAML extends JaxrsTestBase
                     MediaType.APPLICATION_JSON_TYPE, null,
                     new ByteArrayInputStream("---\nBean:\n  foobar: 3\n".getBytes("UTF-8")));
             fail("Should have caught an exception");
-        } catch (JsonMappingException e) {
+        } catch (UnrecognizedPropertyException e) {
             verifyException(e, "Unrecognized property \"Bean\"");
         }
     }

@@ -10,7 +10,6 @@ import java.util.Map;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.NoContentException;
 
-import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.jaxrs.cfg.JaxRSFeature;
 
 /**

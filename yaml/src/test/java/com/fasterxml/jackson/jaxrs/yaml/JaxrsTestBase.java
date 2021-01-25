@@ -1,17 +1,16 @@
 package com.fasterxml.jackson.jaxrs.yaml;
 
-import com.fasterxml.jackson.core.JsonParseException;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
+
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 
 import org.junit.Assert;
 
 import javax.ws.rs.core.MediaType;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Arrays;
 
 public abstract class JaxrsTestBase
     extends junit.framework.TestCase
@@ -71,7 +70,6 @@ public abstract class JaxrsTestBase
      * returning them
      */
     protected String getAndVerifyText(JsonParser jp)
-        throws IOException, JsonParseException
     {
         // Ok, let's verify other accessors
         int actLen = jp.getTextLength();
