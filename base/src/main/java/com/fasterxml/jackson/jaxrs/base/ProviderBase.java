@@ -415,6 +415,9 @@ public abstract class ProviderBase<
         } else {
             r = mapper.reader();
         }
+        // 25-Jan-2020, tatu: Important: JAX-RS expects that the InputStream
+        //   is NOT closed by parser so...
+        r = r.without(StreamReadFeature.AUTO_CLOSE_SOURCE);
         return _configForReading(r, annotations);
     }
 
@@ -428,6 +431,9 @@ public abstract class ProviderBase<
         } else {
             w = mapper.writer();
         }
+        // 25-Jan-2020, tatu: Important: JAX-RS expects that the OutputStream
+        //   is NOT closed by generator so...
+        w = w.without(StreamWriteFeature.AUTO_CLOSE_TARGET);
         return _configForWriting(w, annotations);
     }
 
@@ -604,10 +610,8 @@ public abstract class ProviderBase<
     protected JsonGenerator _createGenerator(ObjectWriter writer, OutputStream rawStream, JsonEncoding enc)
         throws JacksonException
     {
-        // Important: we are NOT to close the underlying stream after
-        // mapping, so we need to instruct generator
-        return writer.without(StreamWriteFeature.AUTO_CLOSE_TARGET)
-                .createGenerator(rawStream, enc);
+        // Note: disabling of AUTO_CLOSE_TARGET should have happened earlier
+        return writer.createGenerator(rawStream, enc);
     }
 
     protected EP_CONFIG _endpointForWriting(Object value, Class<?> type, Type genericType,
@@ -761,11 +765,9 @@ public abstract class ProviderBase<
     protected JsonParser _createParser(ObjectReader reader, InputStream rawStream)
         throws JacksonException
     {
-        JsonParser p = reader.createParser(rawStream);
-        // Important: we are NOT to close the underlying stream after
-        // mapping, so we need to instruct parser:
-        p.disable(StreamReadFeature.AUTO_CLOSE_SOURCE);
-        return p;
+        // Note: disabling of AUTO_CLOSE_SOURCE should have happened earlier
+        // so can just construct and return parser as-is
+        return reader.createParser(rawStream);
     }
 
     /**
