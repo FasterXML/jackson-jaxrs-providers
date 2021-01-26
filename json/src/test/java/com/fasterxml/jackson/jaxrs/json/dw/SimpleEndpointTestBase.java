@@ -110,9 +110,9 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
                     throws JacksonException
             {
                 jsonGenerator.writeStartObject();
-                jsonGenerator.writeStringField(HREF_PROPERTY, link.getUri().toString());
+                jsonGenerator.writeStringProperty(HREF_PROPERTY, link.getUri().toString());
                 for (Entry<String, String> entry : link.getParams().entrySet()) {
-                    jsonGenerator.writeStringField(entry.getKey(), entry.getValue());
+                    jsonGenerator.writeStringProperty(entry.getKey(), entry.getValue());
                 }
                 jsonGenerator.writeEndObject();
             }
@@ -129,18 +129,17 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
 				JsonNode hrefJsonNode = jsonNode.get(JsonLinkSerializer.HREF_PROPERTY);
 				if (hrefJsonNode != null) {
 					Link.Builder linkBuilder = Link.fromUri(hrefJsonNode.asText());
-					Iterator<String> fieldNamesIterator = jsonNode.fieldNames();
-					while (fieldNamesIterator.hasNext()) {
-						String fieldName = fieldNamesIterator.next();
-						if (!JsonLinkSerializer.HREF_PROPERTY.equals(fieldName)) {
-							linkBuilder.param(fieldName, jsonNode.get(fieldName).asText());
+					Iterator<String> nameIt = jsonNode.propertyNames();
+					while (nameIt.hasNext()) {
+						String propName = nameIt.next();
+						if (!JsonLinkSerializer.HREF_PROPERTY.equals(propName)) {
+							linkBuilder.param(propName, jsonNode.get(propName).asText());
 						}
 					}
 					link = linkBuilder.build();
 				}
 				return link;
 			}
-
 		}
 
 		private final List<E> entities;
