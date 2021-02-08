@@ -46,11 +46,11 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ValueDeserializer;
+import com.fasterxml.jackson.databind.ValueSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
@@ -101,7 +101,7 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
     @JsonPropertyOrder({ "entities", "links" })
     @JsonAutoDetect(fieldVisibility = Visibility.ANY, creatorVisibility = Visibility.ANY, getterVisibility = Visibility.NONE, isGetterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE)
     protected static class PageImpl<E> extends Page<E> {
-        protected static class JsonLinkSerializer extends JsonSerializer<javax.ws.rs.core.Link> {
+        protected static class JsonLinkSerializer extends ValueSerializer<javax.ws.rs.core.Link> {
 
             static final String HREF_PROPERTY = "href";
 
