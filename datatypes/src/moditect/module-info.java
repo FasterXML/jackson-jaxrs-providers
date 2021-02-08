@@ -17,6 +17,6 @@ module com.fasterxml.jackson.datatype.jaxrs {
     //jakarta 3.x final location - https://github.com/eclipse-ee4j/jaxrs-api
     requires static jakarta.ws.rs.api;
 
-    provides com.fasterxml.jackson.databind.Module with
+    provides com.fasterxml.jackson.databind.JacksonModule with
         com.fasterxml.jackson.datatype.jaxrs.Jaxrs2TypesModule;
 }

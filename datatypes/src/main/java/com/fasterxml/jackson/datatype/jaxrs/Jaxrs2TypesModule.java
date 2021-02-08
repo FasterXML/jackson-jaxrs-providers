@@ -12,8 +12,6 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
  * <li>{@link javax.ws.rs.core.Link}: serialized using "link header" representation
  *  </li>
  * </ul>
- *
- * @since 2.8
  */
 public class Jaxrs2TypesModule extends SimpleModule
 {
