@@ -14,6 +14,10 @@ Sub-modules:
 
 #134: Remove work-around for JAX-RS 1.x wrt JAX-RS 2 type `NoContentException`
 
+2.12.2 (not yet released)
+
+* Woodstox dependency to 6.2.4
+
 2.12.1 (08-Jan-2021)
 
 No changes since 2.12.0
