@@ -39,7 +39,11 @@ Due to auto-registration, it should be possible to simply add Maven dependency
 provider.
 If this does not work you need to consult documentation of the JAX-RS implementation for details.  
 
-To use Jackson with Jersey see [their documentation](https://jersey.github.io/documentation/latest/media.html#json.jackson).
+Here are some links that may help:
+
+* [Configure Jackson as JSON Provider in JAX-RS 2.0](https://stackoverflow.com/questions/18741954/configure-jackson-as-json-provider-in-jax-rs-2-0)
+* [JAX-RS and Open Liberty: BYO Jackson](https://openliberty.io/blog/2020/11/11/byo-jackson.html)
+* [Using Jackson as JSON provider in Jersey 2.x](https://cassiomolin.com/2016/08/10/using-jackson-as-json-provider-in-jersey-2x/)
 
 ### Usage: registering supporting datatypes module
 
