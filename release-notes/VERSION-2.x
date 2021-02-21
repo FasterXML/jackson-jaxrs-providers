@@ -13,6 +13,7 @@ Sub-modules:
 2.13.0 (not yet released)
 
 #134: Remove work-around for JAX-RS 1.x wrt JAX-RS 2 type `NoContentException`
+- Update `jakarta.xml.bind-api` dep (2.3.2 -> 2.3.3)
 
 2.12.2 (not yet released)
 
