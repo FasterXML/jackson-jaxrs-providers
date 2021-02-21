@@ -75,9 +75,6 @@
       <plugin>
         <groupId>org.moditect</groupId>
         <artifactId>moditect-maven-plugin</artifactId>
-        <configuration>
-          <jvmVersion>11</jvmVersion>
-        </configuration>
       </plugin>
 
       <plugin>
