@@ -16,6 +16,8 @@ Sub-modules:
 
 2.12.2 (not yet released)
 
+#132: jaxrs jakarta versions have javax.ws references in OSGi manifest
+ (reported by Scott L)
 * Woodstox dependency to 6.2.4
 
 2.12.1 (08-Jan-2021)
