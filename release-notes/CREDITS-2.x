@@ -80,3 +80,8 @@ James R. Perkins (jamezp@github)
 
 * Reported, contributed fix for  #109: Use privileged action to check for JAX-RS 1 vs 2
  (2.11.0)
+
+Scott Lewis (scottslewis@github)
+
+* Reported #132: jaxrs jakarta versions have javax.ws references in OSGi manifest
+ (2.12.2)
