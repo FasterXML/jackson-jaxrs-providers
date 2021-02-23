@@ -130,6 +130,7 @@
             </instructions>
           </configuration>
         </plugin>
+
         <plugin>
           <!-- Inherited from oss-base. Generate PackageVersion.java.-->
           <groupId>com.google.code.maven-replacer-plugin</groupId>
@@ -140,6 +141,17 @@
               <phase>generate-sources</phase>
             </execution>
           </executions>
+        </plugin>
+
+        <plugin>
+          <groupId>org.moditect</groupId>
+          <artifactId>moditect-maven-plugin</artifactId>
+          <!-- 20-Feb-2021, tatu: For Jackson 2.x, put `module-info.class` under location
+              since otherwise it seems "module-info.class" will be missing from "-jakarta" variant?
+            -->
+          <configuration>
+            <jvmVersion>11</jvmVersion>
+          </configuration>
         </plugin>
 
       </plugins>
