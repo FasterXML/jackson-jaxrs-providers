@@ -50,6 +50,9 @@ ${project.groupId}.annotation.*;version=${project.version}
       <plugin>
         <groupId>org.moditect</groupId>
         <artifactId>moditect-maven-plugin</artifactId>
+        <configuration>
+          <jvmVersion>11</jvmVersion>
+        </configuration>
       </plugin>
 
       <plugin>
@@ -71,6 +74,14 @@ ${project.groupId}.annotation.*;version=${project.version}
                   <include>${project.groupId}:${project.artifactId}</include>
                 </includes>
               </artifactSet>
+              <filters>
+                <filter>
+                  <artifact>${project.groupId}:${project.artifactId}</artifact>
+                  <excludes>
+                    <exclude>META-INF/MANIFEST.MF</exclude>
+                  </excludes>
+                </filter>
+              </filters>
               <relocations>
                 <relocation>
                   <pattern>javax.xml.bind</pattern>
@@ -91,10 +102,9 @@ ${project.groupId}.annotation.*;version=${project.version}
               </relocations>
               <transformers>
                 <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
-                <transformer implementation="io.yupiik.maven.shade.transformer.RelocationTransformer">
-                  <delegates>
-                    <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer"/>
-                  </delegates>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.IncludeResourceTransformer">
+                  <resource>META-INF/MANIFEST.MF</resource>
+                  <file>${build.directory}/jakarta/MANIFEST.MF</file>
                 </transformer>
               </transformers>
             </configuration>
@@ -107,6 +117,45 @@ ${project.groupId}.annotation.*;version=${project.version}
             <version>0.0.1</version>
           </dependency>
         </dependencies>
+      </plugin>
+
+  <!-- Jakarta bundle fix - nb place last for execution order on package phase
+  @gedmarc 20210222-->
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <version>5.1.1</version>
+        <executions>
+          <execution>
+            <id>default_bundle</id>
+            <phase>process-classes</phase>
+            <goals>
+              <goal>bundle</goal>
+            </goals>
+            <configuration>
+              <manifestLocation>${build.directory}/javax</manifestLocation>
+              <packaging>jar</packaging>
+              <instructions>
+                <_nouses>false</_nouses>
+              </instructions>
+            </configuration>
+          </execution>
+          <execution>
+            <id>bundle_jakarta_manifest</id>
+            <phase>process-classes</phase>
+            <goals>
+              <goal>manifest</goal>
+            </goals>
+            <configuration>
+              <manifestLocation>${build.directory}/jakarta</manifestLocation>
+              <classifier>jakarta</classifier>
+              <packaging>jar</packaging>
+              <instructions>
+                <Import-Package>jakarta.ws.rs;version="[3.0,4)",jakarta.ws.rs.core;version="[3.0,4)",jakarta.ws.rs.ext;version="[3.0,4)",!javax.ws*,*</Import-Package>
+              </instructions>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
 
     </plugins>

@@ -131,12 +131,14 @@
         <plugin>
           <groupId>org.apache.felix</groupId>
           <artifactId>maven-bundle-plugin</artifactId>
+          <version>5.1.1</version>
           <configuration>
             <instructions>
               <_nouses>false</_nouses>
             </instructions>
           </configuration>
         </plugin>
+
         <plugin>
           <!-- Inherited from oss-base. Generate PackageVersion.java.-->
           <groupId>com.google.code.maven-replacer-plugin</groupId>
@@ -148,33 +150,17 @@
             </execution>
           </executions>
         </plugin>
-        <plugin>
-          <groupId>org.moditect</groupId>
-          <artifactId>moditect-maven-plugin</artifactId>
-          <!-- 20-Feb-2021, tatu: For Jackson 2.x, put `module-info.class` under location
-                  only visible to JDK 11+ (to avoid issues with older pre-Java9 frameworks?)
-            -->
-          <configuration>
-            <jvmVersion>11</jvmVersion>
-          </configuration>
-        </plugin>
-        <!-- 20-Feb-2021, tatu: As per [jaxrs-providers#132] need some more relocating... -->
-	<!-- TODO!!! Why is version number here not sufficient for child projects?! -->
-        <plugin>
-          <groupId>io.yupiik.maven</groupId>
-          <artifactId>maven-shade-transformers</artifactId>
-          <version>0.0.1</version>
-        </plugin>
 
       </plugins>
     </pluginManagement>
 
     <!-- 05-Jul-2020, tatu: Add generation of Gradle Module Metadata -->
     <plugins>
-      <plugin>
+
+     <plugin>
         <groupId>de.jjohannes</groupId>
         <artifactId>gradle-module-metadata-maven-plugin</artifactId>
-      </plugin>    
+      </plugin>
     </plugins>
   </build>
 </project>
