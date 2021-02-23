@@ -50,9 +50,6 @@ ${project.groupId}.annotation.*;version=${project.version}
       <plugin>
         <groupId>org.moditect</groupId>
         <artifactId>moditect-maven-plugin</artifactId>
-        <configuration>
-          <jvmVersion>11</jvmVersion>
-        </configuration>
       </plugin>
 
       <plugin>
@@ -124,7 +121,6 @@ ${project.groupId}.annotation.*;version=${project.version}
       <plugin>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
-        <version>5.1.1</version>
         <executions>
           <execution>
             <id>default_bundle</id>
