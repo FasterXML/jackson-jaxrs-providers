@@ -14,6 +14,9 @@ Sub-modules:
 
 #132: jaxrs jakarta versions have javax.ws references in OSGi manifest
  (reported by Scott L)
+#136: Create manifest files separately and reference in bundle plugin, shade in
+  the new manifest for Jakarta separately before install
+ (contributed by Marc M)
 * Woodstox dependency to 6.2.4
 
 2.12.1 (08-Jan-2021)
