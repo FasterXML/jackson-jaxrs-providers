@@ -10,7 +10,7 @@ Sub-modules:
 === Releases ===
 ------------------------------------------------------------------------
 
-2.12.2 (not yet released)
+2.12.2 (03-Mar-2021)
 
 #132: jaxrs jakarta versions have javax.ws references in OSGi manifest
  (reported by Scott L)
