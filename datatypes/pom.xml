@@ -9,7 +9,7 @@
   <parent>
     <groupId>com.fasterxml.jackson.jaxrs</groupId>
     <artifactId>jackson-jaxrs-providers</artifactId>
-    <version>2.12.2-SNAPSHOT</version>
+    <version>2.12.2</version>
   </parent>
   <!-- note: different group id, it being datatype -->
   <groupId>com.fasterxml.jackson.datatype</groupId>
@@ -123,7 +123,7 @@
                 </relocation>
               </relocations>
               <transformers>
-                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
                 <transformer implementation="org.apache.maven.plugins.shade.resource.IncludeResourceTransformer">
                   <resource>META-INF/MANIFEST.MF</resource>
                   <file>${build.directory}/jakarta/MANIFEST.MF</file>
