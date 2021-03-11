@@ -172,43 +172,6 @@ using standard Jackson data binding.
         </dependencies>
       </plugin>
 
-      <!-- Jakarta bundle fix - nb place last for execution order on package phase
-      @gedmarc 20210222-->
-      <plugin>
-        <groupId>org.apache.felix</groupId>
-        <artifactId>maven-bundle-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>default_bundle</id>
-            <phase>process-classes</phase>
-            <goals>
-              <goal>bundle</goal>
-            </goals>
-            <configuration>
-              <manifestLocation>${build.directory}/javax</manifestLocation>
-              <packaging>jar</packaging>
-              <instructions>
-                <_nouses>false</_nouses>
-              </instructions>
-            </configuration>
-          </execution>
-          <execution>
-            <id>bundle_jakarta_manifest</id>
-            <phase>process-classes</phase>
-            <goals>
-              <goal>manifest</goal>
-            </goals>
-            <configuration>
-              <manifestLocation>${build.directory}/jakarta</manifestLocation>
-              <classifier>jakarta</classifier>
-              <packaging>jar</packaging>
-              <instructions>
-                <Import-Package>jakarta.ws.rs;version="[3.0,4)",jakarta.ws.rs.core;version="[3.0,4)",jakarta.ws.rs.ext;version="[3.0,4)",!javax.ws*,*</Import-Package>
-              </instructions>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
     </plugins>
   </build>
 </project>
