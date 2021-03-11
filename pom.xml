@@ -171,9 +171,8 @@
         <artifactId>gradle-module-metadata-maven-plugin</artifactId>
       </plugin>
 
-      <!-- 05-Mar-2021, tatu: temporary override to prevent auto-close on release
+      <!-- 05-Mar-2021, tatu: needed temporary override to prevent auto-close on release
 https://help.sonatype.com/repomanager2/staging-releases/configuring-your-project-for-deployment
-        -->
       <plugin>
         <groupId>org.sonatype.plugins</groupId>
         <artifactId>nexus-staging-maven-plugin</artifactId>
@@ -181,6 +180,7 @@ https://help.sonatype.com/repomanager2/staging-releases/configuring-your-project
           <skipStagingRepositoryClose>true</skipStagingRepositoryClose>
         </configuration>
       </plugin>
+        -->
       
     </plugins>
   </build>
