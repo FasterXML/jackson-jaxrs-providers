@@ -9,10 +9,11 @@ import java.util.List;
 import javax.ws.rs.core.MediaType;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import com.fasterxml.jackson.databind.DefaultTyping;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
+
 import com.fasterxml.jackson.jaxrs.json.testutil.NoCheckSubTypeValidator;
 
 /**
@@ -29,7 +30,7 @@ public class TestSerializeWithoutAutoflush extends JaxrsTestBase
 
     public void testCanSerialize() throws IOException
     {
-        ObjectMapper mapper = JsonMapper.builder()
+        JsonMapper mapper = JsonMapper.builder()
                 .disable(SerializationFeature.FLUSH_AFTER_WRITE_VALUE)
                 .activateDefaultTyping(NoCheckSubTypeValidator.instance,
                         DefaultTyping.NON_FINAL, JsonTypeInfo.As.WRAPPER_ARRAY)

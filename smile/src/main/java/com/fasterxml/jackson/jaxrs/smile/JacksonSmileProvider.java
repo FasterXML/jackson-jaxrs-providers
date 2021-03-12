@@ -7,10 +7,11 @@ import javax.ws.rs.core.*;
 import javax.ws.rs.ext.*;
 
 import com.fasterxml.jackson.core.*;
+
 import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.dataformat.smile.SmileFactory;
+
+import com.fasterxml.jackson.dataformat.smile.databind.SmileMapper;
 import com.fasterxml.jackson.jaxrs.base.ProviderBase;
-import com.fasterxml.jackson.jaxrs.cfg.Annotations;
 
 /**
  * Basic implementation of JAX-RS abstractions ({@link MessageBodyReader},
@@ -47,24 +48,15 @@ import com.fasterxml.jackson.jaxrs.cfg.Annotations;
 @Produces(MediaType.WILDCARD)
 public class JacksonSmileProvider
 extends ProviderBase<JacksonSmileProvider,
-    ObjectMapper,
+    SmileMapper,
     SmileEndpointConfig,
     SmileMapperConfigurator
 >
 {
-    /**
-     * Default annotation sets to use, if not explicitly defined during
-     * construction: only Jackson annotations are used for the base
-     * class. Sub-classes can use other settings.
-     */
-    public final static Annotations[] BASIC_ANNOTATIONS = {
-        Annotations.JACKSON
-    };
-
     /*
-    /**********************************************************
+    /**********************************************************************
     /* Context configuration
-    /**********************************************************
+    /**********************************************************************
      */
 
     /**
@@ -76,9 +68,9 @@ extends ProviderBase<JacksonSmileProvider,
     protected Providers _providers;
 
     /*
-    /**********************************************************
+    /**********************************************************************
     /* Construction
-    /**********************************************************
+    /**********************************************************************
      */
 
     /**
@@ -86,34 +78,25 @@ extends ProviderBase<JacksonSmileProvider,
      * configured to be used with JAX-RS implementation.
      */
     public JacksonSmileProvider() {
-        this(null, BASIC_ANNOTATIONS);
+        this(null, null);
     }
 
-    /**
-     * @param annotationsToUse Annotation set(s) to use for configuring
-     *    data binding
-     */
-    public JacksonSmileProvider(Annotations... annotationsToUse)
+    public JacksonSmileProvider(SmileMapper mapper)
     {
-        this(null, annotationsToUse);
-    }
-
-    public JacksonSmileProvider(ObjectMapper mapper)
-    {
-        this(mapper, BASIC_ANNOTATIONS);
+        this(mapper, null);
     }
     
     /**
      * Constructor to use when a custom mapper (usually components
      * like serializer/deserializer factories that have been configured)
      * is to be used.
-     * 
-     * @param annotationsToUse Sets of annotations (Jackson, JAXB) that provider should
-     *   support
+     *
+     * @param aiOverride AnnotationIntrospector to override default with, if any
      */
-    public JacksonSmileProvider(ObjectMapper mapper, Annotations[] annotationsToUse)
+    public JacksonSmileProvider(SmileMapper mapper,
+            AnnotationIntrospector aiOverride)
     {
-        super(new SmileMapperConfigurator(mapper, annotationsToUse));
+        super(new SmileMapperConfigurator(mapper, aiOverride));
     }
 
     /**
@@ -124,11 +107,11 @@ extends ProviderBase<JacksonSmileProvider,
     public Version version() {
         return PackageVersion.VERSION;
     }
-    
+
     /*
-    /**********************************************************
+    /**********************************************************************
     /* Abstract method impls
-    /**********************************************************
+    /**********************************************************************
      */
 
     /**
@@ -180,27 +163,29 @@ extends ProviderBase<JacksonSmileProvider,
      *   but will be passed to {@link ContextResolver} as is.
      */
     @Override
-    protected ObjectMapper _locateMapperViaProvider(Class<?> type, MediaType mediaType)
+    protected SmileMapper _locateMapperViaProvider(Class<?> type, MediaType mediaType)
     {
-        if (_providers != null) {
-            ContextResolver<ObjectMapper> resolver = _providers.getContextResolver(ObjectMapper.class, mediaType);
-            /* Above should work as is, but due to this bug
-             *   [https://jersey.dev.java.net/issues/show_bug.cgi?id=288]
-             * in Jersey, it doesn't. But this works until resolution of
-             * the issue:
-             */
-            if (resolver == null) {
-                resolver = _providers.getContextResolver(ObjectMapper.class, null);
-            }
-            if (resolver != null) {
-                ObjectMapper mapper = resolver.getContext(type);
-                // 07-Feb-2014, tatu: just in case, ensure we have correct type
-                if (mapper.tokenStreamFactory() instanceof SmileFactory) {
-                    return mapper;
+        SmileMapper m = _mapperConfig.getConfiguredMapper();
+        if (m == null) {
+            if (_providers != null) {
+                ContextResolver<SmileMapper> resolver = _providers.getContextResolver(SmileMapper.class, mediaType);
+                // Above should work as is, but due to this bug
+                //   [https://jersey.dev.java.net/issues/show_bug.cgi?id=288]
+                // in Jersey, it doesn't. But this works until resolution of
+                // the issue:
+                if (resolver == null) {
+                    resolver = _providers.getContextResolver(SmileMapper.class, null);
+                }
+                if (resolver != null) {
+                    m = resolver.getContext(type);
                 }
             }
+            if (m == null) {
+                // If not, let's get the fallback default instance
+                m = _mapperConfig.getDefaultMapper();
+            }
         }
-        return null;
+        return m;
     }
 
     @Override

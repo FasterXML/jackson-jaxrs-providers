@@ -5,8 +5,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.Provider;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.jaxrs.cfg.Annotations;
+import com.fasterxml.jackson.databind.AnnotationIntrospector;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+
+import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
 
 /**
  * JSON content type provider automatically configured to use both Jackson
@@ -25,41 +27,34 @@ import com.fasterxml.jackson.jaxrs.cfg.Annotations;
 @Provider
 @Consumes(MediaType.WILDCARD) // NOTE: required to support "non-standard" JSON variants
 @Produces(MediaType.WILDCARD)
-public class JacksonJaxbJsonProvider extends JacksonJsonProvider {
-    /**
-     * Default annotation sets to use, if not explicitly defined during
-     * construction: use Jackson annotations if found; if not, use
-     * JAXB annotations as fallback.
-     */
-    public final static Annotations[] DEFAULT_ANNOTATIONS = {
-        Annotations.JACKSON, Annotations.JAXB
-    };
-
+public class JacksonJaxbJsonProvider extends JacksonJsonProvider
+{
     /**
      * Default constructor, usually used when provider is automatically
      * configured to be used with JAX-RS implementation.
      */
     public JacksonJaxbJsonProvider()
     {
-        this(null, DEFAULT_ANNOTATIONS);
+        this(null, JaxbHolder.get());
     }
 
-    /**
-     * @param annotationsToUse Annotation set(s) to use for configuring
-     *    data binding
-     */
-    public JacksonJaxbJsonProvider(Annotations... annotationsToUse)
-    {
-        this(null, annotationsToUse);
-    }
-    
     /**
      * Constructor to use when a custom mapper (usually components
      * like serializer/deserializer factories that have been configured)
      * is to be used.
      */
-    public JacksonJaxbJsonProvider(ObjectMapper mapper, Annotations[] annotationsToUse)
+    public JacksonJaxbJsonProvider(JsonMapper mapper,
+            AnnotationIntrospector aiOverride)
     {
-        super(mapper, annotationsToUse);
+        super(mapper, aiOverride);
     }
+
+    // Silly class to encapsulate reference to JAXB introspector class so that
+    // loading of parent class does not require it; only happens if and when
+    // introspector needed
+    private static class JaxbHolder {
+        public static AnnotationIntrospector get() {
+            return new JaxbAnnotationIntrospector();
+        }
+    }   
 }

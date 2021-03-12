@@ -231,8 +231,6 @@ public abstract class ProviderBase<
     /**
      * Method for removing definition of specified type as untouchable:
      * usually only 
-     * 
-     * @since 2.2
      */
     public void removeUntouchable(Class<?> type)
     {
@@ -243,17 +241,17 @@ public abstract class ProviderBase<
     }
     
     /**
-     * Method for configuring which annotation sets to use (including none).
-     * Annotation sets are defined in order decreasing precedence; that is,
-     * first one has the priority over following ones.
+     * Method for overriding {@link AnnotationIntrospector} to use instead of
+     * default {@code JacksonAnnotationIntrospector}: often used to add
+     * JAXB-backed introspector.
      * 
-     * @param annotationsToUse Ordered list of annotation sets to use; if null,
-     *    default
+     * @param aiOverride AnnotationIntrospector to configure mapper to use
+     *    ({@code null} to leave it as default one)
      */
-    public void setAnnotationsToUse(Annotations[] annotationsToUse) {
-        _mapperConfig.setAnnotationsToUse(annotationsToUse);
+    public void setAnnotationsToUse(AnnotationIntrospector aiOverride) {
+        _mapperConfig.setAnnotationIntrospector(aiOverride);
     }
-    
+
     /**
      * Method that can be used to directly define {@link ObjectMapper} to use
      * for serialization and deserialization; if null, will use the standard

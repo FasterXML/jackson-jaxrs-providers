@@ -7,10 +7,12 @@ import javax.ws.rs.core.*;
 import javax.ws.rs.ext.*;
 
 import com.fasterxml.jackson.core.*;
+
 import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.dataformat.cbor.CBORFactory;
+
+import com.fasterxml.jackson.dataformat.cbor.databind.CBORMapper;
+
 import com.fasterxml.jackson.jaxrs.base.ProviderBase;
-import com.fasterxml.jackson.jaxrs.cfg.Annotations;
 
 /**
  * Basic implementation of JAX-RS abstractions ({@link MessageBodyReader},
@@ -47,24 +49,15 @@ import com.fasterxml.jackson.jaxrs.cfg.Annotations;
 @Produces(MediaType.WILDCARD)
 public class JacksonCBORProvider
 extends ProviderBase<JacksonCBORProvider,
-    ObjectMapper,
+    CBORMapper,
     CBOREndpointConfig,
     CBORMapperConfigurator
 >
 {
-    /**
-     * Default annotation sets to use, if not explicitly defined during
-     * construction: only Jackson annotations are used for the base
-     * class. Sub-classes can use other settings.
-     */
-    public final static Annotations[] BASIC_ANNOTATIONS = {
-        Annotations.JACKSON
-    };
-
     /*
-    /**********************************************************
+    /**********************************************************************
     /* Context configuration
-    /**********************************************************
+    /**********************************************************************
      */
 
     /**
@@ -76,9 +69,9 @@ extends ProviderBase<JacksonCBORProvider,
     protected Providers _providers;
 
     /*
-    /**********************************************************
+    /**********************************************************************
     /* Construction
-    /**********************************************************
+    /**********************************************************************
      */
 
     /**
@@ -86,34 +79,25 @@ extends ProviderBase<JacksonCBORProvider,
      * configured to be used with JAX-RS implementation.
      */
     public JacksonCBORProvider() {
-        this(null, BASIC_ANNOTATIONS);
+        this(null, null);
     }
 
-    /**
-     * @param annotationsToUse Annotation set(s) to use for configuring
-     *    data binding
-     */
-    public JacksonCBORProvider(Annotations... annotationsToUse)
+    public JacksonCBORProvider(CBORMapper mapper)
     {
-        this(null, annotationsToUse);
+        this(mapper, null);
     }
 
-    public JacksonCBORProvider(ObjectMapper mapper)
-    {
-        this(mapper, BASIC_ANNOTATIONS);
-    }
-    
     /**
      * Constructor to use when a custom mapper (usually components
      * like serializer/deserializer factories that have been configured)
      * is to be used.
-     * 
-     * @param annotationsToUse Sets of annotations (Jackson, JAXB) that provider should
-     *   support
+     *
+     * @param aiOverride AnnotationIntrospector to override default with, if any
      */
-    public JacksonCBORProvider(ObjectMapper mapper, Annotations[] annotationsToUse)
+    public JacksonCBORProvider(CBORMapper mapper,
+            AnnotationIntrospector aiOverride)
     {
-        super(new CBORMapperConfigurator(mapper, annotationsToUse));
+        super(new CBORMapperConfigurator(mapper, aiOverride));
     }
 
     /**
@@ -124,11 +108,11 @@ extends ProviderBase<JacksonCBORProvider,
     public Version version() {
         return PackageVersion.VERSION;
     }
-    
+
     /*
-    /**********************************************************
+    /**********************************************************************
     /* Abstract method impls
-    /**********************************************************
+    /**********************************************************************
      */
 
     /**
@@ -180,26 +164,21 @@ extends ProviderBase<JacksonCBORProvider,
      *   but will be passed to {@link ContextResolver} as is.
      */
     @Override
-    protected ObjectMapper _locateMapperViaProvider(Class<?> type, MediaType mediaType)
+    protected CBORMapper _locateMapperViaProvider(Class<?> type, MediaType mediaType)
     {
-        // First: were we configured with a specific instance?
-        ObjectMapper m = _mapperConfig.getConfiguredMapper();
+        CBORMapper m = _mapperConfig.getConfiguredMapper();
         if (m == null) {
-            // If not, maybe we can get one configured via context?
             if (_providers != null) {
-                ContextResolver<ObjectMapper> resolver = _providers.getContextResolver(ObjectMapper.class, mediaType);
+                ContextResolver<CBORMapper> resolver = _providers.getContextResolver(CBORMapper.class, mediaType);
                 // Above should work as is, but due to this bug
                 //   [https://jersey.dev.java.net/issues/show_bug.cgi?id=288]
-                // in Jersey, it doesn't. But this works until resolution of the issue:
+                // in Jersey, it doesn't. But this works until resolution of
+                // the issue:
                 if (resolver == null) {
-                    resolver = _providers.getContextResolver(ObjectMapper.class, null);
+                    resolver = _providers.getContextResolver(CBORMapper.class, null);
                 }
                 if (resolver != null) {
                     m = resolver.getContext(type);
-                    // 07-Feb-2014, tatu: just in case, ensure we have correct type
-                    if (m.tokenStreamFactory() instanceof CBORFactory) {
-                        return m;
-                    }
                 }
             }
             if (m == null) {
