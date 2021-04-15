@@ -21,11 +21,11 @@ jobs:
 
       - name: build
         working-directory: ${{runner.workspace}}
-        run: mvn -pl base edu.illinois:nondex-maven-plugin:1.1.2:nondex -Dtest=com.fasterxml.jackson.jaxrs.base.cfg.AnnotationBundleKeyTest#testWithClassAnnotations
+        run: mvn -pl base edu.illinois:nondex-maven-plugin:1.1.2:nondex -Dtest="com.fasterxml.jackson.jaxrs.base.cfg.AnnotationBundleKeyTest#testWithClassAnnotations"
 
       - name: upload test results
         uses: actions/upload-artifact@v2
         if: failure()
         with:
           name: ubuntu_test_results
-          path: ${{runner.workspace}}/build/test-results/**/*.xml
+          path: ${{runner.workspace}}/**/*.xml
