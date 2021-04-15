@@ -785,7 +785,7 @@ public abstract class ProviderBase<
         JsonParser p = reader.createParser(rawStream);
         // Important: we are NOT to close the underlying stream after
         // mapping, so we need to instruct parser:
-        p.disable(StreamReadFeature.AUTO_CLOSE_SOURCE);
+        p.isEnabled(StreamReadFeature.AUTO_CLOSE_SOURCE);
         return p;
     }
 
