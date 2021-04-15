@@ -18,6 +18,14 @@ jobs:
         with:
           java-version: '8'
           distribution: 'adopt'
+          
+      - name: pre-build
+        working-directory: ${{runner.workspace}}
+        run: mvn test-compile -pl base -am
+        
+      - name: pre-build1
+        working-directory: ${{runner.workspace}}
+        run: mvn -pl base test -Dtest="com.fasterxml.jackson.jaxrs.base.cfg.AnnotationBundleKeyTest#testWithClassAnnotations"
 
       - name: build
         working-directory: ${{runner.workspace}}
