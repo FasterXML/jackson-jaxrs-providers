@@ -1,5 +1,5 @@
-Here are people who have contributed to development Jackson JSON process 
-core component, version 2.x
+Here are people who have contributed to development Jackson JSON processor
+JAXRS-providers module, version 2.x
 (version numbers in brackets indicate release in which the problem was fixed)
 
 (note: for older credits, check out release notes for 1.x versions)
