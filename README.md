@@ -1,6 +1,7 @@
 ## Overview
 
-This is a multi-module project that contains Jackson-based JAX-RS providers for following data formats:
+This is a multi-module project that contains Jackson-based JAX-RS (*) providers
+for following data formats:
 
 * [JSON](https://github.com/FasterXML/jackson-core)
 * [Smile](https://github.com/FasterXML/jackson-dataformat-smile) (binary JSON)
@@ -10,6 +11,11 @@ This is a multi-module project that contains Jackson-based JAX-RS providers for 
 
 Providers implement JAX-RS `MessageBodyReader` and `MessageBodyWriter` handlers for specific
 data formats. They also contain SPI settings for auto-registration.
+
+(*) NOTE! JAX-RS is the "old" API defined under `javax.ws.rs`; in 2019 or so, Oracle decided to force
+a forking of this into "Jakarta" variant under `jakarta.ws.ws`.
+As of 2021 most frameworks still use the old API but if you do need/want to use newer one,
+check out Jakarta-RS provider repo at [jackson-jakarta-rs-providers](../../../jackson-jakarta-rs-providers)
 
 ## Status
 
@@ -26,7 +32,7 @@ To use JAX-RS on Maven-based projects, use dependencies like:
 <dependency>
   <groupId>com.fasterxml.jackson.jaxrs</groupId>
   <artifactId>jackson-jaxrs-json-provider</artifactId>
-  <version>2.12.0</version>
+  <version>2.12.3</version>
 </dependency>
 ```
 
@@ -53,9 +59,10 @@ It will not be auto-registered automatically (unless user calls `ObjectMapper.fi
 instead, user has to register it by normal means:
 
 ```java
-ObjectMapper mapper = JsonMapper.builder()
+ObjectMapper mapper = JsonMapper.builder() // or whichever format backend we have
     .addModule(new Jaxrs2TypesModule())
     .build();
+// and then register mapper with JAX-RS provider(s)
 ```
 
 and ensuring that configured mapper is used by JAX-RS providers.
@@ -83,18 +90,24 @@ In addition there are format-specific annotations that may be used:
 
 
 ## Module Considerations
-* The JSON/JAX-RS module has multiple names depending on the version in use. To enable modular usage, add the requires statement that pertains directly to the implementation you are using. 
+
+The JSON/JAX-RS module has multiple names depending on the version in use.
+To enable modular usage, add the requires statement that pertains directly
+to the implementation you are using. 
+
 ```
 requires  javax.ws.rs.api; //Older libraries
 requires  java.ws.rs; //Newer libraries
-requires  jakarta.ws.rs; //Reserved name for Jakarta API
-requires  jakarta.ws.rs.api; //Reserved name for Jakarta Impl
 ```
 
 ### Using Jakarta
 
-A note on compatibility of JAXB annotations module, Jakarta 3.0 API libraries for JAXB: with Jackson 2.12,
-Jakarta versions can be referenced for the JAXB module by using the classifier "jakarta" in your dependency
+Starting with Jackson 2.13, there is a fully separate set of providers
+for "Jakarta-RS", see: [jackson-jaxrs-providers](../../../jackson-jaxrs-providers).
+
+But Jackson 2.12 also has (just for that version), `jakarta` classifier variant of JAXB providers included here.
+
+You MAY be able to use these variants by using dependency like:
 
 ```
 <dependency>
