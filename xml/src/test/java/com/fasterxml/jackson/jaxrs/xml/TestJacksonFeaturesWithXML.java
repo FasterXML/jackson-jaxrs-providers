@@ -14,7 +14,7 @@ import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import com.fasterxml.jackson.jaxrs.annotation.JacksonFeatures;
 
 /**
- * Tests for [Issue-2], Addition of {@link JacksonFeatures}.
+ * Tests for addition of {@link JacksonFeatures}.
  */
 public class TestJacksonFeaturesWithXML extends JaxrsTestBase
 {
@@ -44,7 +44,6 @@ public class TestJacksonFeaturesWithXML extends JaxrsTestBase
     /**********************************************************************
      */
 
-    // [Issue-2], serialization
     public void testWriteConfigs() throws Exception
     {
         JacksonXMLProvider prov = new JacksonXMLProvider();
@@ -54,18 +53,15 @@ public class TestJacksonFeaturesWithXML extends JaxrsTestBase
         JacksonFeatures feats = m.getAnnotation(JacksonFeatures.class);
         assertNotNull(feats); // just a sanity check
 
-        /* 09-Oct-2013, tatu: As of 2.3, XML backend does NOT add extra wrapping
-         *   any more: it is only added to JSON where it is needed; but not
-         *   to XML which always basically uses wrapping.
-         */
+        // 09-Oct-2013, tatu: As of 2.3, XML backend does NOT add extra wrapping
+        //   any more: it is only added to JSON where it is needed; but not
+        //   to XML which always basically uses wrapping.
         try {
             prov.writeTo(bean, bean.getClass(), bean.getClass(), new Annotation[] { feats },
                     MediaType.APPLICATION_JSON_TYPE, null, out);
         } catch (Exception e) {
-            throw unwrap(e);
+            throw _unwrap(e);
         }
-
-        //
         assertEquals("<Bean><a>3</a></Bean>", out.toString("UTF-8"));
 
         // but without, not:
@@ -87,8 +83,7 @@ public class TestJacksonFeaturesWithXML extends JaxrsTestBase
         // as per above, no extra wrapping for XML, in 2.3:
         assertEquals("<Bean><a>3</a></Bean>", out.toString("UTF-8"));
     }
-    
-    // [Issue-2], deserialization
+
     public void testReadConfigs() throws Exception
     {
         JacksonXMLProvider prov = new JacksonXMLProvider();
@@ -115,5 +110,12 @@ public class TestJacksonFeaturesWithXML extends JaxrsTestBase
         } catch (UnrecognizedPropertyException e) {
             verifyException(e, "Unrecognized property \"foobar\"");
         }
+    }
+
+    protected Exception _unwrap(Exception e) {
+        while (e.getCause() instanceof Exception) {
+            e = (Exception) e.getCause();
+        }
+        return e;
     }
 }
