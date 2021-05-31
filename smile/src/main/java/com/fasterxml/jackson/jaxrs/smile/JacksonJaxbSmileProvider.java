@@ -32,8 +32,7 @@ public class JacksonJaxbSmileProvider extends JacksonSmileProvider
      * Default constructor, usually used when provider is automatically
      * configured to be used with JAX-RS implementation.
      */
-    public JacksonJaxbSmileProvider()
-    {
+    public JacksonJaxbSmileProvider() {
         this(null, JaxbHolder.get());
     }
 
@@ -42,9 +41,7 @@ public class JacksonJaxbSmileProvider extends JacksonSmileProvider
      * like serializer/deserializer factories that have been configured)
      * is to be used.
      */
-    public JacksonJaxbSmileProvider(SmileMapper mapper,
-            AnnotationIntrospector aiOverride)
-    {
+    public JacksonJaxbSmileProvider(SmileMapper mapper, AnnotationIntrospector aiOverride) {
         super(mapper, aiOverride);
     }
 

@@ -17,9 +17,6 @@ public abstract class EndpointConfigBase<THIS extends EndpointConfigBase<THIS>>
 {
     // // General configuration
 
-    /**
-     * @since 2.6
-     */
     protected final MapperConfig<?> _config;
 
     protected Class<?> _activeView;
@@ -41,9 +38,9 @@ public abstract class EndpointConfigBase<THIS extends EndpointConfigBase<THIS>>
     protected ObjectWriter _writer;
 
     /*
-    /**********************************************************
+    /**********************************************************************
     /* Construction
-    /**********************************************************
+    /**********************************************************************
      */
 
     protected EndpointConfigBase(MapperConfig<?> config) {
@@ -129,23 +126,17 @@ public abstract class EndpointConfigBase<THIS extends EndpointConfigBase<THIS>>
         _writer = writer;
         return (THIS) this;
     }
-    
+
     /*
-    /**********************************************************
+    /**********************************************************************
     /* Accessors
-    /**********************************************************
+    /**********************************************************************
      */
 
-    /**
-     * @since 2.3
-     */
     public String getRootName() {
         return _rootName;
     }
 
-    /**
-     * @since 2.3
-     */
     public Class<?> getActiveView() {
         return _activeView;
     }
@@ -165,17 +156,17 @@ public abstract class EndpointConfigBase<THIS extends EndpointConfigBase<THIS>>
     }
 
     /*
-    /**********************************************************
+    /**********************************************************************
     /* Value modifications
-    /**********************************************************
+    /**********************************************************************
      */
 
     public abstract Object modifyBeforeWrite(Object value);
 
     /*
-    /**********************************************************
+    /**********************************************************************
     /* Helper methods
-    /**********************************************************
+    /**********************************************************************
      */
 
     protected static <T> T[] nullIfEmpty(T[] arg) {

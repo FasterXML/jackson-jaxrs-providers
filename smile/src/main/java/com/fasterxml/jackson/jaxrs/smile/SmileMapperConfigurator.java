@@ -15,12 +15,6 @@ import com.fasterxml.jackson.jaxrs.cfg.MapperConfiguratorBase;
 public class SmileMapperConfigurator
     extends MapperConfiguratorBase<SmileMapperConfigurator, SmileMapper>
 {
-    /*
-    /**********************************************************************
-    /* Construction
-    /**********************************************************************
-     */
-    
     public SmileMapperConfigurator(SmileMapper mapper,
             AnnotationIntrospector aiOverride)
     {

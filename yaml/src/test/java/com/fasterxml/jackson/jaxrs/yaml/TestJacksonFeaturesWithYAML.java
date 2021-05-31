@@ -16,7 +16,7 @@ import com.fasterxml.jackson.jaxrs.annotation.JacksonFeatures;
 import javax.ws.rs.core.MediaType;
 
 /**
- * Tests for [Issue-2], Addition of {@link JacksonFeatures}.
+ * Tests for addition of {@link JacksonFeatures}.
  */
 public class TestJacksonFeaturesWithYAML extends JaxrsTestBase
 {
@@ -41,12 +41,11 @@ public class TestJacksonFeaturesWithYAML extends JaxrsTestBase
     public void writeConfig2() { }
     
     /*
-    /**********************************************************
+    /**********************************************************************
     /* Test methods
-    /**********************************************************
+    /**********************************************************************
      */
 
-    // [Issue-2], serialization
     public void testWriteConfigs() throws Exception
     {
         JacksonYAMLProvider prov = new JacksonYAMLProvider();
@@ -60,7 +59,7 @@ public class TestJacksonFeaturesWithYAML extends JaxrsTestBase
             prov.writeTo(bean, bean.getClass(), bean.getClass(), new Annotation[] { feats },
                     MediaType.APPLICATION_JSON_TYPE, null, out);
         } catch (Exception e) {
-            throw unwrap(e);
+            throw _unwrap(e);
         }
 
         assertEquals("---\nBean:\n  a: 3\n", out.toString("UTF-8"));
@@ -83,8 +82,7 @@ public class TestJacksonFeaturesWithYAML extends JaxrsTestBase
 
         assertEquals("---\nBean:\n  a: 3\n", out.toString("UTF-8"));
     }
-    
-    // [Issue-2], deserialization
+
     public void testReadConfigs() throws Exception
     {
         JacksonYAMLProvider prov = new JacksonYAMLProvider();
@@ -111,5 +109,12 @@ public class TestJacksonFeaturesWithYAML extends JaxrsTestBase
         } catch (UnrecognizedPropertyException e) {
             verifyException(e, "Unrecognized property \"Bean\"");
         }
+    }
+
+    protected Exception _unwrap(Exception e) {
+        while (e.getCause() instanceof Exception) {
+            e = (Exception) e.getCause();
+        }
+        return e;
     }
 }

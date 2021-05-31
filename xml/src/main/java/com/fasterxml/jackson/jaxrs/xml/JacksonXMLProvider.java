@@ -24,14 +24,14 @@ import com.fasterxml.jackson.jaxrs.base.ProviderBase;
  * mapper to use can be configured in multiple ways:
  * <ul>
  *  <li>By explicitly passing mapper to use in constructor
- *  <li>By explictly setting mapper to use by {@link #setMapper}
+ *  <li>By explicitly setting mapper to use by {@link #setMapper}
  *  <li>By defining JAX-RS <code>Provider</code> that returns {@link XmlMapper}s.
  *  <li>By doing none of above, in which case a default mapper instance is
  *     constructed (and configured if configuration methods are called)
  * </ul>
  * The last method ("do nothing specific") is often good enough; explicit passing
  * of Mapper is simple and explicit; and Provider-based method may make sense
- * with Depedency Injection frameworks, or if Mapper has to be configured differently
+ * with Dependency Injection frameworks, or if Mapper has to be configured differently
  * for different media types.
  *<p>
  * Note that the default mapper instance will be automatically created if

@@ -132,7 +132,7 @@ public abstract class WriteModificationsTestBase extends ResourceTestBase
         try {
             IndentingModifier.doIndent = false;
             String json = readUTF8(url.openStream());
-            assertEquals(aposToQuotes("{'x':1,'y':2}"), json);
+            assertEquals(a2q("{'x':1,'y':2}"), json);
         } finally {
             server.stop();
         }
@@ -146,7 +146,7 @@ public abstract class WriteModificationsTestBase extends ResourceTestBase
 
         try {
             String json = readUTF8(new URL(URL_BASE).openStream());
-            assertEquals(aposToQuotes("{'x':1,'y':2}"), json);
+            assertEquals(a2q("{'x':1,'y':2}"), json);
         } finally {
             server.stop();
         }
@@ -172,7 +172,7 @@ public abstract class WriteModificationsTestBase extends ResourceTestBase
         try {
             IndentingModifier.doIndent = true;
             String json = readUTF8(url.openStream());
-            assertEquals(aposToQuotes("{\n  'x' : 1,\n  'y' : 2\n}"), json);
+            assertEquals(a2q("{\n  'x' : 1,\n  'y' : 2\n}"), json);
         } finally {
             server.stop();
         }
@@ -190,7 +190,7 @@ public abstract class WriteModificationsTestBase extends ResourceTestBase
 
         try {
             String json = readUTF8(new URL(URL_BASE + "?indent=true").openStream());
-            assertEquals(aposToQuotes("{\n  'x' : 1,\n  'y' : 2\n}"), json);
+            assertEquals(a2q("{\n  'x' : 1,\n  'y' : 2\n}"), json);
         } finally {
             server.stop();
         }

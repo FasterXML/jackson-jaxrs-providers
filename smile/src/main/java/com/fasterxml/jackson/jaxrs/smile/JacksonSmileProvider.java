@@ -29,7 +29,7 @@ import com.fasterxml.jackson.jaxrs.base.ProviderBase;
  * </ul>
  * The last method ("do nothing specific") is often good enough; explicit passing
  * of Mapper is simple and explicit; and Provider-based method may make sense
- * with Depedency Injection frameworks, or if Mapper has to be configured differently
+ * with Dependency Injection frameworks, or if Mapper has to be configured differently
  * for different media types.
  *<p>
  * Note that the default mapper instance will be automatically created if

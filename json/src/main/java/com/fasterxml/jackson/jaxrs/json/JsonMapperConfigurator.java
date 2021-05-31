@@ -13,12 +13,6 @@ import com.fasterxml.jackson.jaxrs.cfg.MapperConfiguratorBase;
 public class JsonMapperConfigurator
     extends MapperConfiguratorBase<JsonMapperConfigurator, JsonMapper>
 {
-    /*
-    /**********************************************************************
-    /* Construction
-    /**********************************************************************
-     */
-    
     public JsonMapperConfigurator(JsonMapper mapper,
             AnnotationIntrospector aiOverride)
     {

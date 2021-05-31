@@ -7,8 +7,6 @@ import java.lang.annotation.Annotation;
  * given a sequence of Annotations.
  * This is mostly used for reusing introspected information on
  * JAX-RS end points.
- *
- * @since 2.2
  */
 public final class AnnotationBundleKey
 {
@@ -29,9 +27,9 @@ public final class AnnotationBundleKey
     private final int _hashCode;
     
     /*
-    /**********************************************************
+    /**********************************************************************
     /* Construction
-    /**********************************************************
+    /**********************************************************************
      */
 
     public AnnotationBundleKey(Annotation[] annotations, Class<?> type)
@@ -84,11 +82,11 @@ public final class AnnotationBundleKey
         System.arraycopy(_annotations, 0, newAnnotations, 0, len);
         return new AnnotationBundleKey(newAnnotations, _type, _hashCode);
     }
-    
+
     /*
-    /**********************************************************
+    /**********************************************************************
     /* Overridden methods
-    /**********************************************************
+    /**********************************************************************
      */
 
     @Override

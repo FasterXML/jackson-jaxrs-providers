@@ -15,14 +15,7 @@ import com.fasterxml.jackson.jaxrs.cfg.MapperConfiguratorBase;
 public class YAMLMapperConfigurator
         extends MapperConfiguratorBase<YAMLMapperConfigurator, YAMLMapper>
 {
-    /*
-    /**********************************************************
-    /* Construction
-    /**********************************************************
-     */
-
-    public YAMLMapperConfigurator(YAMLMapper mapper,
-            AnnotationIntrospector aiOverride) {
+    public YAMLMapperConfigurator(YAMLMapper mapper, AnnotationIntrospector aiOverride) {
         super(mapper, aiOverride);
     }
 

@@ -56,5 +56,5 @@ public class JacksonJaxbJsonProvider extends JacksonJsonProvider
         public static AnnotationIntrospector get() {
             return new JaxbAnnotationIntrospector();
         }
-    }   
+    }
 }

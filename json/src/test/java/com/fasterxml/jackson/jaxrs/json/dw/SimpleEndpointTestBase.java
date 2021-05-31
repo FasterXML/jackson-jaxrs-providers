@@ -479,7 +479,7 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
             conn.setDoOutput(true);
             conn.setRequestMethod("POST");
             OutputStream out = conn.getOutputStream();
-            out.write(aposToQuotes("{'x':1,'y':1}\n{'y':4,'x':-4}{'x':2,'y':5}"
+            out.write(a2q("{'x':1,'y':1}\n{'y':4,'x':-4}{'x':2,'y':5}"
                     ).getBytes("UTF-8"));
             out.close();
             InputStream in = conn.getInputStream();

@@ -55,5 +55,5 @@ public class JacksonJaxbXMLProvider extends JacksonXMLProvider
         public static AnnotationIntrospector get() {
             return new JaxbAnnotationIntrospector();
         }
-    }   
+    }
 }

@@ -32,8 +32,7 @@ public class JacksonJaxbYAMLProvider extends JacksonYAMLProvider
      * Default constructor, usually used when provider is automatically
      * configured to be used with JAX-RS implementation.
      */
-    public JacksonJaxbYAMLProvider()
-    {
+    public JacksonJaxbYAMLProvider() {
         this(null, JaxbHolder.get());
     }
 
@@ -42,8 +41,7 @@ public class JacksonJaxbYAMLProvider extends JacksonYAMLProvider
      * like serializer/deserializer factories that have been configured)
      * is to be used.
      */
-    public JacksonJaxbYAMLProvider(YAMLMapper mapper,
-            AnnotationIntrospector aiOverride)
+    public JacksonJaxbYAMLProvider(YAMLMapper mapper, AnnotationIntrospector aiOverride)
     {
         super(mapper, aiOverride);
     }
@@ -55,5 +53,5 @@ public class JacksonJaxbYAMLProvider extends JacksonYAMLProvider
         public static AnnotationIntrospector get() {
             return new JaxbAnnotationIntrospector();
         }
-    }   
+    }
 }

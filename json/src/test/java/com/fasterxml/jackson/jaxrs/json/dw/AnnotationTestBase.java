@@ -88,7 +88,7 @@ public abstract class AnnotationTestBase extends ResourceTestBase
         try {
             String json = readUTF8(conn.getInputStream());
             // Although (1,2) passed, 2 is filtered by view
-            assertEquals(aposToQuotes("{'y':4,'text':'(1,0)'}"), json);
+            assertEquals(a2q("{'y':4,'text':'(1,0)'}"), json);
         } finally {
             server.stop();
         }
