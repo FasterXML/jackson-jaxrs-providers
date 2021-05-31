@@ -104,22 +104,6 @@ public abstract class ProviderBase<
     protected HashMap<ClassKey,Boolean> _cfgCustomUntouchables;
 
     /**
-     * Whether we want to actually check that Jackson has
-     * a serializer for given type. Since this should generally
-     * be the case (due to auto-discovery) and since the call
-     * to check availability can be bit expensive, defaults to false.
-     */
-    protected boolean _cfgCheckCanSerialize = false;
-
-    /**
-     * Whether we want to actually check that Jackson has
-     * a deserializer for given type. Since this should generally
-     * be the case (due to auto-discovery) and since the call
-     * to check availability can be bit expensive, defaults to false.
-     */
-    protected boolean _cfgCheckCanDeserialize = false;
-
-    /**
      * Feature flags set.
      */
     protected int _jaxRSFeatures;
@@ -198,20 +182,6 @@ public abstract class ProviderBase<
      */
 
     /**
-     * Method for defining whether actual detection for existence of
-     * a deserializer for type should be done when {@link #isReadable}
-     * is called.
-     */
-    public void checkCanDeserialize(boolean state) { _cfgCheckCanDeserialize = state; }
-
-    /**
-     * Method for defining whether actual detection for existence of
-     * a serializer for type should be done when {@link #isWriteable}
-     * is called.
-     */
-    public void checkCanSerialize(boolean state) { _cfgCheckCanSerialize = state; }
-
-    /**
      * Method for marking specified type as "untouchable", meaning that provider
      * will not try to read or write values of this type (or its subtypes).
      * 
@@ -239,7 +209,7 @@ public abstract class ProviderBase<
         }
         _cfgCustomUntouchables.put(new ClassKey(type), Boolean.FALSE);
     }
-    
+
     /**
      * Method for overriding {@link AnnotationIntrospector} to use instead of
      * default {@code JacksonAnnotationIntrospector}: often used to add
@@ -470,9 +440,11 @@ public abstract class ProviderBase<
      * Implementation will first check that expected media type is
      * expected one (by call to {@link #hasMatchingMediaType}); then verify
      * that type is not one of "untouchable" types (types we will never
-     * automatically handle), and finally that there is a serializer
-     * for type (iff {@link #checkCanSerialize} has been called with
-     * true argument -- otherwise assumption is there will be a handler)
+     * automatically handle).
+     *<p>
+     * NOTE: in 2.x also checked (if configured) for "canSerialize()", but
+     * with 3.x that is not done since there that detection never worked
+     * in a useful manner.
      */
     @Override
     public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType)
@@ -485,9 +457,8 @@ public abstract class ProviderBase<
             // negation: Boolean.TRUE means untouchable -> can not write
             return !customUntouchable.booleanValue();
         }
-        /* Ok: looks like we must weed out some core types here; ones that
-         * make no sense to try to bind from JSON:
-         */
+        // Ok: looks like we must weed out some core types here; ones that
+        // make no sense to try to bind from JSON:
         if (_isIgnorableForWriting(new ClassKey(type))) {
             return false;
         }
@@ -615,7 +586,7 @@ public abstract class ProviderBase<
     protected EP_CONFIG _endpointForWriting(Object value, Class<?> type, Type genericType,
             Annotation[] annotations, MediaType mediaType, MultivaluedMap<String,Object> httpHeaders)
     {
-        // 29-Jun-2016, tatu: As per [jaxrs-providers#86] allow skipping caching
+        // 29-Jun-2016, tatu: allow skipping caching
         if (!isEnabled(JaxRSFeature.CACHE_ENDPOINT_WRITERS)) {
             return _configForWriting(locateMapper(type, mediaType), annotations, _defaultWriteView);
         }
@@ -652,8 +623,11 @@ public abstract class ProviderBase<
      * then verify
      * that type is not one of "untouchable" types (types we will never
      * automatically handle), and finally that there is a deserializer
-     * for type (iff {@link #checkCanDeserialize} has been called with
-     * true argument -- otherwise assumption is there will be a handler)
+     * for type.
+     *<p>
+     * NOTE: in 2.x also checked (if configured) for "canDeserialize()", but
+     * with 3.x that is not done since there that detection never worked
+     * in a useful manner.
      */
     @Override
     public boolean isReadable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType)
@@ -666,9 +640,8 @@ public abstract class ProviderBase<
             // negation: Boolean.TRUE means untouchable -> can not write
             return !customUntouchable.booleanValue();
         }
-        /* Ok: looks like we must weed out some core types here; ones that
-         * make no sense to try to bind from JSON:
-         */
+        // Ok: looks like we must weed out some core types here; ones that
+        // make no sense to try to bind from JSON:
         if (_isIgnorableForReading(new ClassKey(type))) {
             return false;
         }
@@ -713,14 +686,10 @@ public abstract class ProviderBase<
         JsonParser p = _createParser(reader, entityStream);
         
         // If null is returned, considered to be empty stream
-        // 05-Apr-2014, tatu: As per [Issue#49], behavior here is configurable.
         if (p == null || p.nextToken() == null) {
             if (JaxRSFeature.ALLOW_EMPTY_INPUT.enabledIn(_jaxRSFeatures)) {
                 return null;
             }
-
-            // 20-Jan-2021, tatu: Used to require complicated shuffling since exception
-            //   only part of JAX-RS 2.0. But that's fine now...
             throw _createNoContentException();
         }
         Class<?> rawType = type;
@@ -742,7 +711,7 @@ public abstract class ProviderBase<
             reader = reader.forType(resolvedType);
         }
 
-        // [Issue#32]: allow modification by filter-injectable thing
+        // Allow modification by filter-injectable thing
         ObjectReaderModifier mod = ObjectReaderInjector.getAndClear();
         if (mod != null) {
             reader = mod.modify(endpoint, httpHeaders, resolvedType, reader, p);
@@ -776,7 +745,7 @@ public abstract class ProviderBase<
     protected EP_CONFIG _endpointForReading(Class<Object> type, Type genericType, Annotation[] annotations,
             MediaType mediaType, MultivaluedMap<String,String> httpHeaders)
     {
-        // 29-Jun-2016, tatu: As per [jaxrs-providers#86] allow skipping caching
+        // Allow skipping caching
         if (!isEnabled(JaxRSFeature.CACHE_ENDPOINT_READERS)) {
             return _configForReading(locateMapper(type, mediaType), annotations, _defaultReadView);
         }
@@ -881,8 +850,7 @@ public abstract class ProviderBase<
      * "ignorable type" (in context of reading), values of which are not bound
      * from content.
      */
-    protected boolean _isIgnorableForReading(ClassKey typeKey)
-    {
+    protected boolean _isIgnorableForReading(ClassKey typeKey) {
         return _untouchables.contains(typeKey);
     }
 
@@ -891,13 +859,11 @@ public abstract class ProviderBase<
      * "ignorable type" (in context of reading), values of which
      * can not be written out.
      */
-    protected boolean _isIgnorableForWriting(ClassKey typeKey)
-    {
+    protected boolean _isIgnorableForWriting(ClassKey typeKey) {
         return _untouchables.contains(typeKey);
     }
 
-    protected NoContentException _createNoContentException()
-    {
+    protected NoContentException _createNoContentException() {
         return new NoContentException("No content (empty input stream)");
     }
 
