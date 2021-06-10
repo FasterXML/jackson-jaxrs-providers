@@ -12,7 +12,7 @@
     <version>3.0.0-SNAPSHOT</version>
   </parent>
   <artifactId>jackson-jaxrs-smile-provider</artifactId>
-  <name>Jackson-JAXRS-Smile</name>
+  <name>Jackson-JAXRS: Smile</name>
   <packaging>bundle</packaging>
   <description>Functionality to handle Smile (binary JSON) input/output for JAX-RS implementations (like Jersey and RESTeasy) using standard Jackson data binding.
   </description>

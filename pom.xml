@@ -8,7 +8,7 @@
   </parent>
   <groupId>com.fasterxml.jackson.jaxrs</groupId>
   <artifactId>jackson-jaxrs-providers</artifactId>
-  <name>Jackson JAX-RS</name>
+  <name>Jackson JAX-RS (parent)</name>
   <version>3.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <description>Parent for Jackson JAX-RS providers

@@ -12,7 +12,7 @@
     <version>3.0.0-SNAPSHOT</version>
   </parent>
   <artifactId>jackson-jaxrs-cbor-provider</artifactId>
-  <name>Jackson-JAXRS-CBOR</name>
+  <name>Jackson-JAXRS: CBOR</name>
   <packaging>bundle</packaging>
   <description>Functionality to handle CBOR encoded input/output for JAX-RS implementations (like Jersey and RESTeasy) using standard Jackson data binding.
   </description>
