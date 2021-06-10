@@ -14,7 +14,9 @@ Sub-modules:
 
 #134: Remove work-around for JAX-RS 1.x wrt JAX-RS 2 type `NoContentException`
 #146: Create new alternate jackson-jakarta-rs-providers repo for Jakarta
-  (not Javax) RS implementation
+  (not Javax) RS implementation -- also remove "jakarta" classifier variants
+  from this project
+  
 - Update `jakarta.xml.bind-api` dep (2.3.2 -> 2.3.3)
 
 2.12.3 (12-Apr-2021)
