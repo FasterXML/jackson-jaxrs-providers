@@ -97,7 +97,7 @@ to the implementation you are using.
 
 ```
 requires  javax.ws.rs.api; //Older libraries
-requires  java.ws.rs; //Newer libraries
+requires  jakarta.ws.rs; //Newer libraries
 ```
 
 ### Using Jakarta
