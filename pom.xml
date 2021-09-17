@@ -67,15 +67,6 @@
       <scope>provided</scope>
     </dependency>
 
-    <!-- tests require JAX-RS impl; otherwise components fail to load
-        (some oddity with API classes; should NOT be needed...)
-      -->
-    <dependency> <!-- all components use junit for testing -->
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
-
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
       <artifactId>jetty-server</artifactId>
