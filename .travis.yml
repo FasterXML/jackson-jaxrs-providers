@@ -13,4 +13,4 @@ branches:
     - master
     - "3.0"
 
-script: mvn -B clean verify
+script: mvn -T 1C -B clean verify
