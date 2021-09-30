@@ -10,7 +10,7 @@ Sub-modules:
 === Releases ===
 ------------------------------------------------------------------------
 
-2.13.0 (not yet released)
+2.13.0 (30-Sep-2021)
 
 #134: Remove work-around for JAX-RS 1.x wrt JAX-RS 2 type `NoContentException`
 #146: Create new alternate jackson-jakarta-rs-providers repo for Jakarta
