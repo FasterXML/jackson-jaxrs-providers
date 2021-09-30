@@ -1,0 +1,11 @@
+com.fasterxml.jackson.datatype.jaxrs
+com.fasterxml.jackson.jaxrs.annotation
+com.fasterxml.jackson.jaxrs.base
+com.fasterxml.jackson.jaxrs.cbor
+com.fasterxml.jackson.jaxrs.cfg
+com.fasterxml.jackson.jaxrs.json
+com.fasterxml.jackson.jaxrs.json.annotation
+com.fasterxml.jackson.jaxrs.smile
+com.fasterxml.jackson.jaxrs.util
+com.fasterxml.jackson.jaxrs.xml
+com.fasterxml.jackson.jaxrs.yaml
