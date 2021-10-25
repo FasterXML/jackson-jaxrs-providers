@@ -45,8 +45,8 @@ public class AnnotationBundleKeyTest
     {
         Annotation[] annotation1 = Helper.class.getAnnotations();
         Annotation[] annotation2 = Helper.class.getAnnotations();
-        Arrays.sort(annotation1, (i,j)->i.toString().compareTo(j.toString()));
-        Arrays.sort(annotation2, (i,j)->i.toString().compareTo(j.toString()));
+        Arrays.sort(annotation1, (i,j) -> i.toString().compareTo(j.toString()));
+        Arrays.sort(annotation2, (i,j) -> i.toString().compareTo(j.toString()));
         _checkWith(annotation1, annotation2);
     }
 
@@ -55,15 +55,15 @@ public class AnnotationBundleKeyTest
         // First, same method parameters definitely should match
         Annotation[] annotation1 = Helper.class.getDeclaredMethod("getX").getAnnotations();
         Annotation[] annotation2 = Helper.class.getDeclaredMethod("getX").getAnnotations();
-        Arrays.sort(annotation1, (i,j)->i.toString().compareTo(j.toString()));
-        Arrays.sort(annotation2, (i,j)->i.toString().compareTo(j.toString()));
+        Arrays.sort(annotation1, (i,j) -> i.toString().compareTo(j.toString()));
+        Arrays.sort(annotation2, (i,j) -> i.toString().compareTo(j.toString()));
         _checkWith(annotation1, annotation2);
         // but so should annotations from different method as long as
         // same parameters are in same order
         Annotation[] annotation3 = Helper.class.getDeclaredMethod("getX").getAnnotations();
         Annotation[] annotation4 = Helper.class.getDeclaredMethod("altX").getAnnotations();
-        Arrays.sort(annotation3, (i,j)->i.toString().compareTo(j.toString()));
-        Arrays.sort(annotation4, (i,j)->i.toString().compareTo(j.toString()));
+        Arrays.sort(annotation3, (i,j) -> i.toString().compareTo(j.toString()));
+        Arrays.sort(annotation4, (i,j) -> i.toString().compareTo(j.toString()));
         _checkWith(annotation3, annotation4);
     }
 
