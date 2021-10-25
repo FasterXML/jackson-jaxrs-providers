@@ -47,7 +47,7 @@ public class AnnotationBundleKeyTest
         Annotation[] annotation2 = Helper.class.getAnnotations();
         Arrays.sort(annotation1, (i,j)->i.toString().compareTo(j.toString()));
         Arrays.sort(annotation2, (i,j)->i.toString().compareTo(j.toString()));
-        _checkWith(Helper.class.getAnnotations(), Helper.class.getAnnotations());
+        _checkWith(annotation1, annotation2);
     }
 
     public void testWithMethodAnnotationEquals() throws Exception
@@ -57,16 +57,14 @@ public class AnnotationBundleKeyTest
         Annotation[] annotation2 = Helper.class.getDeclaredMethod("getX").getAnnotations();
         Arrays.sort(annotation1, (i,j)->i.toString().compareTo(j.toString()));
         Arrays.sort(annotation2, (i,j)->i.toString().compareTo(j.toString()));
-        _checkWith(Helper.class.getDeclaredMethod("getX").getAnnotations(),
-                Helper.class.getDeclaredMethod("getX").getAnnotations());
+        _checkWith(annotation1, annotation2);
         // but so should annotations from different method as long as
         // same parameters are in same order
         Annotation[] annotation3 = Helper.class.getDeclaredMethod("getX").getAnnotations();
         Annotation[] annotation4 = Helper.class.getDeclaredMethod("altX").getAnnotations();
         Arrays.sort(annotation3, (i,j)->i.toString().compareTo(j.toString()));
         Arrays.sort(annotation4, (i,j)->i.toString().compareTo(j.toString()));
-        _checkWith(Helper.class.getDeclaredMethod("getX").getAnnotations(),
-                Helper.class.getDeclaredMethod("altX").getAnnotations());
+        _checkWith(annotation3, annotation4);
     }
 
     public void testWithMethodAnnotationDifferent() throws Exception
