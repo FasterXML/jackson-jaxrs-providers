@@ -10,8 +10,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.jaxrs.base.BaseTestBase;
 import com.fasterxml.jackson.jaxrs.cfg.AnnotationBundleKey;
 
-import static org.junit.Assert.assertNotEquals;
-
 // for [jaxrs-providers#111]
 public class AnnotationBundleKeyTest
     extends BaseTestBase

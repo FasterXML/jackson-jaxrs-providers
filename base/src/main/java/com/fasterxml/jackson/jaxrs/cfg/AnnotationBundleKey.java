@@ -28,6 +28,11 @@ public final class AnnotationBundleKey
     
     private final boolean _annotationsCopied;
 
+    /**
+     * This variable is previously used for check equality.
+     * It is not used anymore in this file but there are some external links.
+     * Consider remove this variable.
+     */
     private final int _hashCode;
     
     /*
