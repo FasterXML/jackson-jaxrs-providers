@@ -1,15 +1,14 @@
 package com.fasterxml.jackson.jaxrs.base.cfg;
 
 import java.lang.annotation.Annotation;
+import java.util.HashSet;
+import java.util.Arrays;
 
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.jaxrs.base.BaseTestBase;
 import com.fasterxml.jackson.jaxrs.cfg.AnnotationBundleKey;
-
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertNotEquals;
 
 // for [jaxrs-providers#111]
 public class AnnotationBundleKeyTest
@@ -86,24 +85,20 @@ public class AnnotationBundleKeyTest
         if (anns1.length == 0) {
             fail("Internal error: empty annotation array");
         }
-        assertArrayEquals("Internal error: should never differ", anns1, anns2);
+        HashSet<Annotation> annsSet1 = new HashSet<Annotation>(Arrays.asList(anns1));
+        HashSet<Annotation> annsSet2 = new HashSet<Annotation>(Arrays.asList(anns2));
+        assertTrue("Internal error: should never differ", annsSet1.equals(annsSet2));
 
         AnnotationBundleKey b1 = new AnnotationBundleKey(anns1, Object.class);
         AnnotationBundleKey b2 = new AnnotationBundleKey(anns2, Object.class);
 
-        if (!b1.equals(b2) || !b2.equals(b1)) {
-            assertEquals(String.format("Implementations over %s backed annotations differ", anns1[0].getClass()),
-                    b1, b2);
-        }
+        assertTrue(String.format("Implementations over %s backed annotations differ", anns1[0].getClass()), (b1.equals(b2) && b2.equals(b1)));
     }
 
     protected void _checkNotEqual(Annotation[] anns1, Annotation[] anns2) {
         AnnotationBundleKey b1 = new AnnotationBundleKey(anns1, Object.class);
         AnnotationBundleKey b2 = new AnnotationBundleKey(anns2, Object.class);
 
-        if (b1.equals(b2) || b2.equals(b1)) {
-            assertNotEquals(String.format("Implementations over %s backed annotations SHOULD differ but won't", anns1[0].getClass()),
-                    b1, b2);
-        }
+        assertFalse(String.format("Implementations over %s backed annotations SHOULD differ but won't", anns1[0].getClass()), (b1.equals(b2) || b2.equals(b1)));
     }
 }
