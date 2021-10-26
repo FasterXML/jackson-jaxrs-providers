@@ -128,7 +128,10 @@ public final class AnnotationBundleKey
         //   possible permutations but rather trying to ensure that caching of same
         //   method signature is likely to match. So false negatives are acceptable
         //   over having to do order-insensitive comparison.
-        
+
+        // 25-Oct-2021, tatu: But note that there is balance here; the goal is NOT
+        //   100% accuracy (every equal combination found as such) but finding
+        //   some matches, efficiently, while allowing no false matches.
         switch (len) {
         default:
             for (int i = 0; i < len; ++i) {
