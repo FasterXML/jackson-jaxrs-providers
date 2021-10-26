@@ -1,8 +1,6 @@
 package com.fasterxml.jackson.jaxrs.cfg;
 
 import java.lang.annotation.Annotation;
-import java.util.HashSet;
-import java.util.Arrays;
 
 /**
  * Helper class used to allow efficient caching of information,
@@ -28,11 +26,6 @@ public final class AnnotationBundleKey
     
     private final boolean _annotationsCopied;
 
-    /**
-     * This variable is previously used for check equality.
-     * It is not used anymore in this file but there are some external links.
-     * Consider remove this variable.
-     */
     private final int _hashCode;
     
     /*
@@ -117,7 +110,7 @@ public final class AnnotationBundleKey
         if (o == null) return false;
         if (o.getClass() != getClass()) return false;
         AnnotationBundleKey other = (AnnotationBundleKey) o;
-        if (other._type != _type) {
+        if ((other._hashCode != _hashCode) || (other._type != _type)) {
             return false;
         }
         return _equals(other._annotations);
@@ -130,8 +123,38 @@ public final class AnnotationBundleKey
             return false;
         }
 
-        HashSet<Annotation> _annotationsSet = new HashSet<Annotation>(Arrays.asList(_annotations));
-        HashSet<Annotation> otherAnnSet = new HashSet<Annotation>(Arrays.asList(otherAnn));
-        return _annotationsSet.equals(otherAnnSet);
+        // 05-May-2019, tatu: If we wanted to true equality of contents we should
+        //   do order-insensitive check; however, our use case is not unifying all
+        //   possible permutations but rather trying to ensure that caching of same
+        //   method signature is likely to match. So false negatives are acceptable
+        //   over having to do order-insensitive comparison.
+        
+        switch (len) {
+        default:
+            for (int i = 0; i < len; ++i) {
+                if (!_annotations[i].equals(otherAnn[i])) {
+                    return false;
+                }
+            }
+            return true;
+            
+        case 3:
+            if (!_annotations[2].equals(otherAnn[2])) {
+                return false;
+            }
+            // fall through
+        case 2:
+            if (!_annotations[1].equals(otherAnn[1])) {
+                return false;
+            }
+            // fall through
+        case 1:
+            if (!_annotations[0].equals(otherAnn[0])) {
+                return false;
+            }
+            // fall through
+        case 0:
+        }
+        return true;
     }
 }
