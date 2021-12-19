@@ -14,6 +14,10 @@ Sub-modules:
 
 No changes since 2.13
 
+2.13.1 (19-Dec-2021)
+
+No changes since 2.13.0
+
 2.13.0 (30-Sep-2021)
 
 #134: Remove work-around for JAX-RS 1.x wrt JAX-RS 2 type `NoContentException`
@@ -23,6 +27,7 @@ No changes since 2.13
   
 - Update `jakarta.xml.bind-api` dep (2.3.2 -> 2.3.3)
 
+2.12.6 (15-Dec-2021)
 2.12.5 (27-Aug-2021)
 2.12.4 (06-Jul-2021)
 2.12.3 (12-Apr-2021)

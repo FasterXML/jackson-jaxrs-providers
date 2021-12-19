@@ -189,8 +189,17 @@ public abstract class WriteModificationsTestBase extends ResourceTestBase
         final String URL_BASE = "http://localhost:"+TEST_PORT2+"/point";
 
         try {
-            String json = readUTF8(new URL(URL_BASE + "?indent=true").openStream());
-            assertEquals(a2q("{\n  'x' : 1,\n  'y' : 2\n}"), json);
+            // First, without indent:
+            String json = readUTF8(new URL(URL_BASE).openStream());
+            boolean quote1 = json.equals(a2q("{'x':1,'y':2}"));
+            boolean quote2 = json.equals(a2q("{'y':2,'x':1}"));
+            assertTrue(quote1 || quote2);
+            
+            // and then with indentation
+            json = readUTF8(new URL(URL_BASE + "?indent=true").openStream());
+            boolean quote3 = json.equals(a2q("{\n  'x' : 1,\n  'y' : 2\n}"));
+            boolean quote4 = json.equals(a2q("{\n  'y' : 2,\n  'x' : 1\n}"));
+            assertTrue(quote3 || quote4);
         } finally {
             server.stop();
         }
