@@ -29,6 +29,7 @@ No changes since 2.13.0
   
 - Update `jakarta.xml.bind-api` dep (2.3.2 -> 2.3.3)
 
+2.12.7 (26-May-2022)
 2.12.6 (15-Dec-2021)
 2.12.5 (27-Aug-2021)
 2.12.4 (06-Jul-2021)
