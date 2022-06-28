@@ -14,6 +14,10 @@ Sub-modules:
 
 No changes since 2.13
 
+2.13.4 (not yet released)
+
+* (xml) Woodstox dependency -> 6.3.0
+
 2.13.3 (14-May-2022)
 2.13.2 (06-Mar-2022)
 2.13.1 (19-Dec-2021)
