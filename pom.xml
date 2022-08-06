@@ -21,7 +21,7 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
-  
+
   <modules>
     <module>base</module>
     <module>datatypes</module>
