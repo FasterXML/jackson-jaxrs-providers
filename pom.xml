@@ -14,6 +14,14 @@
   <description>Parent for Jackson JAX-RS providers
   </description>
 
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
   <modules>
     <module>base</module>
     <module>datatypes</module>
@@ -23,11 +31,12 @@
     <module>xml</module>
     <module>yaml</module>
   </modules>
-  <url>http://github.com/FasterXML/jackson-jaxrs-providers</url>    
+  <url>https://github.com/FasterXML/jackson-jaxrs-providers</url>
+
   <scm>
     <connection>scm:git:git@github.com:FasterXML/jackson-jaxrs-providers.git</connection>
     <developerConnection>scm:git:git@github.com:FasterXML/jackson-jaxrs-providers.git</developerConnection>
-    <url>http://github.com/FasterXML/jackson-jaxrs-providers</url>    
+    <url>https://github.com/FasterXML/jackson-jaxrs-providers</url>
     <tag>HEAD</tag>
   </scm>
   <properties>
