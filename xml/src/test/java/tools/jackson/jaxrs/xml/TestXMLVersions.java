@@ -2,7 +2,6 @@ package tools.jackson.jaxrs.xml;
 
 import tools.jackson.core.Version;
 import tools.jackson.core.Versioned;
-import tools.jackson.jaxrs.xml.JacksonXMLProvider;
 
 public class TestXMLVersions extends JaxrsTestBase
 {
