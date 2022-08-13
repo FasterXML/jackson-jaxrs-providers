@@ -1,15 +1,14 @@
-// Originally generated using Moditect maven plugin, last mod 14-Oct-2020
-module com.fasterxml.jackson.jaxrs.cbor {
-    exports com.fasterxml.jackson.jaxrs.cbor;
+module tools.jackson.jaxrs.cbor {
+    exports tools.jackson.jaxrs.cbor;
     // [jaxrs-providers#119]: CXF, RESTEasy, OpenAPI require reflective access
-    opens com.fasterxml.jackson.jaxrs.cbor;
+    opens tools.jackson.jaxrs.cbor;
 
-    requires com.fasterxml.jackson.core;
-    requires com.fasterxml.jackson.databind;
-    requires com.fasterxml.jackson.dataformat.cbor;
-    requires com.fasterxml.jackson.module.jaxb;
+    requires tools.jackson.core;
+    requires tools.jackson.databind;
+    requires tools.jackson.dataformat.cbor;
+    requires tools.jackson.module.jaxb;
 
-    requires com.fasterxml.jackson.jaxrs.base;
+    requires tools.jackson.jaxrs.base;
 
     //Allow multiple implementations of ws.rs
     //oracle location
@@ -24,7 +23,7 @@ module com.fasterxml.jackson.jaxrs.cbor {
     requires static jakarta.ws.rs.api;
 
     provides javax.ws.rs.ext.MessageBodyReader with
-        com.fasterxml.jackson.jaxrs.cbor.JacksonCBORProvider;
+        tools.jackson.jaxrs.cbor.JacksonCBORProvider;
     provides javax.ws.rs.ext.MessageBodyWriter with
-        com.fasterxml.jackson.jaxrs.cbor.JacksonCBORProvider;
+        tools.jackson.jaxrs.cbor.JacksonCBORProvider;
 }

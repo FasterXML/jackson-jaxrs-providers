@@ -1,16 +1,15 @@
-// Originally generated using Moditect maven plugin, last mod 14-Oct-2020
-module com.fasterxml.jackson.jaxrs.json {
-    exports com.fasterxml.jackson.jaxrs.json;
-    exports com.fasterxml.jackson.jaxrs.json.annotation;
+module tools.jackson.jaxrs.json {
+    exports tools.jackson.jaxrs.json;
+    exports tools.jackson.jaxrs.json.annotation;
     // 13-Nov-2019: [jaxrs-providers#119]: CXF, RESTEasy, OpenAPI require reflective access
-    opens com.fasterxml.jackson.jaxrs.json;
+    opens tools.jackson.jaxrs.json;
 
     requires com.fasterxml.jackson.annotation;
-    requires com.fasterxml.jackson.core;
-    requires com.fasterxml.jackson.databind;
-    requires com.fasterxml.jackson.module.jaxb;
+    requires tools.jackson.core;
+    requires tools.jackson.databind;
+    requires tools.jackson.module.jaxb;
 
-    requires com.fasterxml.jackson.jaxrs.base;
+    requires tools.jackson.jaxrs.base;
 
     //oracle location
     requires static javax.ws.rs.api;
@@ -24,14 +23,14 @@ module com.fasterxml.jackson.jaxrs.json {
     requires static jakarta.ws.rs.api;
 
     provides javax.ws.rs.ext.MessageBodyReader with
-        com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+        tools.jackson.jaxrs.json.JacksonJsonProvider;
     provides javax.ws.rs.ext.MessageBodyWriter with
-        com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+        tools.jackson.jaxrs.json.JacksonJsonProvider;
 
     //gedmarc - move to custom for jakarta shade
 /*
     provides jakarta.ws.rs.ext.MessageBodyReader with
-            com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+            tools.jackson.jaxrs.json.JacksonJsonProvider;
     provides jakarta.ws.rs.ext.MessageBodyWriter with
-            com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;*/
+            tools.jackson.jaxrs.json.JacksonJsonProvider;*/
 }

@@ -6,7 +6,7 @@
     <artifactId>jackson-base</artifactId>
     <version>3.0.0-SNAPSHOT</version>
   </parent>
-  <groupId>com.fasterxml.jackson.jaxrs</groupId>
+  <groupId>tools.jackson.jaxrs</groupId>
   <artifactId>jackson-jaxrs-providers</artifactId>
   <name>Jackson JAX-RS (parent)</name>
   <version>3.0.0-SNAPSHOT</version>

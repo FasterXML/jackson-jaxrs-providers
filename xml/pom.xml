@@ -7,7 +7,7 @@
   <!-- do_not_remove: published-with-gradle-metadata -->
   <modelVersion>4.0.0</modelVersion> 
   <parent>
-    <groupId>com.fasterxml.jackson.jaxrs</groupId>
+    <groupId>tools.jackson.jaxrs</groupId>
     <artifactId>jackson-jaxrs-providers</artifactId>
     <version>3.0.0-SNAPSHOT</version>
   </parent>
@@ -19,11 +19,11 @@
 
   <properties>
     <!-- Generate PackageVersion.java into this directory. -->
-    <packageVersion.dir>com/fasterxml/jackson/jaxrs/xml</packageVersion.dir>
+    <packageVersion.dir>tools/jackson/jaxrs/xml</packageVersion.dir>
     <packageVersion.package>${project.groupId}.xml</packageVersion.package>
     <osgi.export>${project.groupId}.xml.*;version=${project.version}</osgi.export>
     <!-- NOTE: JAXB annotations module is NOT optional for xml format:
-,com.fasterxml.jackson.module.jaxb;resolution:=optional
+,tools.jackson.module.jaxb;resolution:=optional
       -->
     <osgi.import>javax.ws.rs;version="${javax.ws.rs.version}"
 ,javax.ws.rs.core;version="${javax.ws.rs.version}"

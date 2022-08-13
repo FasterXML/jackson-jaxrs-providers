@@ -1,9 +1,8 @@
-// Originally generated using Moditect maven plugin, last mod 14-Oct-2020
-module com.fasterxml.jackson.datatype.jaxrs {
-    exports com.fasterxml.jackson.datatype.jaxrs;
+module tools.jackson.datatype.jaxrs {
+    exports tools.jackson.datatype.jaxrs;
 
-    requires com.fasterxml.jackson.core;
-    requires com.fasterxml.jackson.databind;
+    requires tools.jackson.core;
+    requires tools.jackson.databind;
 
     //Allow multiple implementations of ws.rs
     //oracle location
@@ -17,6 +16,6 @@ module com.fasterxml.jackson.datatype.jaxrs {
     //jakarta 3.x final location - https://github.com/eclipse-ee4j/jaxrs-api
     requires static jakarta.ws.rs.api;
 
-    provides com.fasterxml.jackson.databind.JacksonModule with
-        com.fasterxml.jackson.datatype.jaxrs.Jaxrs2TypesModule;
+    provides tools.jackson.databind.JacksonModule with
+        tools.jackson.datatype.jaxrs.Jaxrs2TypesModule;
 }
