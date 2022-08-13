@@ -1,8 +1,8 @@
 package com.fasterxml.jackson.jaxrs.yaml.dw;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.smile.SmileFactory;
-import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.dataformat.smile.SmileFactory;
+import tools.jackson.dataformat.yaml.YAMLMapper;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.fasterxml.jackson.jaxrs.smile.JacksonSmileProvider;
 import com.fasterxml.jackson.jaxrs.smile.SmileMediaTypes;

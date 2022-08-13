@@ -3,8 +3,8 @@ package com.fasterxml.jackson.jaxrs.cfg;
 import java.util.EnumMap;
 import java.util.Map;
 
-import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.databind.cfg.MapperBuilder;
+import tools.jackson.databind.*;
+import tools.jackson.databind.cfg.MapperBuilder;
 
 /**
  * Helper class used to encapsulate details of configuring an

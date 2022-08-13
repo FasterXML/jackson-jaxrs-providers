@@ -2,7 +2,7 @@ package com.fasterxml.jackson.jaxrs.cfg;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import com.fasterxml.jackson.databind.*;
+import tools.jackson.databind.*;
 
 /**
  * Based on ideas from [Issue#32], this class allows registering a

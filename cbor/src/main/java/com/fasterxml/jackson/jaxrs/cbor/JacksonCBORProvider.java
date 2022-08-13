@@ -6,11 +6,11 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import javax.ws.rs.ext.*;
 
-import com.fasterxml.jackson.core.*;
+import tools.jackson.core.*;
 
-import com.fasterxml.jackson.databind.*;
+import tools.jackson.databind.*;
 
-import com.fasterxml.jackson.dataformat.cbor.databind.CBORMapper;
+import tools.jackson.dataformat.cbor.databind.CBORMapper;
 
 import com.fasterxml.jackson.jaxrs.base.ProviderBase;
 

@@ -1,9 +1,9 @@
 package com.fasterxml.jackson.jaxrs.yaml;
 
-import com.fasterxml.jackson.databind.AnnotationIntrospector;
-import com.fasterxml.jackson.databind.cfg.MapperBuilder;
+import tools.jackson.databind.AnnotationIntrospector;
+import tools.jackson.databind.cfg.MapperBuilder;
 
-import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
+import tools.jackson.dataformat.yaml.YAMLMapper;
 
 import com.fasterxml.jackson.jaxrs.cfg.MapperConfiguratorBase;
 

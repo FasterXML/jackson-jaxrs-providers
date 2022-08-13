@@ -8,9 +8,9 @@ import javax.ws.rs.core.MediaType;
 
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
+import tools.jackson.databind.DeserializationFeature;
+import tools.jackson.databind.SerializationFeature;
+import tools.jackson.databind.exc.UnrecognizedPropertyException;
 import com.fasterxml.jackson.jaxrs.annotation.JacksonFeatures;
 
 /**

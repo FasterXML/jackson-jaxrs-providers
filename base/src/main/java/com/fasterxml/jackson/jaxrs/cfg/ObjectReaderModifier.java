@@ -2,8 +2,8 @@ package com.fasterxml.jackson.jaxrs.cfg;
 
 import javax.ws.rs.core.MultivaluedMap;
 
-import com.fasterxml.jackson.core.*;
-import com.fasterxml.jackson.databind.*;
+import tools.jackson.core.*;
+import tools.jackson.databind.*;
 
 public abstract class ObjectReaderModifier
 {

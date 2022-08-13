@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 import org.junit.Assert;
 
-import com.fasterxml.jackson.core.*;
+import tools.jackson.core.*;
 
 public abstract class JaxrsTestBase
     extends junit.framework.TestCase

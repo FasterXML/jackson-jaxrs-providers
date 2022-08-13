@@ -1,8 +1,8 @@
 package com.fasterxml.jackson.jaxrs.yaml;
 
-import com.fasterxml.jackson.databind.AnnotationIntrospector;
-import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
-import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
+import tools.jackson.databind.AnnotationIntrospector;
+import tools.jackson.dataformat.yaml.YAMLMapper;
+import tools.jackson.module.jaxb.JaxbAnnotationIntrospector;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;

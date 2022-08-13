@@ -3,11 +3,11 @@ package com.fasterxml.jackson.jaxrs.util;
 import java.lang.annotation.Annotation;
 import java.util.Arrays;
 
-import com.fasterxml.jackson.databind.BeanProperty;
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.PropertyMetadata;
-import com.fasterxml.jackson.databind.PropertyName;
-import com.fasterxml.jackson.databind.introspect.AnnotationMap;
+import tools.jackson.databind.BeanProperty;
+import tools.jackson.databind.JavaType;
+import tools.jackson.databind.PropertyMetadata;
+import tools.jackson.databind.PropertyName;
+import tools.jackson.databind.introspect.AnnotationMap;
 
 /**
  * {@link BeanProperty} implementation used for passing annotations

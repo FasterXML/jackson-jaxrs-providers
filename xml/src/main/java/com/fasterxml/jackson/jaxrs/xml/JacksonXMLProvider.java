@@ -8,11 +8,11 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.*;
 
-import com.fasterxml.jackson.core.*;
-import com.fasterxml.jackson.core.exc.WrappedIOException;
-import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.dataformat.xml.JacksonXmlAnnotationIntrospector;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import tools.jackson.core.*;
+import tools.jackson.core.exc.WrappedIOException;
+import tools.jackson.databind.*;
+import tools.jackson.dataformat.xml.JacksonXmlAnnotationIntrospector;
+import tools.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.jaxrs.base.ProviderBase;
 
 /**

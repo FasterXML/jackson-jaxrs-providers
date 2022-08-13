@@ -5,9 +5,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.Provider;
 
-import com.fasterxml.jackson.databind.AnnotationIntrospector;
-import com.fasterxml.jackson.dataformat.smile.databind.SmileMapper;
-import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
+import tools.jackson.databind.AnnotationIntrospector;
+import tools.jackson.dataformat.smile.databind.SmileMapper;
+import tools.jackson.module.jaxb.JaxbAnnotationIntrospector;
 
 /**
  * JSON content type provider automatically configured to use both Jackson

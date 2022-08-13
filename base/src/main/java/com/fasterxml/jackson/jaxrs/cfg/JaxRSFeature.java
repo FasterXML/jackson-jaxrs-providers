@@ -1,6 +1,6 @@
 package com.fasterxml.jackson.jaxrs.cfg;
 
-import com.fasterxml.jackson.databind.cfg.ConfigFeature;
+import tools.jackson.databind.cfg.ConfigFeature;
 
 /**
  * Enumeration that defines simple on/off features that can be

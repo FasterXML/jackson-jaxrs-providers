@@ -2,10 +2,10 @@ package com.fasterxml.jackson.jaxrs.json;
 
 import java.lang.annotation.Annotation;
 
-import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.databind.cfg.MapperConfig;
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import com.fasterxml.jackson.databind.util.JSONWrappedObject;
+import tools.jackson.databind.*;
+import tools.jackson.databind.cfg.MapperConfig;
+import tools.jackson.databind.util.JSONPObject;
+import tools.jackson.databind.util.JSONWrappedObject;
 import com.fasterxml.jackson.jaxrs.cfg.EndpointConfigBase;
 import com.fasterxml.jackson.jaxrs.json.annotation.JSONP;
 

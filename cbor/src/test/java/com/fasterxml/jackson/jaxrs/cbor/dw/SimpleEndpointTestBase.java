@@ -10,8 +10,8 @@ import javax.ws.rs.Produces;
 import org.eclipse.jetty.server.Server;
 import org.junit.Assert;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.cbor.CBORFactory;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.dataformat.cbor.CBORFactory;
 import com.fasterxml.jackson.jaxrs.cbor.CBORMediaTypes;
 
 public abstract class SimpleEndpointTestBase extends ResourceTestBase

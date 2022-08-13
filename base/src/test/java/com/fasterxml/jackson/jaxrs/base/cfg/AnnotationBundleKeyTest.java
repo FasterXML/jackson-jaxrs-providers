@@ -5,8 +5,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 import com.fasterxml.jackson.annotation.*;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.jaxrs.base.BaseTestBase;
 import com.fasterxml.jackson.jaxrs.cfg.AnnotationBundleKey;
 

@@ -2,7 +2,7 @@ package com.fasterxml.jackson.datatype.jaxrs;
 
 import javax.ws.rs.core.Link;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 
 public class LinkTest extends ModuleTestBase
 {

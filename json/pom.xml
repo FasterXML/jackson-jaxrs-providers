@@ -42,7 +42,7 @@
     </dependency>
     <!-- also need JAXB annotation support -->
     <dependency> 
-      <groupId>com.fasterxml.jackson.module</groupId>
+      <groupId>tools.jackson.module</groupId>
       <artifactId>jackson-module-jaxb-annotations</artifactId>
     </dependency>
 

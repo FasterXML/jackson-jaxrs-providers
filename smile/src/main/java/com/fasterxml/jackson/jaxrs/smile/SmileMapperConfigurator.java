@@ -1,10 +1,10 @@
 package com.fasterxml.jackson.jaxrs.smile;
 
-import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.databind.cfg.MapperBuilder;
+import tools.jackson.databind.*;
+import tools.jackson.databind.cfg.MapperBuilder;
 
-import com.fasterxml.jackson.dataformat.smile.SmileFactory;
-import com.fasterxml.jackson.dataformat.smile.databind.SmileMapper;
+import tools.jackson.dataformat.smile.SmileFactory;
+import tools.jackson.dataformat.smile.databind.SmileMapper;
 import com.fasterxml.jackson.jaxrs.cfg.MapperConfiguratorBase;
 
 /**

@@ -5,8 +5,8 @@ import java.lang.annotation.Annotation;
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.annotation.JsonView;
-import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.databind.cfg.MapperConfig;
+import tools.jackson.databind.*;
+import tools.jackson.databind.cfg.MapperConfig;
 import com.fasterxml.jackson.jaxrs.annotation.JacksonFeatures;
 
 /**

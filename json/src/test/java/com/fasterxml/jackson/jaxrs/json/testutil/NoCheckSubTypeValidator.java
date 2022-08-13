@@ -1,8 +1,8 @@
 package com.fasterxml.jackson.jaxrs.json.testutil;
 
-import com.fasterxml.jackson.databind.DatabindContext;
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
+import tools.jackson.databind.DatabindContext;
+import tools.jackson.databind.JavaType;
+import tools.jackson.databind.jsontype.PolymorphicTypeValidator;
 
 public final class NoCheckSubTypeValidator
     extends PolymorphicTypeValidator.Base

@@ -2,8 +2,8 @@ package com.fasterxml.jackson.datatype.jaxrs;
 
 import javax.ws.rs.core.Link;
 
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import tools.jackson.databind.module.SimpleModule;
+import tools.jackson.databind.ser.std.ToStringSerializer;
 
 /**
  * Simple datatype module that adds serialization and deserialization

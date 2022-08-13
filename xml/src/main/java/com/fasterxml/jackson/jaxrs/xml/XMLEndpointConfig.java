@@ -2,8 +2,8 @@ package com.fasterxml.jackson.jaxrs.xml;
 
 import java.lang.annotation.Annotation;
 
-import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.databind.cfg.MapperConfig;
+import tools.jackson.databind.*;
+import tools.jackson.databind.cfg.MapperConfig;
 import com.fasterxml.jackson.jaxrs.cfg.EndpointConfigBase;
 
 /**

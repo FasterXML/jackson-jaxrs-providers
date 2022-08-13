@@ -1,8 +1,8 @@
 package com.fasterxml.jackson.jaxrs.xml;
 
-import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.databind.cfg.MapperBuilder;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import tools.jackson.databind.*;
+import tools.jackson.databind.cfg.MapperBuilder;
+import tools.jackson.dataformat.xml.XmlMapper;
 
 import com.fasterxml.jackson.jaxrs.cfg.MapperConfiguratorBase;
 

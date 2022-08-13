@@ -11,8 +11,8 @@ import javax.ws.rs.core.MediaType;
 import org.eclipse.jetty.server.Server;
 import org.junit.Assert;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.dataformat.xml.XmlMapper;
 
 public abstract class SimpleEndpointTestBase extends ResourceTestBase
 {

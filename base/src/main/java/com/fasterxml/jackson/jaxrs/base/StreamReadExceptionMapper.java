@@ -1,6 +1,6 @@
 package com.fasterxml.jackson.jaxrs.base;
 
-import com.fasterxml.jackson.core.exc.StreamReadException;
+import tools.jackson.core.exc.StreamReadException;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;

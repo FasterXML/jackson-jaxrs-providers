@@ -2,8 +2,8 @@ package com.fasterxml.jackson.jaxrs.cfg;
 
 import javax.ws.rs.core.MultivaluedMap;
 
-import com.fasterxml.jackson.core.JacksonException;
-import com.fasterxml.jackson.databind.*;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.*;
 
 /**
  * Handler that may be registered to apply per-call modifications to {@link ObjectWriter}

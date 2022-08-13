@@ -8,8 +8,8 @@ import javax.ws.rs.*;
 import org.eclipse.jetty.server.Server;
 import org.junit.Assert;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.smile.SmileFactory;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.dataformat.smile.SmileFactory;
 import com.fasterxml.jackson.jaxrs.smile.SmileMediaTypes;
 
 public abstract class SimpleEndpointTestBase extends ResourceTestBase
