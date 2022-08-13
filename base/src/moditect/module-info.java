@@ -1,13 +1,12 @@
-// Originally generated using Moditect maven plugin, last mod 14-Oct-2020
-module com.fasterxml.jackson.jaxrs.base {
-    exports com.fasterxml.jackson.jaxrs.annotation;
-    exports com.fasterxml.jackson.jaxrs.base;
-    exports com.fasterxml.jackson.jaxrs.cfg;
-    exports com.fasterxml.jackson.jaxrs.util;
+module tools.jackson.jaxrs.base {
+    exports tools.jackson.jaxrs.annotation;
+    exports tools.jackson.jaxrs.base;
+    exports tools.jackson.jaxrs.cfg;
+    exports tools.jackson.jaxrs.util;
 
     requires com.fasterxml.jackson.annotation;
-    requires com.fasterxml.jackson.core;
-    requires com.fasterxml.jackson.databind;
+    requires tools.jackson.core;
+    requires tools.jackson.databind;
 
     //Allow multiple implementations of ws.rs
     //oracle location

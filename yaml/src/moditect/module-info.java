@@ -1,15 +1,14 @@
-// Originally generated using Moditect maven plugin, last mod 14-Oct-2020
-module com.fasterxml.jackson.jaxrs.yaml {
-    exports com.fasterxml.jackson.jaxrs.yaml;
+module tools.jackson.jaxrs.yaml {
+    exports tools.jackson.jaxrs.yaml;
     // [jaxrs-providers#119]: CXF, RESTEasy, OpenAPI require reflective access
-    opens com.fasterxml.jackson.jaxrs.yaml;
+    opens tools.jackson.jaxrs.yaml;
 
-    requires com.fasterxml.jackson.core;
-    requires com.fasterxml.jackson.databind;
-    requires com.fasterxml.jackson.dataformat.yaml;
-    requires com.fasterxml.jackson.module.jaxb;
+    requires tools.jackson.core;
+    requires tools.jackson.databind;
+    requires tools.jackson.dataformat.yaml;
+    requires tools.jackson.module.jaxb;
 
-    requires com.fasterxml.jackson.jaxrs.base;
+    requires tools.jackson.jaxrs.base;
 
     //Allow multiple implementations of ws.rs
     //oracle location
@@ -24,7 +23,7 @@ module com.fasterxml.jackson.jaxrs.yaml {
     requires static jakarta.ws.rs.api;
 
     provides javax.ws.rs.ext.MessageBodyReader with
-        com.fasterxml.jackson.jaxrs.yaml.JacksonYAMLProvider;
+        tools.jackson.jaxrs.yaml.JacksonYAMLProvider;
     provides javax.ws.rs.ext.MessageBodyWriter with
-        com.fasterxml.jackson.jaxrs.yaml.JacksonYAMLProvider;
+        tools.jackson.jaxrs.yaml.JacksonYAMLProvider;
 }

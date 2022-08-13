@@ -1,15 +1,14 @@
-// Originally generated using Moditect maven plugin, last mod 14-Oct-2020
-module com.fasterxml.jackson.jaxrs.smile {
-    exports com.fasterxml.jackson.jaxrs.smile;
+module tools.jackson.jaxrs.smile {
+    exports tools.jackson.jaxrs.smile;
     // [jaxrs-providers#119]: CXF, RESTEasy, OpenAPI require reflective access
-    opens com.fasterxml.jackson.jaxrs.smile;
+    opens tools.jackson.jaxrs.smile;
 
-    requires com.fasterxml.jackson.core;
-    requires com.fasterxml.jackson.databind;
-    requires com.fasterxml.jackson.dataformat.smile;
-    requires com.fasterxml.jackson.module.jaxb;
+    requires tools.jackson.core;
+    requires tools.jackson.databind;
+    requires tools.jackson.dataformat.smile;
+    requires tools.jackson.module.jaxb;
 
-    requires com.fasterxml.jackson.jaxrs.base;
+    requires tools.jackson.jaxrs.base;
 
     //Allow multiple implementations of ws.rs
     //oracle location
@@ -24,7 +23,7 @@ module com.fasterxml.jackson.jaxrs.smile {
     requires static jakarta.ws.rs.api;
 
     provides javax.ws.rs.ext.MessageBodyReader with
-        com.fasterxml.jackson.jaxrs.smile.JacksonSmileProvider;
+        tools.jackson.jaxrs.smile.JacksonSmileProvider;
     provides javax.ws.rs.ext.MessageBodyWriter with
-        com.fasterxml.jackson.jaxrs.smile.JacksonSmileProvider;
+        tools.jackson.jaxrs.smile.JacksonSmileProvider;
 }
