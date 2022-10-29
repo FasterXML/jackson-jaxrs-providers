@@ -143,10 +143,8 @@ public class JacksonXMLProvider
             String subtype = mediaType.getSubtype();
             return "xml".equalsIgnoreCase(subtype) || subtype.endsWith("+xml");
         }
-        /* Not sure if this can happen; but it seems reasonable
-         * that we can at least produce XML without media type?
-         */
-        return true;
+        // Without a media type, let JAX-RS deal with mapping if it can.
+        return false;
     }
 
     /**

@@ -137,10 +137,8 @@ extends ProviderBase<JacksonCBORProvider,
             return CBORMediaTypes.APPLICATION_JACKSON_CBOR_TYPE.getSubtype().equalsIgnoreCase(subtype) || 
             		"cbor".equalsIgnoreCase(subtype) || subtype.endsWith("+cbor");
         }
-        /* Not sure if this can happen; but it seems reasonable
-         * that we can at least produce smile without media type?
-         */
-        return true;
+        // Without a media type, let JAX-RS deal with mapping if it can.
+        return false;
     }
 
     /**
