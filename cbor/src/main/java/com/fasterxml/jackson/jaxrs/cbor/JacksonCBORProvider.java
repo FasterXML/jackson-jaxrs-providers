@@ -15,7 +15,7 @@ import com.fasterxml.jackson.jaxrs.cfg.Annotations;
 /**
  * Basic implementation of JAX-RS abstractions ({@link MessageBodyReader},
  * {@link MessageBodyWriter}) needed for binding
- * CBOR ("application/x-jackson-cbor") content to and from Java Objects ("POJO"s).
+ * CBOR ("application/cbor") content to and from Java Objects ("POJO"s).
  *<p>
  * Actual data binding functionality is implemented by {@link ObjectMapper}:
  * mapper to use can be configured in multiple ways:
@@ -154,7 +154,7 @@ extends ProviderBase<JacksonCBORProvider,
             		"cbor".equalsIgnoreCase(subtype) || subtype.endsWith("+cbor");
         }
         /* Not sure if this can happen; but it seems reasonable
-         * that we can at least produce smile without media type?
+         * that we can at least produce CBOR without media type?
          */
         return true;
     }
