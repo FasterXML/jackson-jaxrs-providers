@@ -10,6 +10,10 @@ Sub-modules:
 === Releases ===
 ------------------------------------------------------------------------
 
+2.15.0 (not yet released)
+
+-
+
 2.14.2 (not yet released)
 
 * Upgrade Woodstox to 6.4.0 for a fix to OSGi metadata
