@@ -675,7 +675,6 @@ public abstract class ProviderBase<
             return _configForWriting(locateMapper(type, mediaType), annotations, _defaultWriteView);
         }
 
-       ;
         AnnotationBundleKey key = new AnnotationBundleKey(annotations, type);
         EP_CONFIG endpoint = _writers.get(key);
         // not yet resolved (or not cached any more)? Resolve!
