@@ -16,6 +16,8 @@ Sub-modules:
 
 2.14.2 (not yet released)
 
+#167: Remove unnecessary synchronization from endpoint reader/writer caches
+ (contributed by @pjfanning)
 * Upgrade Woodstox to 6.4.0 for a fix to OSGi metadata
 
 2.14.1 (21-Nov-2022)

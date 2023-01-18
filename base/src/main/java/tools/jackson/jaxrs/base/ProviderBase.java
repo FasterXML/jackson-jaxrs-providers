@@ -592,19 +592,14 @@ public abstract class ProviderBase<
             return _configForWriting(locateMapper(type, mediaType), annotations, _defaultWriteView);
         }
 
-        EP_CONFIG endpoint;
         AnnotationBundleKey key = new AnnotationBundleKey(annotations, type);
-        synchronized (_writers) {
-            endpoint = _writers.get(key);
-        }
+        EP_CONFIG endpoint = _writers.get(key);
         // not yet resolved (or not cached any more)? Resolve!
         if (endpoint == null) {
             MAPPER mapper = locateMapper(type, mediaType);
             endpoint = _configForWriting(mapper, annotations, _defaultWriteView);
             // and cache for future reuse
-            synchronized (_writers) {
-                _writers.put(key.immutableKey(), endpoint);
-            }
+            _writers.put(key.immutableKey(), endpoint);
         }
         return endpoint;
     }
@@ -751,19 +746,14 @@ public abstract class ProviderBase<
             return _configForReading(locateMapper(type, mediaType), annotations, _defaultReadView);
         }
 
-        EP_CONFIG endpoint;
         AnnotationBundleKey key = new AnnotationBundleKey(annotations, type);
-        synchronized (_readers) {
-            endpoint = _readers.get(key);
-        }
+        EP_CONFIG endpoint = _readers.get(key);
         // not yet resolved (or not cached any more)? Resolve!
         if (endpoint == null) {
             MAPPER mapper = locateMapper(type, mediaType);
             endpoint = _configForReading(mapper, annotations, _defaultReadView);
             // and cache for future reuse
-            synchronized (_readers) {
-                _readers.put(key.immutableKey(), endpoint);
-            }
+            _readers.put(key.immutableKey(), endpoint);
         }
         return endpoint;
     }
