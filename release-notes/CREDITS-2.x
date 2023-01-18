@@ -88,6 +88,5 @@ Scott Lewis (scottslewis@github)
 
 PJ Fanning (@pjfanning)
 
-* Contributed #167: Remove unnecessary synchronization from endpoint
-  reader/writer caches
- (2.14.2)
+* Contributed #166: `ProviderBase` class shows contention on synchronized
+  block using `LRUMap` _writers instance
