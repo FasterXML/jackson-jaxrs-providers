@@ -84,4 +84,10 @@ James R. Perkins (jamezp@github)
 Scott Lewis (scottslewis@github)
 
 * Reported #132: jaxrs jakarta versions have javax.ws references in OSGi manifest
- (2.12.2)
+(2.12.2)
+
+PJ Fanning (@pjfanning)
+
+* Contributed #167: Remove unnecessary synchronization from endpoint
+  reader/writer caches
+ (2.14.2)
