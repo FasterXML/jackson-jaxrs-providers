@@ -10,7 +10,7 @@ Sub-modules:
 === Releases ===
 ------------------------------------------------------------------------
 
-2.14.2 (not yet released)
+2.14.2 (28-Jan-2023)
 
 #166: `ProviderBase` class shows contention on synchronized block using
  `LRUMap` _writers instance
