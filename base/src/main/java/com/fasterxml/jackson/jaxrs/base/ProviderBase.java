@@ -458,6 +458,9 @@ public abstract class ProviderBase<
         } else {
             r = mapper.reader();
         }
+        if (JaxRSFeature.READ_FULL_STREAM.enabledIn(_jaxRSFeatures)) {
+            r = r.withFeatures(DeserializationFeature.FAIL_ON_TRAILING_TOKENS);
+        }
         return _configForReading(r, annotations);
     }
 
