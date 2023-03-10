@@ -520,7 +520,7 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
             conn.setDoOutput(true);
             conn.setRequestMethod("POST");
             OutputStream out = conn.getOutputStream();
-            out.write(aposToQuotes("{'x':1,'y':1}").getBytes("UTF-8"));
+            out.write(a2q("{'x':1,'y':1}").getBytes("UTF-8"));
             out.close();
             assertEquals(200, conn.getResponseCode());
             InputStream in = conn.getInputStream();
@@ -538,13 +538,13 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
             conn.setDoOutput(true);
             conn.setRequestMethod("POST");
             out = conn.getOutputStream();
-            out.write(aposToQuotes("{'x':1,'y':1} 123 ").getBytes("UTF-8"));
+            out.write(a2q("{'x':1,'y':1} 123 ").getBytes("UTF-8"));
             out.close();
 
             // Hmmh. Typically would be mapped to 400 but apparently JAX-RS default is 500
             assertEquals(500, conn.getResponseCode());
             in.close();
-        
+
         } finally {
             server.stop();
         }
