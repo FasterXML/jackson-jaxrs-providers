@@ -34,6 +34,12 @@ public enum JaxRSFeature implements ConfigFeature
      * stream up until reading EOF (-1).
      * <a href="https://github.com/FasterXML/jackson-jaxrs-providers/issues/108">Issue #108</a>
      * If set to true, always consume all input content. This has a side-effect of failing on trailing content.
+     *<p>
+     * Feature is enabled by default.
+     * Note that this means that behavior in earlier versions
+     * (2.14 and before) differs from 2.15 and later.
+     *
+     * @since 2.15
      */
     READ_FULL_STREAM(true),
 
