@@ -387,6 +387,9 @@ public abstract class ProviderBase<
         // 25-Jan-2020, tatu: Important: JAX-RS expects that the InputStream
         //   is NOT closed by parser so...
         r = r.without(StreamReadFeature.AUTO_CLOSE_SOURCE);
+        if (JaxRSFeature.READ_FULL_STREAM.enabledIn(_jaxRSFeatures)) {
+            r = r.withFeatures(DeserializationFeature.FAIL_ON_TRAILING_TOKENS);
+        }
         return _configForReading(r, annotations);
     }
 

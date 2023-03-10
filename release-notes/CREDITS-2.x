@@ -90,3 +90,9 @@ PJ Fanning (@pjfanning)
 
 * Contributed #166: `ProviderBase` class shows contention on synchronized
   block using `LRUMap` _writers instance
+ (2.14.2)
+
+Steven Schlansker (@stevenschlansker)
+
+* Contributed #170: Add `JaxRsFeature.READ_FULL_STREAM` to consume all content
+ (2.15.0)
