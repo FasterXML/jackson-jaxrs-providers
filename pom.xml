@@ -46,7 +46,7 @@
     <version.jersey>2.25.1</version.jersey>
     <!-- as per CVE-2019-10247 -> 9.4.35 -->
     <!-- 07-Jul-2022, tatu: Further increase (latest at this point) -->
-    <version.jetty>9.4.48.v20220622</version.jetty>
+    <version.jetty>10.0.14</version.jetty>
 
     <!-- Needed to enable jax-rs 2.0 usage under OSGi -->
     <javax.ws.rs.version>[2.0,2.2)</javax.ws.rs.version>
