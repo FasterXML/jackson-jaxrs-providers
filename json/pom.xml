@@ -62,9 +62,7 @@
     <dependency> 
       <groupId>org.jboss.resteasy</groupId>
       <artifactId>resteasy-jackson2-provider</artifactId>
-      <!-- 15-Feb-2017, tatu: Alas, 3.0.20 compiled with Java 8, can't use
-        -->
-      <version>3.15.0.Final</version>
+      <version>6.2.3.Final</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
@@ -76,7 +74,7 @@
     <dependency> 
       <groupId>org.jboss.resteasy</groupId>
       <artifactId>resteasy-jaxrs</artifactId>
-      <version>3.15.0.Final</version>
+      <version>6.2.3.Final</version>
       <scope>test</scope>
     </dependency>
 
