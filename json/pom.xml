@@ -62,7 +62,7 @@
     <dependency> 
       <groupId>org.jboss.resteasy</groupId>
       <artifactId>resteasy-jackson2-provider</artifactId>
-      <version>3.15.6.Final</version>
+      <version>4.7.9.Final</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
@@ -71,10 +71,10 @@
         </exclusion>
       </exclusions>
     </dependency>
-    <dependency> 
+    <dependency>
       <groupId>org.jboss.resteasy</groupId>
-      <artifactId>resteasy-jaxrs</artifactId>
-      <version>3.15.6.Final</version>
+      <artifactId>resteasy-core</artifactId>
+      <version>4.7.9.Final</version>
       <scope>test</scope>
     </dependency>
 
