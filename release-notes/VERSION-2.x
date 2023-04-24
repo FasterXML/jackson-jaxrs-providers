@@ -10,7 +10,7 @@ Sub-modules:
 === Releases ===
 ------------------------------------------------------------------------
 
-2.15.0-rc3 (14-Apr-2023)
+2.15.0 (23-Apr-2023)
 
 #170: Add `JaxRsFeature.READ_FULL_STREAM` to consume all content, on by default
  (contributed by Steven S)
