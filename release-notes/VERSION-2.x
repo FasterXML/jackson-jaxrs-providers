@@ -14,6 +14,10 @@ Sub-modules:
 
 No changes since 2.15
 
+2.15.1 (16-May-2023)
+
+No changes since 2.15.0
+
 2.15.0 (23-Apr-2023)
 
 #170: Add `JaxRsFeature.READ_FULL_STREAM` to consume all content, on by default
