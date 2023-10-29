@@ -9,7 +9,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.*;
 
 import tools.jackson.core.*;
-import tools.jackson.core.exc.WrappedIOException;
+import tools.jackson.core.exc.JacksonIOException;
 import tools.jackson.databind.*;
 import tools.jackson.dataformat.xml.JacksonXmlAnnotationIntrospector;
 import tools.jackson.dataformat.xml.XmlMapper;
@@ -215,7 +215,7 @@ public class JacksonXMLProvider
             wrappedStream.unread(firstByte);
             return reader.createParser(wrappedStream);
         } catch (IOException e) {
-            throw WrappedIOException.construct(e);
+            throw JacksonIOException.construct(e);
         }
     }
 }
