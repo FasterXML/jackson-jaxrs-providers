@@ -226,7 +226,7 @@ public class JacksonYAMLProvider
             wrappedStream.unread(firstByte);
             return reader.createParser(wrappedStream);
         } catch (IOException e) {
-            throw JacksonOException.construct(e);
+            throw JacksonIOException.construct(e);
         }
     }
 }
