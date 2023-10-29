@@ -8,7 +8,7 @@ import java.lang.annotation.Annotation;
 import tools.jackson.core.JacksonException;
 import tools.jackson.core.JsonParser;
 import tools.jackson.core.Version;
-import tools.jackson.core.exc.WrappedIOException;
+import tools.jackson.core.exc.JacksonIOException;
 import tools.jackson.databind.AnnotationIntrospector;
 import tools.jackson.databind.ObjectMapper;
 import tools.jackson.databind.ObjectReader;
@@ -226,7 +226,7 @@ public class JacksonYAMLProvider
             wrappedStream.unread(firstByte);
             return reader.createParser(wrappedStream);
         } catch (IOException e) {
-            throw WrappedIOException.construct(e);
+            throw JacksonOException.construct(e);
         }
     }
 }
