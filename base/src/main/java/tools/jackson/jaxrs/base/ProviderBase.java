@@ -14,6 +14,7 @@ import tools.jackson.core.*;
 
 import tools.jackson.databind.*;
 import tools.jackson.databind.type.TypeFactory;
+import tools.jackson.databind.util.LookupCache;
 import tools.jackson.databind.util.SimpleLookupCache;
 
 import tools.jackson.jaxrs.base.ProviderBase;
@@ -140,14 +141,12 @@ public abstract class ProviderBase<
     /**
      * Cache for resolved endpoint configurations when reading JSON data
      */
-    protected final SimpleLookupCache<AnnotationBundleKey, EP_CONFIG> _readers
-        = new SimpleLookupCache<AnnotationBundleKey, EP_CONFIG>(16, 120);
+    protected final LookupCache<AnnotationBundleKey, EP_CONFIG> _readers;
 
     /**
      * Cache for resolved endpoint configurations when writing JSON data
      */
-    protected final SimpleLookupCache<AnnotationBundleKey, EP_CONFIG> _writers
-        = new SimpleLookupCache<AnnotationBundleKey, EP_CONFIG>(16, 120);
+    protected final LookupCache<AnnotationBundleKey, EP_CONFIG> _writers;
 
     protected final AtomicReference<IOException> _noContentExceptionRef
         = new AtomicReference<IOException>();
@@ -159,8 +158,9 @@ public abstract class ProviderBase<
      */
 
     protected ProviderBase(MAPPER_CONFIG mconfig) {
-        _mapperConfig = mconfig;
-        _jaxRSFeatures = JAXRS_FEATURE_DEFAULTS;
+        this(mconfig,
+                new SimpleLookupCache<>(16, 120),
+                new SimpleLookupCache<>(16, 120));
     }
 
     /**
@@ -172,8 +172,17 @@ public abstract class ProviderBase<
      */
     @Deprecated // just to denote it should NOT be directly called; will NOT be removed
     protected ProviderBase() {
-        _mapperConfig = null;
+        this(null);
+    }
+
+    protected ProviderBase(MAPPER_CONFIG mconfig,
+            LookupCache<AnnotationBundleKey, EP_CONFIG> readerCache,
+            LookupCache<AnnotationBundleKey, EP_CONFIG> writerCache)
+    {
+        _mapperConfig = mconfig;
         _jaxRSFeatures = JAXRS_FEATURE_DEFAULTS;
+        _readers = readerCache;
+        _writers = writerCache;
     }
 
     /*
