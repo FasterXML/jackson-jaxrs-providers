@@ -14,11 +14,11 @@ import tools.jackson.core.*;
 
 import tools.jackson.databind.*;
 import tools.jackson.databind.type.TypeFactory;
+import tools.jackson.databind.util.SimpleLookupCache;
 
 import tools.jackson.jaxrs.base.ProviderBase;
 import tools.jackson.jaxrs.cfg.*;
 import tools.jackson.jaxrs.util.ClassKey;
-import tools.jackson.jaxrs.util.LRUMap;
 
 public abstract class ProviderBase<
     THIS extends ProviderBase<THIS, MAPPER, EP_CONFIG, MAPPER_CONFIG>,
@@ -140,14 +140,14 @@ public abstract class ProviderBase<
     /**
      * Cache for resolved endpoint configurations when reading JSON data
      */
-    protected final LRUMap<AnnotationBundleKey, EP_CONFIG> _readers
-        = new LRUMap<AnnotationBundleKey, EP_CONFIG>(16, 120);
+    protected final SimpleLookupCache<AnnotationBundleKey, EP_CONFIG> _readers
+        = new SimpleLookupCache<AnnotationBundleKey, EP_CONFIG>(16, 120);
 
     /**
      * Cache for resolved endpoint configurations when writing JSON data
      */
-    protected final LRUMap<AnnotationBundleKey, EP_CONFIG> _writers
-        = new LRUMap<AnnotationBundleKey, EP_CONFIG>(16, 120);
+    protected final SimpleLookupCache<AnnotationBundleKey, EP_CONFIG> _writers
+        = new SimpleLookupCache<AnnotationBundleKey, EP_CONFIG>(16, 120);
 
     protected final AtomicReference<IOException> _noContentExceptionRef
         = new AtomicReference<IOException>();
