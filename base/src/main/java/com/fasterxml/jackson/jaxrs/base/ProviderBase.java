@@ -12,11 +12,11 @@ import javax.ws.rs.ext.MessageBodyWriter;
 import com.fasterxml.jackson.core.*;
 
 import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.util.LRUMap;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 
 import com.fasterxml.jackson.jaxrs.cfg.*;
 import com.fasterxml.jackson.jaxrs.util.ClassKey;
-import com.fasterxml.jackson.jaxrs.util.LRUMap;
 
 public abstract class ProviderBase<
     THIS extends ProviderBase<THIS, MAPPER, EP_CONFIG, MAPPER_CONFIG>,
