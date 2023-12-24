@@ -14,7 +14,7 @@ Sub-modules:
 
 -
 
-2.16.1 (not yet released)
+2.16.1 (24-Dec-2023)
 
 #178: Deprecate local `LRUMap`, use `jackson-databind` provided one instead
 
