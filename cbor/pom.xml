@@ -9,7 +9,7 @@
   <parent>
     <groupId>com.fasterxml.jackson.jaxrs</groupId>
     <artifactId>jackson-jaxrs-providers</artifactId>
-    <version>2.15.4</version>
+    <version>2.15.5-SNAPSHOT</version>
   </parent>
   <artifactId>jackson-jaxrs-cbor-provider</artifactId>
   <name>Jackson-JAXRS: CBOR</name>
