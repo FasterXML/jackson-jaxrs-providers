@@ -12,7 +12,7 @@ Sub-modules:
 
 2.17.0 (not yet released)
 
-* Woodstox dependency now 6.6.0
+* Woodstox dependency now 6.6.1
 
 2.16.1 (24-Dec-2023)
 
@@ -22,6 +22,7 @@ Sub-modules:
 
 No changes since 2.15
 
+2.15.4 (15-Feb-2024)
 2.15.3 (12-Oct-2023)
 2.15.2 (30-May-2023)
 2.15.1 (16-May-2023)
