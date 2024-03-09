@@ -14,6 +14,10 @@ Sub-modules:
 
 * Woodstox dependency now 6.6.1
 
+2.16.2 (09-Mar-2024)
+
+No changes since 2.16.1
+
 2.16.1 (24-Dec-2023)
 
 #178: Deprecate local `LRUMap`, use `jackson-databind` provided one instead
