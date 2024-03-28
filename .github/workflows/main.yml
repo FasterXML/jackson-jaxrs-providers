@@ -5,6 +5,7 @@ on:
     - master
     - "3.0"
     - "2.17"
+    - "2.18"
     paths-ignore:
     - "README.md"
     - "release-notes/*"
@@ -13,6 +14,7 @@ on:
     - master
     - "3.0"
     - "2.17"
+    - "2.18"
     paths-ignore:
     - "README.md"
     - "release-notes/*"
