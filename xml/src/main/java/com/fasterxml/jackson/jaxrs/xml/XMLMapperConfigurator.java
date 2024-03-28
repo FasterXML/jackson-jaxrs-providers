@@ -1,6 +1,7 @@
 package com.fasterxml.jackson.jaxrs.xml;
 
 import java.util.*;
+import java.util.concurrent.locks.ReentrantLock;
 
 import com.fasterxml.jackson.databind.*;
 
@@ -20,6 +21,9 @@ import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
 public class XMLMapperConfigurator
     extends MapperConfiguratorBase<XMLMapperConfigurator, XmlMapper>
 {
+
+    private final ReentrantLock _lock = new ReentrantLock();
+
     /*
     /**********************************************************
     /* Construction
@@ -35,7 +39,7 @@ public class XMLMapperConfigurator
      * Method that locates, configures and returns {@link XmlMapper} to use
      */
     @Override
-    public synchronized XmlMapper getConfiguredMapper() {
+    public XmlMapper getConfiguredMapper() {
         /* important: should NOT call mapper(); needs to return null
          * if no instance has been passed or constructed
          */
@@ -43,13 +47,20 @@ public class XMLMapperConfigurator
     }
 
     @Override
-    public synchronized XmlMapper getDefaultMapper()
+    public XmlMapper getDefaultMapper()
     {
         if (_defaultMapper == null) {
-            // 10-Oct-2012, tatu: Better do things explicitly...
-            JacksonXmlModule module = getConfiguredModule();
-            _defaultMapper = (module == null) ? new XmlMapper() : new XmlMapper(module);
-            _setAnnotations(_defaultMapper, _defaultAnnotationsToUse);
+            _lock.lock();
+            try {
+                if (_defaultMapper == null) {
+                    // 10-Oct-2012, tatu: Better do things explicitly...
+                    JacksonXmlModule module = getConfiguredModule();
+                    _defaultMapper = (module == null) ? new XmlMapper() : new XmlMapper(module);
+                    _setAnnotations(_defaultMapper, _defaultAnnotationsToUse);
+                }
+            } finally {
+                _lock.unlock();
+            }
         }
         return _defaultMapper;
     }
@@ -74,8 +85,15 @@ public class XMLMapperConfigurator
     protected XmlMapper mapper()
     {
         if (_mapper == null) {
-            _mapper = new XmlMapper();
-            _setAnnotations(_mapper, _defaultAnnotationsToUse);
+            _lock.lock();
+            try {
+                if (_mapper == null) {
+                    _mapper = new XmlMapper();
+                    _setAnnotations(_mapper, _defaultAnnotationsToUse);
+                }
+            } finally {
+                _lock.unlock();
+            }
         }
         return _mapper;
     }

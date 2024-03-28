@@ -81,27 +81,27 @@ public abstract class MapperConfiguratorBase<IMPL extends MapperConfiguratorBase
     /***********************************************************
      */
 
-    public synchronized final void setMapper(MAPPER m) {
+    public final void setMapper(MAPPER m) {
         _mapper = m;
     }
 
-    public synchronized final void setAnnotationsToUse(Annotations[] annotationsToUse) {
+    public final void setAnnotationsToUse(Annotations[] annotationsToUse) {
         _setAnnotations(mapper(), annotationsToUse);
     }
 
-    public synchronized final void configure(DeserializationFeature f, boolean state) {
+    public final void configure(DeserializationFeature f, boolean state) {
         mapper().configure(f, state);
     }
 
-    public synchronized final void configure(SerializationFeature f, boolean state) {
+    public final void configure(SerializationFeature f, boolean state) {
         mapper().configure(f, state);
     }
 
-    public synchronized final void configure(JsonParser.Feature f, boolean state) {
+    public final void configure(JsonParser.Feature f, boolean state) {
         mapper().configure(f, state);
     }
 
-    public synchronized final void configure(JsonGenerator.Feature f, boolean state) {
+    public final void configure(JsonGenerator.Feature f, boolean state) {
         mapper().configure(f, state);
     }
 
