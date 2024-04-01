@@ -29,7 +29,7 @@ import java.lang.annotation.Annotation;
  * mapper to use can be configured in multiple ways:
  * <ul>
  * <li>By explicitly passing mapper to use in constructor
- * <li>By explcitly setting mapper to use by {@link #setMapper}
+ * <li>By explicitly setting mapper to use by {@link #setMapper}
  * <li>By defining JAX-RS <code>Provider</code> that returns {@link YAMLMapper}s.
  * <li>By doing none of above, in which case a default mapper instance is
  * constructed (and configured if configuration methods are called)
