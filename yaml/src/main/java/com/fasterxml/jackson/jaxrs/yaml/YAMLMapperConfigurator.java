@@ -16,8 +16,9 @@ import java.util.concurrent.locks.ReentrantLock;
  * well as accessing it.
  */
 public class YAMLMapperConfigurator
-        extends MapperConfiguratorBase<YAMLMapperConfigurator, YAMLMapper> {
-
+    extends MapperConfiguratorBase<YAMLMapperConfigurator, YAMLMapper>
+{
+    // @since 2.18
     private final ReentrantLock _lock = new ReentrantLock();
 
     /*
@@ -35,9 +36,8 @@ public class YAMLMapperConfigurator
      */
     @Override
     public YAMLMapper getConfiguredMapper() {
-        /* important: should NOT call mapper(); needs to return null
-         * if no instance has been passed or constructed
-         */
+        // important: should NOT call mapper(); needs to return null
+        // if no instance has been passed or constructed
         return _mapper;
     }
 

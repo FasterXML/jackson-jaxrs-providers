@@ -17,6 +17,7 @@ import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
 public class JsonMapperConfigurator
     extends MapperConfiguratorBase<JsonMapperConfigurator, ObjectMapper>
 {
+    // @since 2.18
     private final ReentrantLock _lock = new ReentrantLock();
 
     /*
@@ -35,9 +36,8 @@ public class JsonMapperConfigurator
      */
     @Override
     public ObjectMapper getConfiguredMapper() {
-        /* important: should NOT call mapper(); needs to return null
-         * if no instance has been passed or constructed
-         */
+        // important: should NOT call mapper(); needs to return null
+        // if no instance has been passed or constructed
         return _mapper;
     }
 
