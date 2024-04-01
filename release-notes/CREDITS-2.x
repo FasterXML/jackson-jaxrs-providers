@@ -91,6 +91,8 @@ PJ Fanning (@pjfanning)
 * Contributed #166: `ProviderBase` class shows contention on synchronized
   block using `LRUMap` _writers instance
  (2.14.2)
+* Contributed #184: Use `ReentrantLock`s instead of synchronized blocks
+ (2.18.0)
 
 Steven Schlansker (@stevenschlansker)
 
