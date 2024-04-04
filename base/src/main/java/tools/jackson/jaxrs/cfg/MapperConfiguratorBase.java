@@ -94,7 +94,9 @@ public abstract class MapperConfiguratorBase<IMPL extends MapperConfiguratorBase
         if (_defaultMapper == null) {
             _lock.lock();
             try {
-                _defaultMapper = _mapperWithConfiguration(mapperBuilder());
+                if (_defaultMapper == null) {
+                    _defaultMapper = _mapperWithConfiguration(mapperBuilder());
+                }
             } finally {
                 _lock.unlock();
             }
@@ -112,7 +114,9 @@ public abstract class MapperConfiguratorBase<IMPL extends MapperConfiguratorBase
         if (_mapper == null) {
             _lock.lock();
             try {
-                _mapper = _mapperWithConfiguration(mapperBuilder());
+                if (_mapper == null) {
+                    _mapper = _mapperWithConfiguration(mapperBuilder());
+                }
             } finally {
                 _lock.unlock();
             }
