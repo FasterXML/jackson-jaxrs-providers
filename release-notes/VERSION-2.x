@@ -12,6 +12,10 @@ Sub-modules:
 
 2.18.0 (not yet released)
 
+No changes since 2.17
+
+2.17.1 (not yet released)
+
 #184: Use `ReentrantLock`s instead of synchronized blocks
  (contributed by @pjfanning)
 
