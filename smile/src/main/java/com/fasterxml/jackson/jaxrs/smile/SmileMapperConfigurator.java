@@ -19,7 +19,7 @@ import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
 public class SmileMapperConfigurator
     extends MapperConfiguratorBase<SmileMapperConfigurator, ObjectMapper>
 {
-    // @since 2.18
+    // @since 2.17.1
     private final ReentrantLock _lock = new ReentrantLock();
 
     /*

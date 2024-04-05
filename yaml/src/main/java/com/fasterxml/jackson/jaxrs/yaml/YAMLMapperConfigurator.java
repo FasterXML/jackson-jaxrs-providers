@@ -18,7 +18,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class YAMLMapperConfigurator
     extends MapperConfiguratorBase<YAMLMapperConfigurator, YAMLMapper>
 {
-    // @since 2.18
+    // @since 2.17.1
     private final ReentrantLock _lock = new ReentrantLock();
 
     /*
