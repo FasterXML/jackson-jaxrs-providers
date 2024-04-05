@@ -1,6 +1,7 @@
 package com.fasterxml.jackson.jaxrs.json;
 
 import java.util.*;
+import java.util.concurrent.locks.ReentrantLock;
 
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
@@ -16,6 +17,9 @@ import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
 public class JsonMapperConfigurator
     extends MapperConfiguratorBase<JsonMapperConfigurator, ObjectMapper>
 {
+    // @since 2.17.1
+    private final ReentrantLock _lock = new ReentrantLock();
+
     /*
     /**********************************************************
     /* Construction
@@ -31,18 +35,24 @@ public class JsonMapperConfigurator
      * Method that locates, configures and returns {@link ObjectMapper} to use
      */
     @Override
-    public synchronized ObjectMapper getConfiguredMapper() {
-        /* important: should NOT call mapper(); needs to return null
-         * if no instance has been passed or constructed
-         */
+    public ObjectMapper getConfiguredMapper() {
+        // important: should NOT call mapper(); needs to return null
+        // if no instance has been passed or constructed
         return _mapper;
     }
 
     @Override
-    public synchronized ObjectMapper getDefaultMapper() {
+    public ObjectMapper getDefaultMapper() {
         if (_defaultMapper == null) {
-            _defaultMapper = new ObjectMapper();
-            _setAnnotations(_defaultMapper, _defaultAnnotationsToUse);
+            _lock.lock();
+            try {
+                if (_defaultMapper == null) {
+                    _defaultMapper = new ObjectMapper();
+                    _setAnnotations(_defaultMapper, _defaultAnnotationsToUse);
+                }
+            } finally {
+                _lock.unlock();
+            }
         }
         return _defaultMapper;
     }
@@ -62,8 +72,15 @@ public class JsonMapperConfigurator
     protected ObjectMapper mapper()
     {
         if (_mapper == null) {
-            _mapper = new ObjectMapper();
-            _setAnnotations(_mapper, _defaultAnnotationsToUse);
+            _lock.lock();
+            try {
+                if (_mapper == null) {
+                    _mapper = new ObjectMapper();
+                    _setAnnotations(_mapper, _defaultAnnotationsToUse);
+                }
+            } finally {
+                _lock.unlock();
+            }
         }
         return _mapper;
     }

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.jaxrs.cfg.MapperConfiguratorBase;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
 
 import java.util.ArrayList;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Helper class used to encapsulate details of configuring an
@@ -15,7 +16,11 @@ import java.util.ArrayList;
  * well as accessing it.
  */
 public class YAMLMapperConfigurator
-        extends MapperConfiguratorBase<YAMLMapperConfigurator, YAMLMapper> {
+    extends MapperConfiguratorBase<YAMLMapperConfigurator, YAMLMapper>
+{
+    // @since 2.17.1
+    private final ReentrantLock _lock = new ReentrantLock();
+
     /*
     /**********************************************************
     /* Construction
@@ -30,18 +35,24 @@ public class YAMLMapperConfigurator
      * Method that locates, configures and returns {@link YAMLMapper} to use
      */
     @Override
-    public synchronized YAMLMapper getConfiguredMapper() {
-        /* important: should NOT call mapper(); needs to return null
-         * if no instance has been passed or constructed
-         */
+    public YAMLMapper getConfiguredMapper() {
+        // important: should NOT call mapper(); needs to return null
+        // if no instance has been passed or constructed
         return _mapper;
     }
 
     @Override
-    public synchronized YAMLMapper getDefaultMapper() {
+    public YAMLMapper getDefaultMapper() {
         if (_defaultMapper == null) {
-            _defaultMapper = new YAMLMapper(); //tarik: maybe there is better default config?
-            _setAnnotations(_defaultMapper, _defaultAnnotationsToUse);
+            _lock.lock();
+            try {
+                if (_defaultMapper == null) {
+                    _defaultMapper = new YAMLMapper(); //tarik: maybe there is better default config?
+                    _setAnnotations(_defaultMapper, _defaultAnnotationsToUse);
+                }
+            } finally {
+                _lock.unlock();
+            }
         }
         return _defaultMapper;
     }
@@ -60,8 +71,15 @@ public class YAMLMapperConfigurator
     @Override
     protected YAMLMapper mapper() {
         if (_mapper == null) {
-            _mapper = new YAMLMapper();
-            _setAnnotations(_mapper, _defaultAnnotationsToUse);
+            _lock.lock();
+            try {
+                if (_mapper == null) {
+                    _mapper = new YAMLMapper();
+                    _setAnnotations(_mapper, _defaultAnnotationsToUse);
+                }
+            } finally {
+                _lock.unlock();
+            }
         }
         return _mapper;
     }
