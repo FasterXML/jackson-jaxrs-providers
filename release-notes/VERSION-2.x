@@ -14,6 +14,8 @@ Sub-modules:
 
 #184: Use `ReentrantLock`s instead of synchronized blocks
  (contributed by @pjfanning)
+#187: Mark variables as volatile for safe concurrent access
+ (contributed by @pjfanning)
 
 2.17.0 (12-Mar-2024)
 
