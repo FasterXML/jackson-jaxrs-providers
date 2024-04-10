@@ -19,7 +19,7 @@ public abstract class MapperConfiguratorBase<IMPL extends MapperConfiguratorBase
      * If defined (explicitly or implicitly) it will be used, instead
      * of using provider-based lookup.
      */
-    protected MAPPER _mapper;
+    protected volatile MAPPER _mapper;
 
     /**
      * If no mapper was specified when constructed, and no configuration
@@ -27,13 +27,13 @@ public abstract class MapperConfiguratorBase<IMPL extends MapperConfiguratorBase
      * between default mapper and regular one is that default mapper
      * is only used if no mapper is found via provider lookup.
      */
-    protected MAPPER _defaultMapper;
+    protected volatile MAPPER _defaultMapper;
 
     /**
      * Annotations set to use by default; overridden by explicit call
-     * to {@link #setAnnotationsToUse}
+     * to {@link #setAnnotationsToUse}. Marked final in v2.17.1.
      */
-    protected Annotations[] _defaultAnnotationsToUse;
+    protected final Annotations[] _defaultAnnotationsToUse;
     
     /**
      * To support optional dependency to Jackson JAXB annotations module
