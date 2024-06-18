@@ -144,10 +144,11 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
 
 		}
 
-		private final List<E> entities;
+		private List<E> entities;
+
 		@JsonSerialize(contentUsing = JsonLinkSerializer.class)
 		@JsonDeserialize(contentUsing = JsonLinkDeserializer.class)
-		private final List<Link> links;
+		private List<Link> links;
 
 		protected PageImpl() {
 			this.entities = new ArrayList<>();
@@ -176,7 +177,6 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
 			}
 			return null;
 		}
-
 	}
 
     @Path("/point")
