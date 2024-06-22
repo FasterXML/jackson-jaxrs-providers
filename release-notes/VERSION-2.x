@@ -10,6 +10,10 @@ Sub-modules:
 === Releases ===
 ------------------------------------------------------------------------
 
+2.17.2 (not yet relesed)
+
+* Woodstox dependency now 6.7.0
+
 2.17.1 (04-May-2024)
 
 #184: Use `ReentrantLock`s instead of synchronized blocks
