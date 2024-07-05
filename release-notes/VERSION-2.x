@@ -10,7 +10,7 @@ Sub-modules:
 === Releases ===
 ------------------------------------------------------------------------
 
-2.17.2 (not yet relesed)
+2.17.2 (05-Jul-2024)
 
 * Woodstox dependency now 6.7.0
 
