@@ -2,10 +2,16 @@ package com.fasterxml.jackson.jaxrs.base;
 
 import java.io.*;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Type;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.*;
 
-import javax.ws.rs.core.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.StreamingOutput;
 import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 
@@ -16,6 +22,8 @@ import com.fasterxml.jackson.databind.util.LRUMap;
 import com.fasterxml.jackson.databind.util.LookupCache;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 
+import com.fasterxml.jackson.jaxrs.base.nocontent.JaxRS1NoContentExceptionSupplier;
+import com.fasterxml.jackson.jaxrs.base.nocontent.JaxRS2NoContentExceptionSupplier;
 import com.fasterxml.jackson.jaxrs.cfg.*;
 import com.fasterxml.jackson.jaxrs.util.ClassKey;
 
@@ -37,7 +45,7 @@ public abstract class ProviderBase<
 
     protected final static String CLASS_NAME_NO_CONTENT_EXCEPTION = "javax.ws.rs.core.NoContentException";
 
-    private final static String NO_CONTENT_MESSAGE = "No content (empty input stream)";
+    private final NoContentExceptionSupplier noContentExceptionSupplier = _createNoContentExceptionSupplier();
 
     /**
      * Looks like we need to worry about accidental
@@ -565,8 +573,8 @@ public abstract class ProviderBase<
      */
     @Override
     public void writeTo(Object value, Class<?> type, Type genericType, Annotation[] annotations,
-            MediaType mediaType,
-            MultivaluedMap<String,Object> httpHeaders, OutputStream entityStream) 
+                        MediaType mediaType,
+                        MultivaluedMap<String,Object> httpHeaders, OutputStream entityStream)
         throws IOException
     {
         EP_CONFIG endpoint = _endpointForWriting(value, type, genericType, annotations,
@@ -963,7 +971,7 @@ public abstract class ProviderBase<
     }
 
     protected IOException _createNoContentException() {
-        return new NoContentException(NO_CONTENT_MESSAGE);
+        return noContentExceptionSupplier.createNoContentException();
     }
 
     /*
@@ -1039,5 +1047,46 @@ public abstract class ProviderBase<
     @SuppressWarnings("unchecked")
     private final THIS _this() {
         return (THIS) this;
+    }
+
+    /**
+     * Since class <code>javax.ws.rs.core.NoContentException</code> only exists in
+     * JAX-RS 2.0, but we want to have 1.x compatibility, need to dynamically select exception supplier
+     */
+    private static NoContentExceptionSupplier _createNoContentExceptionSupplier() {
+        try {
+            final Class<?> cls = Class.forName(CLASS_NAME_NO_CONTENT_EXCEPTION, false, getClassLoader());
+            Constructor<?> ctor;
+            if (System.getSecurityManager() == null) {
+                ctor = cls.getDeclaredConstructor(String.class);
+            } else {
+                ctor = AccessController.doPrivileged(new PrivilegedAction<Constructor<?>>() {
+                    @Override
+                    public Constructor<?> run() {
+                        try {
+                            return cls.getDeclaredConstructor(String.class);
+                        } catch (NoSuchMethodException ignore) {
+                            return null;
+                        }
+                    }
+                });
+            }
+            if (ctor != null) {
+                return new JaxRS2NoContentExceptionSupplier();
+            }
+        } catch (ClassNotFoundException | NoSuchMethodException ex) { }
+        return new JaxRS1NoContentExceptionSupplier();
+    }
+
+    private static ClassLoader getClassLoader() {
+        if (System.getSecurityManager() == null) {
+            return ProviderBase.class.getClassLoader();
+        }
+        return AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
+            @Override
+            public ClassLoader run() {
+                return ProviderBase.class.getClassLoader();
+            }
+        });
     }
 }

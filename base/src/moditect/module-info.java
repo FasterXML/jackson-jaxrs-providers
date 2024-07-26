@@ -2,6 +2,7 @@
 module com.fasterxml.jackson.jaxrs.base {
     exports com.fasterxml.jackson.jaxrs.annotation;
     exports com.fasterxml.jackson.jaxrs.base;
+    exports com.fasterxml.jackson.jaxrs.base.nocontent;
     exports com.fasterxml.jackson.jaxrs.cfg;
     exports com.fasterxml.jackson.jaxrs.util;
 
