@@ -54,7 +54,7 @@ import javax.ws.rs.ext.*;
  * @author Tatu Saloranta
  */
 @Provider
-@Consumes(MediaType.WILDCARD) // NOTE: required to support "non-standard" JSON variants
+@Consumes(MediaType.WILDCARD)
 @Produces(MediaType.WILDCARD)
 public class JacksonYAMLProvider
         extends ProviderBase<JacksonYAMLProvider,
