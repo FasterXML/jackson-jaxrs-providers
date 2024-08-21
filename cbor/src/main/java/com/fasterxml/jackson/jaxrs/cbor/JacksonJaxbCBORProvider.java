@@ -24,7 +24,8 @@ import com.fasterxml.jackson.jaxrs.cfg.Annotations;
  */
 @Provider
 @Consumes(MediaType.WILDCARD)
-@Produces(MediaType.WILDCARD)
+//https://datatracker.ietf.org/doc/html/rfc8949
+@Produces({ "application/cbor", MediaType.WILDCARD })
 public class JacksonJaxbCBORProvider extends JacksonCBORProvider {
     /**
      * Default annotation sets to use, if not explicitly defined during
