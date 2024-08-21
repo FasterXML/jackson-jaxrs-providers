@@ -23,7 +23,7 @@ import com.fasterxml.jackson.jaxrs.cfg.Annotations;
  * in sync if changed.
  */
 @Provider
-@Consumes(MediaType.WILDCARD) // NOTE: required to support "non-standard" JSON variants
+@Consumes(MediaType.WILDCARD)
 @Produces(MediaType.WILDCARD)
 public class JacksonJaxbXMLProvider extends JacksonXMLProvider {
     /**
