@@ -14,6 +14,9 @@ Sub-modules:
 
 #192: Bring back code to support JAXRS v1 (revert #134 for 2.18)
  (contributed by @pjfanning)
+#193: `JacksonJaxbJsonProvider` has @Produces(MediaType.WILDCARD) and yet
+  hasMatchingMediaType(MediaType.WILDCARD) return false
+ (contributed by Yura)
 * Woodstox dependency now 7.0.0
 
 2.17.2 (05-Jul-2024)
