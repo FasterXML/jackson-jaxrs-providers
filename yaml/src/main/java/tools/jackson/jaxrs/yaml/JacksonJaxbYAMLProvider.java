@@ -25,7 +25,8 @@ import javax.ws.rs.ext.Provider;
  */
 @Provider
 @Consumes(MediaType.WILDCARD)
-@Produces(MediaType.WILDCARD)
+//As per https://www.rfc-editor.org/rfc/rfc9512.html
+@Produces({ "application/yaml", MediaType.WILDCARD })
 public class JacksonJaxbYAMLProvider extends JacksonYAMLProvider
 {
     /**

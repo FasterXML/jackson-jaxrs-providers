@@ -100,3 +100,9 @@ Steven Schlansker (@stevenschlansker)
 
 * Contributed #170: Add `JaxRsFeature.READ_FULL_STREAM` to consume all content
  (2.15.0)
+
+Yura (@sdyura)
+
+* Contributed #193: `JacksonJaxbJsonProvider` has @Produces(MediaType.WILDCARD) and yet
+  hasMatchingMediaType(MediaType.WILDCARD) return false
+ (2.18.0)

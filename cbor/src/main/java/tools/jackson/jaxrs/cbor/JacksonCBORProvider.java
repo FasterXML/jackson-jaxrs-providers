@@ -46,7 +46,8 @@ import tools.jackson.jaxrs.cbor.PackageVersion;
  */
 @Provider
 @Consumes(MediaType.WILDCARD)
-@Produces(MediaType.WILDCARD)
+// https://datatracker.ietf.org/doc/html/rfc8949
+@Produces({ "application/cbor", MediaType.WILDCARD })
 public class JacksonCBORProvider
 extends ProviderBase<JacksonCBORProvider,
     CBORMapper,

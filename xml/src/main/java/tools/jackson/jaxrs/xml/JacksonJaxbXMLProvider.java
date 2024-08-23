@@ -25,7 +25,7 @@ import tools.jackson.module.jaxb.JaxbAnnotationIntrospector;
  */
 @Provider
 @Consumes(MediaType.WILDCARD)
-@Produces(MediaType.WILDCARD)
+@Produces({ MediaType.APPLICATION_XML, MediaType.TEXT_XML, MediaType.WILDCARD })
 public class JacksonJaxbXMLProvider extends JacksonXMLProvider
 {
     /**
