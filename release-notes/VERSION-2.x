@@ -10,6 +10,10 @@ Sub-modules:
 === Releases ===
 ------------------------------------------------------------------------
 
+2.19.0 (not yet released)
+
+-
+
 2.18.0 (26-Sep-2024)
 
 #192: Bring back code to support JAXRS v1 (revert #134 for 2.18)
