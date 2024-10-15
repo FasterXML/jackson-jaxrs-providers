@@ -42,8 +42,10 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> 
 
-    <!--  Need Jersey+Jetty for testing; deps from DropWizard 1.3.29 -->
-    <version.jersey>2.25.1</version.jersey>
+    <!--  Need Jersey+Jetty for testing -->
+
+    <!-- 14-Oct-2024, tatu: Latest 2.x Jersey -->
+    <version.jersey>2.45</version.jersey>
     <!-- as per CVE-2019-10247 -> 9.4.35 -->
     <!-- 18-Apr-2023, tatu: Further increase (latest at this point) -->
     <!-- 14-Oct-2024, tatu: and yet further -->
@@ -109,6 +111,15 @@
     <dependency>
       <groupId>org.glassfish.jersey.containers</groupId>
       <artifactId>jersey-container-servlet</artifactId>
+      <version>${version.jersey}</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- 14-Oct-2024, tatu: Need this with Jersey 2.26+, as per
+https://stackoverflow.com/questions/44088493/jersey-stopped-working-with-injectionmanagerfactory-not-found
+      -->
+    <dependency>
+      <groupId>org.glassfish.jersey.inject</groupId>
+      <artifactId>jersey-hk2</artifactId>
       <version>${version.jersey}</version>
       <scope>test</scope>
     </dependency>
