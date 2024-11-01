@@ -23,6 +23,10 @@ No changes since 2.18.0
  (contributed by Yura)
 * Woodstox dependency now 7.0.0
 
+2.17.3 (01-Nov-2024)
+
+No changes since 2.17.2
+
 2.17.2 (05-Jul-2024)
 
 * Woodstox dependency now 6.7.0
