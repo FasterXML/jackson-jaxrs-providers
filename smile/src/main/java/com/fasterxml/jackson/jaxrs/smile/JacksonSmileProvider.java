@@ -9,6 +9,7 @@ import javax.ws.rs.ext.*;
 import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.dataformat.smile.SmileFactory;
+import com.fasterxml.jackson.dataformat.smile.databind.SmileMapper;
 import com.fasterxml.jackson.jaxrs.base.ProviderBase;
 import com.fasterxml.jackson.jaxrs.cfg.Annotations;
 
@@ -182,25 +183,17 @@ extends ProviderBase<JacksonSmileProvider,
     @Override
     protected ObjectMapper _locateMapperViaProvider(Class<?> type, MediaType mediaType)
     {
-        if (_providers != null) {
-            ContextResolver<ObjectMapper> resolver = _providers.getContextResolver(ObjectMapper.class, mediaType);
-            /* Above should work as is, but due to this bug
-             *   [https://jersey.dev.java.net/issues/show_bug.cgi?id=288]
-             * in Jersey, it doesn't. But this works until resolution of
-             * the issue:
-             */
-            if (resolver == null) {
-                resolver = _providers.getContextResolver(ObjectMapper.class, null);
-            }
-            if (resolver != null) {
-                ObjectMapper mapper = resolver.getContext(type);
-                // 07-Feb-2014, tatu: just in case, ensure we have correct type
-                if (mapper.getFactory() instanceof SmileFactory) {
-                    return mapper;
-                }
+        // 26-Nov-2024, tatu: [jakarta-rs#36] Look for SmileMapper primarily
+        ObjectMapper m = _locateMapperViaProvider(type, mediaType, SmileMapper.class, _providers);
+        if (m == null) {
+            // but if not found, try ObjectMapper
+            m =_locateMapperViaProvider(type, mediaType, ObjectMapper.class, _providers);        
+            // 07-Feb-2014, tatu: just in case, ensure we have correct type
+            if ((m != null) && !(m.getFactory() instanceof SmileFactory)) {
+                m = null;
             }
         }
-        return null;
+        return m;
     }
 
     @Override

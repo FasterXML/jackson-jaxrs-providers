@@ -9,6 +9,7 @@ import javax.ws.rs.ext.*;
 import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.dataformat.cbor.CBORFactory;
+import com.fasterxml.jackson.dataformat.cbor.databind.CBORMapper;
 import com.fasterxml.jackson.jaxrs.base.ProviderBase;
 import com.fasterxml.jackson.jaxrs.cfg.Annotations;
 
@@ -154,9 +155,8 @@ extends ProviderBase<JacksonCBORProvider,
             return CBORMediaTypes.APPLICATION_JACKSON_CBOR_TYPE.getSubtype().equalsIgnoreCase(subtype) || 
             		"cbor".equalsIgnoreCase(subtype) || subtype.endsWith("+cbor");
         }
-        /* Not sure if this can happen; but it seems reasonable
-         * that we can at least produce CBOR without media type?
-         */
+        // Not sure if this can happen; but it seems reasonable
+        // that we can at least produce CBOR without media type?
         return true;
     }
 
@@ -183,25 +183,17 @@ extends ProviderBase<JacksonCBORProvider,
     @Override
     protected ObjectMapper _locateMapperViaProvider(Class<?> type, MediaType mediaType)
     {
-        if (_providers != null) {
-            ContextResolver<ObjectMapper> resolver = _providers.getContextResolver(ObjectMapper.class, mediaType);
-            /* Above should work as is, but due to this bug
-             *   [https://jersey.dev.java.net/issues/show_bug.cgi?id=288]
-             * in Jersey, it doesn't. But this works until resolution of
-             * the issue:
-             */
-            if (resolver == null) {
-                resolver = _providers.getContextResolver(ObjectMapper.class, null);
-            }
-            if (resolver != null) {
-                ObjectMapper mapper = resolver.getContext(type);
-                // 07-Feb-2014, tatu: just in case, ensure we have correct type
-                if (mapper.getFactory() instanceof CBORFactory) {
-                    return mapper;
-                }
+        // 26-Nov-2024, tatu: [jakarta-rs#36] Look for CBORMapper primarily
+        ObjectMapper m = _locateMapperViaProvider(type, mediaType, CBORMapper.class, _providers);
+        if (m == null) {
+            // but if not found, try ObjectMapper
+            m = _locateMapperViaProvider(type, mediaType, ObjectMapper.class, _providers);        
+            // 07-Feb-2014, tatu: just in case, ensure we have correct type
+            if (m != null && !(m.getFactory() instanceof CBORFactory)) {
+                m = null;
             }
         }
-        return null;
+        return m;
     }
 
     @Override

@@ -197,20 +197,7 @@ public class JacksonXMLProvider
         XmlMapper m = _mapperConfig.getConfiguredMapper();
         if (m == null) {
             // If not, maybe we can get one configured via context?
-            if (_providers != null) {
-                ContextResolver<XmlMapper> resolver = _providers.getContextResolver(XmlMapper.class, mediaType);
-                /* Above should work as is, but due to this bug
-                 *   [https://jersey.dev.java.net/issues/show_bug.cgi?id=288]
-                 * in Jersey, it doesn't. But this works until resolution of
-                 * the issue:
-                 */
-                if (resolver == null) {
-                    resolver = _providers.getContextResolver(XmlMapper.class, null);
-                }
-                if (resolver != null) {
-                    m = resolver.getContext(type);
-                }
-            }
+            m = _locateMapperViaProvider(type, mediaType, XmlMapper.class, _providers);
             if (m == null) {
                 // If not, let's get the fallback default instance
                 m = _mapperConfig.getDefaultMapper();

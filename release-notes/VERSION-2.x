@@ -12,6 +12,8 @@ Sub-modules:
 
 2.19.0 (not yet released)
 
+#200: Narrow types to format specific (e.g. CBORMapper) when resolving
+  via JAX-RS Providers 
 * Woodstox dependency now 7.1.0
 
 2.18.1 (28-Oct-2024)
