@@ -5,6 +5,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.jaxrs.cfg.Annotations;
 import com.fasterxml.jackson.jaxrs.cfg.MapperConfiguratorBase;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
@@ -47,7 +48,7 @@ public class JsonMapperConfigurator
             _lock.lock();
             try {
                 if (_defaultMapper == null) {
-                    _defaultMapper = new ObjectMapper();
+                    _defaultMapper = new JsonMapper();
                     _setAnnotations(_defaultMapper, _defaultAnnotationsToUse);
                 }
             } finally {
@@ -75,7 +76,7 @@ public class JsonMapperConfigurator
             _lock.lock();
             try {
                 if (_mapper == null) {
-                    _mapper = new ObjectMapper();
+                    _mapper = new JsonMapper();
                     _setAnnotations(_mapper, _defaultAnnotationsToUse);
                 }
             } finally {
@@ -118,9 +119,8 @@ public class JsonMapperConfigurator
         case JACKSON:
             return new JacksonAnnotationIntrospector();
         case JAXB:
-            /* For this, need to use indirection just so that error occurs
-             * when we get here, and not when this class is being loaded
-             */
+            // For this, need to use indirection just so that error occurs
+            // when we get here, and not when this class is being loaded
             try {
                 if (_jaxbIntrospectorClass == null) {
                     _jaxbIntrospectorClass = JaxbAnnotationIntrospector.class;

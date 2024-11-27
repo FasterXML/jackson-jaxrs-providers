@@ -5,7 +5,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
-import com.fasterxml.jackson.dataformat.cbor.CBORFactory;
+import com.fasterxml.jackson.dataformat.cbor.databind.CBORMapper;
 import com.fasterxml.jackson.jaxrs.cfg.Annotations;
 import com.fasterxml.jackson.jaxrs.cfg.MapperConfiguratorBase;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
@@ -48,7 +48,7 @@ public class CBORMapperConfigurator
             _lock.lock();
             try {
                 if (_defaultMapper == null) {
-                    _defaultMapper = new ObjectMapper(new CBORFactory());
+                    _defaultMapper = new CBORMapper();
                     _setAnnotations(_defaultMapper, _defaultAnnotationsToUse);
                 }
             } finally {
@@ -76,7 +76,7 @@ public class CBORMapperConfigurator
             _lock.lock();
             try {
                 if (_mapper == null) {
-                    _mapper = new ObjectMapper(new CBORFactory());
+                    _mapper = new CBORMapper();
                     _setAnnotations(_mapper, _defaultAnnotationsToUse);
                 }
             } finally {
@@ -90,7 +90,7 @@ public class CBORMapperConfigurator
     protected AnnotationIntrospector _resolveIntrospectors(Annotations[] annotationsToUse)
     {
         // Let's ensure there are no dups there first, filter out nulls
-        ArrayList<AnnotationIntrospector> intr = new ArrayList<AnnotationIntrospector>();
+        ArrayList<AnnotationIntrospector> intr = new ArrayList<>();
         for (Annotations a : annotationsToUse) {
             if (a != null) {
                 intr.add(_resolveIntrospector(a));
@@ -113,9 +113,8 @@ public class CBORMapperConfigurator
         case JACKSON:
             return new JacksonAnnotationIntrospector();
         case JAXB:
-            /* For this, need to use indirection just so that error occurs
-             * when we get here, and not when this class is being loaded
-             */
+            // For this, need to use indirection just so that error occurs
+            // when we get here, and not when this class is being loaded
             try {
                 if (_jaxbIntrospectorClass == null) {
                     _jaxbIntrospectorClass = JaxbAnnotationIntrospector.class;
