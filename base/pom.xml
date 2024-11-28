@@ -9,10 +9,10 @@
   <parent>
     <groupId>com.fasterxml.jackson.jaxrs</groupId>
     <artifactId>jackson-jaxrs-providers</artifactId>
-    <version> 2.18.2-SNAPSHOT</version>
+    <version> 2.18.2</version>
   </parent>
   <artifactId>jackson-jaxrs-base</artifactId>
-  <version> 2.18.2-SNAPSHOT</version>
+  <version> 2.18.2</version>
   <name>Jackson-JAXRS: base</name>
   <packaging>bundle</packaging>
   <description>Pile of code that is shared by all Jackson-based JAX-RS
