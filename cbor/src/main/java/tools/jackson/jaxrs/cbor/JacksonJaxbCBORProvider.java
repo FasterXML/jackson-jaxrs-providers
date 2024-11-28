@@ -26,8 +26,9 @@ import tools.jackson.module.jaxb.JaxbAnnotationIntrospector;
  * in sync if changed.
  */
 @Provider
-@Consumes(MediaType.WILDCARD) // NOTE: required to support "non-standard" variants
-@Produces(MediaType.WILDCARD)
+@Consumes(MediaType.WILDCARD)
+//https://datatracker.ietf.org/doc/html/rfc8949
+@Produces({ "application/cbor", MediaType.WILDCARD })
 public class JacksonJaxbCBORProvider extends JacksonCBORProvider
 {
     /**

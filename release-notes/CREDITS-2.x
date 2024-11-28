@@ -84,4 +84,25 @@ James R. Perkins (jamezp@github)
 Scott Lewis (scottslewis@github)
 
 * Reported #132: jaxrs jakarta versions have javax.ws references in OSGi manifest
- (2.12.2)
+(2.12.2)
+
+PJ Fanning (@pjfanning)
+
+* Contributed #166: `ProviderBase` class shows contention on synchronized
+  block using `LRUMap` _writers instance
+ (2.14.2)
+* Contributed #184: Use `ReentrantLock`s instead of synchronized blocks
+ (2.17.1)
+* Contributed #187: Mark variables as volatile for safe concurrent access
+ (2.17.1)
+
+Steven Schlansker (@stevenschlansker)
+
+* Contributed #170: Add `JaxRsFeature.READ_FULL_STREAM` to consume all content
+ (2.15.0)
+
+Yura (@sdyura)
+
+* Contributed #193: `JacksonJaxbJsonProvider` has @Produces(MediaType.WILDCARD) and yet
+  hasMatchingMediaType(MediaType.WILDCARD) return false
+ (2.18.0)

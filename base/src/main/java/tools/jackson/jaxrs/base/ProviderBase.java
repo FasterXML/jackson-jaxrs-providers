@@ -14,11 +14,12 @@ import tools.jackson.core.*;
 
 import tools.jackson.databind.*;
 import tools.jackson.databind.type.TypeFactory;
+import tools.jackson.databind.util.LookupCache;
+import tools.jackson.databind.util.SimpleLookupCache;
 
 import tools.jackson.jaxrs.base.ProviderBase;
 import tools.jackson.jaxrs.cfg.*;
 import tools.jackson.jaxrs.util.ClassKey;
-import tools.jackson.jaxrs.util.LRUMap;
 
 public abstract class ProviderBase<
     THIS extends ProviderBase<THIS, MAPPER, EP_CONFIG, MAPPER_CONFIG>,
@@ -140,14 +141,12 @@ public abstract class ProviderBase<
     /**
      * Cache for resolved endpoint configurations when reading JSON data
      */
-    protected final LRUMap<AnnotationBundleKey, EP_CONFIG> _readers
-        = new LRUMap<AnnotationBundleKey, EP_CONFIG>(16, 120);
+    protected final LookupCache<AnnotationBundleKey, EP_CONFIG> _readers;
 
     /**
      * Cache for resolved endpoint configurations when writing JSON data
      */
-    protected final LRUMap<AnnotationBundleKey, EP_CONFIG> _writers
-        = new LRUMap<AnnotationBundleKey, EP_CONFIG>(16, 120);
+    protected final LookupCache<AnnotationBundleKey, EP_CONFIG> _writers;
 
     protected final AtomicReference<IOException> _noContentExceptionRef
         = new AtomicReference<IOException>();
@@ -159,8 +158,9 @@ public abstract class ProviderBase<
      */
 
     protected ProviderBase(MAPPER_CONFIG mconfig) {
-        _mapperConfig = mconfig;
-        _jaxRSFeatures = JAXRS_FEATURE_DEFAULTS;
+        this(mconfig,
+                new SimpleLookupCache<>(16, 120),
+                new SimpleLookupCache<>(16, 120));
     }
 
     /**
@@ -172,8 +172,17 @@ public abstract class ProviderBase<
      */
     @Deprecated // just to denote it should NOT be directly called; will NOT be removed
     protected ProviderBase() {
-        _mapperConfig = null;
+        this(null);
+    }
+
+    protected ProviderBase(MAPPER_CONFIG mconfig,
+            LookupCache<AnnotationBundleKey, EP_CONFIG> readerCache,
+            LookupCache<AnnotationBundleKey, EP_CONFIG> writerCache)
+    {
+        _mapperConfig = mconfig;
         _jaxRSFeatures = JAXRS_FEATURE_DEFAULTS;
+        _readers = readerCache;
+        _writers = writerCache;
     }
 
     /*
@@ -387,6 +396,9 @@ public abstract class ProviderBase<
         // 25-Jan-2020, tatu: Important: JAX-RS expects that the InputStream
         //   is NOT closed by parser so...
         r = r.without(StreamReadFeature.AUTO_CLOSE_SOURCE);
+        if (JaxRSFeature.READ_FULL_STREAM.enabledIn(_jaxRSFeatures)) {
+            r = r.withFeatures(DeserializationFeature.FAIL_ON_TRAILING_TOKENS);
+        }
         return _configForReading(r, annotations);
     }
 
@@ -592,19 +604,14 @@ public abstract class ProviderBase<
             return _configForWriting(locateMapper(type, mediaType), annotations, _defaultWriteView);
         }
 
-        EP_CONFIG endpoint;
         AnnotationBundleKey key = new AnnotationBundleKey(annotations, type);
-        synchronized (_writers) {
-            endpoint = _writers.get(key);
-        }
+        EP_CONFIG endpoint = _writers.get(key);
         // not yet resolved (or not cached any more)? Resolve!
         if (endpoint == null) {
             MAPPER mapper = locateMapper(type, mediaType);
             endpoint = _configForWriting(mapper, annotations, _defaultWriteView);
             // and cache for future reuse
-            synchronized (_writers) {
-                _writers.put(key.immutableKey(), endpoint);
-            }
+            _writers.put(key.immutableKey(), endpoint);
         }
         return endpoint;
     }
@@ -751,19 +758,14 @@ public abstract class ProviderBase<
             return _configForReading(locateMapper(type, mediaType), annotations, _defaultReadView);
         }
 
-        EP_CONFIG endpoint;
         AnnotationBundleKey key = new AnnotationBundleKey(annotations, type);
-        synchronized (_readers) {
-            endpoint = _readers.get(key);
-        }
+        EP_CONFIG endpoint = _readers.get(key);
         // not yet resolved (or not cached any more)? Resolve!
         if (endpoint == null) {
             MAPPER mapper = locateMapper(type, mediaType);
             endpoint = _configForReading(mapper, annotations, _defaultReadView);
             // and cache for future reuse
-            synchronized (_readers) {
-                _readers.put(key.immutableKey(), endpoint);
-            }
+            _readers.put(key.immutableKey(), endpoint);
         }
         return endpoint;
     }

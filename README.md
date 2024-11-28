@@ -32,7 +32,7 @@ To use JAX-RS on Maven-based projects, use dependencies like:
 <dependency>
   <groupId>com.fasterxml.jackson.jaxrs</groupId>
   <artifactId>jackson-jaxrs-json-provider</artifactId>
-  <version>2.12.3</version>
+  <version>2.18.1</version>
 </dependency>
 ```
 
@@ -103,19 +103,30 @@ requires  jakarta.ws.rs; //Newer libraries
 ### Using Jakarta
 
 Starting with Jackson 2.13, there is a fully separate set of providers
-for "Jakarta-RS", see: [jackson-jaxrs-providers](../../../jackson-jaxrs-providers).
+for "Jakarta-RS", see: [jackson-jakarta-rs-providers](../../../jackson-jakarta-rs-providers).
+They would be instead included with:
 
-But Jackson 2.12 also has (just for that version), `jakarta` classifier variant of JAXB providers included here.
+```
+<dependency>
+    <groupId>com.fasterxml.jackson.jakarta.rs</groupId>
+    <artifactId>jackson-jakarta-rs-json-provider</artifactId>
+</dependency>
+``` 
 
-You MAY be able to use these variants by using dependency like:
+NOTE! Jackson 2.12 has (just for that version), `jakarta` classifier variant of JAXB providers included here.
+
+You may be able to use these variants by using dependency like:
 
 ```
 <dependency>
     <groupId>com.fasterxml.jackson.jaxrs</groupId>
     <artifactId>jackson-jaxrs-json</artifactId>
+    <version>2.12.6</version>
     <classifier>jakarta</classifier>
 </dependency>
 ``` 
+
+but this mechanism was removed from later versions.
 
 ## Support
 

@@ -8,7 +8,7 @@ import java.lang.annotation.Annotation;
 import tools.jackson.core.JacksonException;
 import tools.jackson.core.JsonParser;
 import tools.jackson.core.Version;
-import tools.jackson.core.exc.WrappedIOException;
+import tools.jackson.core.exc.JacksonIOException;
 import tools.jackson.databind.AnnotationIntrospector;
 import tools.jackson.databind.ObjectMapper;
 import tools.jackson.databind.ObjectReader;
@@ -54,8 +54,9 @@ import javax.ws.rs.ext.*;
  * @author Tatu Saloranta
  */
 @Provider
-@Consumes(MediaType.WILDCARD) // NOTE: required to support "non-standard" JSON variants
-@Produces(MediaType.WILDCARD)
+@Consumes(MediaType.WILDCARD)
+//As per https://www.rfc-editor.org/rfc/rfc9512.html
+@Produces({ "application/yaml", MediaType.WILDCARD })
 public class JacksonYAMLProvider
         extends ProviderBase<JacksonYAMLProvider,
         YAMLMapper,
@@ -224,7 +225,7 @@ public class JacksonYAMLProvider
             wrappedStream.unread(firstByte);
             return reader.createParser(wrappedStream);
         } catch (IOException e) {
-            throw WrappedIOException.construct(e);
+            throw JacksonIOException.construct(e);
         }
     }
 }

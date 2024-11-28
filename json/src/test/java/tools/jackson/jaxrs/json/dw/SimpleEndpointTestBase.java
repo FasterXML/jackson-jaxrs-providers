@@ -79,24 +79,22 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
         }
     }
 
-	protected static abstract class Page<E> {
+    protected static abstract class Page<E> {
 
-		public static final String PREV_PAGE_REL = "prev";
-		public static final String NEXT_PAGE_REL = "next";
+        public static final String PREV_PAGE_REL = "prev";
+        public static final String NEXT_PAGE_REL = "next";
 
-		public final Link getPreviousPageLink() {
-			return getLink(PREV_PAGE_REL);
-		}
+        public final Link getPreviousPageLink() {
+            return getLink(PREV_PAGE_REL);
+        }
 
-		public final Link getNextPageLink() {
-			return getLink(NEXT_PAGE_REL);
-		}
+        public final Link getNextPageLink() {
+            return getLink(NEXT_PAGE_REL);
+        }
 
-		public abstract List<E> getEntities();
-
-		public abstract Link getLink(String rel);
-
-	}
+        public abstract List<E> getEntities();
+        public abstract Link getLink(String rel);
+    }
 
     @JsonPropertyOrder({ "entities", "links" })
     @JsonAutoDetect(fieldVisibility = Visibility.ANY, creatorVisibility = Visibility.ANY, getterVisibility = Visibility.NONE, isGetterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE)
@@ -142,11 +140,11 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
 	    }
 	}
 
-	private final List<E> entities;
+	private List<E> entities;
 
 	@JsonSerialize(contentUsing = JsonLinkSerializer.class)
 	@JsonDeserialize(contentUsing = JsonLinkDeserializer.class)
-	private final List<Link> links;
+	private List<Link> links;
 
 	protected PageImpl() {
 	    this.entities = new ArrayList<>();
@@ -220,6 +218,15 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
             return max;
         }
 
+        @Path("/echo")
+        @POST
+        @Consumes(MediaType.APPLICATION_JSON)
+        @Produces(MediaType.APPLICATION_JSON)
+        public Point echoPoint(Point point) throws IOException
+        {
+            return point;
+        }
+        
         private int _distance(Point p) {
             return (p.x * p.x) + (p.y * p.y);
         }
@@ -494,6 +501,53 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
         assertEquals(4, p.y);
     }
 
+    // [jaxrs-providers#108]
+    public void testPointNoTrailingContent() throws Exception
+    {
+        final ObjectMapper mapper = new ObjectMapper();
+        Server server = startServer(TEST_PORT, SimpleResourceApp.class);
+        Point p;
+
+        try {
+            URL url = new URL("http://localhost:"+TEST_PORT+"/point/echo");
+
+            // First, content with no trailing stuff
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestProperty("Accept", MediaType.APPLICATION_JSON);
+            conn.setRequestProperty("Content-Type", MediaType.APPLICATION_JSON);
+            conn.setDoOutput(true);
+            conn.setRequestMethod("POST");
+            OutputStream out = conn.getOutputStream();
+            out.write(a2q("{'x':1,'y':1}").getBytes("UTF-8"));
+            out.close();
+            assertEquals(200, conn.getResponseCode());
+            InputStream in = conn.getInputStream();
+            p = mapper.readValue(in, Point.class);
+            in.close();
+            // ensure we got a valid Point
+            assertNotNull(p);
+            assertEquals(1, p.x);
+            assertEquals(1, p.y);
+
+            // Then try with trailing token; not allowed
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestProperty("Accept", MediaType.APPLICATION_JSON);
+            conn.setRequestProperty("Content-Type", MediaType.APPLICATION_JSON);
+            conn.setDoOutput(true);
+            conn.setRequestMethod("POST");
+            out = conn.getOutputStream();
+            out.write(a2q("{'x':1,'y':1} 123 ").getBytes("UTF-8"));
+            out.close();
+
+            // Hmmh. Typically would be mapped to 400 but apparently JAX-RS default is 500
+            assertEquals(500, conn.getResponseCode());
+            in.close();
+
+        } finally {
+            server.stop();
+        }
+    }
+    
     // [Issue#34] Verify that Untouchables act the way as they should
     @SuppressWarnings("resource")
     public void testUntouchables() throws Exception

@@ -33,9 +33,9 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> 
 
-    <!--  Need Jersey+Jetty for testing; deps from DropWizard 1.2.9 -->
-    <version.jersey>2.25.1</version.jersey>
-    <version.jetty>9.4.48.v20220622</version.jetty>
+    <!--  Need Jersey+Jetty for testing -->
+    <version.jersey>2.45</version.jersey>
+    <version.jetty>9.4.56.v20240826</version.jetty>
     
     <!-- Needed to enable jax-rs 2.0 usage under OSGi -->
     <javax.ws.rs.version>[2.0,2.2)</javax.ws.rs.version>
@@ -103,7 +103,21 @@
       <version>${version.jersey}</version>
       <scope>test</scope>
     </dependency>
-
+    <!-- 14-Oct-2024, tatu: Need this with Jersey 2.26+, as per
+https://stackoverflow.com/questions/44088493/jersey-stopped-working-with-injectionmanagerfactory-not-found
+      -->
+    <dependency>
+      <groupId>org.glassfish.jersey.inject</groupId>
+      <artifactId>jersey-hk2</artifactId>
+      <version>${version.jersey}</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- 20-Apr-2024 : JUnit4 no longer from jackson-base, so: -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <!-- Alas, need to include snapshot reference since otherwise can not find

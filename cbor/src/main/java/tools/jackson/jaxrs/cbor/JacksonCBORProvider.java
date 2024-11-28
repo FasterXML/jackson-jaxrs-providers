@@ -17,7 +17,7 @@ import tools.jackson.jaxrs.cbor.PackageVersion;
 /**
  * Basic implementation of JAX-RS abstractions ({@link MessageBodyReader},
  * {@link MessageBodyWriter}) needed for binding
- * Smile ("application/x-jackson-smile") content to and from Java Objects ("POJO"s).
+ * CBOR ("application/cbor") content to and from Java Objects ("POJO"s).
  *<p>
  * Actual data binding functionality is implemented by {@link ObjectMapper}:
  * mapper to use can be configured in multiple ways:
@@ -45,8 +45,9 @@ import tools.jackson.jaxrs.cbor.PackageVersion;
  * @author Tatu Saloranta
  */
 @Provider
-@Consumes(MediaType.WILDCARD) // NOTE: required to support "non-standard" JSON variants
-@Produces(MediaType.WILDCARD)
+@Consumes(MediaType.WILDCARD)
+// https://datatracker.ietf.org/doc/html/rfc8949
+@Produces({ "application/cbor", MediaType.WILDCARD })
 public class JacksonCBORProvider
 extends ProviderBase<JacksonCBORProvider,
     CBORMapper,
@@ -117,22 +118,22 @@ extends ProviderBase<JacksonCBORProvider,
 
     /**
      * Helper method used to check whether given media type
-     * is Smile type or sub type.
+     * is CBOR type or sub type.
      * Current implementation essentially checks to see whether
      * {@link MediaType#getSubtype} returns
-     * "smile" or something ending with "+smile".
+     * "cbor" or something ending with "+cbor".
      */
     @Override
     protected boolean hasMatchingMediaType(MediaType mediaType)
     {
         /* As suggested by Stephen D, there are 2 ways to check: either
-         * being as inclusive as possible (if subtype is "smile"), or
-         * exclusive (major type "application", minor type "smile").
+         * being as inclusive as possible (if subtype is "cbor"), or
+         * exclusive (major type "application", minor type "cbor").
          * Let's start with inclusive one, hard to know which major
          * types we should cover aside from "application".
          */
         if (mediaType != null) {
-            // Ok: there are also "xxx+smile" subtypes, which count as well
+            // Ok: there are also "xxx+cbor" subtypes, which count as well
             String subtype = mediaType.getSubtype();
             return CBORMediaTypes.APPLICATION_JACKSON_CBOR_TYPE.getSubtype().equalsIgnoreCase(subtype) || 
             		"cbor".equalsIgnoreCase(subtype) || subtype.endsWith("+cbor");

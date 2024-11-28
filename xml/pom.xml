@@ -54,9 +54,7 @@
       <groupId>org.codehaus.woodstox</groupId>
       <artifactId>stax2-api</artifactId>
       <!-- Ideally we'd accept range of versions but won't really work with Maven... -->
-
-<!--      <version>[4.0, 5.0)</version>  -->
-      <version>4.2.1</version>
+      <version>4.2.2</version>
     </dependency>
 
     <!-- Also: While JDK-included SJSXP almost works, there are some rough edges;
@@ -65,7 +63,7 @@
     <dependency>
       <groupId>com.fasterxml.woodstox</groupId>
       <artifactId>woodstox-core</artifactId>
-      <version>6.4.0</version>
+      <version>7.1.0</version>
       <exclusions>
         <exclusion>
           <groupId>javax.xml.stream</groupId>

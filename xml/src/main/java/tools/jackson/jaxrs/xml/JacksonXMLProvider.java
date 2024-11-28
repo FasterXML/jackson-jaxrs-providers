@@ -9,7 +9,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.*;
 
 import tools.jackson.core.*;
-import tools.jackson.core.exc.WrappedIOException;
+import tools.jackson.core.exc.JacksonIOException;
 import tools.jackson.databind.*;
 import tools.jackson.dataformat.xml.JacksonXmlAnnotationIntrospector;
 import tools.jackson.dataformat.xml.XmlMapper;
@@ -47,8 +47,8 @@ import tools.jackson.jaxrs.xml.PackageVersion;
  * @author Tatu Saloranta
  */
 @Provider
-@Consumes(MediaType.WILDCARD) // NOTE: required to support "non-standard" JSON variants
-@Produces(MediaType.WILDCARD)
+@Consumes(MediaType.WILDCARD)
+@Produces({ MediaType.APPLICATION_XML, MediaType.TEXT_XML, MediaType.WILDCARD })
 public class JacksonXMLProvider
     extends ProviderBase<JacksonXMLProvider,
         XmlMapper,
@@ -213,7 +213,7 @@ public class JacksonXMLProvider
             wrappedStream.unread(firstByte);
             return reader.createParser(wrappedStream);
         } catch (IOException e) {
-            throw WrappedIOException.construct(e);
+            throw JacksonIOException.construct(e);
         }
     }
 }
