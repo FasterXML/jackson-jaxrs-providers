@@ -6,12 +6,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.Map.Entry;
 
 import javax.ws.rs.Consumes;
@@ -48,7 +43,7 @@ import tools.jackson.databind.DeserializationContext;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.MappingIterator;
 import tools.jackson.databind.ObjectMapper;
-import tools.jackson.databind.SerializerProvider;
+import tools.jackson.databind.SerializationContext;
 import tools.jackson.databind.ValueDeserializer;
 import tools.jackson.databind.ValueSerializer;
 import tools.jackson.databind.annotation.JsonDeserialize;
@@ -104,8 +99,8 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
             static final String HREF_PROPERTY = "href";
 
             @Override
-            public void serialize(Link link, JsonGenerator jsonGenerator, SerializerProvider serializerProvider)
-                    throws JacksonException
+            public void serialize(Link link, JsonGenerator jsonGenerator, SerializationContext ctxt)
+                throws JacksonException
             {
                 jsonGenerator.writeStartObject();
                 jsonGenerator.writeStringProperty(HREF_PROPERTY, link.getUri().toString());
