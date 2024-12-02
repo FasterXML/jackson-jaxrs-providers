@@ -4,7 +4,6 @@ on:
     branches:
     - master
     - "3.0"
-    - "2.19"
     paths-ignore:
     - "README.md"
     - "release-notes/*"
@@ -12,7 +11,6 @@ on:
     branches:
     - master
     - "3.0"
-    - "2.19"
     paths-ignore:
     - "README.md"
     - "release-notes/*"
@@ -22,7 +20,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        java_version: ['8', '11', '17', '21']
+        java_version: ['17', '21']
         os: ['ubuntu-22.04']
     env:
       JAVA_OPTS: "-XX:+TieredCompilation -XX:TieredStopAtLevel=1"
@@ -44,7 +42,7 @@ jobs:
       run: ./mvnw -B -q -ff -ntp verify
     - name: Extract project Maven version
       id: projectVersion
-      run: echo "version=$(./mvnw org.apache.maven.plugins:maven-help-plugin:3.4.1:evaluate -DforceStdout -Dexpression=project.version -q)" >> $GITHUB_OUTPUT
+      run: echo "version=$(./mvnw org.apache.maven.plugins:maven-help-plugin:3.5.1:evaluate -DforceStdout -Dexpression=project.version -q)" >> $GITHUB_OUTPUT
     - name: Deploy snapshot
       if: github.event_name != 'pull_request' && matrix.java_version == '8' && endsWith(steps.projectVersion.outputs.version, '-SNAPSHOT')
       env:
