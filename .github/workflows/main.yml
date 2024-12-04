@@ -21,9 +21,9 @@ jobs:
       fail-fast: false
       matrix:
         java_version: ['17', '21']
-	include:
-	  - java_version: '17'
-	    snapshot: 1
+        include:
+          - java_version: '17'
+            snapshot: 1
     env:
       JAVA_OPTS: "-XX:+TieredCompilation -XX:TieredStopAtLevel=1"
     steps:
