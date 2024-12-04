@@ -18,12 +18,14 @@ on:
     - "release-notes/*"
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
+    runs-on: 'ubuntu-22.04'
     strategy:
       fail-fast: false
       matrix:
         java_version: ['8', '11', '17', '21']
-        os: ['ubuntu-22.04']
+        include:
+          - java_version: '8'
+            snapshot: 1
     env:
       JAVA_OPTS: "-XX:+TieredCompilation -XX:TieredStopAtLevel=1"
     steps:
@@ -44,9 +46,9 @@ jobs:
       run: ./mvnw -B -q -ff -ntp verify
     - name: Extract project Maven version
       id: projectVersion
-      run: echo "version=$(./mvnw org.apache.maven.plugins:maven-help-plugin:3.4.1:evaluate -DforceStdout -Dexpression=project.version -q)" >> $GITHUB_OUTPUT
+      run: echo "version=$(./mvnw org.apache.maven.plugins:maven-help-plugin:3.5.1:evaluate -DforceStdout -Dexpression=project.version -q)" >> $GITHUB_OUTPUT
     - name: Deploy snapshot
-      if: github.event_name != 'pull_request' && matrix.java_version == '8' && endsWith(steps.projectVersion.outputs.version, '-SNAPSHOT')
+      if: ${{ matrix.snapshot && github.event_name != 'pull_request' && && endsWith(steps.projectVersion.outputs.version, '-SNAPSHOT') }}
       env:
         CI_DEPLOY_USERNAME: ${{ secrets.CI_DEPLOY_USERNAME }}
         CI_DEPLOY_PASSWORD: ${{ secrets.CI_DEPLOY_PASSWORD }}
