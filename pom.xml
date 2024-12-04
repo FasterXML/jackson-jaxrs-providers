@@ -33,10 +33,14 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> 
 
+    <!-- [databind#4820]: Java 17 baseline -->
+    <javac.src.version>17</javac.src.version>
+    <javac.target.version>17</javac.target.version>
+
     <!--  Need Jersey+Jetty for testing -->
     <version.jersey>2.45</version.jersey>
     <version.jetty>9.4.56.v20240826</version.jetty>
-    
+
     <!-- Needed to enable jax-rs 2.0 usage under OSGi -->
     <javax.ws.rs.version>[2.0,2.2)</javax.ws.rs.version>
   </properties>
