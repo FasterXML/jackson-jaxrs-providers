@@ -47,9 +47,11 @@ using standard Jackson data binding.
       <artifactId>jackson-dataformat-yaml</artifactId>
     </dependency>
     <!-- may also need JAXB annotation support -->
+    <!-- 05-Dec-2024, tatu: [jaxrs-providers#123] Make optional -->
     <dependency> 
       <groupId>tools.jackson.module</groupId>
       <artifactId>jackson-module-jaxb-annotations</artifactId>
+      <optional>true</optional>
     </dependency>
 
     <!-- Use JSON and Smile providers for testing that content negotiation works with multiple providers registered. -->
