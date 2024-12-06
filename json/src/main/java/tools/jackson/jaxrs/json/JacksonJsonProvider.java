@@ -167,9 +167,8 @@ public class JacksonJsonProvider
                    || "x-json".equals(subtype) // [Issue#40]
                    ;
         }
-        // Not sure if this can happen; but it seems reasonable
-        // that we can at least produce JSON without media type?
-        return true;
+        // Without a media type, let JAX-RS deal with mapping if it can.
+        return false;
     }
 
     @Override

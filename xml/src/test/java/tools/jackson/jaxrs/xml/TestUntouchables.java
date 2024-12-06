@@ -6,8 +6,6 @@ import java.util.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.StreamingOutput;
 
-import tools.jackson.jaxrs.xml.JacksonXMLProvider;
-
 /**
  * Unit tests for verifying that certain JDK base types will be
  * ignored by default Jackson JAX-RS conversion provider.
@@ -20,7 +18,7 @@ public class TestUntouchables
      * remains overridable.
      */
     public static class MyJacksonProvider extends JacksonXMLProvider {
-         // ensure isJsonType remains "protected" � this is a compile-time check.
+         // ensure isJsonType remains "protected" this is a compile-time check.
          // Some users of JacksonJsonProvider override this method;
          // changing to "private" would regress them.
          @Override
