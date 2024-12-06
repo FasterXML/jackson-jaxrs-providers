@@ -45,9 +45,11 @@
       <artifactId>jackson-dataformat-xml</artifactId>
     </dependency>
     <!-- may also need JAXB annotation support -->
+    <!-- 05-Dec-2024, tatu: [jaxrs-providers#123] Make optional -->
     <dependency> 
       <groupId>tools.jackson.module</groupId>
       <artifactId>jackson-module-jaxb-annotations</artifactId>
+      <optional>true</optional>
     </dependency>
     <!--  But Stax2 API must be included -->
     <dependency>
