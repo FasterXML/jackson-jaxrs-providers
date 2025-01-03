@@ -7,7 +7,6 @@ import java.util.Arrays;
 
 import tools.jackson.core.JsonParser;
 import tools.jackson.core.JsonToken;
-import tools.jackson.jaxrs.yaml.YAMLMediaTypes;
 
 import org.junit.Assert;
 
@@ -70,18 +69,18 @@ public abstract class JaxrsTestBase
      * available methods, and ensures results are consistent, before
      * returning them
      */
-    protected String getAndVerifyText(JsonParser jp)
+    protected String getAndVerifyText(JsonParser p)
     {
         // Ok, let's verify other accessors
-        int actLen = jp.getTextLength();
-        char[] ch = jp.getTextCharacters();
-        String str2 = new String(ch, jp.getTextOffset(), actLen);
-        String str = jp.getText();
+        int actLen = p.getStringLength();
+        char[] ch = p.getStringCharacters();
+        String str2 = new String(ch, p.getStringOffset(), actLen);
+        String str = p.getString();
 
         if (str.length() !=  actLen) {
-            fail("Internal problem (jp.token == "+jp.currentToken()+"): jp.getText().length() ['"+str+"'] == "+str.length()+"; jp.getTextLength() == "+actLen);
+            fail("Internal problem (p.token == "+p.currentToken()+"): jp.getString().length() ['"+str+"'] == "+str.length()+"; p.getStringLength() == "+actLen);
         }
-        assertEquals("String access via getText(), getTextXxx() must be the same", str, str2);
+        assertEquals("String access via getString(), getStringXxx() must be the same", str, str2);
 
         return str;
     }
