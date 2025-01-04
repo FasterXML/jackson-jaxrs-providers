@@ -595,7 +595,12 @@ public abstract class ProviderBase<
         try {
             // Want indentation?
             if (writer.isEnabled(SerializationFeature.INDENT_OUTPUT)) {
-                g.useDefaultPrettyPrinter();
+                PrettyPrinter defaultPrettyPrinter = writer.getConfig().getDefaultPrettyPrinter();
+                if (defaultPrettyPrinter != null) {
+                    g.setPrettyPrinter(defaultPrettyPrinter);
+                } else {
+                    g.useDefaultPrettyPrinter();
+                }
             }
             JavaType rootType = null;
 
