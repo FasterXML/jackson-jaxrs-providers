@@ -5,6 +5,7 @@ import tools.jackson.databind.cfg.MapperBuilder;
 
 import tools.jackson.dataformat.smile.SmileFactory;
 import tools.jackson.dataformat.smile.SmileMapper;
+
 import tools.jackson.jaxrs.cfg.MapperConfiguratorBase;
 
 /**

@@ -9,7 +9,9 @@ import javax.ws.rs.ext.*;
 import tools.jackson.core.*;
 
 import tools.jackson.databind.*;
+
 import tools.jackson.dataformat.smile.SmileMapper;
+
 import tools.jackson.jaxrs.base.ProviderBase;
 import tools.jackson.jaxrs.smile.PackageVersion;
 

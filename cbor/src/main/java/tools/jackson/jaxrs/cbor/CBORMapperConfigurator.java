@@ -5,6 +5,7 @@ import tools.jackson.databind.cfg.MapperBuilder;
 
 import tools.jackson.dataformat.cbor.CBORFactory;
 import tools.jackson.dataformat.cbor.CBORMapper;
+
 import tools.jackson.jaxrs.cfg.MapperConfiguratorBase;
 
 /**
