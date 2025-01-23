@@ -1,8 +1,22 @@
 package tools.jackson.jaxrs.yaml.dw;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
 import tools.jackson.databind.ObjectMapper;
-import tools.jackson.dataformat.smile.SmileFactory;
+import tools.jackson.databind.json.JsonMapper;
+
+import tools.jackson.dataformat.smile.SmileMapper;
+
 import tools.jackson.dataformat.yaml.YAMLMapper;
+
 import tools.jackson.jaxrs.json.JacksonJsonProvider;
 import tools.jackson.jaxrs.smile.JacksonSmileProvider;
 import tools.jackson.jaxrs.smile.SmileMediaTypes;
@@ -11,16 +25,6 @@ import tools.jackson.jaxrs.yaml.YAMLMediaTypes;
 
 import org.eclipse.jetty.server.Server;
 import org.junit.Assert;
-
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 public abstract class SimpleEndpointTestBase extends ResourceTestBase
 {
@@ -163,8 +167,8 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
         Point p;
 
         final ObjectMapper yamlMapper = new YAMLMapper();
-        final ObjectMapper jsonMapper = new ObjectMapper();
-        final ObjectMapper smileMapper = new ObjectMapper(new SmileFactory());
+        final ObjectMapper jsonMapper = new JsonMapper();
+        final ObjectMapper smileMapper = new SmileMapper();
 
         try {
 

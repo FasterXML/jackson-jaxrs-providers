@@ -16,10 +16,11 @@ module tools.jackson.jaxrs.yaml
     // Additional test lib/framework dependencies
     requires junit; // JUnit 4
 
-    // Other test deps: we test format-negotiation
+    // Other test deps: we test format-negotiation so need JSON and Smile providers
 
     requires tools.jackson.jaxrs.json;
     requires tools.jackson.jaxrs.smile;
+    requires tools.jackson.dataformat.smile;
     
     // Further, need to open up test packages for JUnit et al
     
