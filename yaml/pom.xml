@@ -13,7 +13,7 @@
   </parent>
   <artifactId>jackson-jaxrs-yaml-provider</artifactId>
   <name>Jackson-JAXRS: YAML</name>
-  <packaging>bundle</packaging>
+  <packaging>jar</packaging>
   <description>Functionality to handle YAML input/output for JAX-RS implementations (like Jersey and RESTeasy)
 using standard Jackson data binding.
   </description>
@@ -102,11 +102,6 @@ using standard Jackson data binding.
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <groupId>org.moditect</groupId>
-        <artifactId>moditect-maven-plugin</artifactId>
-      </plugin>
-
     </plugins>
   </build>
 </project>

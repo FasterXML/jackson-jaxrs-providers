@@ -173,22 +173,11 @@ https://stackoverflow.com/questions/44088493/jersey-stopped-working-with-injecti
           </executions>
         </plugin>
 
-        <plugin>
-          <groupId>org.moditect</groupId>
-          <artifactId>moditect-maven-plugin</artifactId>
-          <!-- 20-Feb-2021, tatu: For Jackson 2.x, put `module-info.class` under location
-              since otherwise it seems "module-info.class" will be missing from "-jakarta" variant?
-            -->
-          <configuration>
-            <jvmVersion>11</jvmVersion>
-          </configuration>
-        </plugin>
-
       </plugins>
     </pluginManagement>
 
-    <!-- 05-Jul-2020, tatu: Add generation of Gradle Module Metadata -->
     <plugins>
+      <!-- 05-Jul-2020, tatu: Add generation of Gradle Module Metadata -->
       <plugin>
         <groupId>de.jjohannes</groupId>
         <artifactId>gradle-module-metadata-maven-plugin</artifactId>
