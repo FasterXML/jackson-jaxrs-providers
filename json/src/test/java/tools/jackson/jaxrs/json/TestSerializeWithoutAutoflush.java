@@ -13,7 +13,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import tools.jackson.databind.DefaultTyping;
 import tools.jackson.databind.SerializationFeature;
 import tools.jackson.databind.json.JsonMapper;
-import tools.jackson.jaxrs.json.JacksonJsonProvider;
 import tools.jackson.jaxrs.json.testutil.NoCheckSubTypeValidator;
 
 /**
