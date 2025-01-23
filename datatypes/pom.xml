@@ -15,7 +15,7 @@
   <groupId>tools.jackson.datatype</groupId>
   <artifactId>jackson-datatype-jaxrs</artifactId>
   <name>Jackson-JAXRS: Datatypes</name>
-  <packaging>bundle</packaging>
+  <packaging>jar</packaging>
   <description>Functionality for reading/writing core JAX-RS helper types
   </description>
 
@@ -36,6 +36,13 @@
     <dependency>
       <groupId>tools.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
+    </dependency>
+
+    <!-- 22-Jan-2025, tatu: Not 100% why this is needed here but... it is -->
+    <dependency>
+      <groupId>jakarta.xml.bind</groupId>
+      <artifactId>jakarta.xml.bind-api</artifactId>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
   <build>
@@ -72,11 +79,6 @@
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <groupId>org.moditect</groupId>
-        <artifactId>moditect-maven-plugin</artifactId>
-      </plugin>
-
     </plugins>
   </build>
 </project>
