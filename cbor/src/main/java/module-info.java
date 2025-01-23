@@ -2,7 +2,7 @@
 module tools.jackson.jaxrs.cbor
 {
     requires tools.jackson.core;
-    requires tools.jackson.databind;
+    requires transitive tools.jackson.databind;
     requires tools.jackson.dataformat.cbor;
     requires tools.jackson.module.jaxb;
 

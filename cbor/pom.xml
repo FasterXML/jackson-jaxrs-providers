@@ -52,18 +52,6 @@
       <artifactId>jackson-module-jaxb-annotations</artifactId>
       <optional>true</optional>
     </dependency>
-
-    <!-- 22-Jan-2025, tatu: Not 100% why this is needed here but... it is -->
-    <dependency>
-      <groupId>javax.ws.rs</groupId>
-      <artifactId>javax.ws.rs-api</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>jakarta.xml.bind</groupId>
-      <artifactId>jakarta.xml.bind-api</artifactId>
-      <scope>provided</scope>
-    </dependency>
   </dependencies>
   <build>
     <plugins>

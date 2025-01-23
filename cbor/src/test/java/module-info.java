@@ -4,9 +4,10 @@ module tools.jackson.jaxrs.cbor
     // Since we are not split from Main artifact, will not
     // need to depend on Main artifact -- but need its dependencies
 
-    requires com.fasterxml.jackson.annotation;
     requires tools.jackson.core;
-    requires transitive tools.jackson.databind;
+    requires tools.jackson.databind;
+    requires tools.jackson.dataformat.cbor;
+    requires tools.jackson.module.jaxb;
 
     requires tools.jackson.jaxrs.base;
 
