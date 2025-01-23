@@ -6,9 +6,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.Provider;
 
 import tools.jackson.databind.AnnotationIntrospector;
-
-import tools.jackson.dataformat.cbor.databind.CBORMapper;
-
+import tools.jackson.dataformat.cbor.CBORMapper;
 import tools.jackson.module.jaxb.JaxbAnnotationIntrospector;
 
 /**

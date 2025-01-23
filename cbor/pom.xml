@@ -13,7 +13,7 @@
   </parent>
   <artifactId>jackson-jaxrs-cbor-provider</artifactId>
   <name>Jackson-JAXRS: CBOR</name>
-  <packaging>bundle</packaging>
+  <packaging>jar</packaging>
   <description>Functionality to handle CBOR encoded input/output for JAX-RS implementations (like Jersey and RESTeasy) using standard Jackson data binding.
   </description>
 
@@ -36,8 +36,8 @@
   <dependencies>
     <!-- builds on shared base JAX-RS handling code... -->
     <dependency>
-      <artifactId>jackson-jaxrs-base</artifactId>
       <groupId>${project.groupId}</groupId>
+      <artifactId>jackson-jaxrs-base</artifactId>
       <version>${project.version}</version>
     </dependency>
     <!-- Extends Jackson core, mapper, and also (sort of optionally) on JAXB annotation handler -->
@@ -51,6 +51,18 @@
       <groupId>tools.jackson.module</groupId>
       <artifactId>jackson-module-jaxb-annotations</artifactId>
       <optional>true</optional>
+    </dependency>
+
+    <!-- 22-Jan-2025, tatu: Not 100% why this is needed here but... it is -->
+    <dependency>
+      <groupId>javax.ws.rs</groupId>
+      <artifactId>javax.ws.rs-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>jakarta.xml.bind</groupId>
+      <artifactId>jakarta.xml.bind-api</artifactId>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
   <build>
@@ -86,10 +98,6 @@
             </configuration>
           </execution>
         </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.moditect</groupId>
-        <artifactId>moditect-maven-plugin</artifactId>
       </plugin>
 
     </plugins>

@@ -9,8 +9,7 @@ import javax.ws.rs.ext.*;
 import tools.jackson.core.*;
 
 import tools.jackson.databind.*;
-
-import tools.jackson.dataformat.cbor.databind.CBORMapper;
+import tools.jackson.dataformat.cbor.CBORMapper;
 import tools.jackson.jaxrs.base.ProviderBase;
 import tools.jackson.jaxrs.cbor.PackageVersion;
 
