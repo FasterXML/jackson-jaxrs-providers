@@ -52,6 +52,11 @@
         <artifactId>jakarta.xml.bind-api</artifactId>
         <version>2.3.3</version>
       </dependency>
+      <dependency>
+        <groupId>javax.ws.rs</groupId>
+        <artifactId>javax.ws.rs-api</artifactId>
+        <version>2.1.1</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -63,15 +68,9 @@
     <dependency>
       <groupId>javax.ws.rs</groupId>
       <artifactId>javax.ws.rs-api</artifactId>
-      <version>2.1.1</version>
       <scope>provided</scope>
     </dependency>
 
-    <!-- tests require JAX-RS impl; otherwise components fail to load
-        (some oddity with API classes; should NOT be needed...)
-
-        NOTE: use 1.2 as that's JDK 1.5; later (1.8) versions need JDK 1.6
-      -->
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
       <artifactId>jetty-server</artifactId>
@@ -85,6 +84,9 @@
       <scope>test</scope>
     </dependency>
         
+    <!-- tests require JAX-RS impl; otherwise components fail to load
+        (some oddity with API classes; should NOT be needed...)
+      -->
     <dependency>
       <groupId>org.glassfish.jersey.core</groupId>
       <artifactId>jersey-server</artifactId>

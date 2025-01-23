@@ -13,7 +13,7 @@
   </parent>
   <artifactId>jackson-jaxrs-base</artifactId>
   <name>Jackson-JAXRS-base</name>
-  <packaging>bundle</packaging>
+  <packaging>jar</packaging>
   <description>Pile of code that is shared by all Jackson-based JAX-RS
 providers.
   </description>
@@ -42,16 +42,14 @@ ${project.groupId}.annotation.*;version=${project.version}
       <groupId>tools.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
     </dependency>
+
+    <!-- 22-Jan-2025, tatu: Not 100% why this is needed here but... it is -->
+    <dependency>
+      <groupId>jakarta.xml.bind</groupId>
+      <artifactId>jakarta.xml.bind-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
     <!-- test deps should come from parent -->
   </dependencies>
-
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.moditect</groupId>
-        <artifactId>moditect-maven-plugin</artifactId>
-      </plugin>
-
-    </plugins>
-  </build>
 </project>
