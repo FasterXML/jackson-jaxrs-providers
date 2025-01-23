@@ -15,7 +15,7 @@
   <groupId>tools.jackson.datatype</groupId>
   <artifactId>jackson-datatype-jaxrs</artifactId>
   <name>Jackson-JAXRS: Datatypes</name>
-  <packaging>bundle</packaging>
+  <packaging>jar</packaging>
   <description>Functionality for reading/writing core JAX-RS helper types
   </description>
 
