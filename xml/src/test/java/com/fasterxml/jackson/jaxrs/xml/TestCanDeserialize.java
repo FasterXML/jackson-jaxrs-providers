@@ -5,6 +5,10 @@ import java.lang.annotation.Annotation;
 
 import javax.ws.rs.core.MediaType;
 
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 /**
  * Unit test to check [JACKSON-540]
  */
@@ -13,7 +17,8 @@ public class TestCanDeserialize extends JaxrsTestBase
     static class Bean {
         public int x;
     }
-    
+
+    @Test
     public void testCanSerialize() throws IOException
     {
         JacksonXMLProvider prov = new JacksonXMLProvider();
@@ -26,6 +31,7 @@ public class TestCanDeserialize extends JaxrsTestBase
     }
 
     // [Issue#4]: exception for no content
+    @Test
     public void testCanSerializeEmpty() throws IOException
     {
         JacksonXMLProvider prov = new JacksonXMLProvider();

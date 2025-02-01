@@ -3,10 +3,14 @@ package com.fasterxml.jackson.jaxrs.json.util;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
+import org.junit.jupiter.api.Test;
+
 import com.fasterxml.jackson.jaxrs.cfg.AnnotationBundleKey;
 
 import com.fasterxml.jackson.jaxrs.json.JaxrsTestBase;
 import com.fasterxml.jackson.jaxrs.json.annotation.JSONP;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestAnnotationBundleKey extends JaxrsTestBase
 {
@@ -22,6 +26,7 @@ public class TestAnnotationBundleKey extends JaxrsTestBase
     /**********************************************************
      */
 
+    @Test
     public void testKeys() throws Exception
     {
        Method m1 = getClass().getDeclaredMethod("annotated1");

@@ -2,12 +2,17 @@ package com.fasterxml.jackson.datatype.jaxrs;
 
 import javax.ws.rs.core.Link;
 
+import org.junit.jupiter.api.Test;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class LinkTest extends ModuleTestBase
 {
     private final ObjectMapper MAPPER = mapperWithModule();
-    
+
+    @Test
     public void testLink() throws Exception
     {
         Link input = Link.fromUri("http://dot.com?foo=bar")

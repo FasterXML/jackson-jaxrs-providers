@@ -12,6 +12,10 @@ import java.io.ByteArrayOutputStream;
 import java.lang.annotation.*;
 import java.lang.reflect.Method;
 
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 /**
  * Tests for [Issue-2], Addition of {@link JacksonFeatures}.
  */
@@ -44,6 +48,7 @@ public class TestJacksonFeaturesWithYAML extends JaxrsTestBase
      */
 
     // [Issue-2], serialization
+    @Test
     public void testWriteConfigs() throws Exception
     {
         JacksonYAMLProvider prov = new JacksonYAMLProvider();
@@ -67,7 +72,8 @@ public class TestJacksonFeaturesWithYAML extends JaxrsTestBase
                 MediaType.APPLICATION_JSON_TYPE, null, out);
         assertEquals("---\na: 3\n", out.toString("UTF-8"));
     }
-    
+
+    @Test
     public void testWriteConfigsViaBundle() throws Exception
     {
         JacksonYAMLProvider prov = new JacksonYAMLProvider();
@@ -82,6 +88,7 @@ public class TestJacksonFeaturesWithYAML extends JaxrsTestBase
     }
     
     // [Issue-2], deserialization
+    @Test
     public void testReadConfigs() throws Exception
     {
         JacksonYAMLProvider prov = new JacksonYAMLProvider();

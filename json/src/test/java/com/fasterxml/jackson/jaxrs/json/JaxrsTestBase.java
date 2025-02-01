@@ -3,15 +3,14 @@ package com.fasterxml.jackson.jaxrs.json;
 import java.io.IOException;
 import java.util.*;
 
-import org.junit.Assert;
-
 import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.cfg.MapperConfig;
 import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 public abstract class JaxrsTestBase
-    extends junit.framework.TestCase
 {
     protected static class NoCheckSubTypeValidator
         extends PolymorphicTypeValidator.Base
@@ -68,7 +67,7 @@ public abstract class JaxrsTestBase
     
     protected void _verifyBytes(byte[] actBytes, byte... expBytes)
     {
-        Assert.assertArrayEquals(expBytes, actBytes);
+        assertArrayEquals(expBytes, actBytes);
     }
 
     /**
