@@ -52,12 +52,6 @@ ${project.groupId}.annotation.*;version=${project.version}
       <artifactId>jackson-databind</artifactId>
     </dependency>
     <!-- test deps should come from parent -->
-    <!-- 20-Apr-2024 : JUnit4 no longer from jackson-base, so: -->
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
   </dependencies>
 
   <build>
