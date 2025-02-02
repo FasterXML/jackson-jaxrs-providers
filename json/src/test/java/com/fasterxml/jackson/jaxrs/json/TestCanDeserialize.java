@@ -9,7 +9,11 @@ import java.util.Map;
 
 import javax.ws.rs.core.MediaType;
 
+import org.junit.jupiter.api.Test;
+
 import com.fasterxml.jackson.jaxrs.cfg.JaxRSFeature;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit test to check [JACKSON-540]
@@ -17,6 +21,7 @@ import com.fasterxml.jackson.jaxrs.cfg.JaxRSFeature;
 public class TestCanDeserialize extends JaxrsTestBase {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
+    @Test
 	public void testCanDeserialize() throws IOException {
 		Map<String, Object> object = new LinkedHashMap<String, Object>();
 		JacksonJsonProvider prov = new JacksonJsonProvider();
@@ -31,6 +36,7 @@ public class TestCanDeserialize extends JaxrsTestBase {
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
+    @Test
 	public void testCanDeserializeEmpty() throws IOException {
 		JacksonJsonProvider prov = new JacksonJsonProvider();
 
@@ -46,7 +52,8 @@ public class TestCanDeserialize extends JaxrsTestBase {
 	/**
 	 * Unit test for verifying functioning of {@link JaxRSFeature#ALLOW_EMPTY_INPUT}.
 	 */
-     public void testFailingDeserializeEmpty() throws IOException {
+    @Test
+    public void testFailingDeserializeEmpty() throws IOException {
          JacksonJsonProvider prov = new JacksonJsonProvider();
          prov.disable(JaxRSFeature.ALLOW_EMPTY_INPUT);
 

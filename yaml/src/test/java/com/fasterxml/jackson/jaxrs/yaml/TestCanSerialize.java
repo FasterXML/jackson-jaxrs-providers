@@ -7,6 +7,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 public class TestCanSerialize extends JaxrsTestBase
 {
     static class Simple {
@@ -16,6 +20,7 @@ public class TestCanSerialize extends JaxrsTestBase
         public void setList(List<String> l) { list = l; }
     }
 
+    @Test
     public void testCanSerialize() throws IOException
     {
         ObjectMapper mapper = new YAMLMapper();

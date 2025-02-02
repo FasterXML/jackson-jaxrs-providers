@@ -3,8 +3,12 @@ package com.fasterxml.jackson.jaxrs.xml;
 import java.io.*;
 import java.util.*;
 
+import org.junit.jupiter.api.Test;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit test to check [JACKSON-540]
@@ -18,6 +22,7 @@ public class TestCanSerialize extends JaxrsTestBase
         public void setList(List<String> l) { list = l; }
     }
 
+    @Test
     public void testCanSerialize() throws IOException
     {
         ObjectMapper mapper = new JsonMapper();

@@ -7,6 +7,10 @@ import java.io.ByteArrayOutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 public class TestJsonView extends JaxrsTestBase {
     static class MyView1 {
     }
@@ -33,6 +37,7 @@ public class TestJsonView extends JaxrsTestBase {
      */
 
     // [JACKSON-578]
+    @Test
     public void testViews() throws Exception {
         JacksonYAMLProvider prov = new JacksonYAMLProvider();
         ByteArrayOutputStream out = new ByteArrayOutputStream();

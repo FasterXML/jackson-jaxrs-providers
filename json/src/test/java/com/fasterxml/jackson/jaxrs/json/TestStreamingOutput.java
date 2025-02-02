@@ -6,6 +6,10 @@ import java.lang.annotation.Annotation;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.StreamingOutput;
 
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 public class TestStreamingOutput extends JaxrsTestBase
 {
     static class StreamingSubtype implements StreamingOutput
@@ -25,6 +29,7 @@ public class TestStreamingOutput extends JaxrsTestBase
     /**********************************************************************
      */
 
+    @Test
     public void testSimpleSubtype() throws Exception
     {
         JacksonJsonProvider prov = new JacksonJsonProvider();
