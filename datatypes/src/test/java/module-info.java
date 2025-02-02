@@ -10,7 +10,6 @@ module tools.jackson.datatype.jaxrs
     
     // Additional test lib/framework dependencies
     requires org.junit.jupiter.api;
-    requires org.junit.jupiter.params;
 
     // Further, need to open up test packages for JUnit et al
     

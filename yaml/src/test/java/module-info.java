@@ -15,7 +15,6 @@ module tools.jackson.jaxrs.yaml
 
     // Additional test lib/framework dependencies
     requires org.junit.jupiter.api;
-    requires org.junit.jupiter.params;
 
     // Other test deps: we test format-negotiation so need JSON and Smile providers
 
