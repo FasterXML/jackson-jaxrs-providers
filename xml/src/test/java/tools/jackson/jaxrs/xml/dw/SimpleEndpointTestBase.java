@@ -9,10 +9,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.eclipse.jetty.server.Server;
-import org.junit.Assert;
+import org.junit.jupiter.api.Test;
 
 import tools.jackson.databind.ObjectMapper;
 import tools.jackson.dataformat.xml.XmlMapper;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public abstract class SimpleEndpointTestBase extends ResourceTestBase
 {
@@ -72,6 +74,7 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
     /**********************************************************
      */
 
+    @Test
     public void testSimplePoint() throws Exception
     {
         final ObjectMapper mapper = new XmlMapper();
@@ -99,6 +102,7 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
         }
     }
 
+    @Test
     public void testCustomMediaTypeWithXmlExtension() throws Exception
     {
         final ObjectMapper mapper = new XmlMapper();
@@ -123,12 +127,13 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
 
     // [Issue#34] Verify that Untouchables act the way as they should
     @SuppressWarnings("resource")
+    @Test
     public void testUntouchables() throws Exception
     {
         Server server = startServer(TEST_PORT, SimpleRawApp.class);
         try {
             InputStream in = new URL("http://localhost:"+TEST_PORT+"/raw/bytes").openStream();
-            Assert.assertArrayEquals(UNTOUCHABLE_RESPONSE, readAll(in));
+            assertArrayEquals(UNTOUCHABLE_RESPONSE, readAll(in));
         } finally {
             server.stop();
         }

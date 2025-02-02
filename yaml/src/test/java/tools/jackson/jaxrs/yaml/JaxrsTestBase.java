@@ -8,12 +8,11 @@ import java.util.Arrays;
 import tools.jackson.core.JsonParser;
 import tools.jackson.core.JsonToken;
 
-import org.junit.Assert;
-
 import javax.ws.rs.core.MediaType;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 public abstract class JaxrsTestBase
-    extends junit.framework.TestCase
 {
     public static final MediaType YAML_MEDIA_TYPE = YAMLMediaTypes.APPLICATION_JACKSON_YAML_TYPE;
 
@@ -61,7 +60,7 @@ public abstract class JaxrsTestBase
     
     protected void _verifyBytes(byte[] actBytes, byte... expBytes)
     {
-        Assert.assertArrayEquals(expBytes, actBytes);
+        assertArrayEquals(expBytes, actBytes);
     }
 
     /**

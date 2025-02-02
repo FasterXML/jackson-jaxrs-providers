@@ -8,12 +8,16 @@ import java.util.List;
 
 import javax.ws.rs.core.MediaType;
 
+import org.junit.jupiter.api.Test;
+
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import tools.jackson.databind.DefaultTyping;
 import tools.jackson.databind.SerializationFeature;
 import tools.jackson.databind.json.JsonMapper;
 import tools.jackson.jaxrs.json.testutil.NoCheckSubTypeValidator;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit test to check that ProviderBase always writes its content, even if flush-after-write is off.
@@ -27,6 +31,7 @@ public class TestSerializeWithoutAutoflush extends JaxrsTestBase
         public void setList(List<String> l) { list = l; }
     }
 
+    @Test
     public void testCanSerialize() throws IOException
     {
         JsonMapper mapper = JsonMapper.builder()

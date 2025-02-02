@@ -9,7 +9,8 @@ module tools.jackson.datatype.jaxrs
     requires java.ws.rs;
     
     // Additional test lib/framework dependencies
-    requires junit; // JUnit 4
+    requires org.junit.jupiter.api;
+    requires org.junit.jupiter.params;
 
     // Further, need to open up test packages for JUnit et al
     

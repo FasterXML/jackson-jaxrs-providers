@@ -3,11 +3,15 @@ package tools.jackson.jaxrs.json;
 import java.io.*;
 import java.util.*;
 
+import org.junit.jupiter.api.Test;
+
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import tools.jackson.databind.DefaultTyping;
 import tools.jackson.databind.ObjectMapper;
 import tools.jackson.databind.json.JsonMapper;
 import tools.jackson.jaxrs.json.testutil.NoCheckSubTypeValidator;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestCanSerialize extends JaxrsTestBase
 {
@@ -18,6 +22,7 @@ public class TestCanSerialize extends JaxrsTestBase
         public void setList(List<String> l) { list = l; }
     }
 
+    @Test
     public void testCanSerialize() throws IOException
     {
         ObjectMapper mapper = JsonMapper.builder()

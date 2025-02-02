@@ -3,13 +3,14 @@ package tools.jackson.jaxrs.smile;
 import java.io.*;
 import java.lang.annotation.Annotation;
 
+import org.junit.jupiter.api.Test;
+
 import javax.ws.rs.core.MediaType;
 
 import tools.jackson.jaxrs.smile.JacksonSmileProvider;
 
-/**
- * Unit test to check [JACKSON-540]
- */
+import static org.junit.jupiter.api.Assertions.*;
+
 public class TestCanDeserialize extends JaxrsTestBase
 {
     static class Bean {
@@ -30,6 +31,7 @@ public class TestCanDeserialize extends JaxrsTestBase
     */
 
     // [Issue#1]: exception for no content
+    @Test
     public void testCanSerializeEmpty() throws IOException
     {
         JacksonSmileProvider prov = new JacksonSmileProvider();

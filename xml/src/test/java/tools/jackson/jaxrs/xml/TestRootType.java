@@ -7,12 +7,16 @@ import java.util.List;
 
 import javax.ws.rs.core.MediaType;
 
+import org.junit.jupiter.api.Test;
+
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
 import tools.jackson.core.type.TypeReference;
 import tools.jackson.jaxrs.xml.JacksonXMLProvider;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestRootType
     extends JaxrsTestBase
@@ -22,7 +26,8 @@ public class TestRootType
     static class Bean {
         public int a = 3;
     }
-    
+
+    @Test
     public void testRootType() throws Exception
     {
         JacksonXMLProvider prov = new JacksonXMLProvider();

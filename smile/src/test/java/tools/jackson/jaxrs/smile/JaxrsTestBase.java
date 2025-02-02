@@ -5,12 +5,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 
-import org.junit.Assert;
-
 import tools.jackson.core.*;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 public abstract class JaxrsTestBase
-    extends junit.framework.TestCase
 {
     /*
     /**********************************************************
@@ -56,7 +55,7 @@ public abstract class JaxrsTestBase
     
     protected void _verifyBytes(byte[] actBytes, byte... expBytes)
     {
-        Assert.assertArrayEquals(expBytes, actBytes);
+        assertArrayEquals(expBytes, actBytes);
     }
 
     /**

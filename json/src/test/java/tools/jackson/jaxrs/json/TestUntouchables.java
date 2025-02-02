@@ -4,10 +4,14 @@ import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.util.*;
 
+import org.junit.jupiter.api.Test;
+
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.StreamingOutput;
 
 import tools.jackson.jaxrs.json.JacksonJsonProvider;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for verifying that certain JDK base types will be
@@ -38,7 +42,8 @@ public class TestUntouchables
     /* Unit tests
     /**********************************************************
      */
-    
+
+    @Test
     public void testDefaultUntouchables() throws Exception
     {
         JacksonJsonProvider prov = new JacksonJsonProvider();
@@ -61,6 +66,7 @@ public class TestUntouchables
                 new Annotation[0], MediaType.APPLICATION_JSON_TYPE));
     }
 
+    @Test
     public void testCustomUntouchables() throws Exception
     {
         JacksonJsonProvider prov = new JacksonJsonProvider();        

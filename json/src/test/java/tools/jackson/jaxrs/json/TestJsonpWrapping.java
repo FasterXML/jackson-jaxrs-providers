@@ -3,13 +3,18 @@ package tools.jackson.jaxrs.json;
 import java.io.*;
 import java.lang.annotation.Annotation;
 
+import org.junit.jupiter.api.Test;
+
 import javax.ws.rs.core.MediaType;
 
 import tools.jackson.jaxrs.json.JacksonJsonProvider;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 public class TestJsonpWrapping
     extends JaxrsTestBase
 {
+    @Test
     public void testSimple() throws Exception
     {
         JacksonJsonProvider prov = new JacksonJsonProvider();

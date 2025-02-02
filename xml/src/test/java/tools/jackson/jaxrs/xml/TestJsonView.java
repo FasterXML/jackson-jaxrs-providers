@@ -4,11 +4,15 @@ import java.io.ByteArrayOutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
+import org.junit.jupiter.api.Test;
+
 import javax.ws.rs.core.MediaType;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
 import tools.jackson.jaxrs.xml.JacksonXMLProvider;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestJsonView extends JaxrsTestBase
 {
@@ -33,6 +37,7 @@ public class TestJsonView extends JaxrsTestBase
      */
 
     // [JACKSON-578]
+    @Test
     public void testViews() throws Exception
     {
         JacksonXMLProvider prov = new JacksonXMLProvider();
