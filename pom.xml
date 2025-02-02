@@ -94,6 +94,10 @@
       <scope>test</scope>
       <exclusions>
         <exclusion>
+          <groupId>jakarta.ws.rs</groupId>
+          <artifactId>jakarta.ws.rs-api</artifactId>
+        </exclusion>
+        <exclusion>
           <groupId>com.google.guava</groupId>
           <artifactId>guava</artifactId>
         </exclusion>
@@ -108,6 +112,12 @@
       <artifactId>jersey-container-servlet</artifactId>
       <version>${version.jersey}</version>
       <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>jakarta.ws.rs</groupId>
+          <artifactId>jakarta.ws.rs-api</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <!-- 14-Oct-2024, tatu: Need this with Jersey 2.26+, as per
 https://stackoverflow.com/questions/44088493/jersey-stopped-working-with-injectionmanagerfactory-not-found

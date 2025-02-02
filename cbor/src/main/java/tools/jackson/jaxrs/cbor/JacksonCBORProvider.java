@@ -13,7 +13,6 @@ import tools.jackson.databind.*;
 import tools.jackson.dataformat.cbor.CBORMapper;
 
 import tools.jackson.jaxrs.base.ProviderBase;
-import tools.jackson.jaxrs.cbor.PackageVersion;
 
 /**
  * Basic implementation of JAX-RS abstractions ({@link MessageBodyReader},

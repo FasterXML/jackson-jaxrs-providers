@@ -7,13 +7,8 @@ import org.junit.jupiter.api.Test;
 
 import javax.ws.rs.core.MediaType;
 
-import tools.jackson.jaxrs.cbor.JacksonCBORProvider;
-
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Unit test to check [JACKSON-540]
- */
 public class TestCanDeserialize extends JaxrsTestBase
 {
     static class Bean {

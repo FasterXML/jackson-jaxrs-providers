@@ -12,8 +12,6 @@ import javax.ws.rs.core.MediaType;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
-import tools.jackson.jaxrs.yaml.JacksonYAMLProvider;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestSerialize extends JaxrsTestBase

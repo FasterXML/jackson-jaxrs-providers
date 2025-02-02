@@ -7,8 +7,6 @@ import org.junit.jupiter.api.Test;
 
 import javax.ws.rs.core.MediaType;
 
-import tools.jackson.jaxrs.xml.JacksonXMLProvider;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestCanDeserialize extends JaxrsTestBase

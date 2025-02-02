@@ -13,8 +13,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import tools.jackson.core.type.TypeReference;
-import tools.jackson.jaxrs.yaml.JacksonYAMLProvider;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

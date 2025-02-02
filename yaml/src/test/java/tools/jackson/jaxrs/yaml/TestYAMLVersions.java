@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 
 import tools.jackson.core.Version;
 import tools.jackson.core.Versioned;
-import tools.jackson.jaxrs.yaml.JacksonYAMLProvider;
 
 import static org.junit.jupiter.api.Assertions.*;
 

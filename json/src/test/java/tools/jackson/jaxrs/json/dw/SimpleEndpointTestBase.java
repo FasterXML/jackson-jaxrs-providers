@@ -123,10 +123,10 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
 		JsonNode jsonNode = deserializationContext.readTree(p);
 		JsonNode hrefJsonNode = jsonNode.get(JsonLinkSerializer.HREF_PROPERTY);
 		if (hrefJsonNode != null) {
-		    Link.Builder linkBuilder = Link.fromUri(hrefJsonNode.asText());
+		    Link.Builder linkBuilder = Link.fromUri(hrefJsonNode.asString());
 		    for (Map.Entry<String, JsonNode> entry : jsonNode.properties()) {
 		        if (!JsonLinkSerializer.HREF_PROPERTY.equals(entry.getKey())) {
-		            linkBuilder.param(entry.getKey(), entry.getValue().asText());
+		            linkBuilder.param(entry.getKey(), entry.getValue().asString());
 		        }
 		    }
 		    link = linkBuilder.build();

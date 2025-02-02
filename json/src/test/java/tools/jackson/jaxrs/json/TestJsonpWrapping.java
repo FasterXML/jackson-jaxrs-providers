@@ -7,8 +7,6 @@ import org.junit.jupiter.api.Test;
 
 import javax.ws.rs.core.MediaType;
 
-import tools.jackson.jaxrs.json.JacksonJsonProvider;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestJsonpWrapping

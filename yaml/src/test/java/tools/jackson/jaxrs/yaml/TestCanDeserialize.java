@@ -7,8 +7,6 @@ import java.lang.annotation.Annotation;
 
 import org.junit.jupiter.api.Test;
 
-import tools.jackson.jaxrs.yaml.JacksonYAMLProvider;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestCanDeserialize extends JaxrsTestBase

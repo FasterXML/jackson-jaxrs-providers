@@ -10,8 +10,6 @@ import javax.ws.rs.core.MediaType;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
-import tools.jackson.jaxrs.xml.JacksonXMLProvider;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestJsonView extends JaxrsTestBase

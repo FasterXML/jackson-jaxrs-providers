@@ -1,15 +1,14 @@
 package tools.jackson.jaxrs.yaml;
 
-import com.fasterxml.jackson.annotation.JsonView;
-
-import tools.jackson.jaxrs.yaml.JacksonYAMLProvider;
-
-import javax.ws.rs.core.MediaType;
 import java.io.ByteArrayOutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
+import javax.ws.rs.core.MediaType;
+
 import org.junit.jupiter.api.Test;
+
+import com.fasterxml.jackson.annotation.JsonView;
 
 import static org.junit.jupiter.api.Assertions.*;
 

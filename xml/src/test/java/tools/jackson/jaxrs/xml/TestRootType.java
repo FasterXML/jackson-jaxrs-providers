@@ -14,7 +14,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
 import tools.jackson.core.type.TypeReference;
-import tools.jackson.jaxrs.xml.JacksonXMLProvider;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

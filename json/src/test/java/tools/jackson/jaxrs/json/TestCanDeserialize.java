@@ -13,7 +13,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.NoContentException;
 
 import tools.jackson.jaxrs.cfg.JaxRSFeature;
-import tools.jackson.jaxrs.json.JacksonJsonProvider;
 
 import static org.junit.jupiter.api.Assertions.*;
 

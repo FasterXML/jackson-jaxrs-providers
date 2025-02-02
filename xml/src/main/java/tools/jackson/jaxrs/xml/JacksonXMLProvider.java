@@ -10,11 +10,12 @@ import javax.ws.rs.ext.*;
 
 import tools.jackson.core.*;
 import tools.jackson.core.exc.JacksonIOException;
+
 import tools.jackson.databind.*;
 import tools.jackson.dataformat.xml.JacksonXmlAnnotationIntrospector;
 import tools.jackson.dataformat.xml.XmlMapper;
+
 import tools.jackson.jaxrs.base.ProviderBase;
-import tools.jackson.jaxrs.xml.PackageVersion;
 
 /**
  * Basic implementation of JAX-RS abstractions ({@link MessageBodyReader},
