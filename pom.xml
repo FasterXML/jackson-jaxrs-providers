@@ -6,6 +6,7 @@
     <artifactId>jackson-base</artifactId>
     <version>3.0.0-rc1-SNAPSHOT</version>
   </parent>
+
   <groupId>tools.jackson.jaxrs</groupId>
   <artifactId>jackson-jaxrs-providers</artifactId>
   <name>Jackson JAX-RS (parent)</name>

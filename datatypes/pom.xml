@@ -9,7 +9,7 @@
   <parent>
     <groupId>tools.jackson.jaxrs</groupId>
     <artifactId>jackson-jaxrs-providers</artifactId>
-    <version>3.0.0-SNAPSHOT</version>
+    <version>3.0.0-rc1-SNAPSHOT</version>
   </parent>
   <!-- note: different group id, it being datatype -->
   <groupId>tools.jackson.datatype</groupId>
