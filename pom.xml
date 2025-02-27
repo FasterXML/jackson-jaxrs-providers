@@ -4,12 +4,12 @@
   <parent>
     <groupId>tools.jackson</groupId>
     <artifactId>jackson-base</artifactId>
-    <version>3.0.0-SNAPSHOT</version>
+    <version>3.0.0-rc1-SNAPSHOT</version>
   </parent>
   <groupId>tools.jackson.jaxrs</groupId>
   <artifactId>jackson-jaxrs-providers</artifactId>
   <name>Jackson JAX-RS (parent)</name>
-  <version>3.0.0-SNAPSHOT</version>
+  <version>3.0.0-rc1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <description>Parent for Jackson JAX-RS providers
   </description>
@@ -176,19 +176,6 @@ https://stackoverflow.com/questions/44088493/jersey-stopped-working-with-injecti
             </instructions>
           </configuration>
         </plugin>
-
-        <plugin>
-          <!-- Inherited from oss-base. Generate PackageVersion.java.-->
-          <groupId>com.google.code.maven-replacer-plugin</groupId>
-          <artifactId>replacer</artifactId>
-          <executions>
-            <execution>
-              <id>process-packageVersion</id>
-              <phase>generate-sources</phase>
-            </execution>
-          </executions>
-        </plugin>
-
       </plugins>
     </pluginManagement>
 
