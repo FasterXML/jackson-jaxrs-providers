@@ -179,13 +179,5 @@ https://stackoverflow.com/questions/44088493/jersey-stopped-working-with-injecti
         </plugin>
       </plugins>
     </pluginManagement>
-
-    <plugins>
-      <!-- 05-Jul-2020, tatu: Add generation of Gradle Module Metadata -->
-      <plugin>
-        <groupId>de.jjohannes</groupId>
-        <artifactId>gradle-module-metadata-maven-plugin</artifactId>
-      </plugin>    
-    </plugins>
   </build>
 </project>
