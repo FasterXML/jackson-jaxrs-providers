@@ -9,7 +9,7 @@
   <parent>
     <groupId>tools.jackson.jaxrs</groupId>
     <artifactId>jackson-jaxrs-providers</artifactId>
-    <version>3.0.0-rc2-SNAPSHOT</version>
+    <version>3.0.0-rc2</version>
   </parent>
   <artifactId>jackson-jaxrs-xml-provider</artifactId>
   <name>Jackson-JAXRS: XML</name>
