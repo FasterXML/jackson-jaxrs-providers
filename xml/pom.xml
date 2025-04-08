@@ -9,10 +9,10 @@
   <parent>
     <groupId>com.fasterxml.jackson.jaxrs</groupId>
     <artifactId>jackson-jaxrs-providers</artifactId>
-    <version>2.19.0-rc2-SNAPSHOT</version>
+    <version>2.19.0-rc2</version>
   </parent>
   <artifactId>jackson-jaxrs-xml-provider</artifactId>
-  <version>2.19.0-rc2-SNAPSHOT</version>
+  <version>2.19.0-rc2</version>
   <name>Jackson-JAXRS: XML</name>
   <packaging>bundle</packaging>
   <description>Functionality to handle XML input/output for JAX-RS implementations (like Jersey and RESTeasy) using standard Jackson data binding.

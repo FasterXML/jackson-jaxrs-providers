@@ -9,12 +9,12 @@
   <parent>
     <groupId>com.fasterxml.jackson.jaxrs</groupId>
     <artifactId>jackson-jaxrs-providers</artifactId>
-    <version>2.19.0-rc2-SNAPSHOT</version>
+    <version>2.19.0-rc2</version>
   </parent>
   <!-- note: different group id, it being datatype -->
   <groupId>com.fasterxml.jackson.datatype</groupId>
   <artifactId>jackson-datatype-jaxrs</artifactId>
-  <version>2.19.0-rc2-SNAPSHOT</version>
+  <version>2.19.0-rc2</version>
   <name>Jackson-JAXRS: Datatypes</name>
   <packaging>bundle</packaging>
   <description>Functionality for reading/writing core JAX-RS helper types
