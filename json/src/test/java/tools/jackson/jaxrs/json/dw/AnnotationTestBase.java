@@ -30,6 +30,7 @@ public abstract class AnnotationTestBase extends ResourceTestBase
         public int y;
 
         // and include 'text' for both
+        @JsonView(Object.class) // requires view with 3.x default settings
         public String text;
         
         protected Point() { }
