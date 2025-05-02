@@ -56,6 +56,11 @@ ${project.groupId}.annotation.*;version=${project.version}
 
   <build>
     <plugins>
+      <!-- 02-May-2025, tatu: SBOM generation [JSTEP-14] -->
+      <plugin>
+        <groupId>org.cyclonedx</groupId>
+        <artifactId>cyclonedx-maven-plugin</artifactId>
+      </plugin>
       <plugin>
         <groupId>org.moditect</groupId>
         <artifactId>moditect-maven-plugin</artifactId>
