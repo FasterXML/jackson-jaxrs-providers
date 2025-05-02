@@ -10,6 +10,10 @@ Sub-modules:
 === Releases ===
 ------------------------------------------------------------------------
 
+2.20 (not yet released)
+
+- Generate SBOMs [JSTEP-14]
+
 2.19.0 (24-Apr-2025)
 
 #200: Narrow types to format specific (e.g. CBORMapper) when resolving
