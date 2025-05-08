@@ -49,7 +49,7 @@
     <!-- as per CVE-2019-10247 -> 9.4.35 -->
     <!-- 18-Apr-2023, tatu: Further increase (latest at this point) -->
     <!-- 14-Oct-2024, tatu: and yet further -->
-    <version.jetty>9.4.56.v20240826</version.jetty>
+    <version.jetty>9.4.57.v20241219</version.jetty>
 
     <!-- Needed to enable jax-rs 2.0 usage under OSGi -->
     <javax.ws.rs.version>[2.0,2.2)</javax.ws.rs.version>
