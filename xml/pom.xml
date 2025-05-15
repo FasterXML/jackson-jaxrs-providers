@@ -62,6 +62,7 @@
     <dependency>
       <groupId>org.codehaus.woodstox</groupId>
       <artifactId>stax2-api</artifactId>
+      <version>${jackson.version.dep.stax2-api}</version>
     </dependency>
 
     <!-- Also: While JDK-included SJSXP almost works, there are some rough edges;
@@ -70,6 +71,7 @@
     <dependency>
       <groupId>com.fasterxml.woodstox</groupId>
       <artifactId>woodstox-core</artifactId>
+      <version>${jackson.version.dep.woodstox}</version>
       <exclusions>
         <exclusion>
           <groupId>javax.xml.stream</groupId>
