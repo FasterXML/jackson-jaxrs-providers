@@ -10,6 +10,10 @@ Sub-modules:
 === Releases ===
 ------------------------------------------------------------------------
 
+2.19.1 (not yet released)
+
+- Add explicit version for Woodstox, stax2-api (no longer managed via jackson-bom)
+
 2.19.0 (24-Apr-2025)
 
 #200: Narrow types to format specific (e.g. CBORMapper) when resolving
