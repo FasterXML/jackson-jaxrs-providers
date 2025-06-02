@@ -7,19 +7,20 @@ import java.lang.annotation.Annotation;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.junit.jupiter.api.Test;
+
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.NoContentException;
 
 import tools.jackson.jaxrs.cfg.JaxRSFeature;
-import tools.jackson.jaxrs.json.JacksonJsonProvider;
 
-/**
- * Unit test to check [JACKSON-540]
- */
-public class TestCanDeserialize extends JaxrsTestBase {
+import static org.junit.jupiter.api.Assertions.*;
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public void testCanDeserialize() throws IOException {
+public class TestCanDeserialize extends JaxrsTestBase
+{
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @Test
+    public void testCanDeserialize() throws IOException {
 		Map<String, Object> object = new LinkedHashMap<String, Object>();
 		JacksonJsonProvider prov = new JacksonJsonProvider();
 
@@ -33,6 +34,7 @@ public class TestCanDeserialize extends JaxrsTestBase {
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
+    @Test
 	public void testCanDeserializeEmpty() throws IOException {
 		JacksonJsonProvider prov = new JacksonJsonProvider();
 
@@ -48,7 +50,8 @@ public class TestCanDeserialize extends JaxrsTestBase {
 	/**
 	 * Unit test for verifying functioning of {@link JaxRSFeature#ALLOW_EMPTY_INPUT}.
 	 */
-     public void testFailingDeserializeEmpty() throws IOException {
+    @Test
+    public void testFailingDeserializeEmpty() throws IOException {
          JacksonJsonProvider prov = new JacksonJsonProvider();
          prov.disable(JaxRSFeature.ALLOW_EMPTY_INPUT);
 

@@ -3,9 +3,11 @@ package tools.jackson.jaxrs.xml;
 import java.io.*;
 import java.lang.annotation.Annotation;
 
+import org.junit.jupiter.api.Test;
+
 import javax.ws.rs.core.MediaType;
 
-import tools.jackson.jaxrs.xml.JacksonXMLProvider;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestCanDeserialize extends JaxrsTestBase
 {
@@ -13,6 +15,7 @@ public class TestCanDeserialize extends JaxrsTestBase
         public int x;
     }
     
+    @Test
     public void testCanDeserialize() throws IOException
     {
         JacksonXMLProvider prov = new JacksonXMLProvider();
@@ -25,6 +28,7 @@ public class TestCanDeserialize extends JaxrsTestBase
     }
 
     // [Issue#4]: exception for no content
+    @Test
     public void testCanDeserializeEmpty() throws IOException
     {
         JacksonXMLProvider prov = new JacksonXMLProvider();

@@ -9,11 +9,11 @@
   <parent>
     <groupId>tools.jackson.jaxrs</groupId>
     <artifactId>jackson-jaxrs-providers</artifactId>
-    <version>3.0.0-SNAPSHOT</version>
+    <version>3.0.0-rc6-SNAPSHOT</version>
   </parent>
   <artifactId>jackson-jaxrs-cbor-provider</artifactId>
   <name>Jackson-JAXRS: CBOR</name>
-  <packaging>bundle</packaging>
+  <packaging>jar</packaging>
   <description>Functionality to handle CBOR encoded input/output for JAX-RS implementations (like Jersey and RESTeasy) using standard Jackson data binding.
   </description>
 
@@ -36,8 +36,8 @@
   <dependencies>
     <!-- builds on shared base JAX-RS handling code... -->
     <dependency>
-      <artifactId>jackson-jaxrs-base</artifactId>
       <groupId>${project.groupId}</groupId>
+      <artifactId>jackson-jaxrs-base</artifactId>
       <version>${project.version}</version>
     </dependency>
     <!-- Extends Jackson core, mapper, and also (sort of optionally) on JAXB annotation handler -->
@@ -46,9 +46,11 @@
       <artifactId>jackson-dataformat-cbor</artifactId>
     </dependency>
     <!-- may also need JAXB annotation support -->
+    <!-- 05-Dec-2024, tatu: [jaxrs-providers#123] Make optional -->
     <dependency> 
       <groupId>tools.jackson.module</groupId>
       <artifactId>jackson-module-jaxb-annotations</artifactId>
+      <optional>true</optional>
     </dependency>
   </dependencies>
   <build>
@@ -57,12 +59,11 @@
         <!-- Inherited from oss-base. Generate PackageVersion.java.-->
         <groupId>com.google.code.maven-replacer-plugin</groupId>
         <artifactId>replacer</artifactId>
-        <executions>
-          <execution>
-            <id>process-packageVersion</id>
-            <phase>process-sources</phase>
-          </execution>
-        </executions>
+      </plugin>
+      <!-- 02-May-2025, tatu: SBOM generation [JSTEP-14] -->
+      <plugin>
+        <groupId>org.cyclonedx</groupId>
+        <artifactId>cyclonedx-maven-plugin</artifactId>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -85,11 +86,12 @@
           </execution>
         </executions>
       </plugin>
+      <!-- 05-Jul-2020, tatu: Add generation of Gradle Module Metadata -->
+      <!-- 28-Feb-2025, jjohannes: Apply plugin last as it has to be the last of all 'package phase' plugins -->
       <plugin>
-        <groupId>org.moditect</groupId>
-        <artifactId>moditect-maven-plugin</artifactId>
+        <groupId>org.gradlex</groupId>
+        <artifactId>gradle-module-metadata-maven-plugin</artifactId>
       </plugin>
-
     </plugins>
   </build>
 </project>

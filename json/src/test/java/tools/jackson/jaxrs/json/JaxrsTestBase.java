@@ -2,10 +2,9 @@ package tools.jackson.jaxrs.json;
 
 import java.util.*;
 
-import org.junit.Assert;
+import static org.junit.jupiter.api.Assertions.*;
 
 public abstract class JaxrsTestBase
-    extends junit.framework.TestCase
 {
     /*
     /**********************************************************************
@@ -39,7 +38,7 @@ public abstract class JaxrsTestBase
     
     protected void _verifyBytes(byte[] actBytes, byte... expBytes)
     {
-        Assert.assertArrayEquals(expBytes, actBytes);
+        assertArrayEquals(expBytes, actBytes);
     }
 
     /*

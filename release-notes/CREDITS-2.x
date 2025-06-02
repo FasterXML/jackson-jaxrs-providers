@@ -106,3 +106,9 @@ Yura (@sdyura)
 * Contributed #193: `JacksonJaxbJsonProvider` has @Produces(MediaType.WILDCARD) and yet
   hasMatchingMediaType(MediaType.WILDCARD) return false
  (2.18.0)
+
+Craig P. Motlin (@motlin)
+
+* Contributed #205: Propagate the pretty printer from the writer to the generator in
+  ProviderBase.writeTo()
+ (2.19.0)

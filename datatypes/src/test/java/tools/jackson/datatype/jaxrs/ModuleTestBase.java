@@ -5,10 +5,10 @@ import java.util.Arrays;
 import tools.jackson.core.*;
 import tools.jackson.databind.ObjectMapper;
 import tools.jackson.databind.json.JsonMapper;
-import tools.jackson.datatype.jaxrs.Jaxrs2TypesModule;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public abstract class ModuleTestBase
-    extends junit.framework.TestCase
 {
     protected ObjectMapper mapperWithModule() {
         return JsonMapper.builder()

@@ -1,15 +1,18 @@
 package tools.jackson.jaxrs.yaml;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.annotation.JsonRootName;
-
-import tools.jackson.jaxrs.yaml.JacksonYAMLProvider;
-
-import javax.ws.rs.core.MediaType;
 import java.io.ByteArrayOutputStream;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.junit.jupiter.api.Test;
+
+import javax.ws.rs.core.MediaType;
+
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonRootName;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestSerialize extends JaxrsTestBase
 {
@@ -50,6 +53,7 @@ public class TestSerialize extends JaxrsTestBase
      */
     
     // [Issue-1]
+    @Test
     public void testSimpleWriteTo() throws Exception
     {
         Messages msgs = new Messages();

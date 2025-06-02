@@ -1,13 +1,13 @@
 package tools.jackson.jaxrs.yaml;
 
-import tools.jackson.databind.AnnotationIntrospector;
-import tools.jackson.dataformat.yaml.YAMLMapper;
-import tools.jackson.module.jaxb.JaxbAnnotationIntrospector;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.Provider;
+
+import tools.jackson.databind.AnnotationIntrospector;
+import tools.jackson.dataformat.yaml.YAMLMapper;
+import tools.jackson.module.jaxb.JaxbAnnotationIntrospector;
 
 /**
  * JSON content type provider automatically configured to use both Jackson

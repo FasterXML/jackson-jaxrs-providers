@@ -9,13 +9,13 @@
   <parent>
     <groupId>tools.jackson.jaxrs</groupId>
     <artifactId>jackson-jaxrs-providers</artifactId>
-    <version>3.0.0-SNAPSHOT</version>
+    <version>3.0.0-rc6-SNAPSHOT</version>
   </parent>
   <!-- note: different group id, it being datatype -->
   <groupId>tools.jackson.datatype</groupId>
   <artifactId>jackson-datatype-jaxrs</artifactId>
   <name>Jackson-JAXRS: Datatypes</name>
-  <packaging>bundle</packaging>
+  <packaging>jar</packaging>
   <description>Functionality for reading/writing core JAX-RS helper types
   </description>
 
@@ -37,46 +37,32 @@
       <groupId>tools.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
     </dependency>
+
+    <!-- 22-Jan-2025, tatu: Not 100% why this is needed here but... it is -->
+    <dependency>
+      <groupId>jakarta.xml.bind</groupId>
+      <artifactId>jakarta.xml.bind-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
       <plugin>
         <!-- Inherited from oss-base. Generate PackageVersion.java.-->
-	<groupId>com.google.code.maven-replacer-plugin</groupId>
+        <groupId>com.google.code.maven-replacer-plugin</groupId>
         <artifactId>replacer</artifactId>
-	   <executions>
-          <execution>
-            <id>process-packageVersion</id>
-            <phase>process-sources</phase>
-          </execution>
-	   </executions>
       </plugin>
+      <!-- 02-May-2025, tatu: SBOM generation [JSTEP-14] -->
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>no-meta-inf-services</id>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-            <configuration>
-              <classifier>no-metainf-services</classifier>
-              <excludes>
-                <exclude>META-INF/services/**</exclude>
-              </excludes>
-              <archive>
-                <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
-              </archive>
-            </configuration>
-          </execution>
-        </executions>
+        <groupId>org.cyclonedx</groupId>
+        <artifactId>cyclonedx-maven-plugin</artifactId>
       </plugin>
+      <!-- 05-Jul-2020, tatu: Add generation of Gradle Module Metadata -->
+      <!-- 28-Feb-2025, jjohannes: Apply plugin last as it has to be the last of all 'package phase' plugins -->
       <plugin>
-        <groupId>org.moditect</groupId>
-        <artifactId>moditect-maven-plugin</artifactId>
+        <groupId>org.gradlex</groupId>
+        <artifactId>gradle-module-metadata-maven-plugin</artifactId>
       </plugin>
-
     </plugins>
   </build>
 </project>

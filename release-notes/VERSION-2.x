@@ -10,12 +10,25 @@ Sub-modules:
 === Releases ===
 ------------------------------------------------------------------------
 
-2.19.0 (not yet released)
+2.20 (not yet released)
+
+- Generate SBOMs [JSTEP-14]
+
+2.19.1 (not yet released)
+
+- Add explicit version for Woodstox, stax2-api (no longer managed via jackson-bom)
+
+2.19.0 (24-Apr-2025)
 
 #200: Narrow types to format specific (e.g. CBORMapper) when resolving
   via JAX-RS Providers 
+#205: Propagate the pretty printer from the writer to the generator in
+  ProviderBase.writeTo()
+ (contributed by @motlin)
 * Woodstox dependency now 7.1.0
 
+2.18.4 (06-May-2025)
+2.18.3 (28-Feb-2025)
 2.18.2 (27-Nov-2024)
 2.18.1 (28-Oct-2024)
 

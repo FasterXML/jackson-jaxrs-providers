@@ -9,11 +9,11 @@
   <parent>
     <groupId>tools.jackson.jaxrs</groupId>
     <artifactId>jackson-jaxrs-providers</artifactId>
-    <version>3.0.0-SNAPSHOT</version>
+    <version>3.0.0-rc6-SNAPSHOT</version>
   </parent>
   <artifactId>jackson-jaxrs-base</artifactId>
   <name>Jackson-JAXRS-base</name>
-  <packaging>bundle</packaging>
+  <packaging>jar</packaging>
   <description>Pile of code that is shared by all Jackson-based JAX-RS
 providers.
   </description>
@@ -42,16 +42,30 @@ ${project.groupId}.annotation.*;version=${project.version}
       <groupId>tools.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
     </dependency>
+
+    <!-- 22-Jan-2025, tatu: Not 100% why this is needed here but... it is -->
+    <dependency>
+      <groupId>jakarta.xml.bind</groupId>
+      <artifactId>jakarta.xml.bind-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
     <!-- test deps should come from parent -->
   </dependencies>
 
   <build>
     <plugins>
+      <!-- 02-May-2025, tatu: SBOM generation [JSTEP-14] -->
       <plugin>
-        <groupId>org.moditect</groupId>
-        <artifactId>moditect-maven-plugin</artifactId>
+        <groupId>org.cyclonedx</groupId>
+        <artifactId>cyclonedx-maven-plugin</artifactId>
       </plugin>
-
+      <!-- 05-Jul-2020, tatu: Add generation of Gradle Module Metadata -->
+      <!-- 28-Feb-2025, jjohannes: Apply plugin last as it has to be the last of all 'package phase' plugins -->
+      <plugin>
+        <groupId>org.gradlex</groupId>
+        <artifactId>gradle-module-metadata-maven-plugin</artifactId>
+      </plugin>
     </plugins>
   </build>
 </project>

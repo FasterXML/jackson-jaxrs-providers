@@ -3,8 +3,12 @@ package tools.jackson.jaxrs.xml;
 import java.lang.annotation.Annotation;
 import java.util.*;
 
+import org.junit.jupiter.api.Test;
+
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.StreamingOutput;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for verifying that certain JDK base types will be
@@ -18,7 +22,7 @@ public class TestUntouchables
      * remains overridable.
      */
     public static class MyJacksonProvider extends JacksonXMLProvider {
-         // ensure isJsonType remains "protected" this is a compile-time check.
+         // ensure isJsonType remains "protected" - this is a compile-time check.
          // Some users of JacksonJsonProvider override this method;
          // changing to "private" would regress them.
          @Override
@@ -30,7 +34,8 @@ public class TestUntouchables
     /* Unit tests
     /**********************************************************
      */
-    
+
+    @Test
     public void testDefaultUntouchables() throws Exception
     {
         JacksonXMLProvider prov = new JacksonXMLProvider();
@@ -51,6 +56,7 @@ public class TestUntouchables
                 new Annotation[0], MediaType.APPLICATION_XML_TYPE));
     }
 
+    @Test
     public void testCustomUntouchables() throws Exception
     {
         JacksonXMLProvider prov = new JacksonXMLProvider();        

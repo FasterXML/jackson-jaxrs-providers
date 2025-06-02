@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 
+import org.junit.jupiter.api.Test;
+
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.StreamingOutput;
 
-import tools.jackson.jaxrs.yaml.JacksonYAMLProvider;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for verifying that certain JDK base types will be
@@ -35,6 +37,7 @@ public class TestUntouchables
     /**********************************************************
      */
 
+    @Test
     public void testDefaultUntouchables() throws Exception
     {
         JacksonYAMLProvider prov = new JacksonYAMLProvider();
@@ -55,6 +58,7 @@ public class TestUntouchables
                 new Annotation[0], YAMLMediaTypes.APPLICATION_JACKSON_YAML_TYPE));
     }
 
+    @Test
     public void testCustomUntouchables() throws Exception
     {
         JacksonYAMLProvider prov = new JacksonYAMLProvider();

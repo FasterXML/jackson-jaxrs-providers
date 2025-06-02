@@ -5,12 +5,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 
-import org.junit.Assert;
-
 import tools.jackson.core.*;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 public abstract class JaxrsTestBase
-    extends junit.framework.TestCase
 {
     /*
     /**********************************************************
@@ -56,7 +55,7 @@ public abstract class JaxrsTestBase
     
     protected void _verifyBytes(byte[] actBytes, byte... expBytes)
     {
-        Assert.assertArrayEquals(expBytes, actBytes);
+        assertArrayEquals(expBytes, actBytes);
     }
 
     /**
@@ -64,18 +63,18 @@ public abstract class JaxrsTestBase
      * available methods, and ensures results are consistent, before
      * returning them
      */
-    protected String getAndVerifyText(JsonParser jp)
+    protected String getAndVerifyText(JsonParser p)
     {
         // Ok, let's verify other accessors
-        int actLen = jp.getTextLength();
-        char[] ch = jp.getTextCharacters();
-        String str2 = new String(ch, jp.getTextOffset(), actLen);
-        String str = jp.getText();
+        int actLen = p.getStringLength();
+        char[] ch = p.getStringCharacters();
+        String str2 = new String(ch, p.getStringOffset(), actLen);
+        String str = p.getString();
 
         if (str.length() !=  actLen) {
-            fail("Internal problem (jp.token == "+jp.currentToken()+"): jp.getText().length() ['"+str+"'] == "+str.length()+"; jp.getTextLength() == "+actLen);
+            fail("Internal problem (p.token == "+p.currentToken()+"): p.getString().length() ['"+str+"'] == "+str.length()+"; p.getStringLength() == "+actLen);
         }
-        assertEquals("String access via getText(), getTextXxx() must be the same", str, str2);
+        assertEquals("String access via getString(), getStringXxx() must be the same", str, str2);
 
         return str;
     }
@@ -86,11 +85,11 @@ public abstract class JaxrsTestBase
     /**********************************************************
      */
 
-    public String quote(String str) {
+    public String q(String str) {
         return '"'+str+'"';
     }
 
-    protected String aposToQuotes(String json) {
+    protected String a2q(String json) {
         return json.replace("'", "\"");
     }
     

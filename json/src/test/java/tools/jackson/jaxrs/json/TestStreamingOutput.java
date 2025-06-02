@@ -3,10 +3,12 @@ package tools.jackson.jaxrs.json;
 import java.io.*;
 import java.lang.annotation.Annotation;
 
+import org.junit.jupiter.api.Test;
+
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.StreamingOutput;
 
-import tools.jackson.jaxrs.json.JacksonJsonProvider;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestStreamingOutput extends JaxrsTestBase
 {
@@ -27,6 +29,7 @@ public class TestStreamingOutput extends JaxrsTestBase
     /**********************************************************************
      */
 
+    @Test
     public void testSimpleSubtype() throws Exception
     {
         JacksonJsonProvider prov = new JacksonJsonProvider();

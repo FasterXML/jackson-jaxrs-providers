@@ -4,12 +4,13 @@
   <parent>
     <groupId>tools.jackson</groupId>
     <artifactId>jackson-base</artifactId>
-    <version>3.0.0-SNAPSHOT</version>
+    <version>3.0.0-rc6-SNAPSHOT</version>
   </parent>
+
   <groupId>tools.jackson.jaxrs</groupId>
   <artifactId>jackson-jaxrs-providers</artifactId>
   <name>Jackson JAX-RS (parent)</name>
-  <version>3.0.0-SNAPSHOT</version>
+  <version>3.0.0-rc6-SNAPSHOT</version>
   <packaging>pom</packaging>
   <description>Parent for Jackson JAX-RS providers
   </description>
@@ -39,7 +40,7 @@
 
     <!--  Need Jersey+Jetty for testing -->
     <version.jersey>2.45</version.jersey>
-    <version.jetty>9.4.56.v20240826</version.jetty>
+    <version.jetty>9.4.57.v20241219</version.jetty>
 
     <!-- Needed to enable jax-rs 2.0 usage under OSGi -->
     <javax.ws.rs.version>[2.0,2.2)</javax.ws.rs.version>
@@ -52,6 +53,11 @@
         <artifactId>jakarta.xml.bind-api</artifactId>
         <version>2.3.3</version>
       </dependency>
+      <dependency>
+        <groupId>javax.ws.rs</groupId>
+        <artifactId>javax.ws.rs-api</artifactId>
+        <version>2.1.1</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -63,15 +69,9 @@
     <dependency>
       <groupId>javax.ws.rs</groupId>
       <artifactId>javax.ws.rs-api</artifactId>
-      <version>2.1.1</version>
       <scope>provided</scope>
     </dependency>
 
-    <!-- tests require JAX-RS impl; otherwise components fail to load
-        (some oddity with API classes; should NOT be needed...)
-
-        NOTE: use 1.2 as that's JDK 1.5; later (1.8) versions need JDK 1.6
-      -->
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
       <artifactId>jetty-server</artifactId>
@@ -85,12 +85,19 @@
       <scope>test</scope>
     </dependency>
         
+    <!-- tests require JAX-RS impl; otherwise components fail to load
+        (some oddity with API classes; should NOT be needed...)
+      -->
     <dependency>
       <groupId>org.glassfish.jersey.core</groupId>
       <artifactId>jersey-server</artifactId>
       <version>${version.jersey}</version>
       <scope>test</scope>
       <exclusions>
+        <exclusion>
+          <groupId>jakarta.ws.rs</groupId>
+          <artifactId>jakarta.ws.rs-api</artifactId>
+        </exclusion>
         <exclusion>
           <groupId>com.google.guava</groupId>
           <artifactId>guava</artifactId>
@@ -106,6 +113,12 @@
       <artifactId>jersey-container-servlet</artifactId>
       <version>${version.jersey}</version>
       <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>jakarta.ws.rs</groupId>
+          <artifactId>jakarta.ws.rs-api</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <!-- 14-Oct-2024, tatu: Need this with Jersey 2.26+, as per
 https://stackoverflow.com/questions/44088493/jersey-stopped-working-with-injectionmanagerfactory-not-found
@@ -116,10 +129,16 @@ https://stackoverflow.com/questions/44088493/jersey-stopped-working-with-injecti
       <version>${version.jersey}</version>
       <scope>test</scope>
     </dependency>
-    <!-- 20-Apr-2024 : JUnit4 no longer from jackson-base, so: -->
+
+    <!-- Test dependencies -->
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -130,15 +149,16 @@ https://stackoverflow.com/questions/44088493/jersey-stopped-working-with-injecti
        because "jackson-annotations" is published via "old"
     -->
   <repositories>
+    <!-- 13-May-2025, tatu: and now moving to Central Portal -->
     <repository>
-      <id>sonatype-nexus-snapshots</id>
-      <name>Sonatype Nexus Snapshots</name>
-      <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+      <id>central-snapshots</id>
+      <name>Sonatype Central Portal (snapshots)</name>
+      <url>https://central.sonatype.com/repository/maven-snapshots</url>
       <releases><enabled>false</enabled></releases>
       <snapshots><enabled>true</enabled></snapshots>
     </repository>
     <repository>
-      <id>sonatype-old-nexus-snapshots</id>
+      <id>sonatype-nexus-snapshots-old</id>
       <name>Sonatype Nexus Snapshots (old)</name>
       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
       <releases><enabled>false</enabled></releases>
@@ -158,39 +178,7 @@ https://stackoverflow.com/questions/44088493/jersey-stopped-working-with-injecti
             </instructions>
           </configuration>
         </plugin>
-
-        <plugin>
-          <!-- Inherited from oss-base. Generate PackageVersion.java.-->
-          <groupId>com.google.code.maven-replacer-plugin</groupId>
-          <artifactId>replacer</artifactId>
-          <executions>
-            <execution>
-              <id>process-packageVersion</id>
-              <phase>generate-sources</phase>
-            </execution>
-          </executions>
-        </plugin>
-
-        <plugin>
-          <groupId>org.moditect</groupId>
-          <artifactId>moditect-maven-plugin</artifactId>
-          <!-- 20-Feb-2021, tatu: For Jackson 2.x, put `module-info.class` under location
-              since otherwise it seems "module-info.class" will be missing from "-jakarta" variant?
-            -->
-          <configuration>
-            <jvmVersion>11</jvmVersion>
-          </configuration>
-        </plugin>
-
       </plugins>
     </pluginManagement>
-
-    <!-- 05-Jul-2020, tatu: Add generation of Gradle Module Metadata -->
-    <plugins>
-      <plugin>
-        <groupId>de.jjohannes</groupId>
-        <artifactId>gradle-module-metadata-maven-plugin</artifactId>
-      </plugin>    
-    </plugins>
   </build>
 </project>

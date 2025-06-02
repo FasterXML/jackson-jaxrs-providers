@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
 
-import tools.jackson.jaxrs.yaml.JacksonYAMLProvider;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestCanDeserialize extends JaxrsTestBase
 {
@@ -14,6 +16,7 @@ public class TestCanDeserialize extends JaxrsTestBase
         public int x;
     }
     
+    @Test
     public void testCanDeserialize() throws IOException
     {
         JacksonYAMLProvider prov = new JacksonYAMLProvider();
@@ -25,7 +28,7 @@ public class TestCanDeserialize extends JaxrsTestBase
         assertEquals(3, b.x);
     }
 
-    // [Issue#4]: exception for no content
+    @Test
     public void testCanDeserializeEmpty() throws IOException
     {
         JacksonYAMLProvider prov = new JacksonYAMLProvider();

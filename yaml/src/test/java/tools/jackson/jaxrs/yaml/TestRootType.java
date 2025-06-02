@@ -1,17 +1,22 @@
 package tools.jackson.jaxrs.yaml;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
-import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
-import com.fasterxml.jackson.annotation.JsonTypeName;
-import tools.jackson.core.type.TypeReference;
-import tools.jackson.jaxrs.yaml.JacksonYAMLProvider;
-
-import javax.ws.rs.core.MediaType;
 import java.io.ByteArrayOutputStream;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.junit.jupiter.api.Test;
+
+import javax.ws.rs.core.MediaType;
+
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
+import tools.jackson.core.type.TypeReference;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestRootType
     extends JaxrsTestBase
@@ -21,7 +26,8 @@ public class TestRootType
     static class Bean {
         public int a = 3;
     }
-    
+
+    @Test
     public void testRootType() throws Exception
     {
         JacksonYAMLProvider prov = new JacksonYAMLProvider();

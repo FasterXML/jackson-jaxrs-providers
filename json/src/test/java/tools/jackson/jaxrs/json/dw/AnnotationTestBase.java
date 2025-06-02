@@ -8,8 +8,12 @@ import javax.ws.rs.core.MediaType;
 
 import org.eclipse.jetty.server.Server;
 
+import org.junit.jupiter.api.Test;
+
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonView;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public abstract class AnnotationTestBase extends ResourceTestBase
 {
@@ -26,6 +30,7 @@ public abstract class AnnotationTestBase extends ResourceTestBase
         public int y;
 
         // and include 'text' for both
+        @JsonView(Object.class) // requires view with 3.x default settings
         public String text;
         
         protected Point() { }
@@ -68,6 +73,7 @@ public abstract class AnnotationTestBase extends ResourceTestBase
      * Test in which writer/generator modification is handled by
      * changing state from Servlet Filter.
      */
+    @Test
     public void testInputOutputFiltering() throws Exception
     {
         // We need a filter to inject modifier that enables

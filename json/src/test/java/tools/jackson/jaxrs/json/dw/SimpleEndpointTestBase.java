@@ -29,7 +29,7 @@ import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
 import org.eclipse.jetty.server.Server;
-import org.junit.Assert;
+import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
@@ -49,6 +49,8 @@ import tools.jackson.databind.ValueSerializer;
 import tools.jackson.databind.annotation.JsonDeserialize;
 import tools.jackson.databind.annotation.JsonSerialize;
 import tools.jackson.jaxrs.json.JacksonJsonProvider;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public abstract class SimpleEndpointTestBase extends ResourceTestBase
 {
@@ -121,13 +123,11 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
 		JsonNode jsonNode = deserializationContext.readTree(p);
 		JsonNode hrefJsonNode = jsonNode.get(JsonLinkSerializer.HREF_PROPERTY);
 		if (hrefJsonNode != null) {
-		    Link.Builder linkBuilder = Link.fromUri(hrefJsonNode.asText());
-		    Iterator<String> nameIt = jsonNode.propertyNames();
-		    while (nameIt.hasNext()) {
-			String propName = nameIt.next();
-			if (!JsonLinkSerializer.HREF_PROPERTY.equals(propName)) {
-			    linkBuilder.param(propName, jsonNode.get(propName).asText());
-			}
+		    Link.Builder linkBuilder = Link.fromUri(hrefJsonNode.asString());
+		    for (Map.Entry<String, JsonNode> entry : jsonNode.properties()) {
+		        if (!JsonLinkSerializer.HREF_PROPERTY.equals(entry.getKey())) {
+		            linkBuilder.param(entry.getKey(), entry.getValue().asString());
+		        }
 		    }
 		    link = linkBuilder.build();
 		}
@@ -371,6 +371,7 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
     /**********************************************************
      */
 
+    @Test
     public void testStandardJson() throws Exception
     {
         final ObjectMapper mapper = new ObjectMapper();
@@ -390,6 +391,7 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
         assertEquals(2, p.y);
     }
 
+    @Test
     public void testAcceptJavascriptType() throws Exception
     {
         final ObjectMapper mapper = new ObjectMapper();
@@ -467,6 +469,7 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
      */
     
     // [jaxrs-providers#69]
+    @Test
     public void testMappingIterator() throws Exception
     {
         final ObjectMapper mapper = new ObjectMapper();
@@ -497,6 +500,7 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
     }
 
     // [jaxrs-providers#108]
+    @Test
     public void testPointNoTrailingContent() throws Exception
     {
         final ObjectMapper mapper = new ObjectMapper();
@@ -545,6 +549,7 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
     
     // [Issue#34] Verify that Untouchables act the way as they should
     @SuppressWarnings("resource")
+    @Test
     public void testUntouchables() throws Exception
     {
         Server server = startServer(TEST_PORT, SimpleRawApp.class);
@@ -553,7 +558,7 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
             assertEquals(UNTOUCHABLE_RESPONSE, readUTF8(in));
 
             in = new URL("http://localhost:"+TEST_PORT+"/raw/bytes").openStream();
-            Assert.assertArrayEquals(UNTOUCHABLE_RESPONSE.getBytes("UTF-8"), readAll(in));
+            assertArrayEquals(UNTOUCHABLE_RESPONSE.getBytes("UTF-8"), readAll(in));
         } finally {
             server.stop();
         }
@@ -564,6 +569,7 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
      * but does not do actual data format content. Goal being to ensure that
      * <code>StreamingOutput</code> works as expected even if provider is registered.
      */
+    @Test
     public void testHugeFluffyContent() throws Exception
     {
         Server server = startServer(TEST_PORT, SimpleFluffyApp.class);
@@ -598,6 +604,7 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
         }
     }
 
+    @Test
     public void testDynamicTypingSingle() throws Exception
     {
         final ObjectMapper mapper = new ObjectMapper();
@@ -619,6 +626,7 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
     }
 
     // for [#60], problems with non-polymorphic Lists
+    @Test
     public void testDynamicTypingList() throws Exception
     {
         final ObjectMapper mapper = new ObjectMapper();
@@ -645,11 +653,13 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
     }
 
 	// for [#87], problems with GenericEntity where type != rawType
+    @Test
 	public void testDynamicTypingGenericPageEntity() throws Exception {
 		testDynamicTypingPage(URI.create("http://localhost:" + TEST_PORT + "/dynamic/genericPageEntity"));
 	}
 
 	// for [#87], problems with GenericEntity where type != rawType
+    @Test
 	public void testDynamicTypingGenericPageImplEntity() throws Exception {
 		testDynamicTypingPage(URI.create("http://localhost:" + TEST_PORT + "/dynamic/genericPageImplEntity"));
 	}
@@ -678,11 +688,13 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
 	}
 
 	// for [#87], problems with GenericEntity where type != rawType
+    @Test
 	public void testDynamicTypingGenericCollectionEntity() throws Exception {
 		testDynamicTypingCollection(URI.create("http://localhost:" + TEST_PORT + "/dynamic/genericCollectionEntity"));
 	}
 
 	// for [#87], problems with GenericEntity where type != rawType
+    @Test
 	public void testDynamicTypingGenericCollectionImplEntity() throws Exception {
 		testDynamicTypingCollection(URI
 				.create("http://localhost:" + TEST_PORT + "/dynamic/genericCollectionImplEntity"));
