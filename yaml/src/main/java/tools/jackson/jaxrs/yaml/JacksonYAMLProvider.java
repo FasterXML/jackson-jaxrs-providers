@@ -154,10 +154,8 @@ public class JacksonYAMLProvider
             return "yaml".equalsIgnoreCase(subtype) || subtype.endsWith("+yaml");
             //tarik: apparently there is not a standard for yaml types, should be discussed
         }
-        /* Not sure if this can happen; but it seems reasonable
-         * that we can at least produce yaml without media type?
-         */
-        return true;
+        // Without a media type, let JAX-RS deal with mapping if it can.
+        return false;
     }
 
     /**
