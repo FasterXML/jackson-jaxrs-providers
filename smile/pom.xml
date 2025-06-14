@@ -9,10 +9,10 @@
   <parent>
     <groupId>com.fasterxml.jackson.jaxrs</groupId>
     <artifactId>jackson-jaxrs-providers</artifactId>
-    <version>2.19.1-SNAPSHOT</version>
+    <version>2.19.1</version>
   </parent>
   <artifactId>jackson-jaxrs-smile-provider</artifactId>
-  <version>2.19.1-SNAPSHOT</version>
+  <version>2.19.1</version>
   <name>Jackson-JAXRS: Smile</name>
   <packaging>bundle</packaging>
   <description>Functionality to handle Smile (binary JSON) input/output for JAX-RS implementations (like Jersey and RESTeasy) using standard Jackson data binding.
