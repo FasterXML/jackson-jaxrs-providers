@@ -18,7 +18,7 @@ import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Providers;
 
 import com.fasterxml.jackson.core.*;
-
+import com.fasterxml.jackson.core.util.Instantiatable;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.util.LRUMap;
 import com.fasterxml.jackson.databind.util.LookupCache;
@@ -595,9 +595,13 @@ public abstract class ProviderBase<
         try {
             // Want indentation?
             if (writer.isEnabled(SerializationFeature.INDENT_OUTPUT)) {
-                PrettyPrinter defaultPrettyPrinter = writer.getConfig().getDefaultPrettyPrinter();
-                if (defaultPrettyPrinter != null) {
-                    g.setPrettyPrinter(defaultPrettyPrinter);
+                PrettyPrinter defaultPP = writer.getConfig().getDefaultPrettyPrinter();
+                if (defaultPP != null) {
+                    // 11-Jul-2025, tatu: need to create separate instance?
+                    if (defaultPP instanceof Instantiatable<?>) {
+                        defaultPP = (PrettyPrinter) ((Instantiatable<?>) defaultPP).createInstance();
+                    }
+                    g.setPrettyPrinter(defaultPP);
                 } else {
                     g.useDefaultPrettyPrinter();
                 }
