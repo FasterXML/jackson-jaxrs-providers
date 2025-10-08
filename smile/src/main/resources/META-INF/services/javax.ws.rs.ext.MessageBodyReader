@@ -1,1 +1,1 @@
-com.fasterxml.jackson.jaxrs.smile.JacksonSmileProvider
+tools.jackson.jaxrs.smile.JacksonSmileProvider
