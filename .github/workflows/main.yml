@@ -11,11 +11,11 @@ on:
     - "release-notes/*"
 jobs:
   build:
-    runs-on: 'ubuntu-24.04'
+    runs-on: 'ubuntu-latest'
     strategy:
       fail-fast: false
       matrix:
-        java_version: ['17', '21', '23']
+        java_version: ['17', '21', '25']
         include:
           - java_version: '17'
             snapshot: 1
