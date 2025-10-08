@@ -11,6 +11,11 @@ Sub-modules:
 === Releases ===
 ------------------------------------------------------------------------
 
+3.0.1 (not yet released)
+
+#220: Fix ServiceLoader manifests due to 3.0 package changes
+ (contributed by Andriy R)
+
 3.0.0 (03-Oct-2025)
 
 #123: Change `jackson-module-jaxb-annotations` dependency to `optional`
