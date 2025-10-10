@@ -4,13 +4,12 @@
   <parent>
     <groupId>tools.jackson</groupId>
     <artifactId>jackson-base</artifactId>
-    <version>3.0.0-rc6-SNAPSHOT</version>
+    <version>3.0.1-SNAPSHOT</version>
   </parent>
-
   <groupId>tools.jackson.jaxrs</groupId>
   <artifactId>jackson-jaxrs-providers</artifactId>
   <name>Jackson JAX-RS (parent)</name>
-  <version>3.0.0-rc6-SNAPSHOT</version>
+  <version>3.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <description>Parent for Jackson JAX-RS providers
   </description>
@@ -157,16 +156,27 @@ https://stackoverflow.com/questions/44088493/jersey-stopped-working-with-injecti
       <releases><enabled>false</enabled></releases>
       <snapshots><enabled>true</enabled></snapshots>
     </repository>
-    <repository>
-      <id>sonatype-nexus-snapshots-old</id>
-      <name>Sonatype Nexus Snapshots (old)</name>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-      <releases><enabled>false</enabled></releases>
-      <snapshots><enabled>true</enabled></snapshots>
-    </repository>
   </repositories>
   
   <build>
+    <plugins>
+      <!-- ServiceLoader tests -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <configuration>
+          <useModulePath>false</useModulePath>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>integration-test</goal>
+              <goal>verify</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
     <pluginManagement>
       <plugins>
         <plugin>

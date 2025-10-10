@@ -10,11 +10,20 @@ Sub-modules:
 === Releases ===
 ------------------------------------------------------------------------
 
-2.20 (not yet released)
+2.21.0 (not yet released)
+
+No changes since 2.20
+
+2.20.0 (28-Aug-2025)
 
 - Generate SBOMs [JSTEP-14]
 
-2.19.1 (not yet released)
+2.19.2 (18-Jul-2025)
+
+- `UTF8JsonGenerator` copies the static singleton of DEFAULT_PRETTY_PRINTER,
+   then uses it during the JSON serialization.
+
+2.19.1 (13-Jun-2025)
 
 - Add explicit version for Woodstox, stax2-api (no longer managed via jackson-bom)
 

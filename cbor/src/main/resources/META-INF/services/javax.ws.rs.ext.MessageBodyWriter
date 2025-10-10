@@ -1,1 +1,1 @@
-com.fasterxml.jackson.jaxrs.cbor.JacksonCBORProvider
+tools.jackson.jaxrs.cbor.JacksonCBORProvider

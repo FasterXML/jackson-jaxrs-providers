@@ -14,4 +14,7 @@ module tools.jackson.datatype.jaxrs
     // Further, need to open up test packages for JUnit et al
     
     opens tools.jackson.datatype.jaxrs;
+
+    // ServiceLoader tests
+    uses tools.jackson.databind.JacksonModule;
 }

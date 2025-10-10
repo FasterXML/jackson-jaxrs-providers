@@ -22,4 +22,8 @@ module tools.jackson.jaxrs.json
     opens tools.jackson.jaxrs.json.jersey;
     opens tools.jackson.jaxrs.json.testutil;
     opens tools.jackson.jaxrs.json.util;
+
+    // ServiceLoader tests
+    uses javax.ws.rs.ext.MessageBodyWriter;
+    uses javax.ws.rs.ext.MessageBodyReader;
 }
