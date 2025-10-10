@@ -21,4 +21,8 @@ module tools.jackson.jaxrs.smile
     opens tools.jackson.jaxrs.smile;
     opens tools.jackson.jaxrs.smile.dw;
     opens tools.jackson.jaxrs.smile.jersey;
+
+    // ServiceLoader tests
+    uses javax.ws.rs.ext.MessageBodyWriter;
+    uses javax.ws.rs.ext.MessageBodyReader;
 }

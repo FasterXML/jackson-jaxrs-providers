@@ -21,4 +21,9 @@ module tools.jackson.jaxrs.cbor
     opens tools.jackson.jaxrs.cbor;
     opens tools.jackson.jaxrs.cbor.dw;
     opens tools.jackson.jaxrs.cbor.jersey;
+
+    // ServiceLoader tests
+    uses javax.ws.rs.ext.MessageBodyWriter;
+    uses javax.ws.rs.ext.MessageBodyReader;
+
 }
