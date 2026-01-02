@@ -47,6 +47,14 @@ public class JacksonJaxbSmileProvider extends JacksonSmileProvider
         super(mapper, aiOverride);
     }
 
+    /**
+     * Constructor for use with a custom mapperConfigurator (usually implementing
+     * some methods from MapperConfiguratorBase)
+     */
+    public JacksonJaxbSmileProvider(SmileMapperConfigurator mapperConfigurator) {
+        super(mapperConfigurator);
+    }
+
     // Silly class to encapsulate reference to JAXB introspector class so that
     // loading of parent class does not require it; only happens if and when
     // introspector needed

@@ -97,6 +97,14 @@ public class JacksonXMLProvider
     }
 
     /**
+     * Constructor for use with a custom mapperConfigurator (usually implementing
+     * some methods from MapperConfiguratorBase)
+     */
+    public JacksonXMLProvider(XMLMapperConfigurator mapperConfigurator) {
+        super(mapperConfigurator);
+    }
+
+    /**
      * Method that will return version information stored in and read from jar
      * that contains this class.
      */

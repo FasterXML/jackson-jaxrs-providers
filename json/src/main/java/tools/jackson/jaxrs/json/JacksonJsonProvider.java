@@ -114,6 +114,16 @@ public class JacksonJsonProvider
     }
 
     /**
+     * Constructor for use with a custom mapperConfigurator (usually implementing
+     * some methods from MapperConfiguratorBase)
+     *
+     * @param mapperConfigurator custom mapper configurator to use
+     */
+    public JacksonJsonProvider(JsonMapperConfigurator mapperConfigurator) {
+        super(mapperConfigurator);
+    }
+
+    /**
      * Method that will return version information stored in and read from jar
      * that contains this class.
      */
