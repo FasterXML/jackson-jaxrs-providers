@@ -110,6 +110,7 @@ public class JacksonYAMLProvider
     /**
      * Constructor for use with a custom mapperConfigurator (usually implementing
      * some methods from MapperConfiguratorBase)
+     * @since 3.1
      */
     public JacksonYAMLProvider(YAMLMapperConfigurator mapperConfigurator) {
         super(mapperConfigurator);
