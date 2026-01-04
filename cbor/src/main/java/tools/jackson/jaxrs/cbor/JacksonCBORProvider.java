@@ -104,6 +104,7 @@ extends ProviderBase<JacksonCBORProvider,
     /**
      * Constructor for use with a custom mapperConfigurator (usually implementing
      * some methods from MapperConfiguratorBase)
+     * @since 3.1
      */
     public JacksonCBORProvider(CBORMapperConfigurator mapperConfigurator) {
         super(mapperConfigurator);
