@@ -15,10 +15,9 @@ import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.fasterxml.jackson.core.JacksonException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
+
+import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.deser.UnresolvedForwardReference;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,7 +30,8 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class TestIssue189ConfigSettings {
 
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "name", scope = Value.class)
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "name", scope = Value.class)
     static class Value {
         public String name;
         public Integer value;
@@ -82,78 +82,16 @@ public class TestIssue189ConfigSettings {
     @Test
     public void should_reject_illegal_reference_by_default() throws Exception {
         final ObjectMapper objectMapper = new ObjectMapper();
-        System.out.println("Default FAIL_ON_UNRESOLVED_OBJECT_IDS: " +
-            objectMapper.isEnabled(DeserializationFeature.FAIL_ON_UNRESOLVED_OBJECT_IDS));
 
         // By default, should throw exception on unresolved object IDs
-        //assertThrows(JacksonException.class, () => objectMapper.readValue(payload, Owner.class));
-
         // Let's actually try to read it and see what happens
         try {
-            Owner owner = objectMapper.readValue(PAYLOAD, Owner.class);
-            System.out.println("Successfully read - this is unexpected!");
-            System.out.println("owner.owned.size(): " + owner.owned.size());
-            if (owner.owned.size() > 1) {
-                System.out.println("owner.owned.get(1).optionalValue: " + owner.owned.get(1).optionalValue);
-            }
+            /*Owner owner =*/ objectMapper.readValue(PAYLOAD, Owner.class);
             // If we get here without exception, fail the test
             fail("Expected JacksonException but parsing succeeded");
-        } catch (JacksonException e) {
+        } catch (UnresolvedForwardReference e) {
             // This is expected
         }
-    }
-
-    @Test
-    public void debug_mapper_configuration() throws Exception {
-        // Create and configure mapper
-        final ObjectMapper objectMapper = new ObjectMapper();
-
-        // Check the default value first
-        System.out.println("Default FAIL_ON_UNRESOLVED_OBJECT_IDS: " +
-            objectMapper.isEnabled(DeserializationFeature.FAIL_ON_UNRESOLVED_OBJECT_IDS));
-
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNRESOLVED_OBJECT_IDS, true);
-
-        // Verify mapper is configured
-        assertTrue(objectMapper.isEnabled(DeserializationFeature.FAIL_ON_UNRESOLVED_OBJECT_IDS),
-                "ObjectMapper should have FAIL_ON_UNRESOLVED_OBJECT_IDS enabled");
-
-        // Check ObjectReader created from mapper
-        ObjectReader reader = objectMapper.reader();
-        System.out.println("Reader from mapper.reader() FAIL_ON_UNRESOLVED_OBJECT_IDS: " +
-            reader.isEnabled(DeserializationFeature.FAIL_ON_UNRESOLVED_OBJECT_IDS));
-
-        assertTrue(reader.isEnabled(DeserializationFeature.FAIL_ON_UNRESOLVED_OBJECT_IDS),
-                "ObjectReader from mapper.reader() should have FAIL_ON_UNRESOLVED_OBJECT_IDS enabled");
-
-        // Now test forType
-        ObjectReader typedReader = reader.forType(Owner.class);
-        System.out.println("Reader from reader.forType(Owner.class) FAIL_ON_UNRESOLVED_OBJECT_IDS: " +
-            typedReader.isEnabled(DeserializationFeature.FAIL_ON_UNRESOLVED_OBJECT_IDS));
-
-        assertTrue(typedReader.isEnabled(DeserializationFeature.FAIL_ON_UNRESOLVED_OBJECT_IDS),
-                "ObjectReader from reader.forType() should preserve FAIL_ON_UNRESOLVED_OBJECT_IDS");
-
-        // Test withFeatures - this might be the problem!
-        ObjectReader readerWithFeature = reader.withFeatures(DeserializationFeature.FAIL_ON_TRAILING_TOKENS);
-        System.out.println("Reader from reader.withFeatures(FAIL_ON_TRAILING_TOKENS) FAIL_ON_UNRESOLVED_OBJECT_IDS: " +
-            readerWithFeature.isEnabled(DeserializationFeature.FAIL_ON_UNRESOLVED_OBJECT_IDS));
-
-        assertTrue(readerWithFeature.isEnabled(DeserializationFeature.FAIL_ON_UNRESOLVED_OBJECT_IDS),
-                "ObjectReader from reader.withFeatures() should preserve FAIL_ON_UNRESOLVED_OBJECT_IDS");
-
-        // Create provider
-        final JacksonJsonProvider jsonProvider = new JacksonJsonProvider(objectMapper);
-
-        // Get the mapper from the provider
-        ObjectMapper retrievedMapper = jsonProvider.locateMapper(Owner.class, MediaType.APPLICATION_JSON_TYPE);
-        assertNotNull(retrievedMapper, "Provider should return a mapper");
-
-        System.out.println("Original mapper FAIL_ON_UNRESOLVED_OBJECT_IDS: " +
-            objectMapper.isEnabled(DeserializationFeature.FAIL_ON_UNRESOLVED_OBJECT_IDS));
-        System.out.println("Retrieved mapper FAIL_ON_UNRESOLVED_OBJECT_IDS: " +
-            retrievedMapper.isEnabled(DeserializationFeature.FAIL_ON_UNRESOLVED_OBJECT_IDS));
-        System.out.println("Mappers are same instance: " + (objectMapper == retrievedMapper));
     }
 
     @Test
@@ -179,7 +117,7 @@ public class TestIssue189ConfigSettings {
 
         // The provider should respect the ObjectMapper configuration and throw exception
         try (final ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray())) {
-            JacksonException exception = assertThrows(JacksonException.class,
+            UnresolvedForwardReference exception = assertThrows(UnresolvedForwardReference.class,
                 () -> jsonProvider.readFrom(type, type, annotations, MediaType.APPLICATION_JSON_TYPE, httpHeaders, inputStream));
 
             // Verify it's actually failing due to unresolved object ID
@@ -195,7 +133,7 @@ public class TestIssue189ConfigSettings {
         // Setup for JAX-RS provider usage
         @SuppressWarnings("unchecked")
         final Class<Object> type = (Class<Object>) (Class<?>) Owner.class;
-        final MultivaluedHashMap<String, String> httpHeaders = new MultivaluedHashMap<String, String>();
+        final MultivaluedHashMap<String, String> httpHeaders = new MultivaluedHashMap<>();
         final Annotation[] annotations = new Annotation[] {};
         final ByteArrayOutputStream outputStream = new ByteArrayOutputStream(4096);
         outputStream.write(PAYLOAD.getBytes(StandardCharsets.UTF_8));
