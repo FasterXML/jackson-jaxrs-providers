@@ -112,3 +112,8 @@ Craig P. Motlin (@motlin)
 * Contributed #205: Propagate the pretty printer from the writer to the generator in
   ProviderBase.writeTo()
  (2.19.0)
+
+Nicolas Lenoire (@nlenoire)
+
+* Reported #189: `JacksonJsonProvider` ignores `DeserializationFeature.FAIL_ON_UNRESOLVED_OBJECT_IDS`
+ (2.21.0)
