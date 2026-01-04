@@ -118,6 +118,8 @@ public class JacksonJsonProvider
      * some methods from MapperConfiguratorBase)
      *
      * @param mapperConfigurator custom mapper configurator to use
+     * 
+     * @since 3.1
      */
     public JacksonJsonProvider(JsonMapperConfigurator mapperConfigurator) {
         super(mapperConfigurator);
