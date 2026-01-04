@@ -99,6 +99,7 @@ public class JacksonXMLProvider
     /**
      * Constructor for use with a custom mapperConfigurator (usually implementing
      * some methods from MapperConfiguratorBase)
+     * @since 3.1
      */
     public JacksonXMLProvider(XMLMapperConfigurator mapperConfigurator) {
         super(mapperConfigurator);
