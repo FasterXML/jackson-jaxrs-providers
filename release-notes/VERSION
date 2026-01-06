@@ -11,6 +11,11 @@ Sub-modules:
 === Releases ===
 ------------------------------------------------------------------------
 
+3.1.0 (not yet released)
+
+#226: Add constructor accepting `JsonMapperConfigurator` to `Jackson(Jaxb)JsonProvider`
+ (contributed by Jens-Otto L)
+
 3.0.3 (28-Nov-2025)
 3.0.2 (07-Nov-2025)
 
