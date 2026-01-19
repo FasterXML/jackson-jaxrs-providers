@@ -47,6 +47,15 @@ public class JacksonJaxbYAMLProvider extends JacksonYAMLProvider
         super(mapper, aiOverride);
     }
 
+    /**
+     * Constructor for use with a custom mapperConfigurator (usually implementing
+     * some methods from MapperConfiguratorBase)
+     * @since 3.1
+     */
+    public JacksonJaxbYAMLProvider(YAMLMapperConfigurator mapperConfigurator) {
+        super(mapperConfigurator);
+    }
+
     // Silly class to encapsulate reference to JAXB introspector class so that
     // loading of parent class does not require it; only happens if and when
     // introspector needed

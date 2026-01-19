@@ -11,3 +11,8 @@ Andriy Redko (@reta)
 
 * Contributed #220: Fix ServiceLoader manifests due to 3.0 package changes
  [3.0.1]
+
+Jens-Otto Larsen (@jolarsen)
+
+* Contributed #226: Add constructor accepting `JsonMapperConfigurator` to `Jackson(Jaxb)JsonProvider`
+ [3.1.0]
