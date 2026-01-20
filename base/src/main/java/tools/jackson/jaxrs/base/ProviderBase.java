@@ -48,7 +48,7 @@ public abstract class ProviderBase<
      *  (why ClassKey? since plain old Class has no hashCode() defined,
      *  lookups are painfully slow)
      */
-    protected final static HashSet<ClassKey> DEFAULT_UNTOUCHABLES = new HashSet<ClassKey>();
+    protected final static HashSet<ClassKey> DEFAULT_UNTOUCHABLES = new HashSet<>();
     static {
         // First, I/O things (direct matches)
         DEFAULT_UNTOUCHABLES.add(new ClassKey(java.io.InputStream.class));

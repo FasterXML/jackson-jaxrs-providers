@@ -13,6 +13,7 @@ import tools.jackson.databind.*;
 import tools.jackson.dataformat.smile.SmileMapper;
 
 import tools.jackson.jaxrs.base.ProviderBase;
+import tools.jackson.jaxrs.cfg.JaxRSFeature;
 
 /**
  * Basic implementation of JAX-RS abstractions ({@link MessageBodyReader},
@@ -146,8 +147,9 @@ extends ProviderBase<JacksonSmileProvider,
             return SmileMediaTypes.APPLICATION_JACKSON_SMILE_TYPE.getSubtype().equalsIgnoreCase(subtype) || 
             		"smile".equalsIgnoreCase(subtype) || subtype.endsWith("+smile");
         }
-        // Without a media type, let JAX-RS deal with mapping if it can.
-        return false;
+        // [jaxrs-providers#162]: Without a media type, may or may not match
+        // (if not, let JAX-RS deal with mapping if it can)
+        return isEnabled(JaxRSFeature.MATCH_ALL_IF_NO_MEDIA_TYPE);
     }
 
     /**

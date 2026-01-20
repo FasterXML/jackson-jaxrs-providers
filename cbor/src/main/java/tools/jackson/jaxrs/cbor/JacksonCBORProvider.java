@@ -13,6 +13,7 @@ import tools.jackson.databind.*;
 import tools.jackson.dataformat.cbor.CBORMapper;
 
 import tools.jackson.jaxrs.base.ProviderBase;
+import tools.jackson.jaxrs.cfg.JaxRSFeature;
 
 /**
  * Basic implementation of JAX-RS abstractions ({@link MessageBodyReader},
@@ -147,8 +148,9 @@ extends ProviderBase<JacksonCBORProvider,
             return CBORMediaTypes.APPLICATION_JACKSON_CBOR_TYPE.getSubtype().equalsIgnoreCase(subtype) || 
             		"cbor".equalsIgnoreCase(subtype) || subtype.endsWith("+cbor");
         }
-        // Without a media type, let JAX-RS deal with mapping if it can.
-        return false;
+        // [jaxrs-providers#162]: Without a media type, may or may not match
+        // (if not, let JAX-RS deal with mapping if it can)
+        return isEnabled(JaxRSFeature.MATCH_ALL_IF_NO_MEDIA_TYPE);
     }
 
     /**

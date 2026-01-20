@@ -13,6 +13,8 @@ Sub-modules:
 
 3.1.0 (not yet released)
 
+#162: Fix errant “accept anything” handling of providers
+ (requested by Kevin W)
 #226: Add constructor accepting `JsonMapperConfigurator` to `Jackson(Jaxb)JsonProvider`
  (contributed by Jens-Otto L)
 

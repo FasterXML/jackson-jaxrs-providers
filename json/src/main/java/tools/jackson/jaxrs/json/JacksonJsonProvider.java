@@ -11,6 +11,7 @@ import tools.jackson.core.*;
 import tools.jackson.databind.*;
 import tools.jackson.databind.json.JsonMapper;
 import tools.jackson.jaxrs.base.ProviderBase;
+import tools.jackson.jaxrs.cfg.JaxRSFeature;
 
 /**
  * Basic implementation of JAX-RS abstractions ({@link MessageBodyReader},
@@ -179,8 +180,9 @@ public class JacksonJsonProvider
                    || "x-json".equals(subtype) // [Issue#40]
                    ;
         }
-        // Without a media type, let JAX-RS deal with mapping if it can.
-        return false;
+        // [jaxrs-providers#162]: Without a media type, may or may not match
+        // (if not, let JAX-RS deal with mapping if it can)
+        return isEnabled(JaxRSFeature.MATCH_ALL_IF_NO_MEDIA_TYPE);
     }
 
     @Override

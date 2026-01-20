@@ -16,6 +16,7 @@ import tools.jackson.dataformat.xml.JacksonXmlAnnotationIntrospector;
 import tools.jackson.dataformat.xml.XmlMapper;
 
 import tools.jackson.jaxrs.base.ProviderBase;
+import tools.jackson.jaxrs.cfg.JaxRSFeature;
 
 /**
  * Basic implementation of JAX-RS abstractions ({@link MessageBodyReader},
@@ -153,8 +154,9 @@ public class JacksonXMLProvider
             String subtype = mediaType.getSubtype();
             return "xml".equalsIgnoreCase(subtype) || subtype.endsWith("+xml");
         }
-        // Without a media type, let JAX-RS deal with mapping if it can.
-        return false;
+        // [jaxrs-providers#162]: Without a media type, may or may not match
+        // (if not, let JAX-RS deal with mapping if it can)
+        return isEnabled(JaxRSFeature.MATCH_ALL_IF_NO_MEDIA_TYPE);
     }
 
     /**

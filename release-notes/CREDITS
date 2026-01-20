@@ -16,3 +16,8 @@ Jens-Otto Larsen (@jolarsen)
 
 * Contributed #226: Add constructor accepting `JsonMapperConfigurator` to `Jackson(Jaxb)JsonProvider`
  [3.1.0]
+
+Kevin Wooten (@kdubb)
+
+* Requested #162: Fix errant “accept anything” handling of providers
+ [3.1.0]

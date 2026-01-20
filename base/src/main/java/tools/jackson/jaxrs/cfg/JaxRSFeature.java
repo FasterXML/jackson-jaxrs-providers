@@ -111,7 +111,19 @@ public enum JaxRSFeature implements ConfigFeature
     /* Other
     /**********************************************************************
      */
-    
+
+    /**
+     * [jaxrs-providers#162]: Feature that determines whether
+     * {@code hasMatchingMediaType()} will return {@code true} or {@code false}
+     * in cases where no Media-Type header passed.
+     *<p>
+     * NOTE: effective default before 3.1 was {@code true} but with 3.1 changes
+     * to explicit {@code false}, since this is considered likelier acceptable
+     * default setting.
+     *
+     * @since 3.1
+     */
+    MATCH_ALL_IF_NO_MEDIA_TYPE(false)
     ;
 
     private final boolean _defaultState;
