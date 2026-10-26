@@ -21,3 +21,9 @@ Kevin Wooten (@kdubb)
 
 * Requested #162: Fix errant “accept anything” handling of providers
  [3.1.0]
+
+James R. Perkins (@jamezp)
+
+* Reported #234: `ProviderBase.readFrom()` fails to advance past `START_ARRAY` for
+  `MappingIterator` with JSON array input
+ [3.3.0]
