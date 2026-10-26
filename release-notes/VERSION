@@ -13,7 +13,10 @@ Sub-modules:
 
 3.3.0 (not yet released)
 
-No changes since 3.2
+#234: `ProviderBase.readFrom()` fails to advance past `START_ARRAY` for
+  `MappingIterator` with JSON array input
+  (adds `JaxRSFeature.UNWRAP_ROOT_ARRAY_FOR_ITERATOR`, enabled by default)
+ (reported by James P)
 
 3.2.4 (18-Oct-2026)
 

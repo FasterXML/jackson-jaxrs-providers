@@ -726,6 +726,17 @@ public abstract class ProviderBase<
         }
         
         if (multiValued) {
+            // 25-Oct-2026, tatu: [jaxrs-providers#234] Unlike `readValues(InputStream)`,
+            //   `readValues(JsonParser)` does not unwrap root-level Array, so need to do it
+            //   here, using same rule as databind: root START_ARRAY is always a wrapper,
+            //   regardless of value type. Must clear (not advance) the token since
+            //   `MappingIterator` only detects END_ARRAY (empty array) that way.
+            //   Use of `isExpectedStartArrayToken()` (and not just START_ARRAY check)
+            //   is needed for XML where root-level lists are exposed as START_OBJECT.
+            if (JaxRSFeature.UNWRAP_ROOT_ARRAY_FOR_ITERATOR.enabledIn(_jaxRSFeatures)
+                    && p.isExpectedStartArrayToken()) {
+                p.clearCurrentToken();
+            }
             return reader.readValues(p);
         }
         return reader.readValue(p);

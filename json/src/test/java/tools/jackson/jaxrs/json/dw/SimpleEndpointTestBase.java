@@ -18,6 +18,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Invocation.Builder;
+import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.GenericType;
@@ -48,6 +49,7 @@ import tools.jackson.databind.ValueDeserializer;
 import tools.jackson.databind.ValueSerializer;
 import tools.jackson.databind.annotation.JsonDeserialize;
 import tools.jackson.databind.annotation.JsonSerialize;
+import tools.jackson.jaxrs.cfg.JaxRSFeature;
 import tools.jackson.jaxrs.json.JacksonJsonProvider;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -213,6 +215,56 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
             return max;
         }
 
+        // Values that are themselves array-shaped
+        @Path("/sums")
+        @POST
+        @Consumes(MediaType.APPLICATION_JSON)
+        @Produces(MediaType.APPLICATION_JSON)
+        public Point sumPoints(MappingIterator<int[]> values) throws JacksonException
+        {
+            int count = 0;
+            int sum = 0;
+            while (values.hasNextValue()) {
+                ++count;
+                for (int value : values.nextValue()) {
+                    sum += value;
+                }
+            }
+            return new Point(count, sum);
+        }
+
+        // Binary values are bound from JSON Strings
+        @Path("/binary")
+        @POST
+        @Consumes(MediaType.APPLICATION_JSON)
+        @Produces(MediaType.APPLICATION_JSON)
+        public Point sumBinary(MappingIterator<byte[]> values) throws JacksonException
+        {
+            int count = 0;
+            int length = 0;
+            while (values.hasNextValue()) {
+                ++count;
+                length += values.nextValue().length;
+            }
+            return new Point(count, length);
+        }
+
+        // Same as "/sums" but with `Collection`-shaped values
+        @Path("/lists")
+        @POST
+        @Consumes(MediaType.APPLICATION_JSON)
+        @Produces(MediaType.APPLICATION_JSON)
+        public Point countPointLists(MappingIterator<List<Point>> values) throws JacksonException
+        {
+            int count = 0;
+            int points = 0;
+            while (values.hasNextValue()) {
+                ++count;
+                points += values.nextValue().size();
+            }
+            return new Point(count, points);
+        }
+
         @Path("/echo")
         @POST
         @Consumes(MediaType.APPLICATION_JSON)
@@ -229,6 +281,16 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
 
     public static class SimpleResourceApp extends JsonApplicationWithJackson {
         public SimpleResourceApp() { super(new SimpleResource()); }
+    }
+
+    // [jaxrs-providers#234]: same as above, but without unwrapping of root-level
+    // Array for `MappingIterator`
+    public static class SimpleNoUnwrapApp extends JsonApplication {
+        public SimpleNoUnwrapApp() {
+            super(new JacksonJsonProvider(JsonApplicationWithJackson.createMapper())
+                    .disable(JaxRSFeature.UNWRAP_ROOT_ARRAY_FOR_ITERATOR),
+                    new SimpleResource());
+        }
     }
 
     private final static String UNTOUCHABLE_RESPONSE = "[1]";
@@ -460,43 +522,155 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
         }
     }
 
-    /*
-        @Path("/max")
-        @POST
-        @Produces(MediaType.APPLICATION_JSON)
-        public Point maxPoint(MappingIterator<Point> points) throws JacksonException
-        {
-     */
-    
     // [jaxrs-providers#69]
     @Test
     public void testMappingIterator() throws Exception
     {
-        final ObjectMapper mapper = new ObjectMapper();
-        Server server = startServer(TEST_PORT, SimpleResourceApp.class);
-        Point p;
-
-        try {
-            URL url = new URL("http://localhost:"+TEST_PORT+"/point/max");
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestProperty("Accept", MediaType.APPLICATION_JSON);
-            conn.setRequestProperty("Content-Type", MediaType.APPLICATION_JSON);
-            conn.setDoOutput(true);
-            conn.setRequestMethod("POST");
-            OutputStream out = conn.getOutputStream();
-            out.write(a2q("{'x':1,'y':1}\n{'y':4,'x':-4}{'x':2,'y':5}"
-                    ).getBytes("UTF-8"));
-            out.close();
-            InputStream in = conn.getInputStream();
-            p = mapper.readValue(in, Point.class);
-            in.close();
-        } finally {
-            server.stop();
-        }
+        Point p = _postForPoint("/point/max",
+                a2q("{'x':1,'y':1}\n{'y':4,'x':-4}{'x':2,'y':5}"));
         // ensure we got a valid Point
         assertNotNull(p);
         assertEquals(-4, p.x);
         assertEquals(4, p.y);
+    }
+
+    // [jaxrs-providers#234]: wrapper array to be unwrapped
+    @Test
+    public void testMappingIteratorArray() throws Exception
+    {
+        Point p = _postForPoint("/point/max",
+                a2q("[{'x':1,'y':1},{'y':4,'x':-4},{'x':2,'y':5}]"));
+        // ensure we got a valid Point
+        assertNotNull(p);
+        assertEquals(-4, p.x);
+        assertEquals(4, p.y);
+    }
+
+    // [jaxrs-providers#234]
+    @Test
+    public void testMappingIteratorEmptyArray() throws Exception
+    {
+        // Empty array means no values to iterate over; endpoint returns `null`
+        // which JAX-RS maps to 204. Important part is that binding does NOT fail.
+        assertEquals(HttpURLConnection.HTTP_NO_CONTENT,
+                _post(SimpleResourceApp.class, "/point/max", "[ ]").code());
+    }
+
+    // [jaxrs-providers#234]: root-level Array is always a wrapper, even if
+    // values are themselves array-shaped
+    @Test
+    public void testMappingIteratorOfArrays() throws Exception
+    {
+        Point p = _postForPoint("/point/sums", "[[1,2],[3,4]]");
+        // 2 values, sum of 10
+        assertNotNull(p);
+        assertEquals(2, p.x);
+        assertEquals(10, p.y);
+    }
+
+    // [jaxrs-providers#234]: but sequence of arrays works if unwrapping disabled
+    @Test
+    public void testMappingIteratorOfArraysNoUnwrap() throws Exception
+    {
+        Point p = _postForPoint(SimpleNoUnwrapApp.class, "/point/sums", "[1,2][3,4]");
+        // 2 values, sum of 10
+        assertNotNull(p);
+        assertEquals(2, p.x);
+        assertEquals(10, p.y);
+    }
+
+    // [jaxrs-providers#234]
+    @Test
+    public void testMappingIteratorOfBinary() throws Exception
+    {
+        // 2 Base64-encoded values, 3 bytes each
+        Point p = _postForPoint("/point/binary", a2q("['AAEC','AwQF']"));
+        // 2 values, 6 bytes total
+        assertNotNull(p);
+        assertEquals(2, p.x);
+        assertEquals(6, p.y);
+    }
+
+    // [jaxrs-providers#234]: same as with arrays, for `Collection`-shaped values
+    @Test
+    public void testMappingIteratorOfLists() throws Exception
+    {
+        Point p = _postForPoint("/point/lists",
+                a2q("[[{'x':1,'y':1},{'x':2,'y':2}],[{'x':3,'y':3}]]"));
+        // 2 values (Lists), 3 Points total
+        assertNotNull(p);
+        assertEquals(2, p.x);
+        assertEquals(3, p.y);
+    }
+
+    @Test
+    public void testMappingIteratorOfListsNoUnwrap() throws Exception
+    {
+        Point p = _postForPoint(SimpleNoUnwrapApp.class, "/point/lists",
+                a2q("[{'x':1,'y':1},{'x':2,'y':2}][{'x':3,'y':3}]"));
+        // 2 values (Lists), 3 Points total
+        assertNotNull(p);
+        assertEquals(2, p.x);
+        assertEquals(3, p.y);
+    }
+
+    private final static ObjectMapper POST_MAPPER = JsonApplicationWithJackson.createMapper();
+
+    // Response of `_post()`: status code and (possibly empty) body
+    private record PostResponse(int code, byte[] body) { }
+
+    // Helpers for POSTing given JSON to an endpoint (of `SimpleResourceApp`
+    // by default), reading the response as `Point`
+    private Point _postForPoint(String path, String json) throws Exception
+    {
+        return _postForPoint(SimpleResourceApp.class, path, json);
+    }
+
+    private Point _postForPoint(Class<? extends Application> appClass,
+            String path, String json) throws Exception
+    {
+        PostResponse resp = _post(appClass, path, json);
+        assertEquals(HttpURLConnection.HTTP_OK, resp.code());
+        return POST_MAPPER.readValue(resp.body(), Point.class);
+    }
+
+    private PostResponse _post(Class<? extends Application> appClass,
+            String path, String json) throws Exception
+    {
+        Server server = startServer(TEST_PORT, appClass);
+        try {
+            HttpURLConnection conn = _openPost(path, json);
+            try {
+                int code = conn.getResponseCode();
+                InputStream in = (code < 400) ? conn.getInputStream() : conn.getErrorStream();
+                byte[] body = new byte[0];
+                if (in != null) {
+                    try (InputStream in2 = in) {
+                        body = readAll(in2);
+                    }
+                }
+                return new PostResponse(code, body);
+            } finally {
+                conn.disconnect();
+            }
+        } finally {
+            server.stop();
+        }
+    }
+
+    // Low-level helper: opens connection and sends POST (server must be running)
+    private HttpURLConnection _openPost(String path, String json) throws IOException
+    {
+        URL url = new URL("http://localhost:"+TEST_PORT+path);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestProperty("Accept", MediaType.APPLICATION_JSON);
+        conn.setRequestProperty("Content-Type", MediaType.APPLICATION_JSON);
+        conn.setDoOutput(true);
+        conn.setRequestMethod("POST");
+        try (OutputStream out = conn.getOutputStream()) {
+            out.write(json.getBytes("UTF-8"));
+        }
+        return conn;
     }
 
     // [jaxrs-providers#108]
