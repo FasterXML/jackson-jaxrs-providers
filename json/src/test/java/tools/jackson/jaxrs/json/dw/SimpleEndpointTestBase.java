@@ -441,7 +441,7 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
         Point p;
 
         try {
-            InputStream in = new URL("http://localhost:"+TEST_PORT+"/point/javascript").openStream();
+            InputStream in = URI.create("http://localhost:"+TEST_PORT+"/point/javascript").toURL().openStream();
             p = mapper.readValue(in, Point.class);
             in.close();
         } finally {
@@ -458,9 +458,9 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
     {
         final ObjectMapper mapper = new ObjectMapper();
         Server server = startServer(TEST_PORT, SimpleResourceApp.class);
-        URL urlJS = new URL("http://localhost:"+TEST_PORT+"/point/javascript");
-        URL urlJsonX = new URL("http://localhost:"+TEST_PORT+"/point/jsonx");
-        URL urlCustom = new URL("http://localhost:"+TEST_PORT+"/point/custom");
+        URL urlJS = URI.create("http://localhost:"+TEST_PORT+"/point/javascript").toURL();
+        URL urlJsonX = URI.create("http://localhost:"+TEST_PORT+"/point/jsonx").toURL();
+        URL urlCustom = URI.create("http://localhost:"+TEST_PORT+"/point/custom").toURL();
 
         try {
             HttpURLConnection conn = (HttpURLConnection) urlJS.openConnection();
@@ -661,7 +661,7 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
     // Low-level helper: opens connection and sends POST (server must be running)
     private HttpURLConnection _openPost(String path, String json) throws IOException
     {
-        URL url = new URL("http://localhost:"+TEST_PORT+path);
+        URL url = URI.create("http://localhost:"+TEST_PORT+path).toURL();
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestProperty("Accept", MediaType.APPLICATION_JSON);
         conn.setRequestProperty("Content-Type", MediaType.APPLICATION_JSON);
@@ -682,7 +682,7 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
         Point p;
 
         try {
-            URL url = new URL("http://localhost:"+TEST_PORT+"/point/echo");
+            URL url = URI.create("http://localhost:"+TEST_PORT+"/point/echo").toURL();
 
             // First, content with no trailing stuff
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -728,10 +728,10 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
     {
         Server server = startServer(TEST_PORT, SimpleRawApp.class);
         try {
-            InputStream in = new URL("http://localhost:"+TEST_PORT+"/raw/string").openStream();
+            InputStream in = URI.create("http://localhost:"+TEST_PORT+"/raw/string").toURL().openStream();
             assertEquals(UNTOUCHABLE_RESPONSE, readUTF8(in));
 
-            in = new URL("http://localhost:"+TEST_PORT+"/raw/bytes").openStream();
+            in = URI.create("http://localhost:"+TEST_PORT+"/raw/bytes").toURL().openStream();
             assertArrayEquals(UNTOUCHABLE_RESPONSE.getBytes("UTF-8"), readAll(in));
         } finally {
             server.stop();
@@ -751,7 +751,7 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
             // Let's try with 4.5 gigs, just to be sure (should run OOME if buffering; or be
             // super slow if disk-backed buffering)
             final long size = 4500 * 1024 * 1024;
-            InputStream in = new URL("http://localhost:"+TEST_PORT+"/fluff/bytes?size="+size).openStream();
+            InputStream in = URI.create("http://localhost:"+TEST_PORT+"/fluff/bytes?size="+size).toURL().openStream();
             byte[] stuff = new byte[64000];
             long total = 0L;
             int count;
@@ -786,7 +786,7 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
         ExtendedPoint p;
 
         try {
-            InputStream in = new URL("http://localhost:"+TEST_PORT+"/dynamic/single").openStream();
+            InputStream in = URI.create("http://localhost:"+TEST_PORT+"/dynamic/single").toURL().openStream();
             p = mapper.readValue(in, ExtendedPoint.class);
             in.close();
         } finally {
@@ -808,7 +808,7 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
         List<ExtendedPoint> l;
 
         try {
-            InputStream in = new URL("http://localhost:"+TEST_PORT+"/dynamic/list").openStream();
+            InputStream in = URI.create("http://localhost:"+TEST_PORT+"/dynamic/list").toURL().openStream();
             l = mapper.readValue(in, new TypeReference<List<ExtendedPoint>>() { });
             in.close();
         } finally {

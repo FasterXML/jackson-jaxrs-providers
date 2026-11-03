@@ -78,7 +78,7 @@ public abstract class AnnotationTestBase extends ResourceTestBase
     {
         // We need a filter to inject modifier that enables
         Server server = startServer(TEST_PORT, ResourceApp.class, null);
-        final URL url = new URL("http://localhost:"+TEST_PORT+"/annotated/view");
+        final URL url = URI.create("http://localhost:"+TEST_PORT+"/annotated/view").toURL();
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("POST");
         conn.setRequestProperty("Content-Type", MediaType.APPLICATION_JSON);

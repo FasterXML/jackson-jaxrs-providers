@@ -83,7 +83,7 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
         Point p;
 
         try {
-            InputStream in = new URL("http://localhost:"+TEST_PORT+"/point").openStream();
+            InputStream in = URI.create("http://localhost:"+TEST_PORT+"/point").toURL().openStream();
             p = mapper.readValue(in, Point.class);
             in.close();
         } finally {
@@ -103,7 +103,7 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
         Point p;
 
         try {
-            final URL url = new URL("http://localhost:" + TEST_PORT + "/point/custom");
+            final URL url = URI.create("http://localhost:" + TEST_PORT + "/point/custom").toURL();
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestProperty("Accept", "application/vnd.com.example.v1+cbor");
             InputStream in = conn.getInputStream();
@@ -125,7 +125,7 @@ public abstract class SimpleEndpointTestBase extends ResourceTestBase
     {
         Server server = startServer(TEST_PORT, SimpleRawApp.class);
         try {
-            InputStream in = new URL("http://localhost:"+TEST_PORT+"/raw/bytes").openStream();
+            InputStream in = URI.create("http://localhost:"+TEST_PORT+"/raw/bytes").toURL().openStream();
             assertArrayEquals(UNTOUCHABLE_RESPONSE, readAll(in));
         } finally {
             server.stop();
