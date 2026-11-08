@@ -172,7 +172,7 @@ public abstract class WriteModificationsTestBase extends ResourceTestBase
         // We need a filter to inject modifier that enables
         Server server = startServer(TEST_PORT, SimpleResourceApp.class,
                 InjectingFilter.class);
-        final URL url = new URL("http://localhost:"+TEST_PORT+"/point");
+        final URL url = URI.create("http://localhost:"+TEST_PORT+"/point").toURL();
 
         try {
             IndentingModifier.doIndent = true;
@@ -196,13 +196,13 @@ public abstract class WriteModificationsTestBase extends ResourceTestBase
 
         try {
             // First, without indent:
-            String json = readUTF8(new URL(URL_BASE).openStream());
+            String json = readUTF8(URI.create(URL_BASE).toURL().openStream());
             boolean quote1 = json.equals(a2q("{'x':1,'y':2}"));
             boolean quote2 = json.equals(a2q("{'y':2,'x':1}"));
             assertTrue(quote1 || quote2);
             
             // and then with indentation
-            json = readUTF8(new URL(URL_BASE + "?indent=true").openStream());
+            json = readUTF8(URI.create(URL_BASE + "?indent=true").toURL().openStream());
             boolean quote3 = json.equals(a2q("{\n  'x' : 1,\n  'y' : 2\n}"));
             boolean quote4 = json.equals(a2q("{\n  'y' : 2,\n  'x' : 1\n}"));
             assertTrue(quote3 || quote4);
